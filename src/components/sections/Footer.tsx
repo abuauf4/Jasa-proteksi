@@ -45,13 +45,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Column 1 - Brand */}
           <div>
-            <a href="#beranda" className="flex items-center gap-2 mb-6">
-              <Image
-                src="/images/mitsubishi-logo.png"
+            <a href="#beranda" className="flex items-center gap-3 mb-6">
+              <img
+                src="/images/mitsubishi-logo.svg"
                 alt="Mitsubishi Motors"
-                width={32}
-                height={32}
-                className="brightness-0 invert"
+                className="h-8 w-auto brightness-0 invert"
               />
               <Diamond className="w-3 h-3 text-[#c9a84c]" />
             </a>

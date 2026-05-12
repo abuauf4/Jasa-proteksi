@@ -81,15 +81,16 @@ export default function Navigation() {
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <a href="#beranda" className="flex items-center gap-2 group">
-              <Image
-                src="/images/mitsubishi-logo.png"
+            <a href="#beranda" className="flex items-center gap-3 group">
+              <img
+                src="/images/mitsubishi-logo.svg"
                 alt="Mitsubishi Motors"
-                width={36}
-                height={36}
-                className="lg:w-10 lg:h-10 brightness-0 invert"
+                className="h-8 lg:h-10 w-auto brightness-0 invert"
               />
-              <Diamond className="w-3 h-3 text-[#c9a84c] group-hover:rotate-45 transition-transform duration-300" />
+              <div className="hidden sm:flex items-center gap-2">
+                <div className="w-px h-6 bg-white/20" />
+                <span className="text-xs tracking-[0.2em] text-white/50 uppercase font-medium">Authorized Dealer</span>
+              </div>
             </a>
 
             {/* Desktop Nav */}
