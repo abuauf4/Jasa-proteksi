@@ -8,11 +8,11 @@ import AnimatedSection from "@/components/shared/AnimatedSection";
 const faqs = [
   {
     q: "Berapa lama proses pengajuan kredit?",
-    a: "Proses pengajuan kredit kami hanya membutuhkan 1-3 hari kerja. Tim kami akan membantu Anda dari awal hingga persetujuan, termasuk pengumpulan dokumen dan negosiasi dengan lembaga pembiayaan.",
+    a: "Proses pengajuan kredit kami hanya membutuhkan 1-3 hari kerja. Tim kami akan membantu Anda dari awal hingga persetujuan, termasuk pengumpulan dokumen dan negosiasi dengan lembaga pembiayaan. Hubungi MIRA di WhatsApp 0811-1301-1300 untuk konsultasi gratis.",
   },
   {
-    q: "Apakah bisa test drive di rumah?",
-    a: "Ya! Kami menyediakan layanan test drive上门 (home test drive) untuk area Jakarta dan sekitarnya. Cukup hubungi kami untuk menjadwalkan kunjungan, dan kami akan membawa kendaraan pilihan Anda langsung ke lokasi.",
+    q: "Bagaimana cara booking test drive?",
+    a: "Anda bisa booking test drive melalui website ini dengan mengisi form di bagian Kontak, atau menghubungi MIRA (Mitsubishi Intelligent Response Assistant) di WhatsApp 0811-1301-1300. Anda juga bisa langsung mengunjungi showroom terdekat.",
   },
   {
     q: "Apa saja dokumen yang diperlukan untuk kredit?",
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: "Berapa lama garansi Mitsubishi?",
-    a: "Mitsubishi memberikan garansi 5 tahun atau 150.000 km (mana yang tercapai lebih dulu) untuk semua model. Garansi ini mencakup komponen utama dan dapat diperpanjang dengan paket garansi ekstended.",
+    a: "Garansi untuk kendaraan penumpang (Xpander, Pajero Sport, Xforce, Destinator, Outlander PHEV) adalah 3 tahun atau 100.000 km, mana yang tercapai lebih dahulu. Untuk Triton: 3 tahun atau 100.000 km. Untuk L300: 2 tahun atau 50.000 km.",
   },
   {
     q: "Apakah menerima tukar tambah?",
@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     q: "Apakah ada promo khusus saat ini?",
-    a: "Kami selalu memiliki promo menarik yang berrotasi setiap bulan. Mulai dari diskon DP, cicilan 0%, gratis aksesoris, hingga paket asuransi. Hubungi tim sales kami untuk mendapatkan penawaran terkini.",
+    a: "Kami selalu memiliki promo menarik yang berrotasi setiap bulan. Mulai dari DP ringan mulai 10%, bunga special 0% hingga 2 tahun, hingga cashback dan free accessories. Hubungi MIRA di WhatsApp 0811-1301-1300 untuk penawaran terkini.",
   },
 ];
 

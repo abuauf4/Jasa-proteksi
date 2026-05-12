@@ -9,22 +9,22 @@ const features = [
   {
     icon: Cpu,
     title: "Teknologi MIVEC",
-    description: "Performa dan efisiensi mesin terdepan",
+    description: "Mesin dengan teknologi Mitsubishi Innovative Valve timing Electronic Control untuk performa dan efisiensi optimal",
   },
   {
     icon: ShieldCheck,
     title: "Sistem Keselamatan",
-    description: "7 Airbags, ABS, EBD, Active Stability Control",
+    description: "Dilengkapi 7 Airbags, ABS, EBD, Active Stability Control, dan Hill Start Assist",
   },
   {
     icon: Gem,
     title: "Desain Premium",
-    description: "Aerodinamis, elegan, dan berwibawa",
+    description: "Desain Dynamic Shield yang aerodinamis, elegan, dan berwibawa",
   },
   {
     icon: Clock,
-    title: "Garansi 5 Tahun",
-    description: "Jaminan kualitas dan ketenangan pikiran",
+    title: "Garansi 3 Tahun / 100.000 km",
+    description: "Jaminan kualitas dan ketenangan pikiran untuk setiap perjalanan Anda",
   },
 ];
 

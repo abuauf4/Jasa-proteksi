@@ -7,10 +7,10 @@ import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const stats = [
-  { value: 10, suffix: "+", label: "Tahun Pengalaman" },
-  { value: 5000, suffix: "+", label: "Mobil Terjual" },
+  { value: 40, suffix: "+", label: "Tahun Pengalaman" },
+  { value: 349, suffix: "", label: "Dealer Resmi" },
   { value: 98, suffix: "%", label: "Kepuasan Pelanggan" },
-  { value: 15, suffix: "+", label: "Penghargaan" },
+  { value: 9, suffix: "", label: "Model Tersedia" },
 ];
 
 function useCountUp(target: number, inView: boolean, duration = 2000) {
@@ -92,13 +92,10 @@ export default function About() {
               <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">About Us</span>
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mb-6 leading-tight">
-              Mitra Resmi Mitsubishi Terpercaya
+              PT Mitsubishi Motors Krama Yudha Sales Indonesia
             </h2>
             <p className="text-white/50 leading-relaxed mb-10">
-              Sebagai dealer resmi Mitsubishi, kami berkomitmen memberikan pengalaman
-              pembelian dan kepemilikan kendaraan terbaik. Dengan tim profesional
-              bersertifikat dan fasilitas modern, kami memastikan setiap pelanggan
-              mendapatkan pelayanan premium yang melampaui ekspektasi.
+              Sebagai dealer resmi Mitsubishi Motors dengan jaringan 349 dealer di seluruh Indonesia, kami berkomitmen memberikan pengalaman kepemilikan kendaraan terbaik. Dengan tagline &apos;Drive your Ambition&apos;, kami terus berinovasi untuk menghadirkan kendaraan yang menginspirasi setiap perjalanan Anda.
             </p>
 
             {/* Stats */}

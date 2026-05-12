@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Diamond, Instagram, Facebook, Youtube, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,10 +24,11 @@ const services = [
 ];
 
 const contactItems = [
-  "Jl. Raya Protokol No. 88",
-  "Jakarta Selatan 12345",
-  "+62 21 8888 7777",
-  "info@misubishi-showroom.co.id",
+  "Jl. Pulomas Selatan No.22, Kayu Putih",
+  "Pulo Gadung, Jakarta Timur 13210",
+  "021-475-9000",
+  "WhatsApp MIRA: 0811-1301-1300",
+  "publicrelations@mitsubishi-motors.co.id",
 ];
 
 const socials = [
@@ -44,13 +46,17 @@ export default function Footer() {
           {/* Column 1 - Brand */}
           <div>
             <a href="#beranda" className="flex items-center gap-2 mb-6">
-              <span className="text-xl font-bold font-[family-name:var(--font-montserrat)] tracking-wider">
-                MISUBISHI
-              </span>
+              <Image
+                src="/images/mitsubishi-logo.png"
+                alt="Mitsubishi Motors"
+                width={32}
+                height={32}
+                className="brightness-0 invert"
+              />
               <Diamond className="w-3 h-3 text-[#c9a84c]" />
             </a>
             <p className="text-white/40 text-sm leading-relaxed mb-6">
-              Dealer resmi Mitsubishi terpercaya di Jakarta. Pengalaman berkendara premium dimulai di sini.
+              Dealer resmi Mitsubishi Motors Indonesia. Drive your Ambition.
             </p>
             <div className="flex gap-3">
               {socials.map((social) => (
@@ -138,10 +144,10 @@ export default function Footer() {
       <div className="border-t border-[#c9a84c]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/30 text-xs">
-            &copy; {new Date().getFullYear()} Misubishi Showroom. All rights reserved.
+            &copy; 2025 PT Mitsubishi Motors Krama Yudha Sales Indonesia. All rights reserved.
           </p>
           <p className="text-[#c9a84c]/40 text-xs">
-            Authorized Mitsubishi Dealer
+            Drive your Ambition
           </p>
         </div>
       </div>

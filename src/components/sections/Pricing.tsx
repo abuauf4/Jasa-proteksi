@@ -6,41 +6,41 @@ import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const pricingTiers = [
   {
-    name: "Basic",
-    dp: "Rp 30 Juta",
-    monthly: "Rp 4,5 Juta/bulan",
+    name: "DP Ringan",
+    dp: "DP mulai 10%",
+    monthly: "Cicilan mulai Rp 4,5jt/bulan",
     features: [
       "DP ringan mulai 10%",
       "Tenor hingga 5 tahun",
-      "Asuransi dasar included",
+      "Proses kredit cepat 1-3 hari",
       "Gratis Tanda Jadi",
     ],
     recommended: false,
   },
   {
-    name: "Premium",
-    dp: "Rp 50 Juta",
-    monthly: "Rp 6,2 Juta/bulan",
+    name: "Bunga Special",
+    dp: "Bunga 0% hingga 2 tahun",
+    monthly: "Tenor hingga 7 tahun",
     features: [
-      "DP kompetitif 15%",
-      "Tenor hingga 6 tahun",
-      "Asuransi all-risk included",
-      "Gratis aksesoris senilai 5 Juta",
-      "Gratis servis 2 tahun",
+      "Bunga 0% hingga 2 tahun",
+      "Tenor hingga 7 tahun",
+      "Cicilan ringan & fleksibel",
+      "Gratis aksesoris senilai jutaan",
+      "Gratis servis berkala 1 tahun",
     ],
     recommended: true,
   },
   {
-    name: "Executive",
-    dp: "Rp 80 Juta",
-    monthly: "Rp 8,5 Juta/bulan",
+    name: "SMART CASH",
+    dp: "Cashback spesial",
+    monthly: "Free accessories & bonus",
     features: [
-      "DP eksklusif 25%",
-      "Tenor hingga 7 tahun",
-      "Asuransi all-risk + ext",
-      "Gratis aksesoris senilai 10 Juta",
-      "Gratis servis 3 tahun",
-      "Priority booking servis",
+      "Cashback hingga jutaan rupiah",
+      "Free aksesoris original",
+      "Pembelian cash dengan harga special",
+      "Gratis kartu member VIP",
+      "Prioritas booking servis",
+      "Diskon servis berkala",
     ],
     recommended: false,
   },
@@ -127,7 +127,7 @@ export default function Pricing() {
         {/* Disclaimer */}
         <AnimatedSection delay={0.5} className="mt-10 text-center">
           <p className="text-xs text-white/30">
-            *Harga dan cicilan bersifat estimasi. Hubungi kami untuk penawaran yang disesuaikan dengan kebutuhan Anda.
+            Simulasi kredit bersifat estimasi. Hubungi dealer untuk penawaran terperinci.
           </p>
         </AnimatedSection>
       </div>

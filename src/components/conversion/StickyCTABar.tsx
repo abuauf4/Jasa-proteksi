@@ -35,7 +35,7 @@ export default function StickyCTABar() {
             <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
               <div className="hidden sm:flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[#c9a84c]" />
-                <span className="text-white/60 text-sm">+62 21 8888 7777</span>
+                <span className="text-white/60 text-sm">021-475-9000</span>
               </div>
               <div className="flex items-center gap-3 flex-1 sm:flex-none justify-center">
                 <a

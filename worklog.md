@@ -1,57 +1,96 @@
-# Worklog - Mitsubishi Showroom Premium Luxury Rebuild
+# Worklog: Mitsubishi Showroom Website Update with Real Data
 
-## Date: 2026-05-12
+## Date: 2026-03-04
 
 ## Summary
-Complete rebuild of the Mitsubishi Showroom website with a premium luxury design aesthetic. All 14 sections, 4 conversion features, and 3 shared components were rebuilt from scratch.
+Updated the Mitsubishi Showroom website with authentic data from Mitsubishi Motors Indonesia (MMKSI). All changes preserve the premium luxury design while replacing placeholder/fictional data with real information.
 
 ## Files Modified
 
-### Shared Components
-- `src/components/shared/SectionWrapper.tsx` — Rebuilt with dark/light section support, framer-motion fade-in animation, and section-padding class
-- `src/components/shared/AnimatedSection.tsx` — Rebuilt with direction prop (up/down/left/right), once prop, and premium easing curves
-- `src/components/shared/CountdownTimer.tsx` — Rebuilt with compact mode, glassmorphism styling, and gold accents
+### 1. Navigation.tsx
+- **Change**: Replaced text "MISUBISHI" with official Mitsubishi logo image (`/images/mitsubishi-logo.png`)
+- **Details**: Added `next/image` import, used `brightness-0 invert` class for white-friendly rendering on dark background, kept gold Diamond accent
+- **Logo size**: 36px mobile, 40px desktop (responsive via `lg:w-10 lg:h-10`)
 
-### Section Components
-- `src/components/sections/Navigation.tsx` — Dark premium bar with glassmorphism, gold diamond logo accent, active section tracking, mobile full-screen overlay, theme toggle, CTA button with gold fill animation
-- `src/components/sections/Hero.tsx` — Cinematic full-viewport hero with hero-car.png background, dark gradient overlay, noise texture, gold accents, animated text reveal, countdown timer glass card
-- `src/components/sections/Services.tsx` — Dark section with glassmorphism service cards, gold icons, hover effects with gold border glow
-- `src/components/sections/Features.tsx` — Two-column layout with timeline-style features, gold vertical bullets, showroom image
-- `src/components/sections/Portfolio.tsx` — Dark section with filterable car grid, glass-dark cards with car images, category badges, gold prices
-- `src/components/sections/Testimonials.tsx` — Center-focused carousel with gold quote marks, star ratings, navigation dots and arrows
-- `src/components/sections/Pricing.tsx` — Three pricing tiers with recommended badge, glass-dark cards, gold accents
-- `src/components/sections/FAQ.tsx` — Accordion with gold expand icons, smooth open/close animation
-- `src/components/sections/Gallery.tsx` — Masonry grid with category filters, hover overlay with zoom icon, full-screen lightbox
-- `src/components/sections/Blog.tsx` — Editorial-style blog cards with images, gold category labels, read more arrows
-- `src/components/sections/About.tsx` — Two-column with showroom image, animated count-up stats with gold numbers
-- `src/components/sections/Contact.tsx` — Two-column with form (gold focus borders) and contact info cards
-- `src/components/sections/MapSection.tsx` — Dark section with map placeholder, gold marker, grid lines
-- `src/components/sections/CTASection.tsx` — Full-width cinematic with car background, trust badges, countdown timer
-- `src/components/sections/Footer.tsx` — 4-column footer with brand, quick links, services, newsletter, social icons
+### 2. Hero.tsx
+- **Change**: Updated tagline from "Authorized Mitsubishi Dealer" to "Drive your Ambition"
+- **Details**: This is the official Mitsubishi Motors global tagline
 
-### Conversion Features
-- `src/components/conversion/FloatingWhatsApp.tsx` — Fixed WhatsApp button with gold pulse animation, hover tooltip
-- `src/components/conversion/BackToTop.tsx` — Scroll-triggered back-to-top button with gold accent
-- `src/components/conversion/CookieConsent.tsx` — Glass-dark cookie banner with gold cookie icon, accept/reject buttons
-- `src/components/conversion/StickyCTABar.tsx` — Sticky bottom bar after hero scroll, glass-dark with gold CTA
+### 3. Portfolio.tsx
+- **Change**: Replaced 6 placeholder car models with 8 real Mitsubishi Indonesia models
+- **New models**: Xpander, Xpander Cross, Pajero Sport, Xforce, Destinator, Triton, L300, Outlander PHEV
+- **New data fields**: Added `engine`, `transmission`, `seats` specs for each model
+- **New UI**: Added specs display row with Gauge, Cog, Users icons below price
+- **Real prices (OTR Jakarta)**: Xpander Rp 270jt, Xpander Cross Rp 331jt, Pajero Sport Rp 578jt, Xforce Rp 388jt, Destinator Rp 385jt, Triton Rp 307jt, L300 Rp 233jt, Outlander PHEV Rp 1,2M
+- **Categories**: Kept "Semua", "SUV", "MPV", "Pickup"
 
-### Page
-- `src/app/page.tsx` — Assembles all sections in proper light/dark alternation order
+### 4. About.tsx
+- **Change**: Updated company name to "PT Mitsubishi Motors Krama Yudha Sales Indonesia"
+- **Description**: Updated to include real info about 349 dealers and "Drive your Ambition" tagline
+- **Stats updated**:
+  - 10+ Tahun → 40+ Tahun Pengalaman
+  - 5K+ Mobil Terjual → 349 Dealer Resmi
+  - 98% Kepuasan Pelanggan → kept
+  - 15+ Penghargaan → 9 Model Tersedia
 
-## Design Principles Applied
-1. Massive breathing room between sections (section-padding: 6rem mobile, 8rem desktop)
-2. All AI-generated car images used (no placeholder divs)
-3. Gold (#c9a84c) accents for dividers, borders, hover states, highlights
-4. Dark/light section alternation for visual rhythm
-5. Glassmorphism (glass, glass-dark, glass-light) throughout
-6. Large typography with Montserrat headings, Poppins body
-7. Cinematic hero with gradient overlay and noise texture
-8. Framer Motion scroll-reveal on every section
-9. Animated count-up stats in About section
-10. Subtle gold accents — never overwhelming
+### 5. Contact.tsx
+- **Change**: Updated all contact information with real MMKSI data
+- **Address**: Jl. Pulomas Selatan No.22, Kayu Putih, Pulo Gadung, Jakarta Timur 13210
+- **Phone**: 021-475-9000
+- **WhatsApp**: 0811-1301-1300 (MIRA)
+- **Emergency Hotline**: 0804-1-300-300 (24 jam)
+- **Email**: publicrelations@mitsubishi-motors.co.id
+- **Hours**: Sen-Jum: 08:00-17:00, Sab: 08:00-15:00
 
-## Lint Status
-✅ All ESLint checks pass with no errors or warnings
+### 6. Footer.tsx
+- **Change**: Replaced "MISUBISHI" text with official logo image
+- **Description**: "Dealer resmi Mitsubishi Motors Indonesia. Drive your Ambition."
+- **Contact items**: Updated to match Contact section data, added WhatsApp MIRA number
+- **Bottom bar**: Updated copyright to "© 2025 PT Mitsubishi Motors Krama Yudha Sales Indonesia. All rights reserved."
+- **Tagline**: Changed from "Authorized Mitsubishi Dealer" to "Drive your Ambition"
 
-## Dev Server
-✅ Running on port 3000, all compilations successful
+### 7. FAQ.tsx
+- **Change**: Updated all FAQ answers with real data
+- **Warranty FAQ**: Detailed warranty info per model (3yr/100k km for passenger, 2yr/50k km for L300)
+- **Test Drive FAQ**: Now references MIRA WhatsApp booking at 0811-1301-1300
+- **Credit FAQ**: Added MIRA reference
+- **Promo FAQ**: Updated with real promo types (DP Ringan, Bunga Special, SMART CASH)
+
+### 8. Pricing.tsx
+- **Change**: Replaced 3 fictional tiers with real Mitsubishi promo names
+- **Tier 1**: "DP Ringan" — DP mulai 10%, cicilan mulai Rp 4,5jt/bulan
+- **Tier 2**: "Bunga Special" — Bunga 0% hingga 2 tahun, tenor hingga 7 tahun (RECOMMENDED)
+- **Tier 3**: "SMART CASH" — Cashback hingga jutaan rupiah + free accessories
+- **Disclaimer**: "Simulasi kredit bersifat estimasi. Hubungi dealer untuk penawaran terperinci."
+
+### 9. CTASection.tsx
+- **Change**: Updated trust badges
+  - "Garansi 5 Tahun" → "Garansi 3 Tahun / 100.000 km"
+  - "Servis Resmi" → kept
+  - "Mitra Resmi" → "349 Dealer Resmi"
+- **WhatsApp link**: Updated to real MIRA number (0811-1301-1300)
+
+### 10. Features.tsx
+- **Change**: Updated all 4 feature descriptions with real Mitsubishi technology
+  - MIVEC: Full name "Mitsubishi Innovative Valve timing Electronic Control"
+  - Safety: Added "Hill Start Assist" 
+  - Design: "Dynamic Shield" design language
+  - Warranty: "3 Tahun / 100.000 km" (was "5 Tahun")
+
+### 11. Services.tsx
+- **Change**: Updated Test Drive description to reference MIRA booking
+- **New description**: "Rasakan langsung performa kendaraan impian Anda. Booking melalui MIRA di WhatsApp 0811-1301-1300."
+
+### 12. FloatingWhatsApp.tsx
+- **Change**: Updated WhatsApp link from fictional number to MIRA: `https://wa.me/6281113011300`
+
+### 13. StickyCTABar.tsx
+- **Change**: Updated phone number from "+62 21 8888 7777" to "021-475-9000"
+
+## Quality Checks
+- ✅ `bun run lint` passed with no errors
+- ✅ Dev server compiling successfully
+- ✅ No changes to globals.css or layout.tsx
+- ✅ All premium luxury design preserved (dark sections, gold accents, glassmorphism)
+- ✅ All prices match provided real data
+- ✅ next/image used for logo imports

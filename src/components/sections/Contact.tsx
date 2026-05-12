@@ -9,11 +9,12 @@ import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const contactInfo = [
-  { icon: MapPin, label: "Alamat", value: "Jl. Raya Protokol No. 88, Jakarta Selatan" },
-  { icon: Phone, label: "Telepon", value: "+62 21 8888 7777" },
-  { icon: MessageCircle, label: "WhatsApp", value: "+62 812 3456 7890" },
-  { icon: Mail, label: "Email", value: "info@misubishi-showroom.co.id" },
-  { icon: Clock, label: "Jam Operasional", value: "Sen-Sab: 08.00 - 17.00 WIB" },
+  { icon: MapPin, label: "Alamat", value: "Jl. Pulomas Selatan No.22, Kayu Putih, Pulo Gadung, Jakarta Timur 13210" },
+  { icon: Phone, label: "Telepon", value: "021-475-9000" },
+  { icon: MessageCircle, label: "WhatsApp (MIRA)", value: "0811-1301-1300" },
+  { icon: Phone, label: "Emergency Hotline (24 jam)", value: "0804-1-300-300" },
+  { icon: Mail, label: "Email", value: "publicrelations@mitsubishi-motors.co.id" },
+  { icon: Clock, label: "Jam Operasional", value: "Sen-Jum: 08:00-17:00, Sab: 08:00-15:00" },
 ];
 
 export default function Contact() {

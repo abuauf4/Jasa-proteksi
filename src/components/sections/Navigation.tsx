@@ -3,6 +3,7 @@
 import { useState, useEffect, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
+import Image from "next/image";
 import { Sun, Moon, Menu, X, Diamond } from "lucide-react";
 
 const navLinks = [
@@ -81,9 +82,13 @@ export default function Navigation() {
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <a href="#beranda" className="flex items-center gap-2 group">
-              <span className="text-xl lg:text-2xl font-bold font-[family-name:var(--font-montserrat)] text-white tracking-wider">
-                MISUBISHI
-              </span>
+              <Image
+                src="/images/mitsubishi-logo.png"
+                alt="Mitsubishi Motors"
+                width={36}
+                height={36}
+                className="lg:w-10 lg:h-10 brightness-0 invert"
+              />
               <Diamond className="w-3 h-3 text-[#c9a84c] group-hover:rotate-45 transition-transform duration-300" />
             </a>
 

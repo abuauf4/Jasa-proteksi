@@ -40,7 +40,7 @@ export default function Hero() {
           >
             <div className="gold-line" />
             <span className="text-xs sm:text-sm tracking-[0.25em] text-[#c9a84c] font-medium uppercase">
-              Authorized Mitsubishi Dealer
+              Drive your Ambition
             </span>
           </motion.div>
 

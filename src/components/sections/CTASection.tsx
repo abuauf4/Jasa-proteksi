@@ -9,9 +9,9 @@ const promoDate = new Date();
 promoDate.setDate(promoDate.getDate() + 30);
 
 const trustBadges = [
-  { icon: Shield, label: "Garansi 5 Tahun" },
+  { icon: Shield, label: "Garansi 3 Tahun / 100.000 km" },
   { icon: Wrench, label: "Servis Resmi" },
-  { icon: Award, label: "Mitra Resmi" },
+  { icon: Award, label: "349 Dealer Resmi" },
 ];
 
 export default function CTASection() {
@@ -55,7 +55,7 @@ export default function CTASection() {
               BOOK TEST DRIVE
             </a>
             <a
-              href="https://wa.me/6281234567890"
+              href="https://wa.me/6281113011300"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] text-white font-semibold tracking-wider text-sm hover:bg-[#20bd5a] transition-all duration-300"

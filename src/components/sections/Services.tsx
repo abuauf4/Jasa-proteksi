@@ -13,7 +13,7 @@ const services = [
   {
     icon: ClipboardCheck,
     title: "Test Drive",
-    description: "Rasakan langsung performa kendaraan impian Anda sebelum memutuskan.",
+    description: "Rasakan langsung performa kendaraan impian Anda. Booking melalui MIRA di WhatsApp 0811-1301-1300.",
   },
   {
     icon: Calculator,

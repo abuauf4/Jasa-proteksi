@@ -2,17 +2,83 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Cog, Users, Gauge } from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const cars = [
-  { name: "Pajero Sport", category: "SUV", price: "Mulai Rp 599 Juta", image: "/images/pajero-sport.png" },
-  { name: "Xpander", category: "MPV", price: "Mulai Rp 279 Juta", image: "/images/xpander.png" },
-  { name: "Xpander Cross", category: "MPV", price: "Mulai Rp 329 Juta", image: "/images/xpander-cross.png" },
-  { name: "Triton", category: "Pickup", price: "Mulai Rp 399 Juta", image: "/images/triton.png" },
-  { name: "Outlander PHEV", category: "SUV", price: "Mulai Rp 899 Juta", image: "/images/outlander.png" },
-  { name: "L300", category: "Pickup", price: "Mulai Rp 199 Juta", image: "/images/l300.png" },
+  {
+    name: "Xpander",
+    category: "MPV",
+    price: "Mulai Rp 270 Juta",
+    image: "/images/xpander.png",
+    engine: "1.5L DOHC 16V",
+    transmission: "MT & CVT",
+    seats: "7 Penumpang",
+  },
+  {
+    name: "Xpander Cross",
+    category: "MPV",
+    price: "Mulai Rp 331 Juta",
+    image: "/images/xpander-cross.png",
+    engine: "1.5L DOHC 16V",
+    transmission: "MT & CVT",
+    seats: "7 Penumpang",
+  },
+  {
+    name: "Pajero Sport",
+    category: "SUV",
+    price: "Mulai Rp 578 Juta",
+    image: "/images/pajero-sport.png",
+    engine: "2.4L Diesel Turbo",
+    transmission: "MT & AT",
+    seats: "7 Penumpang",
+  },
+  {
+    name: "Xforce",
+    category: "SUV",
+    price: "Mulai Rp 388 Juta",
+    image: "/images/outlander.png",
+    engine: "1.5L DOHC CVT",
+    transmission: "CVT",
+    seats: "5 Penumpang",
+  },
+  {
+    name: "Destinator",
+    category: "SUV",
+    price: "Mulai Rp 385 Juta",
+    image: "/images/outlander.png",
+    engine: "1.5L Turbo",
+    transmission: "CVT",
+    seats: "7 Penumpang",
+  },
+  {
+    name: "Triton",
+    category: "Pickup",
+    price: "Mulai Rp 307 Juta",
+    image: "/images/triton.png",
+    engine: "2.4L Turbo Diesel",
+    transmission: "MT & AT",
+    seats: "2-5 Penumpang",
+  },
+  {
+    name: "L300",
+    category: "Pickup",
+    price: "Mulai Rp 233 Juta",
+    image: "/images/l300.png",
+    engine: "2.5L Diesel",
+    transmission: "MT",
+    seats: "2 Penumpang",
+  },
+  {
+    name: "Outlander PHEV",
+    category: "SUV",
+    price: "Mulai Rp 1,2 M",
+    image: "/images/outlander.png",
+    engine: "2.0L Hybrid PHEV",
+    transmission: "CVT",
+    seats: "7 Penumpang",
+  },
 ];
 
 const categories = ["Semua", "SUV", "MPV", "Pickup"];
@@ -81,9 +147,26 @@ export default function Portfolio() {
                       {car.category}
                     </span>
                   </div>
-                  <p className="text-2xl font-bold text-[#c9a84c] font-[family-name:var(--font-montserrat)] mb-5">
+                  <p className="text-2xl font-bold text-[#c9a84c] font-[family-name:var(--font-montserrat)] mb-4">
                     {car.price}
                   </p>
+
+                  {/* Specs */}
+                  <div className="grid grid-cols-3 gap-2 mb-5">
+                    <div className="flex items-center gap-1.5 text-white/50 text-xs">
+                      <Gauge className="w-3.5 h-3.5 text-[#c9a84c]/70" />
+                      <span>{car.engine}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-white/50 text-xs">
+                      <Cog className="w-3.5 h-3.5 text-[#c9a84c]/70" />
+                      <span>{car.transmission}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-white/50 text-xs">
+                      <Users className="w-3.5 h-3.5 text-[#c9a84c]/70" />
+                      <span>{car.seats}</span>
+                    </div>
+                  </div>
+
                   <a
                     href="#kontak"
                     className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c9a84c]/40 text-[#c9a84c] text-sm font-medium tracking-wider hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 group/btn"
