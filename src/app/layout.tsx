@@ -3,6 +3,9 @@ import { Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import SmoothScroll from "@/components/shared/SmoothScroll";
+import Preloader from "@/components/shared/Preloader";
+import ScrollProgress from "@/components/shared/ScrollProgress";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -55,7 +58,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <SmoothScroll>
+            <Preloader />
+            <ScrollProgress />
+            {children}
+          </SmoothScroll>
           <Toaster />
         </ThemeProvider>
       </body>

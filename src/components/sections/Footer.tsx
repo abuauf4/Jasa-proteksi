@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Diamond, Instagram, Facebook, Youtube, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -40,6 +39,24 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="bg-[#00001f] text-white">
+      {/* Marquee Brand Banner */}
+      <div className="border-y border-[#c9a84c]/10 py-4 overflow-hidden">
+        <div className="animate-marquee whitespace-nowrap">
+          {Array(8).fill(null).map((_, i) => (
+            <span key={i} className="inline-flex items-center gap-8 mx-8">
+              <span className="text-lg font-bold font-[family-name:var(--font-montserrat)] tracking-[0.2em] text-white/10">
+                MITSUBISHI MOTORS
+              </span>
+              <Diamond className="w-2 h-2 text-[#c9a84c]/30" />
+              <span className="text-sm tracking-[0.3em] text-[#c9a84c]/20 uppercase">
+                Drive your Ambition
+              </span>
+              <Diamond className="w-2 h-2 text-[#c9a84c]/30" />
+            </span>
+          ))}
+        </div>
+      </div>
+
       {/* Main Footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 lg:pt-20 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
@@ -62,7 +79,7 @@ export default function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/40 transition-all duration-300"
+                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/40 hover:bg-[#c9a84c]/5 transition-all duration-300"
                 >
                   <social.icon className="w-4 h-4" />
                 </a>
@@ -80,7 +97,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-white/40 text-sm hover:text-[#c9a84c] transition-colors duration-300"
+                    className="text-white/40 text-sm hover:text-[#c9a84c] transition-colors duration-300 hover:pl-1"
                   >
                     {link.label}
                   </a>
@@ -118,7 +135,7 @@ export default function Footer() {
                 className="bg-white/5 border-white/10 focus:border-[#c9a84c] h-10 text-sm rounded-md text-white placeholder:text-white/30"
               />
               <Button
-                className="bg-[#c9a84c] hover:bg-[#dfc06f] text-[#00001f] h-10 px-4 rounded-md flex-shrink-0"
+                className="bg-[#c9a84c] hover:bg-[#dfc06f] text-[#00001f] h-10 px-4 rounded-md flex-shrink-0 shine-button"
                 size="icon"
               >
                 <ArrowRight className="w-4 h-4" />

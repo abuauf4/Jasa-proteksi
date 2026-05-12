@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { ChevronDown, MessageCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
 
 const faqs = [
   {
@@ -44,21 +46,26 @@ export default function FAQ() {
             <div className="gold-line" />
           </div>
           <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">FAQ</span>
-          <h2 className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4">
-            Pertanyaan Umum
-          </h2>
+          <TextReveal
+            text="Pertanyaan Umum"
+            as="h2"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4"
+            delay={0.1}
+          />
         </AnimatedSection>
 
         {/* Accordion */}
         <div className="space-y-3">
           {faqs.map((faq, i) => (
             <AnimatedSection key={i} delay={i * 0.08}>
-              <div
+              <motion.div
                 className={`border rounded-xl overflow-hidden transition-all duration-300 ${
                   openIndex === i
                     ? "border-[#c9a84c]/30 bg-[#c9a84c]/5"
                     : "border-border hover:border-[#c9a84c]/20"
                 }`}
+                whileHover={{ x: openIndex === i ? 0 : 4 }}
+                transition={{ duration: 0.2 }}
               >
                 <button
                   onClick={() => setOpenIndex(openIndex === i ? null : i)}
@@ -68,22 +75,30 @@ export default function FAQ() {
                   <span className="font-semibold font-[family-name:var(--font-montserrat)] text-sm sm:text-base pr-4">
                     {faq.q}
                   </span>
-                  <ChevronDown
-                    className={`w-5 h-5 flex-shrink-0 text-[#c9a84c] transition-transform duration-300 ${
-                      openIndex === i ? "rotate-180" : ""
-                    }`}
-                  />
+                  <motion.div
+                    animate={{ rotate: openIndex === i ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown
+                      className="w-5 h-5 flex-shrink-0 text-[#c9a84c]"
+                    />
+                  </motion.div>
                 </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openIndex === i ? "max-h-48 opacity-100" : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <p className="px-5 pb-5 text-muted-foreground text-sm leading-relaxed">
-                    {faq.a}
-                  </p>
-                </div>
-              </div>
+                <AnimatePresence>
+                  {openIndex === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <p className="px-5 pb-5 text-muted-foreground text-sm leading-relaxed">
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             </AnimatedSection>
           ))}
         </div>

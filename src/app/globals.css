@@ -158,9 +158,9 @@
   background: rgba(255, 255, 255, 0.4);
 }
 
-/* ===== SMOOTH SCROLL ===== */
+/* ===== SMOOTH SCROLL (Lenis handles this) ===== */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 /* ===== LUXURY ANIMATIONS ===== */
@@ -237,6 +237,45 @@ html {
   }
 }
 
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes border-rotate {
+  0% {
+    --angle: 0deg;
+  }
+  100% {
+    --angle: 360deg;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(201, 168, 76, 0.1), 0 0 60px rgba(201, 168, 76, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(201, 168, 76, 0.2), 0 0 80px rgba(201, 168, 76, 0.1);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 .animate-pulse-gold {
   animation: pulse-gold 2s infinite;
 }
@@ -261,6 +300,19 @@ html {
 
 .animate-line-expand {
   animation: line-expand 0.6s ease-out forwards;
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
 }
 
 /* ===== GLASSMORPHISM UTILITY ===== */
@@ -335,4 +387,83 @@ html {
 ::selection {
   background: rgba(201, 168, 76, 0.3);
   color: #00001f;
+}
+
+/* ===== PREMIUM CARD HOVER LIFT ===== */
+.card-lift {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(201, 168, 76, 0.1);
+}
+
+/* ===== ANIMATED GRADIENT BORDER ===== */
+.gradient-border {
+  position: relative;
+  border-radius: 12px;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, #c9a84c, transparent 40%, transparent 60%, #c9a84c);
+  background-size: 300% 300%;
+  animation: gradient-shift 4s ease infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ===== HORIZONTAL SCROLL GALLERY ===== */
+.horizontal-scroll {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 1rem;
+}
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+.horizontal-scroll > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ===== PARALLAX DEPTH ===== */
+.parallax-slow {
+  will-change: transform;
+}
+
+/* ===== SHINE EFFECT ON BUTTONS ===== */
+.shine-button {
+  position: relative;
+  overflow: hidden;
+}
+.shine-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transform: rotate(30deg) translateX(-100%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+.shine-button:hover::after {
+  transform: rotate(30deg) translateX(100%);
 }

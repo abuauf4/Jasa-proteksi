@@ -3,6 +3,8 @@
 import { Car, ClipboardCheck, Calculator, Wrench, ArrowRightLeft, Shield } from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import SpotlightCard from "@/components/shared/SpotlightCard";
 
 const services = [
   {
@@ -47,29 +49,34 @@ export default function Services() {
             <div className="gold-line" />
           </div>
           <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Our Services</span>
-          <h2 className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4">
-            Layanan Eksklusif
-          </h2>
+          <TextReveal
+            text="Layanan Eksklusif"
+            as="h2"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4"
+            delay={0.1}
+          />
         </AnimatedSection>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, i) => (
             <AnimatedSection key={service.title} delay={i * 0.1}>
-              <div className="glass-dark rounded-xl p-8 group hover:border-[#c9a84c]/30 transition-all duration-500 hover:-translate-y-1 relative overflow-hidden">
-                {/* Gold line at top */}
-                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c9a84c]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <div className="w-12 h-12 rounded-lg bg-[#c9a84c]/10 flex items-center justify-center mb-6 group-hover:bg-[#c9a84c]/20 transition-colors duration-300">
-                  <service.icon className="w-6 h-6 text-[#c9a84c]" />
+              <SpotlightCard className="h-full" spotlightColor="rgba(201, 168, 76, 0.06)">
+                <div className="glass-dark rounded-xl p-8 group hover:border-[#c9a84c]/30 transition-all duration-500 card-lift relative overflow-hidden h-full">
+                  {/* Gold line at top */}
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c9a84c]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  <div className="w-12 h-12 rounded-lg bg-[#c9a84c]/10 flex items-center justify-center mb-6 group-hover:bg-[#c9a84c]/20 transition-colors duration-300">
+                    <service.icon className="w-6 h-6 text-[#c9a84c]" />
+                  </div>
+                  <h3 className="text-xl font-semibold font-[family-name:var(--font-montserrat)] text-white mb-3">
+                    {service.title}
+                  </h3>
+                  <p className="text-white/50 leading-relaxed text-sm">
+                    {service.description}
+                  </p>
                 </div>
-                <h3 className="text-xl font-semibold font-[family-name:var(--font-montserrat)] text-white mb-3">
-                  {service.title}
-                </h3>
-                <p className="text-white/50 leading-relaxed text-sm">
-                  {service.description}
-                </p>
-              </div>
+              </SpotlightCard>
             </AnimatedSection>
           ))}
         </div>

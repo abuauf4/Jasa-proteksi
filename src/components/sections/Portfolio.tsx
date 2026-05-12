@@ -5,6 +5,10 @@ import Image from "next/image";
 import { ArrowRight, Cog, Users, Gauge } from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import TiltCard from "@/components/shared/TiltCard";
+import SpotlightCard from "@/components/shared/SpotlightCard";
+import MagneticButton from "@/components/shared/MagneticButton";
 
 const cars = [
   {
@@ -97,9 +101,12 @@ export default function Portfolio() {
             <div className="gold-line" />
           </div>
           <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Our Models</span>
-          <h2 className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4">
-            Pilih Kendaraan Anda
-          </h2>
+          <TextReveal
+            text="Pilih Kendaraan Anda"
+            as="h2"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4"
+            delay={0.1}
+          />
         </AnimatedSection>
 
         {/* Filter Tabs */}
@@ -121,61 +128,70 @@ export default function Portfolio() {
           </div>
         </AnimatedSection>
 
-        {/* Cars Grid */}
+        {/* Cars Grid - with TiltCard + Spotlight */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((car, i) => (
             <AnimatedSection key={car.name} delay={i * 0.1}>
-              <div className="glass-dark rounded-xl overflow-hidden group hover:border-[#c9a84c]/30 transition-all duration-500">
-                {/* Image */}
-                <div className="relative h-56 overflow-hidden bg-[#0a0a2e]">
-                  <Image
-                    src={car.image}
-                    alt={car.name}
-                    fill
-                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-700"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                </div>
+              <TiltCard tiltStrength={6} glareEnabled>
+                <SpotlightCard className="h-full" spotlightColor="rgba(201, 168, 76, 0.06)">
+                  <div className="glass-dark rounded-xl overflow-hidden group hover:border-[#c9a84c]/30 transition-all duration-500 card-lift h-full flex flex-col">
+                    {/* Image */}
+                    <div className="relative h-56 overflow-hidden bg-[#0a0a2e]">
+                      <Image
+                        src={car.image}
+                        alt={car.name}
+                        fill
+                        className="object-contain p-4 group-hover:scale-110 transition-transform duration-700"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                      {/* Category badge */}
+                      <div className="absolute top-3 left-3">
+                        <span className="text-[10px] tracking-wider text-[#c9a84c] border border-[#c9a84c]/30 px-2 py-0.5 rounded bg-[#00001f]/60 backdrop-blur-sm">
+                          {car.category}
+                        </span>
+                      </div>
+                    </div>
 
-                {/* Info */}
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <h3 className="text-xl font-bold font-[family-name:var(--font-montserrat)] text-white">
-                      {car.name}
-                    </h3>
-                    <span className="text-xs tracking-wider text-[#c9a84c] border border-[#c9a84c]/30 px-2 py-0.5 rounded">
-                      {car.category}
-                    </span>
+                    {/* Info */}
+                    <div className="p-6 flex-1 flex flex-col">
+                      <div className="flex items-center gap-3 mb-3">
+                        <h3 className="text-xl font-bold font-[family-name:var(--font-montserrat)] text-white">
+                          {car.name}
+                        </h3>
+                      </div>
+                      <p className="text-2xl font-bold text-[#c9a84c] font-[family-name:var(--font-montserrat)] mb-4">
+                        {car.price}
+                      </p>
+
+                      {/* Specs */}
+                      <div className="grid grid-cols-3 gap-2 mb-5">
+                        <div className="flex items-center gap-1.5 text-white/50 text-xs">
+                          <Gauge className="w-3.5 h-3.5 text-[#c9a84c]/70" />
+                          <span>{car.engine}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-white/50 text-xs">
+                          <Cog className="w-3.5 h-3.5 text-[#c9a84c]/70" />
+                          <span>{car.transmission}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-white/50 text-xs">
+                          <Users className="w-3.5 h-3.5 text-[#c9a84c]/70" />
+                          <span>{car.seats}</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-auto">
+                        <MagneticButton
+                          href="#kontak"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c9a84c]/40 text-[#c9a84c] text-sm font-medium tracking-wider hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 group/btn shine-button"
+                        >
+                          Lihat Detail
+                          <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                        </MagneticButton>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-2xl font-bold text-[#c9a84c] font-[family-name:var(--font-montserrat)] mb-4">
-                    {car.price}
-                  </p>
-
-                  {/* Specs */}
-                  <div className="grid grid-cols-3 gap-2 mb-5">
-                    <div className="flex items-center gap-1.5 text-white/50 text-xs">
-                      <Gauge className="w-3.5 h-3.5 text-[#c9a84c]/70" />
-                      <span>{car.engine}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-white/50 text-xs">
-                      <Cog className="w-3.5 h-3.5 text-[#c9a84c]/70" />
-                      <span>{car.transmission}</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 text-white/50 text-xs">
-                      <Users className="w-3.5 h-3.5 text-[#c9a84c]/70" />
-                      <span>{car.seats}</span>
-                    </div>
-                  </div>
-
-                  <a
-                    href="#kontak"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c9a84c]/40 text-[#c9a84c] text-sm font-medium tracking-wider hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 group/btn"
-                  >
-                    Lihat Detail
-                    <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                  </a>
-                </div>
-              </div>
+                </SpotlightCard>
+              </TiltCard>
             </AnimatedSection>
           ))}
         </div>

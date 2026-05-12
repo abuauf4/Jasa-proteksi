@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
 
 const testimonials = [
   {
@@ -51,53 +53,72 @@ export default function Testimonials() {
           <div className="flex justify-center mb-4">
             <div className="gold-line" />
           </div>
-          <h2 className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)]">
-            Kata Mereka
-          </h2>
+          <TextReveal
+            text="Kata Mereka"
+            as="h2"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)]"
+            delay={0.1}
+          />
         </AnimatedSection>
 
         {/* Testimonial Card */}
-        <AnimatedSection delay={0.2}>
-          <div className="text-center">
-            {/* Stars */}
-            <div className="flex justify-center gap-1 mb-8">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-5 h-5 ${
-                    i < t.rating ? "text-[#c9a84c] fill-[#c9a84c]" : "text-muted-foreground/30"
-                  }`}
-                />
-              ))}
-            </div>
+        <div className="text-center min-h-[280px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {/* Stars */}
+              <div className="flex justify-center gap-1 mb-8">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.05 + 0.2 }}
+                  >
+                    <Star
+                      className={`w-5 h-5 ${
+                        i < t.rating ? "text-[#c9a84c] fill-[#c9a84c]" : "text-muted-foreground/30"
+                      }`}
+                    />
+                  </motion.div>
+                ))}
+              </div>
 
-            {/* Quote */}
-            <blockquote className="text-xl sm:text-2xl lg:text-3xl font-light text-foreground/80 italic leading-relaxed mb-10 font-[family-name:var(--font-montserrat)]">
-              &ldquo;{t.quote}&rdquo;
-            </blockquote>
+              {/* Quote */}
+              <blockquote className="text-xl sm:text-2xl lg:text-3xl font-light text-foreground/80 italic leading-relaxed mb-10 font-[family-name:var(--font-montserrat)]">
+                &ldquo;{t.quote}&rdquo;
+              </blockquote>
 
-            {/* Decorative line */}
-            <div className="flex justify-center mb-6">
-              <div className="gold-line" />
-            </div>
+              {/* Decorative line */}
+              <div className="flex justify-center mb-6">
+                <div className="gold-line" />
+              </div>
 
-            {/* Name & Car */}
-            <p className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-[#c9a84c]">
-              {t.name}
-            </p>
-            <p className="text-sm text-muted-foreground mt-1">Pemilik {t.car}</p>
-          </div>
-        </AnimatedSection>
+              {/* Name & Car */}
+              <p className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-[#c9a84c]">
+                {t.name}
+              </p>
+              <p className="text-sm text-muted-foreground mt-1">Pemilik {t.car}</p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         {/* Navigation */}
         <div className="flex items-center justify-center gap-6 mt-12">
-          <button
+          <motion.button
             onClick={prev}
             className="w-10 h-10 rounded-full border border-[#c9a84c]/30 flex items-center justify-center text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="w-5 h-5" />
-          </button>
+          </motion.button>
 
           {/* Dots */}
           <div className="flex gap-2">
@@ -105,21 +126,23 @@ export default function Testimonials() {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  i === current ? "bg-[#c9a84c] w-6" : "bg-[#c9a84c]/30 hover:bg-[#c9a84c]/50"
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  i === current ? "bg-[#c9a84c] w-6" : "bg-[#c9a84c]/30 hover:bg-[#c9a84c]/50 w-2"
                 }`}
                 aria-label={`Go to testimonial ${i + 1}`}
               />
             ))}
           </div>
 
-          <button
+          <motion.button
             onClick={next}
             className="w-10 h-10 rounded-full border border-[#c9a84c]/30 flex items-center justify-center text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             aria-label="Next testimonial"
           >
             <ChevronRight className="w-5 h-5" />
-          </button>
+          </motion.button>
         </div>
       </div>
     </SectionWrapper>

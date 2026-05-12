@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Calendar, Phone, Shield, Wrench, Award } from "lucide-react";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import CountdownTimer from "@/components/shared/CountdownTimer";
+import TextReveal from "@/components/shared/TextReveal";
+import MagneticButton from "@/components/shared/MagneticButton";
 
 const promoDate = new Date();
 promoDate.setDate(promoDate.getDate() + 30);
@@ -31,14 +33,20 @@ export default function CTASection() {
         <div className="noise-overlay absolute inset-0" />
       </div>
 
+      {/* Decorative lines */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#c9a84c]/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#c9a84c]/20 to-transparent" />
+
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <AnimatedSection>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mb-6 leading-tight">
-            Siap Mengemudi Mobil
-            <br />
-            <span className="text-[#c9a84c]">Impian Anda?</span>
-          </h2>
+          <TextReveal
+            text="Siap Mengemudi Mobil Impian Anda?"
+            as="h2"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mb-6 leading-tight"
+            delay={0.1}
+            staggerDelay={0.03}
+          />
           <p className="text-white/50 text-lg mb-10 max-w-xl mx-auto">
             Booking test drive sekarang dan dapatkan promo eksklusif
           </p>
@@ -47,22 +55,24 @@ export default function CTASection() {
         {/* CTA Buttons */}
         <AnimatedSection delay={0.2}>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <a
+            <MagneticButton
               href="#kontak"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#c9a84c] text-[#00001f] font-semibold tracking-wider text-sm hover:bg-[#dfc06f] transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#c9a84c] text-[#00001f] font-semibold tracking-wider text-sm hover:bg-[#dfc06f] transition-all duration-300 shine-button"
+              strength={0.4}
             >
               <Calendar className="w-4 h-4" />
               BOOK TEST DRIVE
-            </a>
-            <a
+            </MagneticButton>
+            <MagneticButton
               href="https://wa.me/6281113011300"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] text-white font-semibold tracking-wider text-sm hover:bg-[#20bd5a] transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] text-white font-semibold tracking-wider text-sm hover:bg-[#20bd5a] transition-all duration-300 shine-button"
+              strength={0.4}
             >
               <Phone className="w-4 h-4" />
               HUBUNGI VIA WHATSAPP
-            </a>
+            </MagneticButton>
           </div>
         </AnimatedSection>
 
@@ -81,7 +91,7 @@ export default function CTASection() {
         {/* Countdown */}
         <AnimatedSection delay={0.4}>
           <div className="inline-block">
-            <div className="glass rounded-lg p-5">
+            <div className="glass rounded-lg p-5 animate-glow-pulse">
               <p className="text-[10px] tracking-[0.2em] text-[#c9a84c] uppercase mb-3 font-medium text-center">
                 Promo Berakhir Dalam
               </p>

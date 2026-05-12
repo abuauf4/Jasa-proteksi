@@ -3,8 +3,8 @@
 import { useState, useEffect, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
-import Image from "next/image";
-import { Sun, Moon, Menu, X, Diamond } from "lucide-react";
+import { Sun, Moon, Menu, X } from "lucide-react";
+import MagneticButton from "@/components/shared/MagneticButton";
 
 const navLinks = [
   { label: "Beranda", href: "#beranda" },
@@ -133,13 +133,14 @@ export default function Navigation() {
                 </button>
               )}
 
-              <a
+              <MagneticButton
                 href="#kontak"
-                className="relative px-6 py-2.5 text-sm font-semibold tracking-wider border border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 overflow-hidden group"
+                className="relative px-6 py-2.5 text-sm font-semibold tracking-wider border border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 overflow-hidden group shine-button"
+                strength={0.2}
               >
                 <span className="relative z-10">BOOK TEST DRIVE</span>
                 <div className="absolute inset-0 bg-[#c9a84c] transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
-              </a>
+              </MagneticButton>
             </div>
 
             {/* Mobile Actions */}
@@ -194,7 +195,11 @@ export default function Navigation() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="text-3xl font-[family-name:var(--font-montserrat)] font-semibold tracking-wider text-white/80 hover:text-[#c9a84c] transition-colors duration-300"
+                    className={`text-3xl font-[family-name:var(--font-montserrat)] font-semibold tracking-wider transition-colors duration-300 ${
+                      activeSection === link.href.replace("#", "")
+                        ? "text-[#c9a84c]"
+                        : "text-white/80 hover:text-[#c9a84c]"
+                    }`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
@@ -210,7 +215,7 @@ export default function Navigation() {
                 <a
                   href="#kontak"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full max-w-xs text-center py-4 border border-[#c9a84c] text-[#c9a84c] font-semibold tracking-wider hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300"
+                  className="w-full max-w-xs text-center py-4 border border-[#c9a84c] text-[#c9a84c] font-semibold tracking-wider hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 shine-button"
                 >
                   BOOK TEST DRIVE
                 </a>

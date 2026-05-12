@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Cpu, ShieldCheck, Gem, Clock, ArrowRight } from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import MagneticButton from "@/components/shared/MagneticButton";
 
 const features = [
   {
@@ -39,11 +41,13 @@ export default function Features() {
               <div className="gold-line" />
               <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Why Mitsubishi</span>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mb-10 leading-tight">
-              Keunggulan
-              <br />
-              <span className="text-[#c9a84c]">Tanpa Kompromi</span>
-            </h2>
+            <TextReveal
+              text="Keunggulan Tanpa Kompromi"
+              as="h2"
+              className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mb-10 leading-tight"
+              delay={0.1}
+              staggerDelay={0.04}
+            />
 
             <div className="space-y-8">
               {features.map((feature, i) => (
@@ -68,31 +72,37 @@ export default function Features() {
             </div>
 
             <AnimatedSection delay={0.5} className="mt-10">
-              <a
+              <MagneticButton
                 href="#model"
                 className="inline-flex items-center gap-2 text-[#c9a84c] font-medium text-sm tracking-wider group hover:gap-3 transition-all duration-300"
               >
                 Explore All Features
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </a>
+              </MagneticButton>
             </AnimatedSection>
           </AnimatedSection>
 
-          {/* Right - Image */}
+          {/* Right - Image with parallax-like effect */}
           <AnimatedSection direction="right" delay={0.2}>
-            <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-br from-[#c9a84c]/10 to-transparent rounded-2xl" />
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-gradient-to-br from-[#c9a84c]/10 to-transparent rounded-2xl group-hover:from-[#c9a84c]/15 transition-all duration-700" />
               <div className="relative overflow-hidden rounded-xl">
                 <Image
                   src="/images/showroom-bg.png"
                   alt="Mitsubishi premium showroom interior"
                   width={800}
                   height={600}
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-700"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
                 {/* Decorative frame */}
                 <div className="absolute inset-0 border border-[#c9a84c]/20 rounded-xl pointer-events-none" />
+                {/* Shine effect on hover */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              </div>
+              {/* Floating badge */}
+              <div className="absolute -bottom-4 -right-4 glass rounded-lg p-3 animate-glow-pulse">
+                <p className="text-[10px] tracking-[0.2em] text-[#c9a84c] uppercase font-medium">Since 1970</p>
               </div>
             </div>
           </AnimatedSection>
