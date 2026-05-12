@@ -1,139 +1,122 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Camera, ZoomIn } from "lucide-react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { AnimatedSection } from "@/components/shared/AnimatedSection";
-
-const categories = ["Semua", "Eksterior", "Interior", "Event"];
+import Image from "next/image";
+import { ZoomIn, X } from "lucide-react";
+import SectionWrapper from "@/components/shared/SectionWrapper";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const galleryItems = [
-  { title: "Pajero Sport Eksterior", category: "Eksterior", color: "from-slate-600 to-slate-800" },
-  { title: "Xpander Interior", category: "Interior", color: "from-zinc-600 to-zinc-800" },
-  { title: "Launching Event", category: "Event", color: "from-emerald-600 to-emerald-800" },
-  { title: "Outlander PHEV Eksterior", category: "Eksterior", color: "from-cyan-600 to-cyan-800" },
-  { title: "Triton Interior", category: "Interior", color: "from-orange-600 to-orange-800" },
-  { title: "Test Drive Event", category: "Event", color: "from-violet-600 to-violet-800" },
-  { title: "Xpander Cross Eksterior", category: "Eksterior", color: "from-teal-600 to-teal-800" },
-  { title: "Showroom Interior", category: "Interior", color: "from-rose-600 to-rose-800" },
+  { src: "/images/gallery-3.png", category: "Eksterior", title: "Coastal Drive" },
+  { src: "/images/gallery-1.png", category: "Interior", title: "Premium Dashboard" },
+  { src: "/images/gallery-2.png", category: "Detail", title: "Alloy Wheel" },
+  { src: "/images/gallery-4.png", category: "Eksterior", title: "Front Grille" },
+  { src: "/images/gallery-6.png", category: "Detail", title: "Leather Stitching" },
+  { src: "/images/hero-car.png", category: "Eksterior", title: "Showroom" },
 ];
 
-export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState("Semua");
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+const categories = ["Semua", "Eksterior", "Interior", "Detail"];
 
-  const filteredItems =
-    activeCategory === "Semua"
-      ? galleryItems
-      : galleryItems.filter((item) => item.category === activeCategory);
+export default function Gallery() {
+  const [active, setActive] = useState("Semua");
+  const [lightbox, setLightbox] = useState<number | null>(null);
+
+  const filtered = active === "Semua" ? galleryItems : galleryItems.filter((g) => g.category === active);
 
   return (
-    <SectionWrapper id="galeri" className="py-20 lg:py-28 bg-background">
+    <SectionWrapper id="galeri" dark>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="text-center mb-14">
-          <h2 className="text-3xl sm:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-foreground mb-4">
-            Galeri
+        {/* Section Header */}
+        <AnimatedSection className="text-center mb-12 lg:mb-16">
+          <div className="flex justify-center mb-4">
+            <div className="gold-line" />
+          </div>
+          <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Gallery</span>
+          <h2 className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4">
+            Galeri Kami
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Lihat koleksi foto kendaraan dan acara kami
-          </p>
         </AnimatedSection>
 
-        {/* Filter tabs */}
-        <AnimatedSection className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === cat
-                  ? "bg-accent text-accent-foreground shadow-md"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </AnimatedSection>
-
-        {/* Gallery grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <AnimatePresence mode="popLayout">
-            {filteredItems.map((item, index) => (
-              <motion.div
-                key={item.title}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className={`${index % 5 === 0 ? "md:col-span-2 md:row-span-2" : ""}`}
+        {/* Filter */}
+        <AnimatedSection delay={0.15} className="flex justify-center mb-12">
+          <div className="inline-flex gap-1 p-1 rounded-lg bg-white/5 border border-white/5">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActive(cat)}
+                className={`px-5 py-2 text-sm font-medium tracking-wider transition-all duration-300 rounded-md ${
+                  active === cat ? "bg-[#c9a84c] text-[#00001f]" : "text-white/60 hover:text-white"
+                }`}
               >
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative aspect-square rounded-xl overflow-hidden cursor-pointer group"
-                  onClick={() => setSelectedImage(index)}
-                >
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${item.color} flex items-center justify-center`}
-                  >
-                    <Camera className="w-12 h-12 text-white/20" />
-                  </div>
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.5 }}
-                      whileHover={{ opacity: 1, scale: 1 }}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    >
-                      <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                        <ZoomIn className="w-6 h-6 text-white" />
-                      </div>
-                    </motion.div>
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <p className="text-white text-sm font-medium truncate">{item.title}</p>
-                    <p className="text-white/70 text-xs">{item.category}</p>
-                  </div>
-                </motion.div>
-              </motion.div>
+                {cat}
+              </button>
             ))}
-          </AnimatePresence>
-        </div>
+          </div>
+        </AnimatedSection>
 
-        {/* Lightbox */}
-        <Dialog
-          open={selectedImage !== null}
-          onOpenChange={() => setSelectedImage(null)}
-        >
-          <DialogContent className="max-w-3xl p-0 overflow-hidden bg-card border-border">
-            <DialogTitle className="sr-only">Gallery Image</DialogTitle>
-            {selectedImage !== null && filteredItems[selectedImage] && (
-              <div className="aspect-[16/10] bg-gradient-to-br flex items-center justify-center"
-                style={{ background: `linear-gradient(135deg, var(--tw-gradient-stops))` }}
-              >
+        {/* Masonry Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map((item, i) => {
+            const isPortrait = item.src.includes("gallery-2") || item.src.includes("gallery-6");
+            return (
+              <AnimatedSection key={item.src} delay={i * 0.1}>
                 <div
-                  className={`w-full h-full bg-gradient-to-br ${filteredItems[selectedImage].color} flex items-center justify-center`}
+                  className={`relative group cursor-pointer overflow-hidden rounded-lg ${
+                    isPortrait ? "row-span-2" : ""
+                  }`}
+                  onClick={() => setLightbox(i)}
                 >
-                  <Camera className="w-24 h-24 text-white/20" />
+                  <div className={`relative ${isPortrait ? "h-[500px]" : "h-64"} lg:${isPortrait ? "h-[580px]" : "h-72"}`}>
+                    <Image
+                      src={item.src}
+                      alt={item.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                  </div>
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-[#00001f]/0 group-hover:bg-[#00001f]/60 transition-all duration-500 flex items-center justify-center">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
+                      <ZoomIn className="w-8 h-8 text-[#c9a84c] mx-auto mb-2" />
+                      <p className="text-white font-medium font-[family-name:var(--font-montserrat)]">{item.title}</p>
+                      <p className="text-[#c9a84c] text-xs tracking-wider mt-1">{item.category}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
-            {selectedImage !== null && filteredItems[selectedImage] && (
-              <div className="p-4">
-                <h3 className="font-semibold font-[family-name:var(--font-montserrat)] text-foreground">
-                  {filteredItems[selectedImage].title}
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  {filteredItems[selectedImage].category}
-                </p>
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
+              </AnimatedSection>
+            );
+          })}
+        </div>
       </div>
+
+      {/* Lightbox */}
+      {lightbox !== null && (
+        <div
+          className="fixed inset-0 z-[70] bg-[#00001f]/95 backdrop-blur-xl flex items-center justify-center p-4"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            className="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-[#c9a84c] transition-colors"
+            onClick={() => setLightbox(null)}
+            aria-label="Close lightbox"
+          >
+            <X className="w-5 h-5" />
+          </button>
+          <div className="relative max-w-5xl max-h-[80vh] w-full" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={filtered[lightbox]?.src || ""}
+              alt={filtered[lightbox]?.title || ""}
+              width={1200}
+              height={800}
+              className="object-contain max-h-[80vh] w-auto mx-auto rounded-lg"
+            />
+            <p className="text-center text-white font-[family-name:var(--font-montserrat)] mt-4">
+              {filtered[lightbox]?.title}
+            </p>
+          </div>
+        </div>
+      )}
     </SectionWrapper>
   );
 }

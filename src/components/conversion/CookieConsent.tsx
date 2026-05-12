@@ -1,76 +1,50 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export default function CookieConsent() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
-  useEffect(() => {
-    const consent = localStorage.getItem("cookie-consent");
-    if (!consent) {
-      const timer = setTimeout(() => setVisible(true), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
-  const accept = () => {
-    localStorage.setItem("cookie-consent", "accepted");
-    setVisible(false);
-  };
-
-  const decline = () => {
-    localStorage.setItem("cookie-consent", "declined");
-    setVisible(false);
-  };
+  if (!visible) return null;
 
   return (
     <AnimatePresence>
-      {visible && (
-        <motion.div
-          className="fixed bottom-0 left-0 right-0 z-50 p-4"
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-        >
-          <div className="max-w-4xl mx-auto bg-card border border-border rounded-2xl shadow-xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-            <div className="flex items-start gap-3 flex-1">
-              <Cookie className="w-6 h-6 text-accent shrink-0 mt-0.5" />
-              <p className="text-sm text-muted-foreground">
-                Website ini menggunakan cookies untuk meningkatkan pengalaman Anda. Dengan
-                melanjutkan, Anda menyetujui penggunaan cookies sesuai kebijakan privasi kami.
-              </p>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={decline}
-                className="text-muted-foreground"
-              >
-                Tolak
-              </Button>
-              <Button
-                size="sm"
-                onClick={accept}
-                className="bg-accent hover:bg-accent/90 text-accent-foreground"
-              >
-                Terima
-              </Button>
-            </div>
+      <motion.div
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 100, opacity: 0 }}
+        className="fixed bottom-0 left-0 right-0 z-[55] p-4"
+      >
+        <div className="max-w-5xl mx-auto glass-dark rounded-xl p-5 flex flex-col sm:flex-row items-center gap-4 border border-white/5">
+          <Cookie className="w-6 h-6 text-[#c9a84c] flex-shrink-0" />
+          <p className="text-white/60 text-sm flex-1 text-center sm:text-left">
+            Kami menggunakan cookies untuk meningkatkan pengalaman Anda. Dengan melanjutkan, Anda menyetujui penggunaan cookies kami.
+          </p>
+          <div className="flex gap-3 flex-shrink-0">
             <button
-              onClick={decline}
-              className="absolute top-3 right-3 sm:hidden text-muted-foreground hover:text-foreground"
-              aria-label="Tutup"
+              onClick={() => setVisible(false)}
+              className="px-5 py-2 text-sm font-medium tracking-wider bg-[#c9a84c] text-[#00001f] hover:bg-[#dfc06f] transition-colors duration-300 rounded-md"
             >
-              <X className="w-4 h-4" />
+              Terima
+            </button>
+            <button
+              onClick={() => setVisible(false)}
+              className="px-5 py-2 text-sm text-white/40 hover:text-white/60 transition-colors duration-300"
+            >
+              Tolak
             </button>
           </div>
-        </motion.div>
-      )}
+          <button
+            onClick={() => setVisible(false)}
+            className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center text-white/30 hover:text-white/60 transition-colors"
+            aria-label="Close cookie consent"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      </motion.div>
     </AnimatePresence>
   );
 }

@@ -1,52 +1,64 @@
 "use client";
 
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Youtube, Send } from "lucide-react";
+import { Diamond, Instagram, Facebook, Youtube, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const quickLinks = [
   { label: "Beranda", href: "#beranda" },
   { label: "Model", href: "#model" },
+  { label: "Layanan", href: "#layanan" },
   { label: "Promo", href: "#promo" },
   { label: "Tentang", href: "#tentang" },
   { label: "Kontak", href: "#kontak" },
 ];
 
-const serviceLinks = [
-  { label: "Penjualan", href: "#layanan" },
-  { label: "Kredit", href: "#promo" },
-  { label: "Servis", href: "#layanan" },
-  { label: "Trade-In", href: "#layanan" },
-  { label: "Asuransi", href: "#layanan" },
+const services = [
+  "Penjualan Mobil Baru",
+  "Test Drive",
+  "Simulasi Kredit",
+  "Servis & Perawatan",
+  "Trade-In",
+  "Asuransi",
 ];
 
-const socialLinks = [
-  { icon: Facebook, href: "#", label: "Facebook" },
+const contactItems = [
+  "Jl. Raya Protokol No. 88",
+  "Jakarta Selatan 12345",
+  "+62 21 8888 7777",
+  "info@misubishi-showroom.co.id",
+];
+
+const socials = [
   { icon: Instagram, href: "#", label: "Instagram" },
+  { icon: Facebook, href: "#", label: "Facebook" },
   { icon: Youtube, href: "#", label: "YouTube" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1a1a2e] text-white/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-          {/* Column 1: Logo & Description */}
-          <div className="sm:col-span-2 lg:col-span-1">
-            <h3 className="text-2xl font-extrabold font-[family-name:var(--font-montserrat)] tracking-wider text-white mb-4">
-              MITSUBISHI
-            </h3>
-            <p className="text-white/60 text-sm leading-relaxed mb-6">
-              Dealer resmi Mitsubishi di Jakarta. Menyediakan layanan penjualan, kredit, servis,
-              dan suku cadang dengan standar kualitas tertinggi.
+    <footer className="bg-[#00001f] text-white">
+      {/* Main Footer */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 lg:pt-20 pb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+          {/* Column 1 - Brand */}
+          <div>
+            <a href="#beranda" className="flex items-center gap-2 mb-6">
+              <span className="text-xl font-bold font-[family-name:var(--font-montserrat)] tracking-wider">
+                MISUBISHI
+              </span>
+              <Diamond className="w-3 h-3 text-[#c9a84c]" />
+            </a>
+            <p className="text-white/40 text-sm leading-relaxed mb-6">
+              Dealer resmi Mitsubishi terpercaya di Jakarta. Pengalaman berkendara premium dimulai di sini.
             </p>
             <div className="flex gap-3">
-              {socialLinks.map((social) => (
+              {socials.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors duration-300"
+                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/40 transition-all duration-300"
                 >
                   <social.icon className="w-4 h-4" />
                 </a>
@@ -54,17 +66,17 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2 - Quick Links */}
           <div>
-            <h4 className="font-semibold font-[family-name:var(--font-montserrat)] text-white mb-4">
+            <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-6 text-[#c9a84c]">
               Quick Links
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-white/60 hover:text-accent transition-colors duration-300 text-sm"
+                    className="text-white/40 text-sm hover:text-[#c9a84c] transition-colors duration-300"
                   >
                     {link.label}
                   </a>
@@ -73,87 +85,64 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Layanan */}
+          {/* Column 3 - Layanan */}
           <div>
-            <h4 className="font-semibold font-[family-name:var(--font-montserrat)] text-white mb-4">
+            <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-6 text-[#c9a84c]">
               Layanan
             </h4>
-            <ul className="space-y-2.5">
-              {serviceLinks.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-white/60 hover:text-accent transition-colors duration-300 text-sm"
-                  >
-                    {link.label}
-                  </a>
+            <ul className="space-y-3">
+              {services.map((service) => (
+                <li key={service}>
+                  <span className="text-white/40 text-sm">{service}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 4: Kontak */}
+          {/* Column 4 - Newsletter */}
           <div>
-            <h4 className="font-semibold font-[family-name:var(--font-montserrat)] text-white mb-4">
-              Kontak
+            <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-6 text-[#c9a84c]">
+              Newsletter
             </h4>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3 text-sm">
-                <MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-                <span className="text-white/60">
-                  Jl. Raya Protokol Halim PK, Jakarta Timur
-                </span>
-              </li>
-              <li className="flex items-center gap-3 text-sm">
-                <Phone className="w-4 h-4 text-accent shrink-0" />
-                <span className="text-white/60">021-800123</span>
-              </li>
-              <li className="flex items-center gap-3 text-sm">
-                <Mail className="w-4 h-4 text-accent shrink-0" />
-                <span className="text-white/60">info@misubishi.co.id</span>
-              </li>
-              <li className="flex items-center gap-3 text-sm">
-                <Clock className="w-4 h-4 text-accent shrink-0" />
-                <span className="text-white/60">Senin - Sabtu 08:00 - 17:00</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Newsletter */}
-        <div className="mt-12 pt-8 border-t border-white/10">
-          <div className="flex flex-col sm:flex-row items-center gap-4 justify-center">
-            <p className="text-white/60 text-sm font-medium whitespace-nowrap">
-              Berlangganan Newsletter:
+            <p className="text-white/40 text-sm mb-4">
+              Dapatkan info promo dan berita terbaru.
             </p>
-            <div className="flex gap-2 w-full sm:w-auto max-w-md">
+            <div className="flex gap-2">
               <Input
+                placeholder="Email Anda"
                 type="email"
-                placeholder="Masukkan email Anda"
-                className="bg-white/10 border-white/10 text-white placeholder:text-white/40 h-10"
+                className="bg-white/5 border-white/10 focus:border-[#c9a84c] h-10 text-sm rounded-md text-white placeholder:text-white/30"
               />
-              <Button className="bg-accent hover:bg-accent/90 text-accent-foreground shrink-0 h-10 px-4">
-                <Send className="w-4 h-4" />
+              <Button
+                className="bg-[#c9a84c] hover:bg-[#dfc06f] text-[#00001f] h-10 px-4 rounded-md flex-shrink-0"
+                size="icon"
+              >
+                <ArrowRight className="w-4 h-4" />
               </Button>
+            </div>
+
+            {/* Contact */}
+            <div className="mt-6">
+              <h5 className="text-xs tracking-wider text-white/50 uppercase mb-3">Kontak</h5>
+              {contactItems.map((item) => (
+                <p key={item} className="text-white/40 text-sm leading-relaxed">
+                  {item}
+                </p>
+              ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/40 text-sm">
-            © {new Date().getFullYear()} Mitsubishi Showroom. All rights reserved.
+      {/* Bottom Bar */}
+      <div className="border-t border-[#c9a84c]/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-white/30 text-xs">
+            &copy; {new Date().getFullYear()} Misubishi Showroom. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
-            <a href="#" className="text-white/40 hover:text-white/60 text-sm transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-white/40 hover:text-white/60 text-sm transition-colors">
-              Terms of Service
-            </a>
-          </div>
+          <p className="text-[#c9a84c]/40 text-xs">
+            Authorized Mitsubishi Dealer
+          </p>
         </div>
       </div>
     </footer>

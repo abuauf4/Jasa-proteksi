@@ -8,22 +8,24 @@ interface AnimatedSectionProps {
   className?: string;
   delay?: number;
   direction?: "up" | "down" | "left" | "right";
+  once?: boolean;
 }
 
-export function AnimatedSection({
+export default function AnimatedSection({
   children,
   className = "",
   delay = 0,
   direction = "up",
+  once = true,
 }: AnimatedSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once, margin: "-60px" });
 
   const directionMap = {
-    up: { y: 40, x: 0 },
-    down: { y: -40, x: 0 },
-    left: { x: 40, y: 0 },
-    right: { x: -40, y: 0 },
+    up: { y: 50, x: 0 },
+    down: { y: -50, x: 0 },
+    left: { x: 50, y: 0 },
+    right: { x: -50, y: 0 },
   };
 
   const offset = directionMap[direction];
@@ -34,7 +36,7 @@ export function AnimatedSection({
       className={className}
       initial={{ opacity: 0, ...offset }}
       animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, ...offset }}
-      transition={{ duration: 0.5, ease: "easeInOut", delay }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay }}
     >
       {children}
     </motion.div>

@@ -1,22 +1,39 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { MessageCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function FloatingWhatsApp() {
+  const [showTooltip, setShowTooltip] = useState(false);
+
   return (
-    <motion.a
-      href="https://wa.me/6281234567890"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-[#25D366] hover:bg-[#25D366]/90 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300"
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ delay: 2, duration: 0.3 }}
-      aria-label="Hubungi via WhatsApp"
-    >
-      <MessageCircle className="w-6 h-6 text-white" />
-      <span className="absolute inset-0 rounded-full animate-pulse-green" />
-    </motion.a>
+    <div className="fixed bottom-6 right-6 z-50">
+      <AnimatePresence>
+        {showTooltip && (
+          <motion.div
+            initial={{ opacity: 0, x: 10, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 10, scale: 0.9 }}
+            className="absolute right-14 top-1/2 -translate-y-1/2 bg-white dark:bg-[#0a0a2e] text-foreground text-sm px-4 py-2 rounded-lg shadow-lg whitespace-nowrap border border-border"
+          >
+            Chat dengan kami
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <a
+        href="https://wa.me/6281234567890"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative block w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg shadow-[#25D366]/30 hover:scale-110 transition-transform duration-300"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+        aria-label="Chat via WhatsApp"
+      >
+        <MessageCircle className="w-6 h-6" />
+        <div className="absolute inset-0 rounded-full animate-pulse-gold" />
+      </a>
+    </div>
   );
 }

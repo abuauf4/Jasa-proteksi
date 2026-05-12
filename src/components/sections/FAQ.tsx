@@ -1,92 +1,103 @@
 "use client";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { AnimatedSection } from "@/components/shared/AnimatedSection";
-import { MessageCircle } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, MessageCircle } from "lucide-react";
+import SectionWrapper from "@/components/shared/SectionWrapper";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const faqs = [
   {
-    question: "Bagaimana cara booking test drive?",
-    answer:
-      "Anda bisa booking test drive melalui website ini dengan mengisi form di bagian Kontak, menghubungi kami via WhatsApp di 0812-3456-7890, atau langsung datang ke showroom kami di Jl. Raya Protokol Halim PK, Jakarta Timur. Tim kami akan membantu menjadwalkan test drive sesuai waktu yang Anda inginkan.",
+    q: "Berapa lama proses pengajuan kredit?",
+    a: "Proses pengajuan kredit kami hanya membutuhkan 1-3 hari kerja. Tim kami akan membantu Anda dari awal hingga persetujuan, termasuk pengumpulan dokumen dan negosiasi dengan lembaga pembiayaan.",
   },
   {
-    question: "Berapa minimal DP untuk kredit Mitsubishi?",
-    answer:
-      "Minimal DP untuk kredit Mitsubishi mulai dari 10% dari harga kendaraan. Kami menawarkan berbagai paket kredit dengan DP ringan mulai 10%, 20%, hingga 30% dengan bunga kompetitif dan tenor hingga 7 tahun.",
+    q: "Apakah bisa test drive di rumah?",
+    a: "Ya! Kami menyediakan layanan test drive上门 (home test drive) untuk area Jakarta dan sekitarnya. Cukup hubungi kami untuk menjadwalkan kunjungan, dan kami akan membawa kendaraan pilihan Anda langsung ke lokasi.",
   },
   {
-    question: "Apakah ada promo trade-in?",
-    answer:
-      "Ya! Kami menawarkan promo trade-in dengan penilaian harga yang adil dan transparan. Anda bisa menukar mobil lama Anda dengan model Mitsubishi terbaru. Hubungi kami untuk mendapatkan penilaian gratis tanpa komitmen.",
+    q: "Apa saja dokumen yang diperlukan untuk kredit?",
+    a: "Dokumen yang diperlukan meliputi: KTP, KK, NPWP, slip gaji 3 bulan terakhir, rekening koran 3 bulan terakhir, dan surat keterangan kerja. Untuk wirausaha, diperlukan tambahan SIUP dan laporan keuangan.",
   },
   {
-    question: "Berapa lama garansi Mitsubishi?",
-    answer:
-      "Mitsubishi memberikan garansi komprehensif selama 5 tahun atau 150.000 km (mana yang tercapai lebih dulu). Garansi ini mencakup komponen utama kendaraan dan memberikan ketenangan pikiran bagi Anda.",
+    q: "Berapa lama garansi Mitsubishi?",
+    a: "Mitsubishi memberikan garansi 5 tahun atau 150.000 km (mana yang tercapai lebih dulu) untuk semua model. Garansi ini mencakup komponen utama dan dapat diperpanjang dengan paket garansi ekstended.",
   },
   {
-    question: "Apa saja dokumen yang diperlukan untuk kredit?",
-    answer:
-      "Dokumen yang diperlukan untuk pengajuan kredit: KTP (suami & istri), Kartu Keluarga, Surat Nikah, NPWP, Slip Gaji 3 bulan terakhir / Surat Keterangan Usaha, Rekening Koran 3 bulan terakhir, dan DP sesuai paket yang dipilih.",
+    q: "Apakah menerima tukar tambah?",
+    a: "Tentu saja! Kami menerima trade-in untuk semua merek dan jenis kendaraan. Tim appraiser kami akan memberikan penilaian yang wajar dan transparan. Prosesnya cepat dan bisa dilakukan bersamaan dengan pembelian mobil baru.",
   },
   {
-    question: "Apakah bisa booking online?",
-    answer:
-      "Tentu! Anda bisa booking online melalui website ini. Isi form kontak, pilih model yang Anda minati, dan tim kami akan menghubungi Anda untuk melanjutkan proses. Booking online juga berlaku untuk test drive dan konsultasi kredit.",
+    q: "Apakah ada promo khusus saat ini?",
+    a: "Kami selalu memiliki promo menarik yang berrotasi setiap bulan. Mulai dari diskon DP, cicilan 0%, gratis aksesoris, hingga paket asuransi. Hubungi tim sales kami untuk mendapatkan penawaran terkini.",
   },
 ];
 
 export default function FAQ() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
   return (
-    <SectionWrapper id="faq" className="py-20 lg:py-28 bg-muted/30">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="text-center mb-14">
-          <h2 className="text-3xl sm:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-foreground mb-4">
+    <SectionWrapper id="faq">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <AnimatedSection className="text-center mb-16">
+          <div className="flex justify-center mb-4">
+            <div className="gold-line" />
+          </div>
+          <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">FAQ</span>
+          <h2 className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4">
             Pertanyaan Umum
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Temukan jawaban untuk pertanyaan yang sering diajukan
-          </p>
         </AnimatedSection>
 
-        <AnimatedSection>
-          <Accordion type="single" collapsible className="space-y-3">
-            {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="bg-card border border-border/50 rounded-xl px-6 data-[state=open]:border-accent/30 data-[state=open]:shadow-md transition-all duration-300"
+        {/* Accordion */}
+        <div className="space-y-3">
+          {faqs.map((faq, i) => (
+            <AnimatedSection key={i} delay={i * 0.08}>
+              <div
+                className={`border rounded-xl overflow-hidden transition-all duration-300 ${
+                  openIndex === i
+                    ? "border-[#c9a84c]/30 bg-[#c9a84c]/5"
+                    : "border-border hover:border-[#c9a84c]/20"
+                }`}
               >
-                <AccordionTrigger className="text-left font-semibold font-[family-name:var(--font-montserrat)] text-foreground hover:text-accent hover:no-underline py-5">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </AnimatedSection>
+                <button
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                  className="w-full flex items-center justify-between p-5 text-left"
+                  aria-expanded={openIndex === i}
+                >
+                  <span className="font-semibold font-[family-name:var(--font-montserrat)] text-sm sm:text-base pr-4">
+                    {faq.q}
+                  </span>
+                  <ChevronDown
+                    className={`w-5 h-5 flex-shrink-0 text-[#c9a84c] transition-transform duration-300 ${
+                      openIndex === i ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    openIndex === i ? "max-h-48 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <p className="px-5 pb-5 text-muted-foreground text-sm leading-relaxed">
+                    {faq.a}
+                  </p>
+                </div>
+              </div>
+            </AnimatedSection>
+          ))}
+        </div>
 
-        <AnimatedSection className="text-center mt-10">
+        {/* CTA */}
+        <AnimatedSection delay={0.5} className="mt-12 text-center">
           <p className="text-muted-foreground mb-4">Masih punya pertanyaan?</p>
-          <Button
-            asChild
-            className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+          <a
+            href="#kontak"
+            className="inline-flex items-center gap-2 text-[#c9a84c] font-medium text-sm tracking-wider hover:gap-3 transition-all duration-300"
           >
-            <a href="#kontak">
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Hubungi Kami
-            </a>
-          </Button>
+            <MessageCircle className="w-4 h-4" />
+            Hubungi Kami Langsung
+          </a>
         </AnimatedSection>
       </div>
     </SectionWrapper>

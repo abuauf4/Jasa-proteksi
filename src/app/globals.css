@@ -45,6 +45,8 @@
   --color-brand: #1a1a2e;
   --color-brand-light: #2a2a4e;
   --color-brand-secondary: #00001f;
+  --color-gold: #c9a84c;
+  --color-gold-light: #dfc06f;
   --color-whatsapp: #25D366;
 }
 
@@ -129,37 +131,45 @@
   }
 }
 
-/* Custom scrollbar */
+/* ===== PREMIUM CUSTOM SCROLLBAR ===== */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--muted);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--muted-foreground);
-  border-radius: 4px;
+  background: rgba(26, 26, 46, 0.3);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: rgba(26, 26, 46, 0.6);
 }
 
-/* Smooth scroll */
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ===== SMOOTH SCROLL ===== */
 html {
   scroll-behavior: smooth;
 }
 
-/* Animation keyframes */
-@keyframes pulse-green {
+/* ===== LUXURY ANIMATIONS ===== */
+@keyframes pulse-gold {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(26, 26, 46, 0.4);
+    box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.4);
   }
   50% {
-    box-shadow: 0 0 0 12px rgba(26, 26, 46, 0);
+    box-shadow: 0 0 0 12px rgba(201, 168, 76, 0);
   }
 }
 
@@ -187,8 +197,48 @@ html {
   }
 }
 
-.animate-pulse-green {
-  animation: pulse-green 2s infinite;
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes line-expand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 60px;
+  }
+}
+
+.animate-pulse-gold {
+  animation: pulse-gold 2s infinite;
 }
 
 .animate-float {
@@ -197,4 +247,92 @@ html {
 
 .animate-scroll-indicator {
   animation: scroll-indicator 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.1), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+.animate-reveal-up {
+  animation: reveal-up 0.8s ease-out forwards;
+}
+
+.animate-line-expand {
+  animation: line-expand 0.6s ease-out forwards;
+}
+
+/* ===== GLASSMORPHISM UTILITY ===== */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 31, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ===== GOLD LINE DIVIDER ===== */
+.gold-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, #c9a84c, #dfc06f, #c9a84c);
+}
+
+/* ===== NOISE TEXTURE OVERLAY ===== */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ===== PREMIUM GRADIENT TEXT ===== */
+.gradient-text {
+  background: linear-gradient(135deg, #1a1a2e, #c9a84c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text {
+  background: linear-gradient(135deg, #ffffff, #dfc06f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== SECTION SPACING ===== */
+.section-padding {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+/* ===== SELECTION STYLE ===== */
+::selection {
+  background: rgba(201, 168, 76, 0.3);
+  color: #00001f;
 }

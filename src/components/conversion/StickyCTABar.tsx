@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Calendar, Phone, X } from "lucide-react";
 
 export default function StickyCTABar() {
   const [visible, setVisible] = useState(false);
@@ -12,9 +11,9 @@ export default function StickyCTABar() {
   useEffect(() => {
     const handleScroll = () => {
       if (dismissed) return;
-      setVisible(window.scrollY > window.innerHeight);
+      setVisible(window.scrollY > window.innerHeight * 0.8);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [dismissed]);
 
@@ -27,44 +26,34 @@ export default function StickyCTABar() {
     <AnimatePresence>
       {visible && !dismissed && (
         <motion.div
-          className="fixed bottom-0 left-0 right-0 z-30 bg-background/95 backdrop-blur-md border-t border-border shadow-lg"
-          initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          exit={{ y: 100 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          className="fixed bottom-0 left-0 right-0 z-[45] border-t border-[#c9a84c]/20"
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
-            <div className="hidden sm:block">
-              <p className="font-semibold text-foreground text-sm">
-                Tertarik dengan Mitsubishi?
-              </p>
-              <p className="text-muted-foreground text-xs">Booking test drive sekarang!</p>
-            </div>
-            <div className="flex items-center gap-3 flex-1 sm:flex-initial justify-center sm:justify-end">
-              <Button
-                asChild
-                size="sm"
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
-              >
-                <a href="#kontak">
-                  <Phone className="w-4 h-4 mr-2" />
-                  Book Test Drive
+          <div className="glass-dark py-3 px-4">
+            <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
+              <div className="hidden sm:flex items-center gap-3">
+                <Phone className="w-4 h-4 text-[#c9a84c]" />
+                <span className="text-white/60 text-sm">+62 21 8888 7777</span>
+              </div>
+              <div className="flex items-center gap-3 flex-1 sm:flex-none justify-center">
+                <a
+                  href="#kontak"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#c9a84c] text-[#00001f] font-semibold tracking-wider text-xs hover:bg-[#dfc06f] transition-colors duration-300 rounded-md"
+                >
+                  <Calendar className="w-3.5 h-3.5" />
+                  BOOK TEST DRIVE
                 </a>
-              </Button>
-              <a
-                href="tel:021800123"
-                className="text-sm font-medium text-foreground hover:text-accent transition-colors"
+              </div>
+              <button
+                onClick={handleDismiss}
+                className="text-white/30 hover:text-white/60 transition-colors"
+                aria-label="Dismiss"
               >
-                021-800123
-              </a>
+                <X className="w-4 h-4" />
+              </button>
             </div>
-            <button
-              onClick={handleDismiss}
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="Tutup"
-            >
-              <X className="w-5 h-5" />
-            </button>
           </div>
         </motion.div>
       )}

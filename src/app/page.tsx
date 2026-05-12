@@ -10,10 +10,10 @@ import Pricing from "@/components/sections/Pricing";
 import FAQ from "@/components/sections/FAQ";
 import Gallery from "@/components/sections/Gallery";
 import Blog from "@/components/sections/Blog";
+import About from "@/components/sections/About";
 import Contact from "@/components/sections/Contact";
 import MapSection from "@/components/sections/MapSection";
 import CTASection from "@/components/sections/CTASection";
-import About from "@/components/sections/About";
 import Footer from "@/components/sections/Footer";
 import FloatingWhatsApp from "@/components/conversion/FloatingWhatsApp";
 import BackToTop from "@/components/conversion/BackToTop";
@@ -40,8 +40,6 @@ export default function Home() {
         <CTASection />
       </main>
       <Footer />
-
-      {/* Conversion features */}
       <FloatingWhatsApp />
       <BackToTop />
       <CookieConsent />

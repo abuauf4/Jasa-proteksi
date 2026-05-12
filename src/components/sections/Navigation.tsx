@@ -3,19 +3,7 @@
 import { useState, useEffect, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
-import { Menu, X, Sun, Moon, Search, Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Input } from "@/components/ui/input";
-
-const emptySubscribe = () => () => {};
-function useMounted() {
-  return useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
-  );
-}
+import { Sun, Moon, Menu, X, Diamond } from "lucide-react";
 
 const navLinks = [
   { label: "Beranda", href: "#beranda" },
@@ -26,171 +14,201 @@ const navLinks = [
   { label: "Kontak", href: "#kontak" },
 ];
 
+const emptySubscribe = () => () => {};
+function useMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
+
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("beranda");
   const { theme, setTheme } = useTheme();
   const mounted = useMounted();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+
+      const sections = navLinks.map((l) => l.href.replace("#", ""));
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 120) {
+            setActiveSection(sections[i]);
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-background/80 backdrop-blur-md shadow-lg border-b border-border"
+            ? "bg-[#00001f]/90 backdrop-blur-xl shadow-lg shadow-black/20 border-b border-white/5"
             : "bg-transparent"
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <a href="#beranda" className="flex items-center gap-2">
-              <span className="text-2xl font-extrabold font-[family-name:var(--font-montserrat)] tracking-wider text-primary">
-                MITSUBISHI
+            <a href="#beranda" className="flex items-center gap-2 group">
+              <span className="text-xl lg:text-2xl font-bold font-[family-name:var(--font-montserrat)] text-white tracking-wider">
+                MISUBISHI
               </span>
+              <Diamond className="w-3 h-3 text-[#c9a84c] group-hover:rotate-45 transition-transform duration-300" />
             </a>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1">
+            {/* Desktop Nav */}
+            <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="px-3 py-2 text-sm font-medium text-foreground/80 hover:text-accent transition-colors duration-300 rounded-md hover:bg-accent/5"
+                  className="relative px-4 py-2 text-sm font-medium tracking-wide transition-colors duration-300 group"
                 >
-                  {link.label}
+                  <span
+                    className={
+                      activeSection === link.href.replace("#", "")
+                        ? "text-[#c9a84c]"
+                        : "text-white/80 group-hover:text-white"
+                    }
+                  >
+                    {link.label}
+                  </span>
+                  {activeSection === link.href.replace("#", "") && (
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-[#c9a84c] to-[#dfc06f]"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
                 </a>
               ))}
-            </nav>
+            </div>
 
             {/* Desktop Actions */}
-            <div className="hidden lg:flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setSearchOpen(true)}
-                className="text-foreground/80 hover:text-accent"
-              >
-                <Search className="h-5 w-5" />
-              </Button>
+            <div className="hidden lg:flex items-center gap-4">
               {mounted && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="text-foreground/80 hover:text-accent"
+                <button
+                  onClick={toggleTheme}
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-[#c9a84c] transition-colors duration-300 border border-white/10 hover:border-[#c9a84c]/30"
+                  aria-label="Toggle theme"
                 >
-                  {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                </Button>
+                  {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                </button>
               )}
-              <Button
-                asChild
-                className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+
+              <a
+                href="#kontak"
+                className="relative px-6 py-2.5 text-sm font-semibold tracking-wider border border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 overflow-hidden group"
               >
-                <a href="#kontak">
-                  <Phone className="h-4 w-4 mr-2" />
-                  Book Test Drive
-                </a>
-              </Button>
+                <span className="relative z-10">BOOK TEST DRIVE</span>
+                <div className="absolute inset-0 bg-[#c9a84c] transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
+              </a>
             </div>
 
             {/* Mobile Actions */}
-            <div className="flex lg:hidden items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setSearchOpen(true)}
-                className="text-foreground/80"
-              >
-                <Search className="h-5 w-5" />
-              </Button>
+            <div className="flex lg:hidden items-center gap-3">
               {mounted && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="text-foreground/80"
+                <button
+                  onClick={toggleTheme}
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-[#c9a84c] transition-colors duration-300"
+                  aria-label="Toggle theme"
                 >
-                  {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                </Button>
+                  {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                </button>
               )}
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-foreground/80">
-                    <Menu className="h-6 w-6" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-80 bg-background">
-                  <div className="flex flex-col gap-6 mt-8">
-                    <div className="text-2xl font-extrabold font-[family-name:var(--font-montserrat)] tracking-wider text-primary">
-                      MITSUBISHI
-                    </div>
-                    <nav className="flex flex-col gap-1">
-                      {navLinks.map((link) => (
-                        <a
-                          key={link.href}
-                          href={link.href}
-                          className="px-4 py-3 text-base font-medium text-foreground/80 hover:text-accent hover:bg-accent/5 transition-colors rounded-lg"
-                        >
-                          {link.label}
-                        </a>
-                      ))}
-                    </nav>
-                    <Button
-                      asChild
-                      className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold w-full"
-                    >
-                      <a href="#kontak">
-                        <Phone className="h-4 w-4 mr-2" />
-                        Book Test Drive
-                      </a>
-                    </Button>
-                  </div>
-                </SheetContent>
-              </Sheet>
+              <button
+                onClick={() => setMobileOpen(true)}
+                className="w-8 h-8 flex items-center justify-center text-white hover:text-[#c9a84c] transition-colors duration-300"
+                aria-label="Open menu"
+              >
+                <Menu className="w-6 h-6" />
+              </button>
             </div>
           </div>
-        </div>
+        </nav>
       </motion.header>
 
-      {/* Search Overlay */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
-        {searchOpen && (
+        {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-md flex items-start justify-center pt-32"
+            className="fixed inset-0 z-[60] bg-[#00001f]/98 backdrop-blur-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <button
-              className="absolute top-6 right-6 text-foreground/60 hover:text-foreground"
-              onClick={() => setSearchOpen(false)}
-            >
-              <X className="h-8 w-8" />
-            </button>
-            <div className="w-full max-w-2xl px-6">
-              <h2 className="text-2xl font-bold font-[family-name:var(--font-montserrat)] mb-6">
-                Cari Model Mitsubishi
-              </h2>
-              <Input
-                type="text"
-                placeholder="Ketik nama model, misalnya Xpander..."
-                className="h-14 text-lg"
-                autoFocus
-              />
-              <p className="text-muted-foreground mt-4 text-sm">
-                Tekan Enter untuk mencari atau Esc untuk menutup
-              </p>
+            <div className="flex flex-col h-full">
+              {/* Close button */}
+              <div className="flex justify-end p-6">
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-[#c9a84c] transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Links */}
+              <div className="flex-1 flex flex-col items-center justify-center gap-6">
+                {navLinks.map((link, i) => (
+                  <motion.a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="text-3xl font-[family-name:var(--font-montserrat)] font-semibold tracking-wider text-white/80 hover:text-[#c9a84c] transition-colors duration-300"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ delay: i * 0.08, duration: 0.4 }}
+                  >
+                    {link.label}
+                  </motion.a>
+                ))}
+              </div>
+
+              {/* CTA */}
+              <div className="p-8 flex flex-col items-center gap-4">
+                <a
+                  href="#kontak"
+                  onClick={() => setMobileOpen(false)}
+                  className="w-full max-w-xs text-center py-4 border border-[#c9a84c] text-[#c9a84c] font-semibold tracking-wider hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300"
+                >
+                  BOOK TEST DRIVE
+                </a>
+              </div>
             </div>
           </motion.div>
         )}

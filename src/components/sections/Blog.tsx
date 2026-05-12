@@ -1,104 +1,101 @@
 "use client";
 
-import { Calendar, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { SectionWrapper } from "@/components/shared/SectionWrapper";
-import { AnimatedSection } from "@/components/shared/AnimatedSection";
-import { motion } from "framer-motion";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+import SectionWrapper from "@/components/shared/SectionWrapper";
+import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const blogPosts = [
   {
-    title: "Mitsubishi Xpander 2024: Fitur Baru yang Wajib Anda Ketahui",
-    excerpt:
-      "Mitsubishi Xpander terbaru hadir dengan berbagai pembaruan signifikan mulai dari desain eksterior yang lebih agresif hingga fitur keselamatan canggih...",
+    image: "/images/pajero-sport.png",
     category: "Review",
+    title: "Pajero Sport 2024: Facelift yang Lebih Berwibawa",
+    excerpt: "Tampilan baru yang lebih maskulin dengan teknologi terbaru di kelasnya.",
     date: "15 Jan 2024",
-    color: "from-blue-600 to-blue-800",
   },
   {
-    title: "Tips Memilih Mobil Keluarga yang Tepat",
-    excerpt:
-      "Memilih mobil keluarga bukan perkara mudah. Ada banyak faktor yang perlu dipertimbangkan mulai dari kapasitas, kenyamanan, fitur keselamatan, hingga anggaran...",
-    category: "Tips",
+    image: "/images/outlander.png",
+    category: "Teknologi",
+    title: "Outlander PHEV: Masa Depan Mobil Hybrid",
+    excerpt: "Teknologi plug-in hybrid terdepan untuk efisiensi tanpa kompromi.",
     date: "10 Jan 2024",
-    color: "from-green-600 to-green-800",
   },
   {
-    title: "Promo Akhir Tahun: Cashback Hingga Rp 30 Juta",
-    excerpt:
-      "Jangan lewatkan promo akhir tahun dari Mitsubishi! Dapatkan cashback hingga Rp 30 juta dan berbagai keuntungan lainnya untuk pembelian mobil baru...",
-    category: "Promo",
+    image: "/images/xpander-cross.png",
+    category: "Lifestyle",
+    title: "Xpander Cross: Sahabat Petualangan Keluarga",
+    excerpt: "Desain tangguh yang siap menemani setiap perjalanan keluarga Anda.",
     date: "5 Jan 2024",
-    color: "from-red-600 to-red-800",
   },
 ];
 
 export default function Blog() {
   return (
-    <SectionWrapper id="blog" className="py-20 lg:py-28 bg-muted/30">
+    <SectionWrapper id="blog">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="text-center mb-14">
-          <h2 className="text-3xl sm:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-foreground mb-4">
+        {/* Section Header */}
+        <AnimatedSection className="text-center mb-16">
+          <div className="flex justify-center mb-4">
+            <div className="gold-line" />
+          </div>
+          <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Latest News</span>
+          <h2 className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4">
             Berita & Artikel
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Informasi terbaru seputar dunia otomotif Mitsubishi
-          </p>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {blogPosts.map((post, index) => (
-            <AnimatedSection key={post.title} delay={index * 0.15}>
-              <motion.div
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="h-full"
-              >
-                <Card className="h-full overflow-hidden border-border/50 hover:shadow-xl hover:border-accent/30 transition-all duration-300">
-                  <div
-                    className={`aspect-[16/9] bg-gradient-to-br ${post.color} flex items-center justify-center relative`}
-                  >
-                    <div className="text-white/20 text-6xl font-bold font-[family-name:var(--font-montserrat)]">
-                      M
-                    </div>
-                    <Badge className="absolute top-4 left-4 bg-white/20 text-white border-0 backdrop-blur-sm">
-                      {post.category}
-                    </Badge>
-                  </div>
-                  <CardContent className="p-5">
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {post.date}
-                    </div>
-                    <h3 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-foreground mb-2 line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                    <a
-                      href="#"
-                      className="inline-flex items-center text-accent font-medium text-sm hover:gap-2 transition-all duration-300"
-                    >
-                      Baca Selengkapnya
-                      <ArrowRight className="w-4 h-4 ml-1" />
-                    </a>
-                  </CardContent>
-                </Card>
-              </motion.div>
+        {/* Blog Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {blogPosts.map((post, i) => (
+            <AnimatedSection key={post.title} delay={i * 0.12}>
+              <article className="group cursor-pointer">
+                {/* Image */}
+                <div className="relative h-52 overflow-hidden rounded-xl mb-5 bg-muted">
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                </div>
+
+                {/* Category */}
+                <span className="text-xs tracking-[0.2em] text-[#c9a84c] uppercase font-medium">
+                  {post.category}
+                </span>
+
+                {/* Title */}
+                <h3 className="text-lg font-bold font-[family-name:var(--font-montserrat)] mt-2 mb-2 group-hover:text-[#c9a84c] transition-colors duration-300 line-clamp-2">
+                  {post.title}
+                </h3>
+
+                {/* Excerpt */}
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                  {post.excerpt}
+                </p>
+
+                {/* Footer */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground">{post.date}</span>
+                  <span className="inline-flex items-center gap-1 text-[#c9a84c] text-sm font-medium group-hover:gap-2 transition-all duration-300">
+                    Baca
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </article>
             </AnimatedSection>
           ))}
         </div>
 
-        <AnimatedSection className="text-center mt-10">
-          <Button
-            variant="outline"
-            className="border-accent/30 text-accent hover:bg-accent/10 font-semibold"
+        {/* CTA */}
+        <AnimatedSection delay={0.4} className="mt-12 text-center">
+          <a
+            href="#blog"
+            className="inline-flex items-center gap-2 px-8 py-3 border border-[#c9a84c]/40 text-[#c9a84c] font-semibold tracking-wider text-sm hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300"
           >
             Lihat Semua Artikel
-          </Button>
+          </a>
         </AnimatedSection>
       </div>
     </SectionWrapper>
