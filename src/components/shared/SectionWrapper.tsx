@@ -1,31 +1,27 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import SectionPattern, { type PatternType } from "./SectionPattern";
 
 interface SectionWrapperProps {
   children: React.ReactNode;
   id?: string;
   className?: string;
   dark?: boolean;
+  pattern?: PatternType;
 }
 
-export default function SectionWrapper({ children, id, className = "", dark = false }: SectionWrapperProps) {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
+export default function SectionWrapper({ children, id, className = "", dark = false, pattern }: SectionWrapperProps) {
   return (
-    <motion.section
-      ref={ref}
+    <section
       id={id}
       className={`section-padding relative overflow-hidden ${
-        dark ? "bg-[#00001f] text-white" : "bg-background text-foreground"
+        dark
+          ? "bg-[#00001f] dark:bg-[#00001f] text-white"
+          : "bg-background dark:bg-[#0a0a2e] text-foreground"
       } ${className}`}
-      initial={{ opacity: 0 }}
-      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
     >
+      {pattern && <SectionPattern pattern={pattern} />}
       {children}
-    </motion.section>
+    </section>
   );
 }
