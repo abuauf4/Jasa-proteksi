@@ -9,41 +9,41 @@ import MagneticButton from "@/components/shared/MagneticButton";
 
 const pricingTiers = [
   {
-    name: "DP Ringan",
-    dp: "DP mulai 10%",
-    monthly: "Cicilan mulai Rp 4,5jt/bulan",
+    name: "Basic",
+    dp: "Premi Mulai Rp 50rb",
+    monthly: "Perjalanan & Kecelakaan Diri",
     features: [
-      "DP ringan mulai 10%",
-      "Tenor hingga 5 tahun",
-      "Proses kredit cepat 1-3 hari",
-      "Gratis Tanda Jadi",
+      "Perlindungan dasar",
+      "Klaim reimbursement",
+      "Proses cepat di bawah 3 menit",
+      "Polis digital instan",
     ],
     recommended: false,
   },
   {
-    name: "Bunga Special",
-    dp: "Bunga 0% hingga 2 tahun",
-    monthly: "Tenor hingga 7 tahun",
+    name: "Premium",
+    dp: "Premi Mulai Rp 300rb",
+    monthly: "Kendaraan & Hewan Peliharaan",
     features: [
-      "Bunga 0% hingga 2 tahun",
-      "Tenor hingga 7 tahun",
-      "Cicilan ringan & fleksibel",
-      "Gratis aksesoris senilai jutaan",
-      "Gratis servis berkala 1 tahun",
+      "Perlindungan komprehensif",
+      "Klaim cashless & reimbursement",
+      "Diskon hingga 25% + cashback",
+      "Personalisasi polis",
+      "Telesales support 24/7",
     ],
     recommended: true,
   },
   {
-    name: "SMART CASH",
-    dp: "Cashback spesial",
-    monthly: "Free accessories & bonus",
+    name: "Complete",
+    dp: "Perlindungan Menyeluruh",
+    monthly: "Semua produk dalam satu paket",
     features: [
-      "Cashback hingga jutaan rupiah",
-      "Free aksesoris original",
-      "Pembelian cash dengan harga special",
-      "Gratis kartu member VIP",
-      "Prioritas booking servis",
-      "Diskon servis berkala",
+      "All-in-one protection",
+      "Klaim cashless & reimbursement",
+      "Diskon khusus bundling",
+      "Prioritas layanan klaim",
+      "Personal advisor dedicated",
+      "Gratis konsultasi asuransi",
     ],
     recommended: false,
   },
@@ -58,9 +58,9 @@ export default function Pricing() {
           <div className="flex justify-center mb-4">
             <div className="gold-line" />
           </div>
-          <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Financing</span>
+          <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Coverage</span>
           <TextReveal
-            text="Paket Kredit Spesial"
+            text="Pilih Paket Perlindunganmu"
             as="h2"
             className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4"
             delay={0.1}
@@ -135,7 +135,7 @@ export default function Pricing() {
         {/* Disclaimer */}
         <AnimatedSection delay={0.5} className="mt-10 text-center">
           <p className="text-xs text-white/30">
-            Simulasi kredit bersifat estimasi. Hubungi dealer untuk penawaran terperinci.
+            Premi bersifat estimasi. Hubungi tim kami untuk penawaran terperinci.
           </p>
         </AnimatedSection>
       </div>

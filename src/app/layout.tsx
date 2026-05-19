@@ -22,22 +22,23 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Mitsubishi Showroom | Dealer Resmi Mitsubishi Jakarta",
+  title: "Jasa Proteksi | Perusahaan Insurtech Terpercaya di Indonesia",
   description:
-    "Dealer resmi Mitsubishi di Jakarta. Temukan model terbaru, promo eksklusif, simulasi kredit, dan booking test drive mudah. Pajero Sport, Xpander, Outlander PHEV, dan lainnya.",
+    "Platform asuransi online terpercaya di Indonesia. Asuransi Mobil, Motor, Perjalanan, Hewan Peliharaan, dan Kecelakaan Diri. Mudah, cepat, dan terjangkau.",
   keywords: [
-    "Mitsubishi",
-    "Dealer Mitsubishi",
-    "Mitsubishi Jakarta",
-    "Pajero Sport",
-    "Xpander",
-    "Test Drive",
-    "Kredit Mitsubishi",
+    "Jasa Proteksi",
+    "Asuransi Online",
+    "Insurtech Indonesia",
+    "Asuransi Mobil",
+    "Asuransi Motor",
+    "Asuransi Perjalanan",
+    "Asuransi Hewan",
+    "OJK Licensed",
   ],
-  authors: [{ name: "Mitsubishi Showroom" }],
+  authors: [{ name: "Jasa Proteksi Insurtech" }],
   openGraph: {
-    title: "Mitsubishi Showroom | Dealer Resmi Mitsubishi Jakarta",
-    description: "Pengalaman berkendara premium dimulai di sini. Temukan model terbaru dan promo eksklusif.",
+    title: "Jasa Proteksi | Perusahaan Insurtech Terpercaya di Indonesia",
+    description: "Melindungi Setiap Langkah Hidupmu. Perlindungan asuransi yang mudah, cepat, dan terjangkau.",
     type: "website",
   },
 };

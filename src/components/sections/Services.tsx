@@ -1,6 +1,6 @@
 "use client";
 
-import { Car, ClipboardCheck, Calculator, Wrench, ArrowRightLeft, Shield } from "lucide-react";
+import { Zap, Target, Headphones, Eye, FileCheck, Settings } from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
@@ -8,34 +8,34 @@ import SpotlightCard from "@/components/shared/SpotlightCard";
 
 const services = [
   {
-    icon: Car,
-    title: "Penjualan Mobil Baru",
-    description: "Koleksi lengkap model Mitsubishi terbaru dengan harga kompetitif dan promo eksklusif.",
+    icon: Zap,
+    title: "Pembelian Cepat",
+    description: "Lengkapi pengajuan asuransi kurang dari 3 menit saja. Proses mudah dan cepat tanpa ribet.",
   },
   {
-    icon: ClipboardCheck,
-    title: "Test Drive",
-    description: "Rasakan langsung performa kendaraan impian Anda. Booking melalui MIRA di WhatsApp 0811-1301-1300.",
+    icon: Target,
+    title: "Rekomendasi yang Pas",
+    description: "Produk pilihan yang pas banget buat kebutuhanmu. Personalisasi sesuai gaya hidupmu.",
   },
   {
-    icon: Calculator,
-    title: "Simulasi Kredit",
-    description: "Hitung cicilan fleksibel sesuai kemampuan dengan bunga terbaik.",
+    icon: Headphones,
+    title: "Telesales yang Ramah",
+    description: "Tenang saja, tim kami siap untuk membantumu pilih asuransi yang tepat via telepon atau WhatsApp.",
   },
   {
-    icon: Wrench,
-    title: "Servis & Perawatan",
-    description: "Teknisi bersertifikat dengan suku cadang original untuk kendaraan Anda.",
+    icon: Eye,
+    title: "Selalu Transparan",
+    description: "Hanya informasi terpercaya tentang perlindunganmu. Tidak ada biaya tersembunyi.",
   },
   {
-    icon: ArrowRightLeft,
-    title: "Trade-In",
-    description: "Tukar mobil lama Anda dan dapatkan penawaran terbaik untuk mobil baru.",
+    icon: FileCheck,
+    title: "Klaim Mudah",
+    description: "Klaim dengan sistem reimbursement dan cashless. Bisa dilakukan kapanpun dan dimanapun.",
   },
   {
-    icon: Shield,
-    title: "Asuransi",
-    description: "Perlindungan menyeluruh dengan pilihan asuransi all-risk terpercaya.",
+    icon: Settings,
+    title: "Personalisasi Polis",
+    description: "Sesuaikan polis dengan kebutuhan dan preferensimu. Cakupan dan perlindungan jadi lebih relevan.",
   },
 ];
 
@@ -50,7 +50,7 @@ export default function Services() {
           </div>
           <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Our Services</span>
           <TextReveal
-            text="Layanan Eksklusif"
+            text="Layanan Terbaik untuk Kamu"
             as="h2"
             className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4"
             delay={0.1}

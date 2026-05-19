@@ -1,33 +1,34 @@
 "use client";
 
-import { Diamond, Instagram, Facebook, Youtube, ArrowRight } from "lucide-react";
+import { Diamond, Instagram, Facebook, Youtube, ArrowRight, Shield } from "lucide-react";
+import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const quickLinks = [
   { label: "Beranda", href: "#beranda" },
-  { label: "Model", href: "#model" },
+  { label: "Produk", href: "#model" },
   { label: "Layanan", href: "#layanan" },
-  { label: "Promo", href: "#promo" },
+  { label: "Coverage", href: "#promo" },
   { label: "Tentang", href: "#tentang" },
   { label: "Kontak", href: "#kontak" },
 ];
 
-const services = [
-  "Penjualan Mobil Baru",
-  "Test Drive",
-  "Simulasi Kredit",
-  "Servis & Perawatan",
-  "Trade-In",
-  "Asuransi",
+const productLinks = [
+  "Asuransi Mobil",
+  "Asuransi Motor",
+  "Asuransi Perjalanan",
+  "Asuransi Hewan Peliharaan",
+  "Asuransi Motor Listrik",
+  "Asuransi Kecelakaan Diri",
 ];
 
 const contactItems = [
-  "Jl. Pulomas Selatan No.22, Kayu Putih",
-  "Pulo Gadung, Jakarta Timur 13210",
-  "021-475-9000",
-  "WhatsApp MIRA: 0811-1301-1300",
-  "publicrelations@mitsubishi-motors.co.id",
+  "Menara Anugrah Lantai 23, Unit A",
+  "Kawasan Mega Kuningan, Jakarta Selatan",
+  "+6221 5088-6381",
+  "WhatsApp: +62 877-6686-0381",
+  "cs@jasaproteksi.id",
 ];
 
 const socials = [
@@ -45,11 +46,11 @@ export default function Footer() {
           {Array(8).fill(null).map((_, i) => (
             <span key={i} className="inline-flex items-center gap-8 mx-8">
               <span className="text-lg font-bold font-[family-name:var(--font-montserrat)] tracking-[0.2em] text-white/10">
-                MITSUBISHI MOTORS
+                JASA PROTEKSI INSURTECH
               </span>
               <Diamond className="w-2 h-2 text-[#c9a84c]/30" />
               <span className="text-sm tracking-[0.3em] text-[#c9a84c]/20 uppercase">
-                Drive your Ambition
+                Melindungi Setiap Langkah Hidupmu
               </span>
               <Diamond className="w-2 h-2 text-[#c9a84c]/30" />
             </span>
@@ -63,15 +64,20 @@ export default function Footer() {
           {/* Column 1 - Brand */}
           <div>
             <a href="#beranda" className="flex items-center gap-3 mb-6">
-              <img
-                src="/images/mitsubishi-logo.svg"
-                alt="Mitsubishi Motors"
-                className="h-8 w-auto brightness-0 invert"
-              />
+              <div className="relative w-8 h-8 flex-shrink-0">
+                <Image
+                  src="/logo-jasa-proteksi.webp"
+                  alt="Jasa Proteksi Logo"
+                  width={32}
+                  height={32}
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-xl font-bold font-[family-name:var(--font-montserrat)] tracking-wider">JASA PROTEKSI</span>
               <Diamond className="w-3 h-3 text-[#c9a84c]" />
             </a>
             <p className="text-white/40 text-sm leading-relaxed mb-6">
-              Dealer resmi Mitsubishi Motors Indonesia. Drive your Ambition.
+              Platform asuransi online terpercaya di Indonesia. Melindungi Setiap Langkah Hidupmu.
             </p>
             <div className="flex gap-3">
               {socials.map((social) => (
@@ -106,15 +112,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 - Layanan */}
+          {/* Column 3 - Produk */}
           <div>
             <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-6 text-[#c9a84c]">
-              Layanan
+              Produk
             </h4>
             <ul className="space-y-3">
-              {services.map((service) => (
-                <li key={service}>
-                  <span className="text-white/40 text-sm">{service}</span>
+              {productLinks.map((product) => (
+                <li key={product}>
+                  <span className="text-white/40 text-sm">{product}</span>
                 </li>
               ))}
             </ul>
@@ -126,7 +132,7 @@ export default function Footer() {
               Newsletter
             </h4>
             <p className="text-white/40 text-sm mb-4">
-              Dapatkan info promo dan berita terbaru.
+              Subscribe dan dapatkan diskon 5% untuk polis pertamamu
             </p>
             <div className="flex gap-2">
               <Input
@@ -159,10 +165,10 @@ export default function Footer() {
       <div className="border-t border-[#c9a84c]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/30 text-xs">
-            &copy; 2025 PT Mitsubishi Motors Krama Yudha Sales Indonesia. All rights reserved.
+            &copy; 2025 PT Solusiutama Tekno Broker Asuransi. All rights reserved.
           </p>
           <p className="text-[#c9a84c]/40 text-xs">
-            Drive your Ambition
+            Melindungi Setiap Langkah Hidupmu
           </p>
         </div>
       </div>

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, MessageCircle, Send } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import SectionWrapper from "@/components/shared/SectionWrapper";
@@ -13,12 +12,11 @@ import MagneticButton from "@/components/shared/MagneticButton";
 import SpotlightCard from "@/components/shared/SpotlightCard";
 
 const contactInfo = [
-  { icon: MapPin, label: "Alamat", value: "Jl. Pulomas Selatan No.22, Kayu Putih, Pulo Gadung, Jakarta Timur 13210" },
-  { icon: Phone, label: "Telepon", value: "021-475-9000" },
-  { icon: MessageCircle, label: "WhatsApp (MIRA)", value: "0811-1301-1300" },
-  { icon: Phone, label: "Emergency Hotline (24 jam)", value: "0804-1-300-300" },
-  { icon: Mail, label: "Email", value: "publicrelations@mitsubishi-motors.co.id" },
-  { icon: Clock, label: "Jam Operasional", value: "Sen-Jum: 08:00-17:00, Sab: 08:00-15:00" },
+  { icon: MapPin, label: "Alamat", value: "Menara Anugrah Lantai 23, Unit A, Kantor Taman E 3.3, Jl. DR Ide Anak Agung Gde Agung Lot 8.6, Kawasan Mega Kuningan, Jakarta Selatan 12950" },
+  { icon: Phone, label: "Telepon", value: "+6221 5088-6381" },
+  { icon: MessageCircle, label: "WhatsApp", value: "+62 877-6686-0381" },
+  { icon: Mail, label: "Email", value: "cs@jasaproteksi.id" },
+  { icon: Clock, label: "Jam Layanan", value: "Senin-Jumat: 10.00-17.00 WIB" },
 ];
 
 export default function Contact() {

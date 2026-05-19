@@ -24,8 +24,8 @@ export default function MapSection() {
                 <div className="w-16 h-16 rounded-full bg-[#c9a84c]/20 flex items-center justify-center mx-auto mb-4 animate-pulse-gold">
                   <MapPin className="w-8 h-8 text-[#c9a84c]" />
                 </div>
-                <p className="text-white/60 text-sm mb-1">Mitsubishi Showroom</p>
-                <p className="text-white/40 text-xs">Jl. Raya Protokol No. 88, Jakarta Selatan</p>
+                <p className="text-white/60 text-sm mb-1">Jasa Proteksi Indonesia</p>
+                <p className="text-white/40 text-xs">Menara Anugrah Lantai 23, Kawasan Mega Kuningan, Jakarta Selatan</p>
               </div>
             </div>
             {/* Decorative grid lines */}

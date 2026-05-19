@@ -1,19 +1,18 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Award, ShieldCheck } from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
 import MagneticButton from "@/components/shared/MagneticButton";
 
 const stats = [
-  { value: 40, suffix: "+", label: "Tahun Pengalaman" },
-  { value: 349, suffix: "", label: "Dealer Resmi" },
+  { value: 6, suffix: "+", label: "Produk Asuransi" },
+  { value: 100, suffix: "K+", label: "Pelanggan" },
   { value: 98, suffix: "%", label: "Kepuasan Pelanggan" },
-  { value: 9, suffix: "", label: "Model Tersedia" },
+  { value: 24, suffix: "/7", label: "Layanan" },
 ];
 
 function useCountUp(target: number, inView: boolean, duration = 2000) {
@@ -83,26 +82,37 @@ export default function About() {
     <SectionWrapper id="tentang" dark>
       <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left - Image with parallax */}
+          {/* Left - Certification/Award Showcase with parallax */}
           <AnimatedSection direction="left">
             <motion.div className="relative" style={{ y: imageY }}>
               <div className="absolute -inset-4 bg-gradient-to-tr from-[#c9a84c]/10 to-transparent rounded-2xl" />
               <div className="relative overflow-hidden rounded-xl group">
-                <Image
-                  src="/images/showroom-bg.png"
-                  alt="Mitsubishi premium showroom"
-                  width={800}
-                  height={600}
-                  className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-700"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
+                <div className="bg-gradient-to-br from-[#0a0a2e] to-[#1a1a3e] p-10 min-h-[400px] flex flex-col items-center justify-center border border-[#c9a84c]/20">
+                  {/* OJK Badge */}
+                  <div className="w-20 h-20 rounded-full bg-[#c9a84c]/10 border-2 border-[#c9a84c]/30 flex items-center justify-center mb-6">
+                    <ShieldCheck className="w-10 h-10 text-[#c9a84c]" />
+                  </div>
+                  <h3 className="text-lg font-bold font-[family-name:var(--font-montserrat)] text-white text-center mb-2">
+                    Berizin & Diawasi OJK
+                  </h3>
+                  <p className="text-[#c9a84c] text-xs tracking-wider uppercase text-center mb-4">
+                    Lisensi KEP-060/NB.1/2021
+                  </p>
+                  <div className="flex items-center gap-2 mb-4">
+                    <Award className="w-5 h-5 text-[#c9a84c]" />
+                    <span className="text-white/50 text-xs tracking-wider">APPARINDO No. 113-2005/APPARINDO/2025</span>
+                  </div>
+                  <p className="text-white/30 text-xs text-center max-w-sm leading-relaxed">
+                    Pialang asuransi yang telah berizin dan diawasi oleh Otoritas Jasa Keuangan
+                  </p>
+                </div>
                 <div className="absolute inset-0 border border-[#c9a84c]/20 rounded-xl pointer-events-none" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#00001f]/30 to-transparent pointer-events-none" />
               </div>
               {/* Experience badge */}
               <div className="absolute -bottom-4 -left-4 glass rounded-lg p-4 animate-glow-pulse">
-                <p className="text-2xl font-bold font-[family-name:var(--font-montserrat)] text-[#c9a84c]">40+</p>
-                <p className="text-[10px] tracking-[0.2em] text-white/60 uppercase">Tahun</p>
+                <p className="text-2xl font-bold font-[family-name:var(--font-montserrat)] text-[#c9a84c]">OJK</p>
+                <p className="text-[10px] tracking-[0.2em] text-white/60 uppercase">Licensed</p>
               </div>
             </motion.div>
           </AnimatedSection>
@@ -114,14 +124,14 @@ export default function About() {
               <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">About Us</span>
             </div>
             <TextReveal
-              text="PT Mitsubishi Motors Krama Yudha Sales Indonesia"
+              text="PT Solusiutama Tekno Broker Asuransi"
               as="h2"
               className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mb-6 leading-tight"
               delay={0.1}
               staggerDelay={0.02}
             />
             <p className="text-white/50 leading-relaxed mb-10">
-              Sebagai dealer resmi Mitsubishi Motors dengan jaringan 349 dealer di seluruh Indonesia, kami berkomitmen memberikan pengalaman kepemilikan kendaraan terbaik. Dengan tagline &apos;Drive your Ambition&apos;, kami terus berinovasi untuk menghadirkan kendaraan yang menginspirasi setiap perjalanan Anda.
+              Sebagai perusahaan insurtech terpercaya di Indonesia yang berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK), Jasa Proteksi berkomitmen menghadirkan produk asuransi yang mudah, cepat, dan terjangkau untuk setiap gaya hidup. Dengan tagline &apos;Melindungi Setiap Langkah Hidupmu&apos;, kami terus berinovasi untuk memberikan perlindungan terbaik bagi kamu dan keluarga.
             </p>
 
             {/* Stats */}

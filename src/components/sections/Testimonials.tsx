@@ -9,28 +9,40 @@ import TextReveal from "@/components/shared/TextReveal";
 
 const testimonials = [
   {
-    quote: "Pengalaman membeli Pajero Sport di sini sangat menyenangkan. Tim sales profesional dan tidak ada tekanan sama sekali. Proses kredit cepat dan transparan.",
-    name: "Ahmad Rizki",
-    car: "Pajero Sport",
+    quote: "Saya bayar dan langsung dapat polis. Mudah sekali proses pembeliannya",
+    name: "Yunita Taniwangsa",
+    product: "Asuransi Perjalanan Internasional",
     rating: 5,
   },
   {
-    quote: "Sudah 3 kali servis di sini dan selalu puas. Teknisi sangat kompeten dan suku cadang selalu tersedia. Waiting room yang nyaman membuat tunggu tidak terasa.",
-    name: "Diana Putri",
-    car: "Xpander Cross",
+    quote: "Saya sampai 2 kali beli asuransi mobil di Jasa Proteksi, karena memang puas dengan pelayanan telemarketingnya, dan diskon yg diberikan pun juga lumayan besar.",
+    name: "Christianto Aribowo",
+    product: "Asuransi Mobil",
     rating: 5,
   },
   {
-    quote: "Pelayanan after-sales yang luar biasa. Setiap pertanyaan selalu dijawab dengan cepat. Benar-benar merasa dihargai sebagai pelanggan.",
-    name: "Budi Santoso",
-    car: "Outlander PHEV",
-    rating: 5,
-  },
-  {
-    quote: "Proses trade-in sangat mudah dan penawaran harga wajar. Dari Xpander lama langsung pindah ke Triton tanpa ribet. Terima kasih tim!",
-    name: "Rina Wulandari",
-    car: "Triton",
+    quote: "Saya bertemu dan dibantu Jasa Proteksi saat pameran dan saya tertarik ingin mencoba asuransi hewan, karena produk yang ditawarkan merupakan asuransi hewan pertama yang saya ketahui",
+    name: "Agam Yudi",
+    product: "Asuransi Kucing",
     rating: 4,
+  },
+  {
+    quote: "Hanya tinggal klik-klik lalu bayar! Mudah, murah dan lengkap.",
+    name: "Raditya Anugrah",
+    product: "Asuransi Motor",
+    rating: 5,
+  },
+  {
+    quote: "Lega ada produk asuransi khusus hewan peliharaan, worth it sih menurut saya. Ngga mahal dan yang penting bisa bikin tenang.",
+    name: "Eric W",
+    product: "Asuransi Anjing",
+    rating: 4,
+  },
+  {
+    quote: "Proses pembelian mudah banget, cukup 5 menit saya langsung berhasil membeli asuransi untuk motor saya. Penjelasan produk pun sangat jelas dan banyak promonya!",
+    name: "Desi Widayanti",
+    product: "Asuransi Motor",
+    rating: 5,
   },
 ];
 
@@ -54,7 +66,7 @@ export default function Testimonials() {
             <div className="gold-line" />
           </div>
           <TextReveal
-            text="Kata Mereka"
+            text="Kata Pengguna Jasa Proteksi"
             as="h2"
             className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)]"
             delay={0.1}
@@ -99,11 +111,11 @@ export default function Testimonials() {
                 <div className="gold-line" />
               </div>
 
-              {/* Name & Car */}
+              {/* Name & Product */}
               <p className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-[#c9a84c]">
                 {t.name}
               </p>
-              <p className="text-sm text-muted-foreground mt-1">Pemilik {t.car}</p>
+              <p className="text-sm text-muted-foreground mt-1">Pengguna {t.product}</p>
             </motion.div>
           </AnimatePresence>
         </div>

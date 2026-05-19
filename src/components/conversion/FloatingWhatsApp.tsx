@@ -17,13 +17,13 @@ export default function FloatingWhatsApp() {
             exit={{ opacity: 0, x: 10, scale: 0.9 }}
             className="absolute right-14 top-1/2 -translate-y-1/2 bg-white dark:bg-[#0a0a2e] text-foreground text-sm px-4 py-2 rounded-lg shadow-lg whitespace-nowrap border border-border"
           >
-            Chat dengan kami
+            Chat dengan tim Jasa Proteksi
           </motion.div>
         )}
       </AnimatePresence>
 
       <a
-        href="https://wa.me/6281113011300"
+        href="https://wa.me/6287766860381"
         target="_blank"
         rel="noopener noreferrer"
         className="relative block w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg shadow-[#25D366]/30 hover:scale-110 transition-transform duration-300"

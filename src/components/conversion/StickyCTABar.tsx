@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Phone, X } from "lucide-react";
+import { Shield, Phone, X } from "lucide-react";
 
 export default function StickyCTABar() {
   const [visible, setVisible] = useState(false);
@@ -35,15 +35,15 @@ export default function StickyCTABar() {
             <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
               <div className="hidden sm:flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[#c9a84c]" />
-                <span className="text-white/60 text-sm">021-475-9000</span>
+                <span className="text-white/60 text-sm">+6221 5088-6381</span>
               </div>
               <div className="flex items-center gap-3 flex-1 sm:flex-none justify-center">
                 <a
                   href="#kontak"
                   className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#c9a84c] text-[#00001f] font-semibold tracking-wider text-xs hover:bg-[#dfc06f] transition-colors duration-300 rounded-md"
                 >
-                  <Calendar className="w-3.5 h-3.5" />
-                  BOOK TEST DRIVE
+                  <Shield className="w-3.5 h-3.5" />
+                  DAPATKAN PERLINDUNGAN
                 </a>
               </div>
               <button

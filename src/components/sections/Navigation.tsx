@@ -3,14 +3,15 @@
 import { useState, useEffect, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
-import { Sun, Moon, Menu, X } from "lucide-react";
+import { Sun, Moon, Menu, X, Shield } from "lucide-react";
+import Image from "next/image";
 import MagneticButton from "@/components/shared/MagneticButton";
 
 const navLinks = [
   { label: "Beranda", href: "#beranda" },
-  { label: "Model", href: "#model" },
+  { label: "Produk", href: "#model" },
   { label: "Layanan", href: "#layanan" },
-  { label: "Promo", href: "#promo" },
+  { label: "Coverage", href: "#promo" },
   { label: "Tentang", href: "#tentang" },
   { label: "Kontak", href: "#kontak" },
 ];
@@ -82,14 +83,25 @@ export default function Navigation() {
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <a href="#beranda" className="flex items-center gap-3 group">
-              <img
-                src="/images/mitsubishi-logo.svg"
-                alt="Mitsubishi Motors"
-                className="h-8 lg:h-10 w-auto brightness-0 invert"
-              />
+              <div className="flex items-center gap-2">
+                <div className="relative w-8 h-8 lg:w-9 lg:h-9 flex-shrink-0">
+                  <Image
+                    src="/logo-jasa-proteksi.webp"
+                    alt="Jasa Proteksi Logo"
+                    width={36}
+                    height={36}
+                    className="object-contain"
+                  />
+                </div>
+                <div>
+                  <span className="text-lg lg:text-xl font-bold font-[family-name:var(--font-montserrat)] text-white tracking-wider">
+                    JASA PROTEKSI
+                  </span>
+                </div>
+              </div>
               <div className="hidden sm:flex items-center gap-2">
                 <div className="w-px h-6 bg-white/20" />
-                <span className="text-xs tracking-[0.2em] text-white/50 uppercase font-medium">Authorized Dealer</span>
+                <span className="text-xs tracking-[0.2em] text-white/50 uppercase font-medium">OJK Licensed</span>
               </div>
             </a>
 
@@ -138,7 +150,7 @@ export default function Navigation() {
                 className="relative px-6 py-2.5 text-sm font-semibold tracking-wider border border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 overflow-hidden group shine-button"
                 strength={0.2}
               >
-                <span className="relative z-10">BOOK TEST DRIVE</span>
+                <span className="relative z-10">DAPATKAN PERLINDUNGAN</span>
                 <div className="absolute inset-0 bg-[#c9a84c] transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
               </MagneticButton>
             </div>
@@ -217,7 +229,7 @@ export default function Navigation() {
                   onClick={() => setMobileOpen(false)}
                   className="w-full max-w-xs text-center py-4 border border-[#c9a84c] text-[#c9a84c] font-semibold tracking-wider hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 shine-button"
                 >
-                  BOOK TEST DRIVE
+                  DAPATKAN PERLINDUNGAN
                 </a>
               </div>
             </div>

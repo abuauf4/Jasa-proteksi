@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function Preloader() {
   const [loading, setLoading] = useState(true);
@@ -38,23 +39,22 @@ export default function Preloader() {
             className="mb-12"
           >
             <div className="flex items-center gap-4">
-              {/* Three diamonds representing Mitsubishi */}
-              <div className="relative w-16 h-16">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-8 h-8 bg-[#c9a84c] rotate-45 transform origin-center" />
-                </div>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2">
-                  <div className="w-5 h-5 bg-[#c9a84c] rotate-45 transform origin-center" />
-                </div>
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-                  <div className="w-5 h-5 bg-[#c9a84c] rotate-45 transform origin-center" />
-                </div>
+              {/* Jasa Proteksi Logo Image */}
+              <div className="relative w-16 h-16 flex-shrink-0">
+                <Image
+                  src="/logo-jasa-proteksi.webp"
+                  alt="Jasa Proteksi Logo"
+                  width={64}
+                  height={64}
+                  className="object-contain"
+                  priority
+                />
               </div>
               <div>
                 <h1 className="text-2xl font-bold font-[family-name:var(--font-montserrat)] text-white tracking-wider">
-                  MITSUBISHI
+                  JASA PROTEKSI
                 </h1>
-                <p className="text-[10px] tracking-[0.4em] text-[#c9a84c] uppercase">Authorized Dealer</p>
+                <p className="text-[10px] tracking-[0.4em] text-[#c9a84c] uppercase">Insurtech Terpercaya</p>
               </div>
             </div>
           </motion.div>

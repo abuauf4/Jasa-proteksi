@@ -1,9 +1,8 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
 import { useRef } from "react";
-import { ChevronDown, Calendar, ArrowRight } from "lucide-react";
+import { ChevronDown, Shield, ArrowRight } from "lucide-react";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import TextReveal from "@/components/shared/TextReveal";
 import MagneticButton from "@/components/shared/MagneticButton";
@@ -18,8 +17,6 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Multi-layer parallax transforms
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
@@ -28,16 +25,13 @@ export default function Hero() {
 
   return (
     <section id="beranda" ref={sectionRef} className="relative h-screen min-h-[700px] flex items-center overflow-hidden">
-      {/* Background Image - Parallax Layer 1 (slowest) */}
-      <motion.div className="absolute inset-0" style={{ y: bgY, scale: bgScale }}>
-        <Image
-          src="/images/hero-car.png"
-          alt="Mitsubishi Pajero Sport in luxury showroom"
-          fill
-          className="object-cover object-center"
-          priority
-          sizes="100vw"
-        />
+      {/* Gradient Background */}
+      <motion.div className="absolute inset-0" style={{ scale: bgScale }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#00001f] via-[#0a0a3e] to-[#1a0a2e]" />
+        {/* Animated gradient orbs */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#c9a84c]/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#4E4EEB]/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-[#c9a84c]/3 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s" }} />
       </motion.div>
 
       {/* Gradient overlay - Parallax Layer 2 */}
@@ -92,13 +86,13 @@ export default function Hero() {
           >
             <div className="gold-line animate-line-expand" />
             <span className="text-xs sm:text-sm tracking-[0.25em] text-[#c9a84c] font-medium uppercase">
-              Drive your Ambition
+              Insurtech Terpercaya
             </span>
           </motion.div>
 
           {/* Main heading - Text Reveal */}
           <TextReveal
-            text="Drive Your Dreams"
+            text="Melindungi Setiap Langkah Hidupmu"
             as="h1"
             className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold font-[family-name:var(--font-montserrat)] text-white leading-[1.05] mb-4"
             delay={0.4}
@@ -112,7 +106,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            with Mitsubishi
+            with Jasa Proteksi
           </motion.p>
 
           {/* Tagline */}
@@ -122,7 +116,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.0 }}
           >
-            Pengalaman berkendara premium dimulai di sini
+            Perlindungan asuransi yang mudah, cepat, dan terjangkau untuk setiap gaya hidupmu
           </motion.p>
 
           {/* CTA Buttons - Magnetic */}
@@ -133,17 +127,17 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 1.2 }}
           >
             <MagneticButton
-              href="#kontak"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-[#00001f] font-semibold tracking-wider text-sm hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 shine-button"
+              href="#model"
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#c9a84c] text-[#00001f] font-semibold tracking-wider text-sm hover:bg-[#dfc06f] transition-all duration-300 shine-button"
             >
-              <Calendar className="w-4 h-4" />
-              SCHEDULE TEST DRIVE
+              <Shield className="w-4 h-4" />
+              LIHAT PRODUK
             </MagneticButton>
             <MagneticButton
-              href="#model"
+              href="#kontak"
               className="group inline-flex items-center justify-center gap-2 px-8 py-4 border border-[#c9a84c] text-[#c9a84c] font-semibold tracking-wider text-sm hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 shine-button"
             >
-              EXPLORE MODELS
+              DAPATKAN PERLINDUNGAN
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             </MagneticButton>
           </motion.div>

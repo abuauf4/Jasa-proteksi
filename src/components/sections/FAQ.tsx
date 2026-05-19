@@ -9,28 +9,28 @@ import TextReveal from "@/components/shared/TextReveal";
 
 const faqs = [
   {
-    q: "Berapa lama proses pengajuan kredit?",
-    a: "Proses pengajuan kredit kami hanya membutuhkan 1-3 hari kerja. Tim kami akan membantu Anda dari awal hingga persetujuan, termasuk pengumpulan dokumen dan negosiasi dengan lembaga pembiayaan. Hubungi MIRA di WhatsApp 0811-1301-1300 untuk konsultasi gratis.",
+    q: "Apakah Jasa Proteksi itu?",
+    a: "Jasa Proteksi adalah platform yang menawarkan produk asuransi online, yang sesuai dengan kebutuhan gaya hidupmu. Jasa Proteksi berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK) dengan nomor lisensi KEP-060/NB.1/2021.",
   },
   {
-    q: "Bagaimana cara booking test drive?",
-    a: "Anda bisa booking test drive melalui website ini dengan mengisi form di bagian Kontak, atau menghubungi MIRA (Mitsubishi Intelligent Response Assistant) di WhatsApp 0811-1301-1300. Anda juga bisa langsung mengunjungi showroom terdekat.",
+    q: "Bagaimana cara Jasa Proteksi bekerja?",
+    a: "Jasa Proteksi menawarkan berbagai opsi produk asuransi dari asuransi terbaik dan ternama sehingga kamu tidak perlu melewati proses yang panjang dan rumit. Cukup dengan beberapa klik, kamu sudah bisa terlindungi dengan proses yang nyaman, praktis, dengan harga yang terjangkau.",
   },
   {
-    q: "Apa saja dokumen yang diperlukan untuk kredit?",
-    a: "Dokumen yang diperlukan meliputi: KTP, KK, NPWP, slip gaji 3 bulan terakhir, rekening koran 3 bulan terakhir, dan surat keterangan kerja. Untuk wirausaha, diperlukan tambahan SIUP dan laporan keuangan.",
+    q: "Bagaimana cara saya membeli produk asuransi?",
+    a: "Pilih asuransi sesuai kebutuhan di halaman Produk dan masukan data-data yang diperlukan. Ketika semua informasi sudah dilengkapi, lanjut ke pembayaran melalui QRIS, dompet digital, virtual account, hingga kartu kredit. Setelah pembayaran sukses, polis asuransi akan langsung kamu terima.",
   },
   {
-    q: "Berapa lama garansi Mitsubishi?",
-    a: "Garansi untuk kendaraan penumpang (Xpander, Pajero Sport, Xforce, Destinator, Outlander PHEV) adalah 3 tahun atau 100.000 km, mana yang tercapai lebih dahulu. Untuk Triton: 3 tahun atau 100.000 km. Untuk L300: 2 tahun atau 50.000 km.",
+    q: "Ada produk asuransi apa sajakah di Jasa Proteksi?",
+    a: "Jasa Proteksi menawarkan: 1) Asuransi Motor & Motor Listrik, 2) Asuransi Mobil & Mobil Listrik, 3) Asuransi Perjalanan (domestik & internasional), 4) Asuransi Hewan Peliharaan (anjing & kucing), 5) Asuransi Kecelakaan Diri. Semua tersedia dengan premi terjangkau dan proses pembelian yang mudah.",
   },
   {
-    q: "Apakah menerima tukar tambah?",
-    a: "Tentu saja! Kami menerima trade-in untuk semua merek dan jenis kendaraan. Tim appraiser kami akan memberikan penilaian yang wajar dan transparan. Prosesnya cepat dan bisa dilakukan bersamaan dengan pembelian mobil baru.",
+    q: "Apakah proses klaim di Jasa Proteksi mudah?",
+    a: "Sangat mudah! Jasa Proteksi menawarkan klaim dengan sistem reimbursement dan cashless. Proses klaim bisa dilakukan kapanpun dan dimanapun kamu berada. Untuk bantuan, kamu bisa menghubungi Customer Service Jasa Proteksi di hari Senin s.d Jumat, jam 10.00-17.00 WIB.",
   },
   {
-    q: "Apakah ada promo khusus saat ini?",
-    a: "Kami selalu memiliki promo menarik yang berrotasi setiap bulan. Mulai dari DP ringan mulai 10%, bunga special 0% hingga 2 tahun, hingga cashback dan free accessories. Hubungi MIRA di WhatsApp 0811-1301-1300 untuk penawaran terkini.",
+    q: "Bagaimana jika produk yang saya inginkan tidak ada di Jasa Proteksi?",
+    a: "Jasa Proteksi tetap bisa bantu kamu! Hubungi tim Telesales dengan mengklik tombol WhatsApp yang ada di website kami. Tim kami akan membantu menemukan solusi asuransi yang tepat untuk kebutuhanmu.",
   },
 ];
 

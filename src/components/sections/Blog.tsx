@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { BookOpen, HelpCircle, ListChecks, Heart } from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
@@ -9,25 +8,25 @@ import SpotlightCard from "@/components/shared/SpotlightCard";
 
 const blogPosts = [
   {
-    image: "/images/pajero-sport.png",
-    category: "Review",
-    title: "Pajero Sport 2024: Facelift yang Lebih Berwibawa",
-    excerpt: "Tampilan baru yang lebih maskulin dengan teknologi terbaru di kelasnya.",
-    date: "15 Jan 2024",
+    icon: BookOpen,
+    category: "Edukasi",
+    title: "Apa Itu Asuransi? Pengertian, Jenis, Manfaat Lengkapnya",
+    excerpt: "Pahami dasar-dasar asuransi dan mengapa perlindungan ini penting untuk kamu dan keluarga.",
+    date: "20 Mei 2025",
   },
   {
-    image: "/images/outlander.png",
-    category: "Teknologi",
-    title: "Outlander PHEV: Masa Depan Mobil Hybrid",
-    excerpt: "Teknologi plug-in hybrid terdepan untuk efisiensi tanpa kompromi.",
-    date: "10 Jan 2024",
+    icon: HelpCircle,
+    category: "Tips",
+    title: "10 Pertanyaan Tentang Asuransi dan Jawabannya",
+    excerpt: "Jawaban atas pertanyaan yang paling sering ditanyakan tentang dunia asuransi.",
+    date: "15 Mei 2025",
   },
   {
-    image: "/images/xpander-cross.png",
+    icon: ListChecks,
     category: "Lifestyle",
-    title: "Xpander Cross: Sahabat Petualangan Keluarga",
-    excerpt: "Desain tangguh yang siap menemani setiap perjalanan keluarga Anda.",
-    date: "5 Jan 2024",
+    title: "7 Jenis Asuransi di Indonesia, Kenali Terlebih Dahulu",
+    excerpt: "Kenali berbagai jenis asuransi yang tersedia dan mana yang paling sesuai untuk kebutuhanmu.",
+    date: "10 Mei 2025",
   },
 ];
 
@@ -42,7 +41,7 @@ export default function Blog() {
           </div>
           <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Latest News</span>
           <TextReveal
-            text="Berita & Artikel"
+            text="Artikel & Edukasi"
             as="h2"
             className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4"
             delay={0.1}
@@ -55,18 +54,15 @@ export default function Blog() {
             <AnimatedSection key={post.title} delay={i * 0.12}>
               <SpotlightCard className="h-full" spotlightColor="rgba(201, 168, 76, 0.04)">
                 <article className="group cursor-pointer h-full">
-                  {/* Image */}
-                  <div className="relative h-52 overflow-hidden rounded-xl mb-5 bg-muted">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
+                  {/* Icon Header */}
+                  <div className="relative h-52 overflow-hidden rounded-xl mb-5 bg-gradient-to-br from-[#0a0a2e] to-[#1a1a3e] flex items-center justify-center border border-[#c9a84c]/10">
+                    <div className="text-center">
+                      <post.icon className="w-12 h-12 text-[#c9a84c]/30 mx-auto mb-3 group-hover:text-[#c9a84c]/60 transition-colors duration-500" />
+                      <p className="text-[#c9a84c]/20 text-sm font-[family-name:var(--font-montserrat)]">Jasa Proteksi Article</p>
+                    </div>
                     {/* Category overlay */}
                     <div className="absolute top-3 left-3">
-                      <span className="text-[10px] tracking-wider text-[#c9a84c] border border-[#c9a84c]/30 px-2 py-0.5 rounded bg-background/60 backdrop-blur-sm uppercase font-medium">
+                      <span className="text-[10px] tracking-wider text-[#c9a84c] border border-[#c9a84c]/30 px-2 py-0.5 rounded bg-[#00001f]/60 backdrop-blur-sm uppercase font-medium">
                         {post.category}
                       </span>
                     </div>
@@ -87,7 +83,7 @@ export default function Blog() {
                     <span className="text-xs text-muted-foreground">{post.date}</span>
                     <span className="inline-flex items-center gap-1 text-[#c9a84c] text-sm font-medium group-hover:gap-2 transition-all duration-300">
                       Baca
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <Heart className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </article>

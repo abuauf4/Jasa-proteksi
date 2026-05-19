@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { Calendar, Phone, Shield, Wrench, Award } from "lucide-react";
+import { Shield, Phone, ShieldCheck, Award, Clock } from "lucide-react";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import TextReveal from "@/components/shared/TextReveal";
@@ -11,9 +10,9 @@ const promoDate = new Date();
 promoDate.setDate(promoDate.getDate() + 30);
 
 const trustBadges = [
-  { icon: Shield, label: "Garansi 3 Tahun / 100.000 km" },
-  { icon: Wrench, label: "Servis Resmi" },
-  { icon: Award, label: "349 Dealer Resmi" },
+  { icon: ShieldCheck, label: "Berizin & Diawasi OJK" },
+  { icon: Award, label: "Insurance Asia Awards 2025" },
+  { icon: Clock, label: "Proses di Bawah 3 Menit" },
 ];
 
 export default function CTASection() {
@@ -21,13 +20,10 @@ export default function CTASection() {
     <section className="relative py-24 lg:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
-        <Image
-          src="/images/hero-car.png"
-          alt="Luxury car background"
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#00001f] via-[#0a0a3e] to-[#1a0a2e]" />
+        {/* Animated gradient orbs */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#c9a84c]/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#4E4EEB]/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
         <div className="absolute inset-0 bg-[#00001f]/85" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#00001f] via-transparent to-[#00001f]/50" />
         <div className="noise-overlay absolute inset-0" />
@@ -41,14 +37,14 @@ export default function CTASection() {
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <AnimatedSection>
           <TextReveal
-            text="Siap Mengemudi Mobil Impian Anda?"
+            text="Siap Mendapatkan Perlindungan Terbaik?"
             as="h2"
             className="text-3xl sm:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mb-6 leading-tight"
             delay={0.1}
             staggerDelay={0.03}
           />
           <p className="text-white/50 text-lg mb-10 max-w-xl mx-auto">
-            Booking test drive sekarang dan dapatkan promo eksklusif
+            Dapatkan perlindungan asuransi sekarang dan nikmati diskon eksklusif
           </p>
         </AnimatedSection>
 
@@ -60,11 +56,11 @@ export default function CTASection() {
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#c9a84c] text-[#00001f] font-semibold tracking-wider text-sm hover:bg-[#dfc06f] transition-all duration-300 shine-button"
               strength={0.4}
             >
-              <Calendar className="w-4 h-4" />
-              BOOK TEST DRIVE
+              <Shield className="w-4 h-4" />
+              DAPATKAN PERLINDUNGAN
             </MagneticButton>
             <MagneticButton
-              href="https://wa.me/6281113011300"
+              href="https://wa.me/6287766860381"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] text-white font-semibold tracking-wider text-sm hover:bg-[#20bd5a] transition-all duration-300 shine-button"

@@ -1,38 +1,27 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { ZoomIn, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Shield, Plane, PawPrint, Zap, UserCheck, Award, ZoomIn } from "lucide-react";
 import { motion } from "framer-motion";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
 
 const galleryItems = [
-  { src: "/images/gallery-3.png", category: "Eksterior", title: "Coastal Drive" },
-  { src: "/images/gallery-1.png", category: "Interior", title: "Premium Dashboard" },
-  { src: "/images/gallery-2.png", category: "Detail", title: "Alloy Wheel" },
-  { src: "/images/gallery-4.png", category: "Eksterior", title: "Front Grille" },
-  { src: "/images/gallery-6.png", category: "Detail", title: "Leather Stitching" },
-  { src: "/images/hero-car.png", category: "Eksterior", title: "Showroom" },
+  { icon: Shield, category: "Kendaraan", title: "Asuransi Mobil & Motor", color: "from-blue-900/40 to-blue-800/20" },
+  { icon: Plane, category: "Perjalanan", title: "Perlindungan Perjalanan", color: "from-cyan-900/40 to-cyan-800/20" },
+  { icon: PawPrint, category: "Hewan", title: "Asuransi Hewan Peliharaan", color: "from-amber-900/40 to-amber-800/20" },
+  { icon: Zap, category: "Kendaraan", title: "Asuransi Motor Listrik", color: "from-green-900/40 to-green-800/20" },
+  { icon: UserCheck, category: "Personal", title: "Asuransi Kecelakaan Diri", color: "from-purple-900/40 to-purple-800/20" },
+  { icon: Award, category: "Penghargaan", title: "Insurance Asia Awards 2025", color: "from-[#c9a84c]/20 to-[#c9a84c]/5" },
 ];
 
-const categories = ["Semua", "Eksterior", "Interior", "Detail"];
+const categories = ["Semua", "Kendaraan", "Perjalanan", "Hewan", "Personal", "Penghargaan"];
 
 export default function Gallery() {
   const [active, setActive] = useState("Semua");
-  const [lightbox, setLightbox] = useState<number | null>(null);
 
   const filtered = active === "Semua" ? galleryItems : galleryItems.filter((g) => g.category === active);
-
-  const navigateLightbox = (direction: "prev" | "next") => {
-    if (lightbox === null) return;
-    if (direction === "prev") {
-      setLightbox(lightbox === 0 ? filtered.length - 1 : lightbox - 1);
-    } else {
-      setLightbox(lightbox === filtered.length - 1 ? 0 : lightbox + 1);
-    }
-  };
 
   return (
     <SectionWrapper id="galeri" dark>
@@ -44,7 +33,7 @@ export default function Gallery() {
           </div>
           <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Gallery</span>
           <TextReveal
-            text="Galeri Kami"
+            text="Produk & Penghargaan"
             as="h2"
             className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4"
             delay={0.1}
@@ -53,7 +42,7 @@ export default function Gallery() {
 
         {/* Filter */}
         <AnimatedSection delay={0.15} className="flex justify-center mb-10">
-          <div className="inline-flex gap-1 p-1 rounded-lg bg-white/5 border border-white/5">
+          <div className="inline-flex gap-1 p-1 rounded-lg bg-white/5 border border-white/5 flex-wrap justify-center">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -68,132 +57,51 @@ export default function Gallery() {
           </div>
         </AnimatedSection>
 
-        {/* Horizontal Scroll Gallery */}
-        <div className="relative">
-          {/* Left fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#00001f] to-transparent z-10 pointer-events-none" />
-          {/* Right fade */}
-          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#00001f] to-transparent z-10 pointer-events-none" />
-
-          <div className="horizontal-scroll py-2">
-            {filtered.map((item, i) => {
-              const isFirst = i === 0;
-              const isLast = i === filtered.length - 1;
-              return (
-                <motion.div
-                  key={item.src}
-                  className={`relative group cursor-pointer overflow-hidden rounded-xl ${
-                    isFirst || isLast ? "" : ""
-                  }`}
-                  style={{ width: "380px", height: "280px" }}
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  onClick={() => setLightbox(i)}
-                >
-                  <Image
-                    src={item.src}
-                    alt={item.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    sizes="380px"
-                  />
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-[#00001f]/0 group-hover:bg-[#00001f]/60 transition-all duration-500 flex items-center justify-center">
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
-                      <ZoomIn className="w-8 h-8 text-[#c9a84c] mx-auto mb-2" />
-                      <p className="text-white font-medium font-[family-name:var(--font-montserrat)]">{item.title}</p>
-                      <p className="text-[#c9a84c] text-xs tracking-wider mt-1">{item.category}</p>
-                    </div>
-                  </div>
-                  {/* Bottom gradient */}
-                  <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#00001f]/50 to-transparent pointer-events-none" />
-                </motion.div>
-              );
-            })}
-            {/* Duplicate first items for smooth loop feel */}
-            {filtered.slice(0, 2).map((item, i) => (
-              <div
-                key={`dup-${item.src}`}
-                className="relative group cursor-pointer overflow-hidden rounded-xl opacity-30"
-                style={{ width: "380px", height: "280px" }}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                  sizes="380px"
-                />
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((item, i) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08, duration: 0.4 }}
+              className="relative group cursor-pointer overflow-hidden rounded-xl"
+              style={{ height: "280px" }}
+              whileHover={{ scale: 1.02 }}
+            >
+              {/* Gradient Background */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${item.color} bg-[#0a0a2e]`} />
+              
+              {/* Decorative grid */}
+              <div className="absolute inset-0 opacity-5">
+                <div className="h-full w-full" style={{
+                  backgroundImage: "linear-gradient(rgba(201,168,76,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.3) 1px, transparent 1px)",
+                  backgroundSize: "30px 30px"
+                }} />
               </div>
-            ))}
-          </div>
 
-          {/* Scroll hint */}
-          <div className="flex items-center justify-center gap-2 mt-6 text-white/30">
-            <ChevronLeft className="w-4 h-4" />
-            <span className="text-[10px] tracking-[0.2em] uppercase">Geser untuk melihat lebih banyak</span>
-            <ChevronRight className="w-4 h-4" />
-          </div>
+              {/* Icon & Content */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <item.icon className="w-16 h-16 text-[#c9a84c]/30 mx-auto mb-4 group-hover:text-[#c9a84c]/60 transition-colors duration-500" />
+                  <p className="text-white font-medium font-[family-name:var(--font-montserrat)] text-lg group-hover:text-[#c9a84c] transition-colors duration-300">{item.title}</p>
+                  <p className="text-[#c9a84c] text-xs tracking-wider mt-1">{item.category}</p>
+                </div>
+              </div>
+
+              {/* Hover Overlay */}
+              <div className="absolute inset-0 bg-[#00001f]/0 group-hover:bg-[#00001f]/30 transition-all duration-500 flex items-center justify-center">
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <ZoomIn className="w-8 h-8 text-[#c9a84c]" />
+                </div>
+              </div>
+
+              {/* Bottom gradient */}
+              <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#00001f]/50 to-transparent pointer-events-none" />
+            </motion.div>
+          ))}
         </div>
       </div>
-
-      {/* Lightbox */}
-      {lightbox !== null && (
-        <div
-          className="fixed inset-0 z-[70] bg-[#00001f]/95 backdrop-blur-xl flex items-center justify-center p-4"
-          onClick={() => setLightbox(null)}
-        >
-          <button
-            className="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-white hover:border-[#c9a84c] transition-colors"
-            onClick={() => setLightbox(null)}
-            aria-label="Close lightbox"
-          >
-            <X className="w-5 h-5" />
-          </button>
-
-          {/* Navigation arrows */}
-          <button
-            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-[#c9a84c] hover:border-[#c9a84c]/40 transition-colors"
-            onClick={(e) => { e.stopPropagation(); navigateLightbox("prev"); }}
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-[#c9a84c] hover:border-[#c9a84c]/40 transition-colors"
-            onClick={(e) => { e.stopPropagation(); navigateLightbox("next"); }}
-            aria-label="Next image"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          <div className="relative max-w-5xl max-h-[80vh] w-full" onClick={(e) => e.stopPropagation()}>
-            <motion.div
-              key={lightbox}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Image
-                src={filtered[lightbox]?.src || ""}
-                alt={filtered[lightbox]?.title || ""}
-                width={1200}
-                height={800}
-                className="object-contain max-h-[80vh] w-auto mx-auto rounded-lg"
-              />
-            </motion.div>
-            <div className="flex items-center justify-center gap-3 mt-4">
-              <p className="text-white font-[family-name:var(--font-montserrat)]">
-                {filtered[lightbox]?.title}
-              </p>
-              <span className="text-[#c9a84c] text-xs tracking-wider">•</span>
-              <p className="text-[#c9a84c] text-xs tracking-wider">
-                {lightbox + 1} / {filtered.length}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
     </SectionWrapper>
   );
 }
