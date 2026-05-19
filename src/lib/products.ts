@@ -13,6 +13,12 @@ export interface InsuranceProduct {
   claimTypes: string[];
   variants: { name: string; price: string }[];
   warranty: string;
+  // Backend fields — needed for lead flow
+  id?: string;
+  estimatedPrice: number;
+  minimumOfferPrice: number;
+  benefits: string;
+  isActive: boolean;
 }
 
 export const products: InsuranceProduct[] = [
@@ -50,6 +56,17 @@ export const products: InsuranceProduct[] = [
       { name: "Mobil Listrik All Risk", price: "Mulai Rp 3jt/tahun" },
     ],
     warranty: "Polis aktif sejak pembayaran",
+    estimatedPrice: 1200000,
+    minimumOfferPrice: 800000,
+    benefits: JSON.stringify([
+      "Kerusakan akibat kecelakaan",
+      "Pencurian kendaraan",
+      "Kerusakan akibat bencana alam",
+      "Tanggung jawab pihak ketiga",
+      "Cashback hingga 20%",
+      "Klaim cashless & reimbursement",
+    ]),
+    isActive: true,
   },
   {
     slug: "asuransi-motor",
@@ -85,6 +102,17 @@ export const products: InsuranceProduct[] = [
       { name: "Motor Listrik All Risk", price: "Mulai Rp 1jt/tahun" },
     ],
     warranty: "Polis aktif sejak pembayaran",
+    estimatedPrice: 300000,
+    minimumOfferPrice: 200000,
+    benefits: JSON.stringify([
+      "Kerusakan akibat kecelakaan",
+      "Pencurian kendaraan",
+      "Tanggung jawab pihak ketiga",
+      "Kerusakan akibat bencana alam",
+      "Proses cepat 5 menit",
+      "Klaim mudah & cepat",
+    ]),
+    isActive: true,
   },
   {
     slug: "asuransi-perjalanan",
@@ -119,6 +147,17 @@ export const products: InsuranceProduct[] = [
       { name: "Perjalanan Tahunan", price: "Mulai Rp 500rb/tahun" },
     ],
     warranty: "Polis aktif selama perjalanan",
+    estimatedPrice: 75000,
+    minimumOfferPrice: 50000,
+    benefits: JSON.stringify([
+      "Pembatalan perjalanan",
+      "Kehilangan bagasi",
+      "Darurat medis perjalanan",
+      "Keterlambatan penerbangan",
+      "Evakuasi darurat",
+      "Domestik & Internasional",
+    ]),
+    isActive: true,
   },
   {
     slug: "asuransi-hewan-peliharaan",
@@ -154,6 +193,17 @@ export const products: InsuranceProduct[] = [
       { name: "Anjing Premium", price: "Mulai Rp 600rb/tahun" },
     ],
     warranty: "Polis aktif sejak pembayaran",
+    estimatedPrice: 200000,
+    minimumOfferPrice: 150000,
+    benefits: JSON.stringify([
+      "Santunan rawat inap",
+      "Santunan rawat jalan",
+      "Kematian karena kecelakaan",
+      "Kompensasi kerugian pihak ketiga",
+      "Pemeriksaan rutin & Vaksinasi",
+      "Anjing & Kucing",
+    ]),
+    isActive: true,
   },
   {
     slug: "asuransi-motor-listrik",
@@ -187,6 +237,17 @@ export const products: InsuranceProduct[] = [
       { name: "Motor Listrik All Risk", price: "Mulai Rp 1jt/tahun" },
     ],
     warranty: "Polis aktif sejak pembayaran",
+    estimatedPrice: 400000,
+    minimumOfferPrice: 280000,
+    benefits: JSON.stringify([
+      "Kerusakan baterai akibat kecelakaan",
+      "Pencurian kendaraan",
+      "Kerusakan komponen elektrik",
+      "Tanggung jawab pihak ketiga",
+      "Kerusakan charger",
+      "Roadside assistance",
+    ]),
+    isActive: true,
   },
   {
     slug: "asuransi-kecelakaan-diri",
@@ -221,6 +282,17 @@ export const products: InsuranceProduct[] = [
       { name: "Personal Premium", price: "Mulai Rp 300rb/tahun" },
     ],
     warranty: "Polis aktif sejak pembayaran",
+    estimatedPrice: 50000,
+    minimumOfferPrice: 35000,
+    benefits: JSON.stringify([
+      "Cacat tetap akibat kecelakaan",
+      "Biaya medis akibat kecelakaan",
+      "Meninggal dunia akibat kecelakaan",
+      "Biaya rawat inap",
+      "Biaya ambulans",
+      "Rehabilitasi medis",
+    ]),
+    isActive: true,
   },
 ];
 

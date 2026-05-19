@@ -1,26 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Shield, ArrowRight, ChevronRight, Info } from "lucide-react";
-
-interface Product {
-  id: string;
-  name: string;
-  slug: string;
-  category: string;
-  description: string;
-  benefits: string;
-  estimatedPrice: number;
-  minimumOfferPrice: number;
-  isActive: boolean;
-}
+import { X, Shield, ArrowRight, Info } from "lucide-react";
+import { InsuranceProduct } from "@/lib/products";
 
 interface PriceEstimationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  product: Product | null;
-  onProceed: (product: Product) => void;
+  product: InsuranceProduct | null;
+  onProceed: (product: InsuranceProduct) => void;
 }
 
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];

@@ -1,24 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Car, Bike, Plane, PawPrint, Zap, UserCheck, ArrowRight, Shield, Calculator } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
 import PriceEstimationModal from "@/components/flow/PriceEstimationModal";
 import LeadFormModal from "@/components/flow/LeadFormModal";
-
-interface DBProduct {
-  id: string;
-  name: string;
-  slug: string;
-  category: string;
-  description: string;
-  benefits: string;
-  estimatedPrice: number;
-  minimumOfferPrice: number;
-  isActive: boolean;
-}
+import { products as staticProducts, InsuranceProduct } from "@/lib/products";
 
 const categories = ["Semua", "Kendaraan", "Perjalanan", "Hewan", "Personal"];
 
@@ -42,39 +31,27 @@ function formatRupiah(amount: number): string {
   }).format(amount);
 }
 
+// Use InsuranceProduct directly — it has all fields needed for both display and lead flow
+type DisplayProduct = InsuranceProduct;
+
 export default function Portfolio() {
   const [active, setActive] = useState("Semua");
-  const [products, setProducts] = useState<DBProduct[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Use static products — always available, no API dependency
+  const products: DisplayProduct[] = staticProducts;
 
   // Modal states
   const [estimationOpen, setEstimationOpen] = useState(false);
   const [leadFormOpen, setLeadFormOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<DBProduct | null>(null);
-
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const res = await fetch("/api/products");
-        const data = await res.json();
-        setProducts(data.products || []);
-      } catch {
-        console.error("Failed to fetch products");
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchProducts();
-  }, []);
+  const [selectedProduct, setSelectedProduct] = useState<DisplayProduct | null>(null);
 
   const filtered = active === "Semua" ? products : products.filter((p) => p.category === active);
 
-  const handleCekHarga = (product: DBProduct) => {
+  const handleCekHarga = (product: DisplayProduct) => {
     setSelectedProduct(product);
     setEstimationOpen(true);
   };
 
-  const handleProceedToForm = (product: DBProduct) => {
+  const handleProceedToForm = (product: DisplayProduct) => {
     setEstimationOpen(false);
     setSelectedProduct(product);
     setTimeout(() => setLeadFormOpen(true), 300);
@@ -140,7 +117,7 @@ export default function Portfolio() {
                 const benefits: string[] = JSON.parse(product.benefits || "[]");
                 return (
                   <motion.div
-                    key={product.id}
+                    key={product.slug}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -12 }}
@@ -159,6 +136,12 @@ export default function Portfolio() {
                             {product.name}
                           </span>
                         </div>
+                        {/* Discount Badge */}
+                        <div className="absolute top-3 right-3">
+                          <span className="text-[10px] tracking-wider text-white bg-[#2E7D6F] px-3 py-1 rounded font-bold">
+                            {product.discount}
+                          </span>
+                        </div>
                         {/* Category Badge */}
                         <div className="absolute top-3 left-3">
                           <span className="text-[9px] tracking-wider text-[#2E7D6F]/70 border border-[#2E7D6F]/30 px-2.5 py-0.5 rounded bg-[#0A0F1E]/50 backdrop-blur-sm">
@@ -173,15 +156,15 @@ export default function Portfolio() {
                           {product.name}
                         </h3>
                         <p className="text-xl font-bold text-[#2E7D6F] font-[family-name:var(--font-montserrat)] mb-4">
-                          {formatRupiah(product.estimatedPrice)}<span className="text-sm text-gray-400 font-normal">/tahun</span>
+                          {product.price}
                         </p>
 
-                        {/* Benefits */}
+                        {/* Benefits / Highlights */}
                         <div className="grid grid-cols-2 gap-2.5 mb-5">
-                          {benefits.slice(0, 4).map((b) => (
-                            <div key={b} className="flex items-center gap-1.5 text-gray-400 text-[10px]">
+                          {product.highlights.slice(0, 4).map((h) => (
+                            <div key={h.label} className="flex items-center gap-1.5 text-gray-400 text-[10px]">
                               <Shield className="w-3 h-3 text-[#2E7D6F] flex-shrink-0" />
-                              <span>{b}</span>
+                              <span>{h.value}</span>
                             </div>
                           ))}
                         </div>
