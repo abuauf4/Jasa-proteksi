@@ -3,13 +3,14 @@
 import { useState, useEffect, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
-import { Sun, Moon, Menu, X, Shield } from "lucide-react";
+import { Sun, Moon, Menu, X } from "lucide-react";
 import Image from "next/image";
 import MagneticButton from "@/components/shared/MagneticButton";
 
 const navLinks = [
   { label: "Beranda", href: "#beranda" },
   { label: "Produk", href: "#model" },
+  { label: "Trust", href: "#trust" },
   { label: "Layanan", href: "#layanan" },
   { label: "Coverage", href: "#promo" },
   { label: "Tentang", href: "#tentang" },
@@ -72,18 +73,18 @@ export default function Navigation() {
       <motion.header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
           scrolled
-            ? "bg-[#0D0D0D]/90 backdrop-blur-xl shadow-lg shadow-black/20 border-b border-white/5"
+            ? "bg-[#0D0D0D]/85 backdrop-blur-2xl shadow-lg shadow-black/15 border-b border-white/[0.03]"
             : "bg-transparent"
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <a href="#beranda" className="flex items-center gap-3 group">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <div className="relative w-8 h-8 lg:w-9 lg:h-9 flex-shrink-0">
                   <Image
                     src="/logo-jasa-proteksi.webp"
@@ -100,24 +101,24 @@ export default function Navigation() {
                 </div>
               </div>
               <div className="hidden sm:flex items-center gap-2">
-                <div className="w-px h-6 bg-white/20" />
-                <span className="text-xs tracking-[0.2em] text-white/50 uppercase font-medium">OJK Licensed</span>
+                <div className="w-px h-6 bg-white/15" />
+                <span className="text-[10px] tracking-[0.2em] text-white/40 uppercase font-medium">OJK Licensed</span>
               </div>
             </a>
 
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-0.5">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="relative px-4 py-2 text-sm font-medium tracking-wide transition-colors duration-500 group"
+                  className="relative px-4 py-2 text-[13px] font-medium tracking-wide transition-colors duration-600 group"
                 >
                   <span
                     className={
                       activeSection === link.href.replace("#", "")
                         ? "text-[#2E7D6F]"
-                        : "text-white/80 group-hover:text-white"
+                        : "text-white/70 group-hover:text-white/90"
                     }
                   >
                     {link.label}
@@ -126,7 +127,7 @@ export default function Navigation() {
                     <motion.div
                       layoutId="activeNav"
                       className="absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-[#2E7D6F] to-[#3A9B8A]"
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     />
                   )}
                 </a>
@@ -138,7 +139,7 @@ export default function Navigation() {
               {mounted && (
                 <button
                   onClick={toggleTheme}
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-[#2E7D6F] transition-colors duration-500 border border-white/10 hover:border-[#2E7D6F]/30"
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-white/60 hover:text-[#2E7D6F] transition-colors duration-600 border border-white/[0.06] hover:border-[#2E7D6F]/20"
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -147,11 +148,11 @@ export default function Navigation() {
 
               <MagneticButton
                 href="#kontak"
-                className="relative px-6 py-2.5 text-sm font-semibold tracking-wider border border-[#2E7D6F] text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-500 overflow-hidden group"
+                className="relative px-6 py-2.5 text-[11px] font-semibold tracking-[0.15em] border border-[#2E7D6F]/50 text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-600 overflow-hidden group"
                 strength={0.2}
               >
                 <span className="relative z-10">DAPATKAN PERLINDUNGAN</span>
-                <div className="absolute inset-0 bg-[#2E7D6F] transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
+                <div className="absolute inset-0 bg-[#2E7D6F] transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-600" />
               </MagneticButton>
             </div>
 
@@ -160,7 +161,7 @@ export default function Navigation() {
               {mounted && (
                 <button
                   onClick={toggleTheme}
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-[#2E7D6F] transition-colors duration-500"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-white/60 hover:text-[#2E7D6F] transition-colors duration-600"
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -168,7 +169,7 @@ export default function Navigation() {
               )}
               <button
                 onClick={() => setMobileOpen(true)}
-                className="w-8 h-8 flex items-center justify-center text-white hover:text-[#2E7D6F] transition-colors duration-500"
+                className="w-8 h-8 flex items-center justify-center text-white hover:text-[#2E7D6F] transition-colors duration-600"
                 aria-label="Open menu"
               >
                 <Menu className="w-6 h-6" />
@@ -182,18 +183,18 @@ export default function Navigation() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-[60] bg-[#0D0D0D]/98 backdrop-blur-xl"
+            className="fixed inset-0 z-[60] bg-[#0D0D0D]/97 backdrop-blur-2xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="flex flex-col h-full">
               {/* Close button */}
               <div className="flex justify-end p-6">
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-[#2E7D6F] transition-colors duration-500"
+                  className="w-10 h-10 flex items-center justify-center text-white/60 hover:text-[#2E7D6F] transition-colors duration-600"
                   aria-label="Close menu"
                 >
                   <X className="w-6 h-6" />
@@ -201,21 +202,21 @@ export default function Navigation() {
               </div>
 
               {/* Links */}
-              <div className="flex-1 flex flex-col items-center justify-center gap-6">
+              <div className="flex-1 flex flex-col items-center justify-center gap-7">
                 {navLinks.map((link, i) => (
                   <motion.a
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`text-3xl font-[family-name:var(--font-montserrat)] font-semibold tracking-wider transition-colors duration-500 ${
+                    className={`text-3xl font-[family-name:var(--font-montserrat)] font-semibold tracking-wider transition-colors duration-600 ${
                       activeSection === link.href.replace("#", "")
                         ? "text-[#2E7D6F]"
-                        : "text-white/80 hover:text-[#2E7D6F]"
+                        : "text-white/70 hover:text-[#2E7D6F]"
                     }`}
-                    initial={{ opacity: 0, y: 12 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 12 }}
-                    transition={{ delay: i * 0.07, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ delay: i * 0.08, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   >
                     {link.label}
                   </motion.a>
@@ -227,7 +228,7 @@ export default function Navigation() {
                 <a
                   href="#kontak"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full max-w-xs text-center py-4 border border-[#2E7D6F] text-[#2E7D6F] font-semibold tracking-wider hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-500"
+                  className="w-full max-w-xs text-center py-4 border border-[#2E7D6F]/50 text-[#2E7D6F] font-semibold tracking-wider hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-600"
                 >
                   DAPATKAN PERLINDUNGAN
                 </a>

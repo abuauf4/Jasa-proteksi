@@ -41,34 +41,34 @@ export default function FAQ() {
     <SectionWrapper id="faq" className="bg-[#F5F5F0]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <AnimatedSection className="text-center mb-16">
-          <div className="flex justify-center mb-4">
+        <AnimatedSection className="text-center mb-20">
+          <div className="flex justify-center mb-5">
             <div className="accent-line" />
           </div>
-          <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">FAQ</span>
+          <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">FAQ</span>
           <TextReveal
             text="Pertanyaan Umum"
             as="h2"
-            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4 text-[#0D0D0D]"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-5 text-[#0D0D0D] leading-[1.1]"
             delay={0.1}
+            staggerDelay={0.05}
           />
         </AnimatedSection>
 
         {/* Accordion */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {faqs.map((faq, i) => (
             <AnimatedSection key={i} delay={i * 0.08}>
               <div
-                className={`border rounded-xl overflow-hidden transition-all duration-400 bg-white ${
+                className={`border rounded-xl overflow-hidden transition-all duration-600 bg-white ${
                   openIndex === i
-                    ? "border-[#2E7D6F]/30 bg-[#2E7D6F]/5"
-                    : "border-gray-200 hover:border-[#2E7D6F]/20"
+                    ? "border-[#2E7D6F]/25 bg-[#2E7D6F]/[0.03]"
+                    : "border-gray-100 hover:border-[#2E7D6F]/15"
                 }`}
-                style={{ transitionDuration: "0.4s" }}
               >
                 <button
                   onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  className="w-full flex items-center justify-between p-5 text-left"
+                  className="w-full flex items-center justify-between p-6 text-left"
                   aria-expanded={openIndex === i}
                 >
                   <span className="font-semibold font-[family-name:var(--font-montserrat)] text-sm sm:text-base pr-4 text-[#0D0D0D]">
@@ -76,7 +76,7 @@ export default function FAQ() {
                   </span>
                   <motion.div
                     animate={{ rotate: openIndex === i ? 180 : 0 }}
-                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <ChevronDown
                       className="w-5 h-5 flex-shrink-0 text-[#2E7D6F]"
@@ -89,9 +89,9 @@ export default function FAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <p className="px-5 pb-5 text-gray-500 text-sm leading-relaxed">
+                      <p className="px-6 pb-6 text-gray-400 text-sm leading-[1.7]">
                         {faq.a}
                       </p>
                     </motion.div>
@@ -103,11 +103,11 @@ export default function FAQ() {
         </div>
 
         {/* CTA */}
-        <AnimatedSection delay={0.5} className="mt-12 text-center">
-          <p className="text-gray-500 mb-4">Masih punya pertanyaan?</p>
+        <AnimatedSection delay={0.5} className="mt-14 text-center">
+          <p className="text-gray-400 mb-5">Masih punya pertanyaan?</p>
           <a
             href="#kontak"
-            className="inline-flex items-center gap-2 text-[#2E7D6F] font-medium text-sm tracking-wider hover:gap-3 transition-all duration-300"
+            className="inline-flex items-center gap-2 text-[#2E7D6F] font-medium text-sm tracking-wider hover:gap-3 transition-all duration-600"
           >
             <MessageCircle className="w-4 h-4" />
             Hubungi Kami Langsung

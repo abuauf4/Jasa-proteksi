@@ -5,10 +5,10 @@ import Hero from "@/components/sections/Hero";
 import Services from "@/components/sections/Services";
 import Features from "@/components/sections/Features";
 import Portfolio from "@/components/sections/Portfolio";
+import TrustSection from "@/components/sections/TrustSection";
 import Testimonials from "@/components/sections/Testimonials";
 import Pricing from "@/components/sections/Pricing";
 import FAQ from "@/components/sections/FAQ";
-import Gallery from "@/components/sections/Gallery";
 import Blog from "@/components/sections/Blog";
 import About from "@/components/sections/About";
 import Contact from "@/components/sections/Contact";
@@ -27,6 +27,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <Portfolio />
+        <TrustSection />
         <Services />
         <Features />
         <Testimonials />
@@ -34,7 +35,6 @@ export default function Home() {
         <About />
         <FAQ />
         <Blog />
-        <Gallery />
         <Contact />
         <MapSection />
         <CTASection />

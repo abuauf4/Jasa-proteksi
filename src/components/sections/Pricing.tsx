@@ -50,35 +50,39 @@ const pricingTiers = [
 export default function Pricing() {
   return (
     <section id="promo" className="section-padding relative overflow-hidden bg-[#0D0D0D] text-white">
+      {/* Ambient glow */}
+      <div className="absolute top-[30%] right-[20%] w-[500px] h-[500px] rounded-full blur-[140px]" style={{ backgroundColor: "rgba(46, 125, 111, 0.02)" }} />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <AnimatedSection className="text-center mb-16 lg:mb-20">
-          <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">Coverage</span>
+        <AnimatedSection className="text-center mb-20 lg:mb-24">
+          <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">Coverage</span>
           <TextReveal
             text="Choose your peace of mind"
             as="h2"
-            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4"
+            className="text-4xl lg:text-5xl xl:text-6xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-5 leading-[1.1]"
             delay={0.1}
+            staggerDelay={0.05}
           />
         </AnimatedSection>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-8">
           {pricingTiers.map((tier, i) => (
-            <AnimatedSection key={tier.name} delay={i * 0.15}>
+            <AnimatedSection key={tier.name} delay={i * 0.12}>
               <motion.div
-                className={`relative h-full rounded-xl p-8 transition-all duration-500 card-lift ${
+                className={`relative h-full rounded-xl p-9 transition-all duration-700 card-lift ${
                   tier.recommended
-                    ? "bg-[#0A0F1E]/80 border border-[#2E7D6F]/50 shadow-lg shadow-[#2E7D6F]/10 gradient-border"
-                    : "bg-[#0A0F1E]/60 border border-white/[0.04] hover:border-[#2E7D6F]/20"
+                    ? "bg-[#0A0F1E]/80 border border-[#2E7D6F]/40 shadow-lg shadow-[#2E7D6F]/8 gradient-border"
+                    : "bg-[#0A0F1E]/50 border border-white/[0.04] hover:border-[#2E7D6F]/15"
                 }`}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -3 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
                 {/* Recommended Badge */}
                 {tier.recommended && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                    <div className="flex items-center gap-1 bg-[#2E7D6F] text-white px-4 py-1 rounded-full text-xs font-bold tracking-wider uppercase">
+                    <div className="flex items-center gap-1.5 bg-[#2E7D6F] text-white px-4 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase">
                       <Star className="w-3 h-3 fill-white" />
                       Recommended
                     </div>
@@ -86,27 +90,27 @@ export default function Pricing() {
                 )}
 
                 {/* Tier Name */}
-                <h3 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-white/70 tracking-wider mb-4">
+                <h3 className="text-base font-semibold font-[family-name:var(--font-montserrat)] text-white/60 tracking-wider mb-5">
                   {tier.name}
                 </h3>
 
                 {/* Price */}
-                <div className="mb-8">
-                  <p className="text-3xl lg:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-[#2E7D6F] mb-1">
+                <div className="mb-9">
+                  <p className="text-2xl lg:text-3xl font-bold font-[family-name:var(--font-montserrat)] text-[#2E7D6F] mb-1.5">
                     {tier.dp}
                   </p>
-                  <p className="text-sm text-white/40">{tier.monthly}</p>
+                  <p className="text-sm text-white/35">{tier.monthly}</p>
                 </div>
 
                 {/* Divider */}
-                <div className="accent-line mb-8" />
+                <div className="accent-line mb-9" />
 
                 {/* Features */}
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-4 mb-9">
                   {tier.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-3">
                       <Check className="w-4 h-4 text-[#2E7D6F] flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-white/60">{feature}</span>
+                      <span className="text-sm text-white/50 leading-relaxed">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -114,10 +118,10 @@ export default function Pricing() {
                 {/* CTA */}
                 <a
                   href="#kontak"
-                  className={`block text-center py-3 font-semibold tracking-wider text-sm transition-all duration-500 shine-button rounded-lg ${
+                  className={`block text-center py-3.5 font-semibold tracking-wider text-sm transition-all duration-600 shine-button rounded-lg ${
                     tier.recommended
                       ? "bg-[#2E7D6F] text-white hover:bg-[#3A9B8A]"
-                      : "border border-[#2E7D6F]/40 text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white"
+                      : "border border-[#2E7D6F]/30 text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white"
                   }`}
                 >
                   Hubungi Kami
@@ -128,8 +132,8 @@ export default function Pricing() {
         </div>
 
         {/* Disclaimer */}
-        <AnimatedSection delay={0.5} className="mt-10 text-center">
-          <p className="text-xs text-white/20">
+        <AnimatedSection delay={0.5} className="mt-12 text-center">
+          <p className="text-xs text-white/15">
             Premi bersifat estimasi. Hubungi tim kami untuk penawaran terperinci.
           </p>
         </AnimatedSection>

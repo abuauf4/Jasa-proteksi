@@ -38,23 +38,24 @@ export default function Contact() {
     <SectionWrapper id="kontak" className="bg-[#F5F5F0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <AnimatedSection className="text-center mb-16">
-          <div className="flex justify-center mb-4">
+        <AnimatedSection className="text-center mb-20">
+          <div className="flex justify-center mb-5">
             <div className="accent-line" />
           </div>
-          <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">Contact</span>
+          <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">Contact</span>
           <TextReveal
             text="Hubungi Kami"
             as="h2"
-            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4 text-[#0D0D0D]"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-5 text-[#0D0D0D] leading-[1.1]"
             delay={0.1}
+            staggerDelay={0.05}
           />
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Left - Form */}
           <AnimatedSection direction="left">
-            <form onSubmit={handleSubmit} className="space-y-5 p-6 sm:p-8 rounded-xl border border-gray-200 bg-white">
+            <form onSubmit={handleSubmit} className="space-y-5 p-8 sm:p-10 rounded-xl border border-gray-100 bg-white">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <Input
@@ -62,7 +63,7 @@ export default function Contact() {
                     value={formState.name}
                     onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                     required
-                    className="bg-[#F5F5F0] border-gray-200 focus:border-[#2E7D6F] h-12 rounded-lg"
+                    className="bg-[#F5F5F0] border-gray-100 focus:border-[#2E7D6F] h-12 rounded-lg transition-colors duration-500"
                   />
                 </div>
                 <div>
@@ -72,7 +73,7 @@ export default function Contact() {
                     value={formState.email}
                     onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                     required
-                    className="bg-[#F5F5F0] border-gray-200 focus:border-[#2E7D6F] h-12 rounded-lg"
+                    className="bg-[#F5F5F0] border-gray-100 focus:border-[#2E7D6F] h-12 rounded-lg transition-colors duration-500"
                   />
                 </div>
               </div>
@@ -83,7 +84,7 @@ export default function Contact() {
                     placeholder="No. Telepon"
                     value={formState.phone}
                     onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
-                    className="bg-[#F5F5F0] border-gray-200 focus:border-[#2E7D6F] h-12 rounded-lg"
+                    className="bg-[#F5F5F0] border-gray-100 focus:border-[#2E7D6F] h-12 rounded-lg transition-colors duration-500"
                   />
                 </div>
                 <div>
@@ -91,7 +92,7 @@ export default function Contact() {
                     placeholder="Subjek"
                     value={formState.subject}
                     onChange={(e) => setFormState({ ...formState, subject: e.target.value })}
-                    className="bg-[#F5F5F0] border-gray-200 focus:border-[#2E7D6F] h-12 rounded-lg"
+                    className="bg-[#F5F5F0] border-gray-100 focus:border-[#2E7D6F] h-12 rounded-lg transition-colors duration-500"
                   />
                 </div>
               </div>
@@ -101,11 +102,11 @@ export default function Contact() {
                 onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                 rows={5}
                 required
-                className="bg-[#F5F5F0] border-gray-200 focus:border-[#2E7D6F] rounded-lg resize-none"
+                className="bg-[#F5F5F0] border-gray-100 focus:border-[#2E7D6F] rounded-lg resize-none transition-colors duration-500"
               />
               <button
                 type="submit"
-                className="w-full bg-[#0D0D0D] hover:bg-[#2E7D6F] text-white h-12 rounded-lg font-semibold tracking-wider transition-all duration-500 flex items-center justify-center gap-2"
+                className="w-full bg-[#0D0D0D] hover:bg-[#2E7D6F] text-white h-12 rounded-lg font-semibold tracking-wider transition-all duration-600 flex items-center justify-center gap-2"
               >
                 {submitted ? "Terkirim!" : "Kirim Pesan"}
                 {!submitted && <Send className="w-4 h-4" />}
@@ -114,22 +115,22 @@ export default function Contact() {
           </AnimatedSection>
 
           {/* Right - Contact Info */}
-          <AnimatedSection direction="right" delay={0.2}>
-            <div className="space-y-6">
+          <AnimatedSection direction="right" delay={0.15}>
+            <div className="space-y-7">
               {contactInfo.map((info, i) => (
                 <motion.div
                   key={info.label}
-                  className="flex items-start gap-4 group"
-                  initial={{ opacity: 0, x: 20 }}
+                  className="flex items-start gap-5 group"
+                  initial={{ opacity: 0, x: 16 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: i * 0.08, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   viewport={{ once: true }}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-[#2E7D6F]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#2E7D6F]/20 transition-colors duration-300">
+                  <div className="w-10 h-10 rounded-lg bg-[#2E7D6F]/[0.07] flex items-center justify-center flex-shrink-0 group-hover:bg-[#2E7D6F]/[0.12] transition-colors duration-600">
                     <info.icon className="w-5 h-5 text-[#2E7D6F]" />
                   </div>
                   <div>
-                    <p className="text-xs tracking-wider text-gray-400 uppercase mb-1">{info.label}</p>
+                    <p className="text-[10px] tracking-wider text-gray-300 uppercase mb-1">{info.label}</p>
                     <p className="font-medium text-sm text-[#0D0D0D]">{info.value}</p>
                   </div>
                 </motion.div>
@@ -137,7 +138,7 @@ export default function Contact() {
             </div>
 
             {/* Decorative emerald line */}
-            <div className="h-px w-full bg-gradient-to-r from-[#2E7D6F]/60 via-[#2E7D6F]/20 to-transparent mt-10" />
+            <div className="h-px w-full bg-gradient-to-r from-[#2E7D6F]/50 via-[#2E7D6F]/15 to-transparent mt-12" />
           </AnimatedSection>
         </div>
       </div>

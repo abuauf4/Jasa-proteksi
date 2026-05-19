@@ -8,7 +8,7 @@ const features = [
   {
     icon: Zap,
     title: "Cepat dan Efisien",
-    description: "Lengkapi pengajuan kurang dari 3 menit saja. Bayar dan langsung dapat polis tanpa proses panjang.",
+    description: "Lengkapi pengajuan kurang dari 3 menit. Bayar dan langsung dapat polis tanpa proses panjang.",
   },
   {
     icon: ShieldCheck,
@@ -30,39 +30,39 @@ const features = [
 export default function Features() {
   return (
     <section id="fitur" className="bg-[#F5F5F0] overflow-hidden">
-      <div className="py-20 lg:py-28">
+      <div className="py-24 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             {/* Left - Emotional Storytelling */}
             <AnimatedSection direction="left">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-5">
                 <div className="w-8 h-[2px] bg-[#2E7D6F]" />
-                <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">
+                <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
                   Why Jasa Proteksi
                 </span>
               </div>
               <TextReveal
                 text="Protection for what truly matters"
                 as="h2"
-                className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mb-12 leading-tight"
+                className="text-4xl lg:text-5xl xl:text-6xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mb-14 leading-[1.08]"
                 delay={0.15}
                 staggerDelay={0.04}
               />
 
               <div>
                 {features.map((feature, i) => (
-                  <AnimatedSection key={feature.title} delay={i * 0.15} direction="left">
-                    <div className="flex gap-5 group mb-10 last:mb-0">
+                  <AnimatedSection key={feature.title} delay={i * 0.12} direction="left">
+                    <div className="flex gap-6 group mb-11 last:mb-0">
                       <div className="flex-shrink-0">
-                        <div className="w-[2px] h-full min-h-[60px] bg-gradient-to-b from-[#2E7D6F] to-[#2E7D6F]/20 relative">
+                        <div className="w-[2px] h-full min-h-[60px] bg-gradient-to-b from-[#2E7D6F] to-[#2E7D6F]/15 relative">
                           <div className="absolute -left-[7px] top-0 w-4 h-4 rounded-full border-2 border-[#2E7D6F] bg-[#F5F5F0]" />
                         </div>
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mb-1 group-hover:text-[#2E7D6F] transition-colors duration-500">
+                        <h3 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mb-1.5 group-hover:text-[#2E7D6F] transition-colors duration-600">
                           {feature.title}
                         </h3>
-                        <p className="text-gray-500 text-sm leading-relaxed">
+                        <p className="text-gray-400 text-sm leading-[1.7]">
                           {feature.description}
                         </p>
                       </div>
@@ -71,39 +71,39 @@ export default function Features() {
                 ))}
               </div>
 
-              <AnimatedSection delay={0.6} className="mt-10">
+              <AnimatedSection delay={0.6} className="mt-12">
                 <a
                   href="#model"
-                  className="inline-flex items-center gap-2 text-[#2E7D6F] font-medium text-sm tracking-wider group"
+                  className="inline-flex items-center gap-2.5 text-[#2E7D6F] font-medium text-sm tracking-wider group"
                 >
                   Explore All Products
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500" />
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-600" />
                 </a>
               </AnimatedSection>
             </AnimatedSection>
 
             {/* Right - Award/Certification Showcase */}
-            <AnimatedSection direction="right" delay={0.25}>
+            <AnimatedSection direction="right" delay={0.2}>
               <div className="relative group">
-                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#0A0F1E] to-[#141B30] p-10 min-h-[400px] flex flex-col items-center justify-center border border-white/[0.06]">
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#0A0F1E] to-[#141B30] p-12 min-h-[420px] flex flex-col items-center justify-center border border-white/[0.05]">
                   {/* Award Badge */}
-                  <div className="w-24 h-24 rounded-full border-2 border-[#2E7D6F]/30 flex items-center justify-center mb-6">
+                  <div className="w-24 h-24 rounded-full border-2 border-[#2E7D6F]/25 flex items-center justify-center mb-7">
                     <Award className="w-12 h-12 text-[#2E7D6F]" />
                   </div>
                   <h3 className="text-xl font-bold font-[family-name:var(--font-montserrat)] text-white text-center mb-2">
                     Insurance Asia Awards 2025
                   </h3>
-                  <p className="text-[#2E7D6F] text-sm tracking-wider uppercase text-center mb-4">
+                  <p className="text-[#2E7D6F] text-sm tracking-wider uppercase text-center mb-5">
                     Insurtech Initiative of the Year
                   </p>
-                  <p className="text-white/40 text-xs text-center max-w-sm leading-relaxed">
+                  <p className="text-white/30 text-xs text-center max-w-sm leading-[1.7]">
                     Diakui atas kontribusi dan inovasi luar biasa di seluruh industri asuransi wilayah Asia-Pasifik
                   </p>
                   {/* Subtle shine on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                 </div>
                 {/* Floating badge */}
-                <div className="absolute -bottom-3 -right-3 bg-[#0A0F1E] border border-[#2E7D6F]/30 rounded-lg px-3 py-2">
+                <div className="absolute -bottom-3 -right-3 bg-[#0A0F1E] border border-[#2E7D6F]/25 rounded-lg px-4 py-2.5">
                   <p className="text-[10px] tracking-[0.2em] text-[#2E7D6F] uppercase font-medium">
                     OJK Licensed
                   </p>

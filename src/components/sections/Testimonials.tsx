@@ -45,6 +45,8 @@ const testimonials = [
   },
 ];
 
+const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
 
@@ -57,44 +59,45 @@ export default function Testimonials() {
     <section id="testimoni" className="section-padding relative overflow-hidden bg-[#F5F5F0] text-foreground">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <AnimatedSection className="text-center mb-16">
+        <AnimatedSection className="text-center mb-20">
           {/* Decorative Quote Icon */}
-          <div className="flex justify-center mb-6">
-            <Quote className="w-10 h-10 text-[#2E7D6F]/30" />
+          <div className="flex justify-center mb-7">
+            <Quote className="w-10 h-10 text-[#2E7D6F]/25" />
           </div>
           {/* Label */}
-          <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">Testimonials</span>
+          <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">Testimonials</span>
           {/* Heading */}
           <TextReveal
             text="Trusted by thousands"
             as="h2"
-            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mt-4"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mt-5 leading-[1.1]"
             delay={0.1}
+            staggerDelay={0.05}
           />
         </AnimatedSection>
 
         {/* Testimonial Card */}
-        <div className="text-center min-h-[280px]">
+        <div className="text-center min-h-[300px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.7, ease: premiumEase }}
             >
               {/* Stars */}
-              <div className="flex justify-center gap-1 mb-8">
+              <div className="flex justify-center gap-1.5 mb-10">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.05 + 0.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: i * 0.06 + 0.2, duration: 0.6, ease: premiumEase }}
                   >
                     <Star
                       className={`w-5 h-5 ${
-                        i < t.rating ? "text-[#2E7D6F] fill-[#2E7D6F]" : "text-[#0D0D0D]/15"
+                        i < t.rating ? "text-[#2E7D6F] fill-[#2E7D6F]" : "text-[#0D0D0D]/10"
                       }`}
                     />
                   </motion.div>
@@ -102,12 +105,12 @@ export default function Testimonials() {
               </div>
 
               {/* Quote */}
-              <blockquote className="text-xl sm:text-2xl lg:text-3xl font-light text-[#0D0D0D]/80 italic leading-relaxed mb-10 font-[family-name:var(--font-montserrat)]">
+              <blockquote className="text-xl sm:text-2xl lg:text-3xl font-light text-[#0D0D0D]/75 italic leading-[1.5] mb-12 font-[family-name:var(--font-montserrat)]">
                 &ldquo;{t.quote}&rdquo;
               </blockquote>
 
               {/* Decorative accent line */}
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-7">
                 <div className="accent-line" />
               </div>
 
@@ -116,29 +119,29 @@ export default function Testimonials() {
                 {t.name}
               </p>
               {/* Product */}
-              <p className="text-sm text-[#0D0D0D]/40 mt-1">Pengguna {t.product}</p>
+              <p className="text-sm text-[#0D0D0D]/30 mt-1.5">Pengguna {t.product}</p>
             </motion.div>
           </AnimatePresence>
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-center gap-6 mt-12">
+        <div className="flex items-center justify-center gap-8 mt-14">
           <button
             onClick={prev}
-            className="w-10 h-10 rounded-full border border-[#2E7D6F]/30 flex items-center justify-center text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white transition-all duration-500"
+            className="w-10 h-10 rounded-full border border-[#2E7D6F]/25 flex items-center justify-center text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white transition-all duration-600"
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
 
           {/* Dots */}
-          <div className="flex gap-2">
+          <div className="flex gap-2.5">
             {testimonials.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={`h-2 rounded-full transition-all duration-500 ${
-                  i === current ? "bg-[#2E7D6F] w-6" : "bg-[#2E7D6F]/30 hover:bg-[#2E7D6F]/50 w-2"
+                className={`h-2 rounded-full transition-all duration-600 ${
+                  i === current ? "bg-[#2E7D6F] w-7" : "bg-[#2E7D6F]/20 hover:bg-[#2E7D6F]/40 w-2"
                 }`}
                 aria-label={`Go to testimonial ${i + 1}`}
               />
@@ -147,7 +150,7 @@ export default function Testimonials() {
 
           <button
             onClick={next}
-            className="w-10 h-10 rounded-full border border-[#2E7D6F]/30 flex items-center justify-center text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white transition-all duration-500"
+            className="w-10 h-10 rounded-full border border-[#2E7D6F]/25 flex items-center justify-center text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white transition-all duration-600"
             aria-label="Next testimonial"
           >
             <ChevronRight className="w-5 h-5" />

@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { ChevronDown, Shield, ArrowRight } from "lucide-react";
 import TextReveal from "@/components/shared/TextReveal";
 
-// Cinematic ease curve — smooth, deliberate, premium
+// Premium cinematic ease curve — slow, deliberate, luxurious
 const cinematicEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export default function Hero() {
@@ -15,18 +15,18 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Slower, more graceful parallax transforms
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
+  // More graceful, slower parallax transforms
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "8%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const overlay1Y = useTransform(scrollYProgress, [0, 1], ["0%", "6%"]);
-  const overlay2Y = useTransform(scrollYProgress, [0, 1], ["0%", "3%"]);
+  const overlay1Y = useTransform(scrollYProgress, [0, 1], ["0%", "4%"]);
+  const overlay2Y = useTransform(scrollYProgress, [0, 1], ["0%", "2%"]);
 
   return (
     <section
       id="beranda"
       ref={sectionRef}
-      className="relative h-screen min-h-[700px] flex items-center overflow-hidden"
+      className="relative h-screen min-h-[750px] flex items-center overflow-hidden"
     >
       {/* ── Gradient Background ── */}
       <motion.div className="absolute inset-0" style={{ scale: bgScale }}>
@@ -34,27 +34,27 @@ export default function Hero() {
 
         {/* Subtle ambient glow orbs — emerald, very low opacity */}
         <div
-          className="absolute top-[20%] left-[15%] w-[500px] h-[500px] rounded-full blur-[120px]"
-          style={{ backgroundColor: "rgba(46, 125, 111, 0.04)" }}
+          className="absolute top-[18%] left-[12%] w-[550px] h-[550px] rounded-full blur-[140px]"
+          style={{ backgroundColor: "rgba(46, 125, 111, 0.035)" }}
         />
         <div
-          className="absolute bottom-[15%] right-[10%] w-[400px] h-[400px] rounded-full blur-[100px]"
-          style={{ backgroundColor: "rgba(46, 125, 111, 0.03)" }}
+          className="absolute bottom-[12%] right-[8%] w-[450px] h-[450px] rounded-full blur-[120px]"
+          style={{ backgroundColor: "rgba(46, 125, 111, 0.025)" }}
         />
         <div
-          className="absolute top-[55%] left-[50%] w-[350px] h-[350px] rounded-full blur-[110px]"
-          style={{ backgroundColor: "rgba(46, 125, 111, 0.03)" }}
+          className="absolute top-[50%] left-[45%] w-[400px] h-[400px] rounded-full blur-[130px]"
+          style={{ backgroundColor: "rgba(46, 125, 111, 0.02)" }}
         />
       </motion.div>
 
       {/* ── Gradient overlay — Parallax Layer 2 ── */}
       <motion.div className="absolute inset-0" style={{ y: overlay1Y }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D]/85 via-[#0D0D0D]/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D]/80 via-[#0D0D0D]/45 to-transparent" />
       </motion.div>
 
       {/* ── Bottom gradient — Parallax Layer 3 ── */}
       <motion.div className="absolute inset-0" style={{ y: overlay2Y }}>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-[#0D0D0D]/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-[#0D0D0D]/15" />
       </motion.div>
 
       {/* ── Noise texture overlay ── */}
@@ -62,12 +62,12 @@ export default function Hero() {
 
       {/* ── Ambient dust particles — slow, subtle, luxury ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {[...Array(8)].map((_, i) => {
-          const size = 1 + Math.random() * 1.5;
-          const left = 10 + i * 10 + Math.random() * 5;
-          const top = 15 + i * 9 + Math.random() * 5;
-          const duration = 6 + i * 0.8;
-          const drift = -(15 + i * 3);
+        {[...Array(6)].map((_, i) => {
+          const size = 1 + Math.random() * 1.2;
+          const left = 12 + i * 13 + Math.random() * 4;
+          const top = 18 + i * 11 + Math.random() * 4;
+          const duration = 8 + i * 1.2;
+          const drift = -(10 + i * 2);
 
           return (
             <motion.div
@@ -78,17 +78,17 @@ export default function Hero() {
                 height: `${size}px`,
                 left: `${left}%`,
                 top: `${top}%`,
-                backgroundColor: "rgba(184, 184, 184, 0.15)",
+                backgroundColor: "rgba(184, 184, 184, 0.12)",
               }}
               animate={{
                 y: [0, drift, 0],
-                opacity: [0.08, 0.18, 0.08],
+                opacity: [0.06, 0.15, 0.06],
               }}
               transition={{
                 duration,
                 repeat: Infinity,
                 ease: "easeInOut",
-                delay: i * 0.8,
+                delay: i * 1.2,
               }}
             />
           );
@@ -103,19 +103,19 @@ export default function Hero() {
         <div className="max-w-2xl">
           {/* Subtle label */}
           <motion.div
-            className="flex items-center gap-3 mb-10"
-            initial={{ opacity: 0, x: -20 }}
+            className="flex items-center gap-4 mb-12"
+            initial={{ opacity: 0, x: -16 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: cinematicEase }}
+            transition={{ duration: 1.2, delay: 0.4, ease: cinematicEase }}
           >
             <div
-              className="h-[1px] w-[48px]"
+              className="h-[1px] w-[52px]"
               style={{
                 background:
                   "linear-gradient(90deg, #2E7D6F, #3A9B8A, #2E7D6F)",
               }}
             />
-            <span className="text-[10px] sm:text-[11px] tracking-[0.3em] text-[#B8B8B8]/60 font-medium uppercase">
+            <span className="text-[10px] sm:text-[11px] tracking-[0.35em] text-[#B8B8B8]/50 font-medium uppercase">
               Insurtech Terpercaya
             </span>
           </motion.div>
@@ -124,19 +124,19 @@ export default function Hero() {
           <TextReveal
             text="Protection for what truly matters."
             as="h1"
-            className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-[family-name:var(--font-montserrat)] text-[#F5F5F0] leading-[1.1] mb-5"
-            delay={0.5}
-            staggerDelay={0.06}
+            className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-bold font-[family-name:var(--font-montserrat)] text-[#F5F5F0] leading-[1.08] mb-6"
+            delay={0.6}
+            staggerDelay={0.07}
           />
 
           {/* Emerald accent subheading */}
           <motion.p
-            className="text-xl sm:text-2xl lg:text-3xl font-light text-[#2E7D6F] font-[family-name:var(--font-montserrat)] mb-8"
-            initial={{ opacity: 0, y: 25 }}
+            className="text-xl sm:text-2xl lg:text-3xl font-light text-[#2E7D6F] font-[family-name:var(--font-montserrat)] mb-10"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: 1,
-              delay: 1,
+              duration: 1.2,
+              delay: 1.2,
               ease: cinematicEase,
             }}
           >
@@ -145,38 +145,38 @@ export default function Hero() {
 
           {/* Tagline */}
           <motion.p
-            className="text-sm sm:text-base lg:text-lg text-[#F5F5F0]/50 max-w-md mb-12 leading-relaxed tracking-wide"
-            initial={{ opacity: 0, y: 20 }}
+            className="text-sm sm:text-base lg:text-lg text-[#F5F5F0]/40 max-w-md mb-14 leading-[1.7] tracking-wide"
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.3, ease: cinematicEase }}
+            transition={{ duration: 1.2, delay: 1.5, ease: cinematicEase }}
           >
             Peace of mind for the modern world. Insurance that moves with your
             life.
           </motion.p>
 
-          {/* CTA Buttons — calm, elegant, no magnetic */}
+          {/* CTA Buttons — calm, elegant */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4"
-            initial={{ opacity: 0, y: 20 }}
+            className="flex flex-col sm:flex-row gap-5"
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.6, ease: cinematicEase }}
+            transition={{ duration: 1.2, delay: 1.8, ease: cinematicEase }}
           >
             {/* Primary CTA — emerald bg */}
             <a
               href="#model"
-              className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-[#2E7D6F] text-[#0D0D0D] font-medium tracking-wider text-sm rounded-sm transition-all duration-500 hover:bg-[#3A9B8A] hover:shadow-[0_0_30px_rgba(46,125,111,0.15)]"
+              className="group inline-flex items-center justify-center gap-3 px-9 py-4 bg-[#2E7D6F] text-[#0D0D0D] font-medium tracking-wider text-sm rounded-sm transition-all duration-600 hover:bg-[#3A9B8A] hover:shadow-[0_0_40px_rgba(46,125,111,0.12)]"
             >
-              <Shield className="w-4 h-4 transition-transform duration-500 group-hover:scale-110" />
+              <Shield className="w-4 h-4 transition-transform duration-600 group-hover:scale-105" />
               Discover Coverage
             </a>
 
             {/* Secondary CTA — bordered */}
             <a
               href="#kontak"
-              className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 border border-[#2E7D6F]/60 text-[#2E7D6F] font-medium tracking-wider text-sm rounded-sm transition-all duration-500 hover:bg-[#2E7D6F]/10 hover:border-[#2E7D6F] hover:shadow-[0_0_30px_rgba(46,125,111,0.08)]"
+              className="group inline-flex items-center justify-center gap-3 px-9 py-4 border border-[#2E7D6F]/50 text-[#2E7D6F] font-medium tracking-wider text-sm rounded-sm transition-all duration-600 hover:bg-[#2E7D6F]/8 hover:border-[#2E7D6F] hover:shadow-[0_0_40px_rgba(46,125,111,0.06)]"
             >
               Get Protected
-              <ArrowRight className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-600 group-hover:translate-x-1" />
             </a>
           </motion.div>
         </div>
@@ -184,23 +184,23 @@ export default function Hero() {
 
       {/* ── Scroll indicator — elegant, emerald ── */}
       <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.2, duration: 1, ease: cinematicEase }}
+        transition={{ delay: 2.5, duration: 1.2, ease: cinematicEase }}
       >
-        <span className="text-[9px] tracking-[0.35em] text-[#B8B8B8]/30 uppercase font-light">
+        <span className="text-[8px] tracking-[0.4em] text-[#B8B8B8]/25 uppercase font-light">
           Scroll
         </span>
         <motion.div
-          animate={{ y: [0, 6, 0] }}
+          animate={{ y: [0, 5, 0] }}
           transition={{
-            duration: 2.5,
+            duration: 3,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         >
-          <ChevronDown className="w-4 h-4 text-[#2E7D6F]/60" />
+          <ChevronDown className="w-3.5 h-3.5 text-[#2E7D6F]/50" />
         </motion.div>
       </motion.div>
     </section>

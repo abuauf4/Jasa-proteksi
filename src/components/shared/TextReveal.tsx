@@ -12,16 +12,19 @@ interface TextRevealProps {
   staggerDelay?: number;
 }
 
+// Premium cinematic easing
+const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 export default function TextReveal({
   text,
   className = "",
   delay = 0,
   once = true,
   as: Tag = "h2",
-  staggerDelay = 0.03,
+  staggerDelay = 0.04,
 }: TextRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, margin: "-60px" });
+  const isInView = useInView(ref, { once, margin: "-80px" });
 
   const words = text.split(" ");
 
@@ -34,8 +37,8 @@ export default function TextReveal({
             initial={{ y: "100%", opacity: 0 }}
             animate={isInView ? { y: "0%", opacity: 1 } : { y: "100%", opacity: 0 }}
             transition={{
-              duration: 0.5,
-              ease: [0.22, 1, 0.36, 1],
+              duration: 0.6,
+              ease: premiumEase,
               delay: delay + i * staggerDelay,
             }}
           >

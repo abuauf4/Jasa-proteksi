@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Award, ShieldCheck } from "lucide-react";
-import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
 
@@ -14,7 +13,7 @@ const stats = [
   { value: 24, suffix: "/7", label: "Layanan" },
 ];
 
-function useCountUp(target: number, inView: boolean, duration = 2000) {
+function useCountUp(target: number, inView: boolean, duration = 2500) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -24,7 +23,7 @@ function useCountUp(target: number, inView: boolean, duration = 2000) {
     const step = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
+      const eased = 1 - Math.pow(1 - progress, 4);
       start = Math.floor(eased * target);
       setCount(start);
       if (progress < 1) requestAnimationFrame(step);
@@ -55,13 +54,13 @@ function StatItem({ value, suffix, label }: { value: number; suffix: string; lab
   return (
     <motion.div
       ref={ref}
-      className="text-center p-5 rounded-xl bg-[#0A0F1E]/60 border border-white/[0.04] transition-all duration-500 hover:border-[#2E7D6F]/30 hover:bg-[#0A0F1E]/80"
+      className="text-center p-6 rounded-xl bg-[#0A0F1E]/50 border border-white/[0.04] transition-all duration-700 hover:border-[#2E7D6F]/20 hover:bg-[#0A0F1E]/70"
     >
       <p className="text-3xl lg:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-[#2E7D6F]">
         {value >= 1000 ? `${Math.floor(count / 1000)}K` : count}
         {suffix}
       </p>
-      <p className="text-sm text-white/50 mt-2 tracking-wider">{label}</p>
+      <p className="text-sm text-white/40 mt-2.5 tracking-wider">{label}</p>
     </motion.div>
   );
 }
@@ -73,19 +72,19 @@ export default function About() {
     offset: ["start end", "end start"],
   });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], ["2%", "-2%"]);
+  const imageY = useTransform(scrollYProgress, [0, 1], ["1.5%", "-1.5%"]);
 
   return (
     <section id="tentang" className="section-padding relative overflow-hidden bg-[#0D0D0D] text-white">
       <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left - OJK Certification Showcase with slower parallax */}
           <AnimatedSection direction="left">
             <motion.div className="relative" style={{ y: imageY }}>
               <div className="relative overflow-hidden rounded-2xl">
-                <div className="bg-[#0A0F1E] p-10 min-h-[420px] flex flex-col items-center justify-center border border-white/[0.06] rounded-2xl">
+                <div className="bg-[#0A0F1E] p-12 min-h-[420px] flex flex-col items-center justify-center border border-white/[0.05] rounded-2xl">
                   {/* Shield Icon Ring */}
-                  <div className="w-20 h-20 rounded-full bg-[#2E7D6F]/10 border-2 border-[#2E7D6F]/30 flex items-center justify-center mb-6">
+                  <div className="w-20 h-20 rounded-full bg-[#2E7D6F]/[0.07] border-2 border-[#2E7D6F]/25 flex items-center justify-center mb-7">
                     <ShieldCheck className="w-10 h-10 text-[#2E7D6F]" />
                   </div>
                   {/* Title */}
@@ -93,59 +92,59 @@ export default function About() {
                     Berizin & Diawasi OJK
                   </h3>
                   {/* License Number */}
-                  <p className="text-[#2E7D6F] text-xs tracking-wider uppercase text-center mb-4">
+                  <p className="text-[#2E7D6F] text-xs tracking-wider uppercase text-center mb-5">
                     Lisensi KEP-060/NB.1/2021
                   </p>
                   {/* APPARINDO Number */}
-                  <div className="flex items-center gap-2 mb-4">
+                  <div className="flex items-center gap-2 mb-5">
                     <Award className="w-5 h-5 text-[#2E7D6F]" />
-                    <span className="text-white/50 text-xs tracking-wider">APPARINDO No. 113-2005/APPARINDO/2025</span>
+                    <span className="text-white/40 text-xs tracking-wider">APPARINDO No. 113-2005/APPARINDO/2025</span>
                   </div>
                   {/* Description */}
-                  <p className="text-white/30 text-xs text-center max-w-sm leading-relaxed">
+                  <p className="text-white/25 text-xs text-center max-w-sm leading-[1.7]">
                     Pialang asuransi yang telah berizin dan diawasi oleh Otoritas Jasa Keuangan
                   </p>
                 </div>
                 {/* Subtle overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/40 to-transparent pointer-events-none rounded-2xl" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/30 to-transparent pointer-events-none rounded-2xl" />
               </div>
 
               {/* Floating OJK Licensed Badge */}
               <motion.div
-                className="absolute -bottom-4 -left-4 glass rounded-xl p-4 border border-[#2E7D6F]/20"
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-4 -left-4 glass rounded-xl p-4 border border-[#2E7D6F]/15"
+                animate={{ y: [0, -5, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
               >
                 <p className="text-2xl font-bold font-[family-name:var(--font-montserrat)] text-[#2E7D6F]">OJK</p>
-                <p className="text-[10px] tracking-[0.2em] text-white/60 uppercase">Licensed</p>
+                <p className="text-[10px] tracking-[0.2em] text-white/50 uppercase">Licensed</p>
               </motion.div>
             </motion.div>
           </AnimatedSection>
 
           {/* Right - Company Info + Stats */}
-          <AnimatedSection direction="right" delay={0.2}>
+          <AnimatedSection direction="right" delay={0.15}>
             {/* Label */}
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-5">
               <div className="accent-line" />
-              <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">About Us</span>
+              <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">About Us</span>
             </div>
 
             {/* Heading */}
             <TextReveal
               text="PT Solusiutama Tekno Broker Asuransi"
               as="h2"
-              className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mb-6 leading-tight"
+              className="text-3xl lg:text-4xl xl:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mb-7 leading-[1.1]"
               delay={0.1}
               staggerDelay={0.02}
             />
 
             {/* Description */}
-            <p className="text-white/50 leading-relaxed mb-10 max-w-lg">
+            <p className="text-white/40 leading-[1.7] mb-12 max-w-lg text-[15px]">
               Sebagai perusahaan insurtech terpercaya di Indonesia yang berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK), Jasa Proteksi berkomitmen menghadirkan produk asuransi yang mudah, cepat, dan terjangkau untuk setiap gaya hidup. Dengan tagline &apos;Melindungi Setiap Langkah Hidupmu&apos;, kami terus berinovasi untuk memberikan perlindungan terbaik bagi kamu dan keluarga.
             </p>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
               {stats.map((stat) => (
                 <StatItem key={stat.label} {...stat} />
               ))}
@@ -154,10 +153,10 @@ export default function About() {
             {/* CTA Button */}
             <a
               href="#kontak"
-              className="inline-flex items-center gap-2 px-8 py-3 border border-[#2E7D6F]/40 text-[#2E7D6F] font-semibold tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-white transition-all duration-500 group shine-button rounded-lg"
+              className="inline-flex items-center gap-2.5 px-8 py-3.5 border border-[#2E7D6F]/30 text-[#2E7D6F] font-semibold tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-white transition-all duration-600 group shine-button rounded-lg"
             >
               Pelajari Lebih Lanjut
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-600" />
             </a>
           </AnimatedSection>
         </div>
