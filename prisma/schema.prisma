@@ -32,8 +32,8 @@ model Product {
   category          String
   description       String
   benefits          String   // JSON stringified array
-  estimatedPrice    Int      // in IDR (e.g., 1200000)
-  minimumOfferPrice Int      // in IDR (e.g., 800000)
+  estimatedPrice    Int      // in IDR
+  minimumOfferPrice Int      // in IDR
   isActive          Boolean  @default(true)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -42,17 +42,30 @@ model Product {
 }
 
 model Lead {
-  id                       String   @id @default(cuid())
+  id                       String    @id @default(cuid())
   customerName             String
   whatsappNumber           String
   productId                String
   productNameSnapshot      String
-  estimatedPriceSnapshot   Int      // snapshot at time of submission
-  minimumOfferPriceSnapshot Int     // snapshot at time of submission
-  customerOfferPrice       Int      // customer's offer in IDR
-  status                   String   @default("valid") // "valid" or "rejected"
+  estimatedPriceSnapshot   Int       // snapshot at time of submission
+  minimumOfferPriceSnapshot Int      // snapshot at time of submission
+  customerOfferPrice       Int?      // nullable — set only when user makes an offer
+  status                   String    @default("estimation_viewed")
+  // estimation_viewed | whatsapp_clicked | offer_submitted | offer_rejected
   notes                    String?
-  createdAt                DateTime @default(now())
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
 
-  product Product @relation(fields: [productId], references: [id])
+  product  Product         @relation(fields: [productId], references: [id])
+  history  LeadHistory[]
+}
+
+model LeadHistory {
+  id        String   @id @default(cuid())
+  leadId    String
+  action    String   // "created" | "whatsapp_clicked" | "offer_submitted" | "offer_rejected"
+  detail    String?  // JSON details about the action
+  createdAt DateTime @default(now())
+
+  lead Lead @relation(fields: [leadId], references: [id])
 }

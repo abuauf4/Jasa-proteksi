@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get("status"); // "valid" or "rejected"
+    const status = searchParams.get("status");
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "50");
 
@@ -14,7 +14,10 @@ export async function GET(request: NextRequest) {
     const [leads, total] = await Promise.all([
       db.lead.findMany({
         where,
-        include: { product: { select: { name: true, slug: true } } },
+        include: {
+          product: { select: { name: true, slug: true, category: true } },
+          history: { orderBy: { createdAt: "desc" } },
+        },
         orderBy: { createdAt: "desc" },
         skip: (page - 1) * limit,
         take: limit,
@@ -40,22 +43,25 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/leads — Submit a new lead with price validation
+// POST /api/leads — Create lead when user views estimation
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const {
-      customerName,
-      whatsappNumber,
-      productId,
-      customerOfferPrice,
-      notes,
-    } = body;
+    const { customerName, whatsappNumber, productId, notes } = body;
 
     // Validate required fields
-    if (!customerName || !whatsappNumber || !productId || customerOfferPrice == null) {
+    if (!customerName || !whatsappNumber || !productId) {
       return NextResponse.json(
-        { error: "Missing required fields: customerName, whatsappNumber, productId, customerOfferPrice" },
+        { error: "Missing required fields: customerName, whatsappNumber, productId" },
+        { status: 400 }
+      );
+    }
+
+    // Validate WhatsApp number (basic: must be numeric, 10-15 digits)
+    const cleanPhone = whatsappNumber.replace(/[\s\-+]/g, "");
+    if (!/^\d{10,15}$/.test(cleanPhone)) {
+      return NextResponse.json(
+        { error: "Nomor WhatsApp tidak valid. Gunakan format: 08xxxxxxxxxx atau 628xxxxxxxxxx" },
         { status: 400 }
       );
     }
@@ -70,41 +76,131 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Product is not available" }, { status: 400 });
     }
 
-    const offerPrice = Number(customerOfferPrice);
-    const isValid = offerPrice >= product.minimumOfferPrice;
-
-    // Create the lead (always save, whether valid or rejected)
+    // Create lead with estimation_viewed status
     const lead = await db.lead.create({
       data: {
-        customerName,
-        whatsappNumber,
+        customerName: customerName.trim(),
+        whatsappNumber: cleanPhone,
         productId: product.id,
         productNameSnapshot: product.name,
         estimatedPriceSnapshot: product.estimatedPrice,
         minimumOfferPriceSnapshot: product.minimumOfferPrice,
-        customerOfferPrice: offerPrice,
-        status: isValid ? "valid" : "rejected",
-        notes: notes || null,
+        status: "estimation_viewed",
+        notes: notes?.trim() || null,
       },
     });
 
+    // Create history entry
+    await db.leadHistory.create({
+      data: {
+        leadId: lead.id,
+        action: "created",
+        detail: JSON.stringify({
+          product: product.name,
+          estimatedPrice: product.estimatedPrice,
+        }),
+      },
+    });
+
+    // Send email notification (async, don't block response)
+    sendNotificationEmail("estimation_viewed", {
+      leadId: lead.id,
+      customerName: lead.customerName,
+      whatsappNumber: lead.whatsappNumber,
+      productName: product.name,
+      estimatedPrice: product.estimatedPrice,
+      notes: lead.notes,
+      createdAt: lead.createdAt.toISOString(),
+    }).catch((err) => console.error("Email notification error:", err));
+
     return NextResponse.json(
       {
-        lead,
-        isValid,
-        message: isValid
-          ? "Penawaran Anda telah dikirim. Silakan lanjut konsultasi via WhatsApp."
-          : "Maaf, penawaran belum memenuhi syarat minimum untuk produk ini.",
-        minimumOfferPrice: product.minimumOfferPrice,
-        estimatedPrice: product.estimatedPrice,
+        lead: {
+          id: lead.id,
+          customerName: lead.customerName,
+          whatsappNumber: lead.whatsappNumber,
+          status: lead.status,
+          estimatedPriceSnapshot: lead.estimatedPriceSnapshot,
+          minimumOfferPriceSnapshot: lead.minimumOfferPriceSnapshot,
+          productNameSnapshot: lead.productNameSnapshot,
+        },
+        product: {
+          name: product.name,
+          category: product.category,
+          description: product.description,
+          benefits: product.benefits,
+          estimatedPrice: product.estimatedPrice,
+          minimumOfferPrice: product.minimumOfferPrice,
+        },
       },
-      { status: isValid ? 201 : 202 }
+      { status: 201 }
     );
   } catch (error) {
     console.error("POST /api/leads error:", error);
     return NextResponse.json(
-      { error: "Failed to submit lead" },
+      { error: "Failed to create lead" },
       { status: 500 }
     );
   }
+}
+
+// Email notification utility
+async function sendNotificationEmail(
+  type: "estimation_viewed" | "offer_submitted" | "offer_rejected",
+  data: {
+    leadId: string;
+    customerName: string;
+    whatsappNumber: string;
+    productName: string;
+    estimatedPrice: number;
+    notes?: string | null;
+    createdAt: string;
+    customerOfferPrice?: number;
+    minimumOfferPrice?: number;
+  }
+) {
+  const adminEmail = "abuaufa.nauka@gmail.com";
+
+  if (type === "estimation_viewed") {
+    console.log(`
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📧 EMAIL NOTIFICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+To: ${adminEmail}
+Subject: Lead Baru Melihat Estimasi - ${data.productName}
+
+Nama: ${data.customerName}
+WhatsApp: ${data.whatsappNumber}
+Produk: ${data.productName}
+Estimasi Harga: Rp ${data.estimatedPrice.toLocaleString("id-ID")}
+Catatan: ${data.notes || "-"}
+Waktu: ${new Date(data.createdAt).toLocaleString("id-ID")}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    `);
+  } else if (type === "offer_submitted" || type === "offer_rejected") {
+    const statusLabel = type === "offer_submitted" ? "VALID ✅" : "REJECTED ❌";
+    console.log(`
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📧 EMAIL NOTIFICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+To: ${adminEmail}
+Subject: Penawaran Customer - ${data.productName}
+
+Nama: ${data.customerName}
+WhatsApp: ${data.whatsappNumber}
+Produk: ${data.productName}
+Estimasi Harga: Rp ${data.estimatedPrice.toLocaleString("id-ID")}
+Harga Penawaran: Rp ${data.customerOfferPrice?.toLocaleString("id-ID") || "-"}
+Minimum Penawaran: Rp ${data.minimumOfferPrice?.toLocaleString("id-ID") || "-"}
+Status: ${statusLabel}
+Catatan: ${data.notes || "-"}
+Waktu: ${new Date(data.createdAt).toLocaleString("id-ID")}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    `);
+  }
+
+  // TODO: Integrate with actual email service (Resend, SendGrid, etc.)
+  // For production, replace console.log with:
+  // await fetch("https://api.resend.com/emails", { ... })
+  // or await transporter.sendMail({ ... })
 }

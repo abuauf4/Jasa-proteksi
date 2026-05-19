@@ -5,8 +5,7 @@ import { Car, Bike, Plane, PawPrint, Zap, UserCheck, ArrowRight, Shield, Calcula
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
-import PriceEstimationModal from "@/components/flow/PriceEstimationModal";
-import LeadFormModal from "@/components/flow/LeadFormModal";
+import LeadFlowModal from "@/components/flow/LeadFlowModal";
 import { products as staticProducts, InsuranceProduct } from "@/lib/products";
 
 const categories = ["Semua", "Kendaraan", "Perjalanan", "Hewan", "Personal"];
@@ -22,49 +21,23 @@ const iconMap: Record<string, React.ElementType> = {
 
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-function formatRupiah(amount: number): string {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-}
-
-// Use InsuranceProduct directly — it has all fields needed for both display and lead flow
-type DisplayProduct = InsuranceProduct;
-
 export default function Portfolio() {
   const [active, setActive] = useState("Semua");
-  // Use static products — always available, no API dependency
-  const products: DisplayProduct[] = staticProducts;
+  const products = staticProducts;
 
-  // Modal states
-  const [estimationOpen, setEstimationOpen] = useState(false);
-  const [leadFormOpen, setLeadFormOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<DisplayProduct | null>(null);
+  // Modal state
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<InsuranceProduct | null>(null);
 
   const filtered = active === "Semua" ? products : products.filter((p) => p.category === active);
 
-  const handleCekHarga = (product: DisplayProduct) => {
+  const handleCekHarga = (product: InsuranceProduct) => {
     setSelectedProduct(product);
-    setEstimationOpen(true);
+    setModalOpen(true);
   };
 
-  const handleProceedToForm = (product: DisplayProduct) => {
-    setEstimationOpen(false);
-    setSelectedProduct(product);
-    setTimeout(() => setLeadFormOpen(true), 300);
-  };
-
-  const handleBackToEstimation = () => {
-    setLeadFormOpen(false);
-    setTimeout(() => setEstimationOpen(true), 300);
-  };
-
-  const handleCloseAll = () => {
-    setEstimationOpen(false);
-    setLeadFormOpen(false);
+  const handleCloseModal = () => {
+    setModalOpen(false);
     setSelectedProduct(null);
   };
 
@@ -114,7 +87,6 @@ export default function Portfolio() {
             <AnimatePresence mode="wait">
               {filtered.map((product, i) => {
                 const IconComponent = iconMap[product.slug] || Shield;
-                const benefits: string[] = JSON.parse(product.benefits || "[]");
                 return (
                   <motion.div
                     key={product.slug}
@@ -159,7 +131,7 @@ export default function Portfolio() {
                           {product.price}
                         </p>
 
-                        {/* Benefits / Highlights */}
+                        {/* Highlights */}
                         <div className="grid grid-cols-2 gap-2.5 mb-5">
                           {product.highlights.slice(0, 4).map((h) => (
                             <div key={h.label} className="flex items-center gap-1.5 text-gray-400 text-[10px]">
@@ -193,17 +165,10 @@ export default function Portfolio() {
         </div>
       </div>
 
-      {/* Modals */}
-      <PriceEstimationModal
-        isOpen={estimationOpen}
-        onClose={handleCloseAll}
-        product={selectedProduct}
-        onProceed={handleProceedToForm}
-      />
-      <LeadFormModal
-        isOpen={leadFormOpen}
-        onClose={handleCloseAll}
-        onBack={handleBackToEstimation}
+      {/* Unified Lead Flow Modal */}
+      <LeadFlowModal
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
         product={selectedProduct}
       />
     </section>
