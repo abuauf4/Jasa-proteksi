@@ -5,15 +5,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   X, ArrowRight, User, Phone, FileText, Send,
   CheckCircle2, MessageCircle, AlertTriangle, Shield,
-  Info, Calculator, ArrowLeft,
+  Info, Calculator, ArrowLeft, Handshake,
 } from "lucide-react";
 import { InsuranceProduct } from "@/lib/products";
 
 // Step 1: Form (Name, WA, Notes) → "Lihat Estimasi"
-// Step 2: Estimation shown + WhatsApp CTA + "Ajukan Penawaran" option
+// Step 2: Estimation shown + confident WhatsApp CTA + only close button
+// Step 2b: Exit prompt "Punya budget tertentu?" (fallback when user closes)
 // Step 3: Offer form (price input) → Submit → Result
 
-type Step = "form" | "estimation" | "offer" | "result-valid" | "result-rejected";
+type Step = "form" | "estimation" | "exit-prompt" | "offer" | "result-valid" | "result-rejected";
 
 interface LeadData {
   id: string;
@@ -195,11 +196,6 @@ export default function LeadFlowModal({
         const isValid = priceValue >= (leadData?.minimumOfferPrice || product.minimumOfferPrice);
         setStep(isValid ? "result-valid" : "result-rejected");
       }
-
-      // Update leadData with offer price
-      if (leadData) {
-        setLeadData({ ...leadData, minimumOfferPrice: leadData.minimumOfferPrice });
-      }
     } catch {
       setError("Terjadi kesalahan koneksi. Silakan coba lagi.");
     } finally {
@@ -214,10 +210,30 @@ export default function LeadFlowModal({
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   };
 
-  const handleClose = () => {
-    // On close during estimation step, suggest offer
+  // Handle close button based on current step
+  const handleCloseClick = () => {
     if (step === "estimation" && leadData) {
-      setStep("offer");
+      // Don't close directly — show exit prompt (fallback to offer)
+      setStep("exit-prompt");
+      return;
+    }
+    if (step === "exit-prompt") {
+      // User explicitly chose to close from exit prompt
+      resetAndClose();
+      return;
+    }
+    if (step === "offer") {
+      // Go back to exit prompt
+      setStep("exit-prompt");
+      return;
+    }
+    resetAndClose();
+  };
+
+  // Handle backdrop click
+  const handleBackdropClick = () => {
+    if (step === "estimation" && leadData) {
+      setStep("exit-prompt");
       return;
     }
     resetAndClose();
@@ -245,7 +261,7 @@ export default function LeadFlowModal({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
             className="fixed inset-0 bg-[#0D0D0D]/70 backdrop-blur-sm z-[60]"
-            onClick={handleClose}
+            onClick={handleBackdropClick}
           />
 
           {/* Modal */}
@@ -259,10 +275,10 @@ export default function LeadFlowModal({
             <div className="relative w-full max-w-lg bg-[#0A0F1E] border border-white/[0.06] rounded-xl overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto">
               {/* Close button */}
               <button
-                onClick={step === "offer" ? () => setStep("estimation") : resetAndClose}
+                onClick={handleCloseClick}
                 className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-white/30 hover:text-white/70 transition-colors duration-500 z-10"
               >
-                {step === "offer" ? <ArrowLeft className="w-4 h-4" /> : <X className="w-4 h-4" />}
+                <X className="w-4 h-4" />
               </button>
 
               {/* ──────── STEP 1: FORM ──────── */}
@@ -369,7 +385,7 @@ export default function LeadFlowModal({
                 </motion.div>
               )}
 
-              {/* ──────── STEP 2: ESTIMATION ──────── */}
+              {/* ──────── STEP 2: ESTIMATION (confident, no offer) ──────── */}
               {step === "estimation" && leadData && (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
@@ -399,7 +415,7 @@ export default function LeadFlowModal({
 
                     {/* Benefits */}
                     {benefits.length > 0 && (
-                      <div className="mb-5">
+                      <div className="mb-6">
                         <p className="text-white/50 text-[10px] tracking-wider uppercase mb-2.5">Manfaat Perlindungan</p>
                         <div className="grid grid-cols-2 gap-1.5">
                           {benefits.slice(0, 6).map((b, i) => (
@@ -412,37 +428,80 @@ export default function LeadFlowModal({
                       </div>
                     )}
 
-                    {/* WhatsApp CTA */}
+                    {/* Primary CTA — Confident WhatsApp */}
                     <a
                       href={buildWhatsAppUrl()}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={handleWhatsAppClick}
-                      className="w-full flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#2E7D6F] text-white font-semibold tracking-wider text-sm hover:bg-[#3A9B8A] transition-all duration-600 rounded-md mb-3"
+                      className="w-full flex items-center justify-center gap-2.5 px-6 py-4 bg-[#2E7D6F] text-white font-semibold tracking-wider text-sm hover:bg-[#3A9B8A] transition-all duration-600 rounded-md"
                     >
-                      <MessageCircle className="w-4 h-4" />
-                      Konsultasi via WhatsApp
+                      <MessageCircle className="w-5 h-5" />
+                      Setuju, Lanjut Konsultasi via WhatsApp
                     </a>
 
-                    {/* Secondary offer */}
+                    {/* Subtle hint — no aggressive secondary action */}
+                    <p className="text-center text-white/20 text-[10px] mt-4 leading-relaxed">
+                      Klik X untuk menutup
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* ──────── EXIT PROMPT: Fallback to offer (only when user closes) ──────── */}
+              {step === "exit-prompt" && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, ease: premiumEase }}
+                  className="px-6 py-10 text-center"
+                >
+                  <div className="w-12 h-12 rounded-full bg-[#2E7D6F]/10 border border-[#2E7D6F]/20 flex items-center justify-center mx-auto mb-4">
+                    <Handshake className="w-6 h-6 text-[#2E7D6F]/70" />
+                  </div>
+
+                  <h4 className="text-white/90 font-semibold text-base mb-2 font-[family-name:var(--font-montserrat)]">
+                    Punya budget tertentu?
+                  </h4>
+                  <p className="text-white/40 text-xs leading-relaxed mb-6 max-w-sm mx-auto">
+                    Ajukan penawaran sesuai kemampuan Anda. Kami akan meninjau dan menghubungi Anda jika penawaran memenuhi syarat.
+                  </p>
+
+                  <div className="flex flex-col gap-3">
                     <button
                       onClick={() => setStep("offer")}
-                      className="w-full flex items-center justify-center gap-2 px-5 py-3 border border-white/[0.08] text-white/40 text-xs font-medium tracking-wider hover:border-[#2E7D6F]/30 hover:text-white/60 transition-all duration-500 rounded-md"
+                      className="w-full flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#2E7D6F] text-white font-semibold tracking-wider text-sm hover:bg-[#3A9B8A] transition-all duration-600 rounded-md"
                     >
-                      Punya budget tertentu? Ajukan penawaran Anda
-                      <ArrowRight className="w-3 h-3" />
+                      <Send className="w-4 h-4" />
+                      Ajukan Penawaran
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+
+                    <button
+                      onClick={resetAndClose}
+                      className="w-full px-5 py-3 border border-white/[0.08] text-white/30 text-xs font-medium tracking-wider hover:border-white/15 hover:text-white/50 transition-all duration-500 rounded-md"
+                    >
+                      Tutup
                     </button>
                   </div>
                 </motion.div>
               )}
 
-              {/* ──────── STEP 3: OFFER FORM ──────── */}
+              {/* ──────── STEP 3: OFFER FORM (fallback flow) ──────── */}
               {step === "offer" && (
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, ease: premiumEase }}
                 >
+                  {/* Back button */}
+                  <button
+                    onClick={() => setStep("exit-prompt")}
+                    className="absolute top-4 left-4 w-8 h-8 flex items-center justify-center text-white/30 hover:text-white/70 transition-colors duration-500 z-10"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                  </button>
+
                   <div className="px-6 pt-8 pb-2 text-center">
                     <h3 className="text-lg font-bold text-white/90 font-[family-name:var(--font-montserrat)] mb-1">
                       Ajukan Penawaran
@@ -498,7 +557,7 @@ export default function LeadFlowModal({
                     <div className="flex gap-3 mt-6">
                       <button
                         type="button"
-                        onClick={() => setStep("estimation")}
+                        onClick={() => setStep("exit-prompt")}
                         className="flex-1 px-5 py-3 border border-white/10 text-white/40 text-xs font-medium tracking-wider hover:border-white/20 transition-all duration-500 rounded-md"
                       >
                         Kembali
