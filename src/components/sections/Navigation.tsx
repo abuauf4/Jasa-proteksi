@@ -70,14 +70,14 @@ export default function Navigation() {
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
           scrolled
-            ? "bg-[#00001f]/90 backdrop-blur-xl shadow-lg shadow-black/20 border-b border-white/5"
+            ? "bg-[#0D0D0D]/90 backdrop-blur-xl shadow-lg shadow-black/20 border-b border-white/5"
             : "bg-transparent"
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
@@ -111,12 +111,12 @@ export default function Navigation() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="relative px-4 py-2 text-sm font-medium tracking-wide transition-colors duration-300 group"
+                  className="relative px-4 py-2 text-sm font-medium tracking-wide transition-colors duration-500 group"
                 >
                   <span
                     className={
                       activeSection === link.href.replace("#", "")
-                        ? "text-[#c9a84c]"
+                        ? "text-[#2E7D6F]"
                         : "text-white/80 group-hover:text-white"
                     }
                   >
@@ -125,8 +125,8 @@ export default function Navigation() {
                   {activeSection === link.href.replace("#", "") && (
                     <motion.div
                       layoutId="activeNav"
-                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-[#c9a84c] to-[#dfc06f]"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      className="absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-[#2E7D6F] to-[#3A9B8A]"
+                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     />
                   )}
                 </a>
@@ -138,7 +138,7 @@ export default function Navigation() {
               {mounted && (
                 <button
                   onClick={toggleTheme}
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-[#c9a84c] transition-colors duration-300 border border-white/10 hover:border-[#c9a84c]/30"
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-white/70 hover:text-[#2E7D6F] transition-colors duration-500 border border-white/10 hover:border-[#2E7D6F]/30"
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -147,11 +147,11 @@ export default function Navigation() {
 
               <MagneticButton
                 href="#kontak"
-                className="relative px-6 py-2.5 text-sm font-semibold tracking-wider border border-[#c9a84c] text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 overflow-hidden group shine-button"
+                className="relative px-6 py-2.5 text-sm font-semibold tracking-wider border border-[#2E7D6F] text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-500 overflow-hidden group"
                 strength={0.2}
               >
                 <span className="relative z-10">DAPATKAN PERLINDUNGAN</span>
-                <div className="absolute inset-0 bg-[#c9a84c] transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
+                <div className="absolute inset-0 bg-[#2E7D6F] transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
               </MagneticButton>
             </div>
 
@@ -160,7 +160,7 @@ export default function Navigation() {
               {mounted && (
                 <button
                   onClick={toggleTheme}
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-[#c9a84c] transition-colors duration-300"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-[#2E7D6F] transition-colors duration-500"
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -168,7 +168,7 @@ export default function Navigation() {
               )}
               <button
                 onClick={() => setMobileOpen(true)}
-                className="w-8 h-8 flex items-center justify-center text-white hover:text-[#c9a84c] transition-colors duration-300"
+                className="w-8 h-8 flex items-center justify-center text-white hover:text-[#2E7D6F] transition-colors duration-500"
                 aria-label="Open menu"
               >
                 <Menu className="w-6 h-6" />
@@ -182,18 +182,18 @@ export default function Navigation() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-[60] bg-[#00001f]/98 backdrop-blur-xl"
+            className="fixed inset-0 z-[60] bg-[#0D0D0D]/98 backdrop-blur-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="flex flex-col h-full">
               {/* Close button */}
               <div className="flex justify-end p-6">
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-[#c9a84c] transition-colors"
+                  className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-[#2E7D6F] transition-colors duration-500"
                   aria-label="Close menu"
                 >
                   <X className="w-6 h-6" />
@@ -207,15 +207,15 @@ export default function Navigation() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`text-3xl font-[family-name:var(--font-montserrat)] font-semibold tracking-wider transition-colors duration-300 ${
+                    className={`text-3xl font-[family-name:var(--font-montserrat)] font-semibold tracking-wider transition-colors duration-500 ${
                       activeSection === link.href.replace("#", "")
-                        ? "text-[#c9a84c]"
-                        : "text-white/80 hover:text-[#c9a84c]"
+                        ? "text-[#2E7D6F]"
+                        : "text-white/80 hover:text-[#2E7D6F]"
                     }`}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ delay: i * 0.08, duration: 0.4 }}
+                    exit={{ opacity: 0, y: 12 }}
+                    transition={{ delay: i * 0.07, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                   >
                     {link.label}
                   </motion.a>
@@ -227,7 +227,7 @@ export default function Navigation() {
                 <a
                   href="#kontak"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full max-w-xs text-center py-4 border border-[#c9a84c] text-[#c9a84c] font-semibold tracking-wider hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 shine-button"
+                  className="w-full max-w-xs text-center py-4 border border-[#2E7D6F] text-[#2E7D6F] font-semibold tracking-wider hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-500"
                 >
                   DAPATKAN PERLINDUNGAN
                 </a>

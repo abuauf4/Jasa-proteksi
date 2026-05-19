@@ -41,7 +41,7 @@ export default function SectionPattern({ pattern, className = "" }: SectionPatte
 }
 
 function getPatternSvg(pattern: PatternType): React.ReactNode {
-  const stroke = "#c9a84c";
+  const stroke = "#2E7D6F";
   const sw = 0.5;
   const common = { stroke, strokeWidth: sw, fill: "none" };
 

@@ -31,10 +31,10 @@ export default function Home() {
         <Features />
         <Testimonials />
         <Pricing />
-        <FAQ />
-        <Gallery />
-        <Blog />
         <About />
+        <FAQ />
+        <Blog />
+        <Gallery />
         <Contact />
         <MapSection />
         <CTASection />

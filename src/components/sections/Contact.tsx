@@ -8,8 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
-import MagneticButton from "@/components/shared/MagneticButton";
-import SpotlightCard from "@/components/shared/SpotlightCard";
 
 const contactInfo = [
   { icon: MapPin, label: "Alamat", value: "Menara Anugrah Lantai 23, Unit A, Kantor Taman E 3.3, Jl. DR Ide Anak Agung Gde Agung Lot 8.6, Kawasan Mega Kuningan, Jakarta Selatan 12950" },
@@ -37,18 +35,18 @@ export default function Contact() {
   };
 
   return (
-    <SectionWrapper id="kontak">
+    <SectionWrapper id="kontak" className="bg-[#F5F5F0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <AnimatedSection className="text-center mb-16">
           <div className="flex justify-center mb-4">
-            <div className="gold-line" />
+            <div className="accent-line" />
           </div>
-          <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Contact</span>
+          <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">Contact</span>
           <TextReveal
             text="Hubungi Kami"
             as="h2"
-            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4 text-[#0D0D0D]"
             delay={0.1}
           />
         </AnimatedSection>
@@ -56,67 +54,63 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Left - Form */}
           <AnimatedSection direction="left">
-            <SpotlightCard className="rounded-xl" spotlightColor="rgba(201, 168, 76, 0.04)">
-              <form onSubmit={handleSubmit} className="space-y-5 p-6 rounded-xl border border-border bg-card/50">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <Input
-                      placeholder="Nama Lengkap"
-                      value={formState.name}
-                      onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                      required
-                      className="bg-background border-border focus:border-[#c9a84c] h-12 rounded-lg"
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      type="email"
-                      placeholder="Email"
-                      value={formState.email}
-                      onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                      required
-                      className="bg-background border-border focus:border-[#c9a84c] h-12 rounded-lg"
-                    />
-                  </div>
+            <form onSubmit={handleSubmit} className="space-y-5 p-6 sm:p-8 rounded-xl border border-gray-200 bg-white">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <Input
+                    placeholder="Nama Lengkap"
+                    value={formState.name}
+                    onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                    required
+                    className="bg-[#F5F5F0] border-gray-200 focus:border-[#2E7D6F] h-12 rounded-lg"
+                  />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <Input
-                      type="tel"
-                      placeholder="No. Telepon"
-                      value={formState.phone}
-                      onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
-                      className="bg-background border-border focus:border-[#c9a84c] h-12 rounded-lg"
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      placeholder="Subjek"
-                      value={formState.subject}
-                      onChange={(e) => setFormState({ ...formState, subject: e.target.value })}
-                      className="bg-background border-border focus:border-[#c9a84c] h-12 rounded-lg"
-                    />
-                  </div>
+                <div>
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    value={formState.email}
+                    onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                    required
+                    className="bg-[#F5F5F0] border-gray-200 focus:border-[#2E7D6F] h-12 rounded-lg"
+                  />
                 </div>
-                <Textarea
-                  placeholder="Pesan Anda..."
-                  value={formState.message}
-                  onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                  rows={5}
-                  required
-                  className="bg-background border-border focus:border-[#c9a84c] rounded-lg resize-none"
-                />
-                <MagneticButton
-                  as="button"
-                  onClick={handleSubmit as unknown as () => void}
-                  className="w-full bg-[#1a1a2e] hover:bg-[#c9a84c] text-white hover:text-[#00001f] h-12 rounded-lg font-semibold tracking-wider transition-all duration-300 shine-button"
-                  strength={0.15}
-                >
-                  {submitted ? "Terkirim!" : "Kirim Pesan"}
-                  {!submitted && <Send className="w-4 h-4 ml-2 inline" />}
-                </MagneticButton>
-              </form>
-            </SpotlightCard>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <Input
+                    type="tel"
+                    placeholder="No. Telepon"
+                    value={formState.phone}
+                    onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
+                    className="bg-[#F5F5F0] border-gray-200 focus:border-[#2E7D6F] h-12 rounded-lg"
+                  />
+                </div>
+                <div>
+                  <Input
+                    placeholder="Subjek"
+                    value={formState.subject}
+                    onChange={(e) => setFormState({ ...formState, subject: e.target.value })}
+                    className="bg-[#F5F5F0] border-gray-200 focus:border-[#2E7D6F] h-12 rounded-lg"
+                  />
+                </div>
+              </div>
+              <Textarea
+                placeholder="Pesan Anda..."
+                value={formState.message}
+                onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                rows={5}
+                required
+                className="bg-[#F5F5F0] border-gray-200 focus:border-[#2E7D6F] rounded-lg resize-none"
+              />
+              <button
+                type="submit"
+                className="w-full bg-[#0D0D0D] hover:bg-[#2E7D6F] text-white h-12 rounded-lg font-semibold tracking-wider transition-all duration-500 flex items-center justify-center gap-2"
+              >
+                {submitted ? "Terkirim!" : "Kirim Pesan"}
+                {!submitted && <Send className="w-4 h-4" />}
+              </button>
+            </form>
           </AnimatedSection>
 
           {/* Right - Contact Info */}
@@ -128,22 +122,22 @@ export default function Contact() {
                   className="flex items-start gap-4 group"
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.08, duration: 0.5 }}
+                  transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   viewport={{ once: true }}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-[#c9a84c]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#c9a84c]/20 transition-colors duration-300">
-                    <info.icon className="w-5 h-5 text-[#c9a84c]" />
+                  <div className="w-10 h-10 rounded-lg bg-[#2E7D6F]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#2E7D6F]/20 transition-colors duration-300">
+                    <info.icon className="w-5 h-5 text-[#2E7D6F]" />
                   </div>
                   <div>
-                    <p className="text-xs tracking-wider text-muted-foreground uppercase mb-1">{info.label}</p>
-                    <p className="font-medium text-sm">{info.value}</p>
+                    <p className="text-xs tracking-wider text-gray-400 uppercase mb-1">{info.label}</p>
+                    <p className="font-medium text-sm text-[#0D0D0D]">{info.value}</p>
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            {/* Decorative gold line */}
-            <div className="gold-line mt-10" />
+            {/* Decorative emerald line */}
+            <div className="h-px w-full bg-gradient-to-r from-[#2E7D6F]/60 via-[#2E7D6F]/20 to-transparent mt-10" />
           </AnimatedSection>
         </div>
       </div>

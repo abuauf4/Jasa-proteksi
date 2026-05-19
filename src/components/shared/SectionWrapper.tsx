@@ -16,8 +16,8 @@ export default function SectionWrapper({ children, id, className = "", dark = fa
       id={id}
       className={`section-padding relative overflow-hidden ${
         dark
-          ? "bg-[#00001f] dark:bg-[#00001f] text-white"
-          : "bg-background dark:bg-[#0a0a2e] text-foreground"
+          ? "bg-[#0D0D0D] dark:bg-[#0D0D0D] text-white"
+          : "bg-background dark:bg-[#0A0F1E] text-foreground"
       } ${className}`}
     >
       {pattern && <SectionPattern pattern={pattern} />}

@@ -42,7 +42,7 @@ export default function AnimatedFormInput({
         onBlur={() => setFocused(false)}
         required={required}
         rows={multiline ? rows : undefined}
-        className="w-full bg-transparent border-b border-white/20 focus:border-[#c9a84c] py-3 pt-6 text-white text-sm outline-none transition-colors duration-300 resize-none placeholder-transparent peer"
+        className="w-full bg-transparent border-b border-white/20 focus:border-[#2E7D6F] py-3 pt-6 text-white text-sm outline-none transition-colors duration-300 resize-none placeholder-transparent peer"
         placeholder={label}
       />
       {/* Floating label */}
@@ -51,15 +51,15 @@ export default function AnimatedFormInput({
         animate={{
           top: isActive ? "0px" : "18px",
           fontSize: isActive ? "10px" : "14px",
-          color: focused ? "#c9a84c" : "rgba(255,255,255,0.4)",
+          color: focused ? "#2E7D6F" : "rgba(255,255,255,0.4)",
         }}
         transition={{ duration: 0.2 }}
       >
         {label}
       </motion.label>
-      {/* Gold underline animation */}
+      {/* Emerald underline animation */}
       <motion.div
-        className="absolute bottom-0 left-0 h-[2px] bg-[#c9a84c]"
+        className="absolute bottom-0 left-0 h-[2px] bg-[#2E7D6F]"
         initial={{ width: "0%" }}
         animate={{ width: focused ? "100%" : "0%" }}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}

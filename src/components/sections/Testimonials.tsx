@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
 
@@ -55,20 +54,21 @@ export default function Testimonials() {
   const t = testimonials[current];
 
   return (
-    <SectionWrapper id="testimoni">
+    <section id="testimoni" className="section-padding relative overflow-hidden bg-[#F5F5F0] text-foreground">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <AnimatedSection className="text-center mb-16">
+          {/* Decorative Quote Icon */}
           <div className="flex justify-center mb-6">
-            <Quote className="w-10 h-10 text-[#c9a84c]/40" />
+            <Quote className="w-10 h-10 text-[#2E7D6F]/30" />
           </div>
-          <div className="flex justify-center mb-4">
-            <div className="gold-line" />
-          </div>
+          {/* Label */}
+          <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">Testimonials</span>
+          {/* Heading */}
           <TextReveal
-            text="Kata Pengguna Jasa Proteksi"
+            text="Trusted by thousands"
             as="h2"
-            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)]"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mt-4"
             delay={0.1}
           />
         </AnimatedSection>
@@ -81,7 +81,7 @@ export default function Testimonials() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               {/* Stars */}
               <div className="flex justify-center gap-1 mb-8">
@@ -90,11 +90,11 @@ export default function Testimonials() {
                     key={i}
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.05 + 0.2 }}
+                    transition={{ delay: i * 0.05 + 0.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <Star
                       className={`w-5 h-5 ${
-                        i < t.rating ? "text-[#c9a84c] fill-[#c9a84c]" : "text-muted-foreground/30"
+                        i < t.rating ? "text-[#2E7D6F] fill-[#2E7D6F]" : "text-[#0D0D0D]/15"
                       }`}
                     />
                   </motion.div>
@@ -102,35 +102,34 @@ export default function Testimonials() {
               </div>
 
               {/* Quote */}
-              <blockquote className="text-xl sm:text-2xl lg:text-3xl font-light text-foreground/80 italic leading-relaxed mb-10 font-[family-name:var(--font-montserrat)]">
+              <blockquote className="text-xl sm:text-2xl lg:text-3xl font-light text-[#0D0D0D]/80 italic leading-relaxed mb-10 font-[family-name:var(--font-montserrat)]">
                 &ldquo;{t.quote}&rdquo;
               </blockquote>
 
-              {/* Decorative line */}
+              {/* Decorative accent line */}
               <div className="flex justify-center mb-6">
-                <div className="gold-line" />
+                <div className="accent-line" />
               </div>
 
-              {/* Name & Product */}
-              <p className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-[#c9a84c]">
+              {/* Name */}
+              <p className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-[#2E7D6F]">
                 {t.name}
               </p>
-              <p className="text-sm text-muted-foreground mt-1">Pengguna {t.product}</p>
+              {/* Product */}
+              <p className="text-sm text-[#0D0D0D]/40 mt-1">Pengguna {t.product}</p>
             </motion.div>
           </AnimatePresence>
         </div>
 
         {/* Navigation */}
         <div className="flex items-center justify-center gap-6 mt-12">
-          <motion.button
+          <button
             onClick={prev}
-            className="w-10 h-10 rounded-full border border-[#c9a84c]/30 flex items-center justify-center text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            className="w-10 h-10 rounded-full border border-[#2E7D6F]/30 flex items-center justify-center text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white transition-all duration-500"
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="w-5 h-5" />
-          </motion.button>
+          </button>
 
           {/* Dots */}
           <div className="flex gap-2">
@@ -138,25 +137,23 @@ export default function Testimonials() {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === current ? "bg-[#c9a84c] w-6" : "bg-[#c9a84c]/30 hover:bg-[#c9a84c]/50 w-2"
+                className={`h-2 rounded-full transition-all duration-500 ${
+                  i === current ? "bg-[#2E7D6F] w-6" : "bg-[#2E7D6F]/30 hover:bg-[#2E7D6F]/50 w-2"
                 }`}
                 aria-label={`Go to testimonial ${i + 1}`}
               />
             ))}
           </div>
 
-          <motion.button
+          <button
             onClick={next}
-            className="w-10 h-10 rounded-full border border-[#c9a84c]/30 flex items-center justify-center text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            className="w-10 h-10 rounded-full border border-[#2E7D6F]/30 flex items-center justify-center text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white transition-all duration-500"
             aria-label="Next testimonial"
           >
             <ChevronRight className="w-5 h-5" />
-          </motion.button>
+          </button>
         </div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }

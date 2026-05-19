@@ -1,11 +1,9 @@
 "use client";
 
 import { Check, Star } from "lucide-react";
-import SectionWrapper from "@/components/shared/SectionWrapper";
+import { motion } from "framer-motion";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
-import SpotlightCard from "@/components/shared/SpotlightCard";
-import MagneticButton from "@/components/shared/MagneticButton";
 
 const pricingTiers = [
   {
@@ -51,16 +49,13 @@ const pricingTiers = [
 
 export default function Pricing() {
   return (
-    <SectionWrapper id="promo" dark>
+    <section id="promo" className="section-padding relative overflow-hidden bg-[#0D0D0D] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <AnimatedSection className="text-center mb-16 lg:mb-20">
-          <div className="flex justify-center mb-4">
-            <div className="gold-line" />
-          </div>
-          <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Coverage</span>
+          <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">Coverage</span>
           <TextReveal
-            text="Pilih Paket Perlindunganmu"
+            text="Choose your peace of mind"
             as="h2"
             className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4"
             delay={0.1}
@@ -71,74 +66,74 @@ export default function Pricing() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {pricingTiers.map((tier, i) => (
             <AnimatedSection key={tier.name} delay={i * 0.15}>
-              <SpotlightCard className="h-full" spotlightColor="rgba(201, 168, 76, 0.06)">
-                <div
-                  className={`relative h-full rounded-xl p-8 transition-all duration-500 card-lift ${
+              <motion.div
+                className={`relative h-full rounded-xl p-8 transition-all duration-500 card-lift ${
+                  tier.recommended
+                    ? "bg-[#0A0F1E]/80 border border-[#2E7D6F]/50 shadow-lg shadow-[#2E7D6F]/10 gradient-border"
+                    : "bg-[#0A0F1E]/60 border border-white/[0.04] hover:border-[#2E7D6F]/20"
+                }`}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {/* Recommended Badge */}
+                {tier.recommended && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                    <div className="flex items-center gap-1 bg-[#2E7D6F] text-white px-4 py-1 rounded-full text-xs font-bold tracking-wider uppercase">
+                      <Star className="w-3 h-3 fill-white" />
+                      Recommended
+                    </div>
+                  </div>
+                )}
+
+                {/* Tier Name */}
+                <h3 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-white/70 tracking-wider mb-4">
+                  {tier.name}
+                </h3>
+
+                {/* Price */}
+                <div className="mb-8">
+                  <p className="text-3xl lg:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-[#2E7D6F] mb-1">
+                    {tier.dp}
+                  </p>
+                  <p className="text-sm text-white/40">{tier.monthly}</p>
+                </div>
+
+                {/* Divider */}
+                <div className="accent-line mb-8" />
+
+                {/* Features */}
+                <ul className="space-y-4 mb-8">
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <Check className="w-4 h-4 text-[#2E7D6F] flex-shrink-0 mt-0.5" />
+                      <span className="text-sm text-white/60">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA */}
+                <a
+                  href="#kontak"
+                  className={`block text-center py-3 font-semibold tracking-wider text-sm transition-all duration-500 shine-button rounded-lg ${
                     tier.recommended
-                      ? "glass-dark border-[#c9a84c]/60 shadow-lg shadow-[#c9a84c]/10 gradient-border"
-                      : "glass-dark hover:border-[#c9a84c]/30"
+                      ? "bg-[#2E7D6F] text-white hover:bg-[#3A9B8A]"
+                      : "border border-[#2E7D6F]/40 text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white"
                   }`}
                 >
-                  {/* Recommended Badge */}
-                  {tier.recommended && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                      <div className="flex items-center gap-1 bg-[#c9a84c] text-[#00001f] px-4 py-1 rounded-full text-xs font-bold tracking-wider uppercase animate-glow-pulse">
-                        <Star className="w-3 h-3 fill-[#00001f]" />
-                        Recommended
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Tier Name */}
-                  <h3 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-white/70 tracking-wider mb-4">
-                    {tier.name}
-                  </h3>
-
-                  {/* Price */}
-                  <div className="mb-8">
-                    <p className="text-3xl lg:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-[#c9a84c] mb-1">
-                      {tier.dp}
-                    </p>
-                    <p className="text-sm text-white/40">{tier.monthly}</p>
-                  </div>
-
-                  {/* Divider */}
-                  <div className="gold-line mb-8" />
-
-                  {/* Features */}
-                  <ul className="space-y-4 mb-8">
-                    {tier.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-3">
-                        <Check className="w-4 h-4 text-[#c9a84c] flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-white/60">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* CTA */}
-                  <MagneticButton
-                    href="#kontak"
-                    className={`block text-center py-3 font-semibold tracking-wider text-sm transition-all duration-300 shine-button w-full ${
-                      tier.recommended
-                        ? "bg-[#c9a84c] text-[#00001f] hover:bg-[#dfc06f]"
-                        : "border border-[#c9a84c]/40 text-[#c9a84c] hover:bg-[#c9a84c] hover:text-[#00001f]"
-                    }`}
-                  >
-                    Hubungi Kami
-                  </MagneticButton>
-                </div>
-              </SpotlightCard>
+                  Hubungi Kami
+                </a>
+              </motion.div>
             </AnimatedSection>
           ))}
         </div>
 
         {/* Disclaimer */}
         <AnimatedSection delay={0.5} className="mt-10 text-center">
-          <p className="text-xs text-white/30">
+          <p className="text-xs text-white/20">
             Premi bersifat estimasi. Hubungi tim kami untuk penawaran terperinci.
           </p>
         </AnimatedSection>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }

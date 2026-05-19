@@ -6,7 +6,6 @@ import { ArrowRight, Award, ShieldCheck } from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
-import MagneticButton from "@/components/shared/MagneticButton";
 
 const stats = [
   { value: 6, suffix: "+", label: "Produk Asuransi" },
@@ -56,11 +55,9 @@ function StatItem({ value, suffix, label }: { value: number; suffix: string; lab
   return (
     <motion.div
       ref={ref}
-      className="text-center p-4 rounded-xl bg-white/5 border border-white/5"
-      whileHover={{ borderColor: "rgba(201, 168, 76, 0.3)", backgroundColor: "rgba(201, 168, 76, 0.05)" }}
-      transition={{ duration: 0.3 }}
+      className="text-center p-5 rounded-xl bg-[#0A0F1E]/60 border border-white/[0.04] transition-all duration-500 hover:border-[#2E7D6F]/30 hover:bg-[#0A0F1E]/80"
     >
-      <p className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-[#c9a84c]">
+      <p className="text-3xl lg:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-[#2E7D6F]">
         {value >= 1000 ? `${Math.floor(count / 1000)}K` : count}
         {suffix}
       </p>
@@ -76,53 +73,64 @@ export default function About() {
     offset: ["start end", "end start"],
   });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], ["5%", "-5%"]);
+  const imageY = useTransform(scrollYProgress, [0, 1], ["2%", "-2%"]);
 
   return (
-    <SectionWrapper id="tentang" dark>
+    <section id="tentang" className="section-padding relative overflow-hidden bg-[#0D0D0D] text-white">
       <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left - Certification/Award Showcase with parallax */}
+          {/* Left - OJK Certification Showcase with slower parallax */}
           <AnimatedSection direction="left">
             <motion.div className="relative" style={{ y: imageY }}>
-              <div className="absolute -inset-4 bg-gradient-to-tr from-[#c9a84c]/10 to-transparent rounded-2xl" />
-              <div className="relative overflow-hidden rounded-xl group">
-                <div className="bg-gradient-to-br from-[#0a0a2e] to-[#1a1a3e] p-10 min-h-[400px] flex flex-col items-center justify-center border border-[#c9a84c]/20">
-                  {/* OJK Badge */}
-                  <div className="w-20 h-20 rounded-full bg-[#c9a84c]/10 border-2 border-[#c9a84c]/30 flex items-center justify-center mb-6">
-                    <ShieldCheck className="w-10 h-10 text-[#c9a84c]" />
+              <div className="relative overflow-hidden rounded-2xl">
+                <div className="bg-[#0A0F1E] p-10 min-h-[420px] flex flex-col items-center justify-center border border-white/[0.06] rounded-2xl">
+                  {/* Shield Icon Ring */}
+                  <div className="w-20 h-20 rounded-full bg-[#2E7D6F]/10 border-2 border-[#2E7D6F]/30 flex items-center justify-center mb-6">
+                    <ShieldCheck className="w-10 h-10 text-[#2E7D6F]" />
                   </div>
+                  {/* Title */}
                   <h3 className="text-lg font-bold font-[family-name:var(--font-montserrat)] text-white text-center mb-2">
                     Berizin & Diawasi OJK
                   </h3>
-                  <p className="text-[#c9a84c] text-xs tracking-wider uppercase text-center mb-4">
+                  {/* License Number */}
+                  <p className="text-[#2E7D6F] text-xs tracking-wider uppercase text-center mb-4">
                     Lisensi KEP-060/NB.1/2021
                   </p>
+                  {/* APPARINDO Number */}
                   <div className="flex items-center gap-2 mb-4">
-                    <Award className="w-5 h-5 text-[#c9a84c]" />
+                    <Award className="w-5 h-5 text-[#2E7D6F]" />
                     <span className="text-white/50 text-xs tracking-wider">APPARINDO No. 113-2005/APPARINDO/2025</span>
                   </div>
+                  {/* Description */}
                   <p className="text-white/30 text-xs text-center max-w-sm leading-relaxed">
                     Pialang asuransi yang telah berizin dan diawasi oleh Otoritas Jasa Keuangan
                   </p>
                 </div>
-                <div className="absolute inset-0 border border-[#c9a84c]/20 rounded-xl pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#00001f]/30 to-transparent pointer-events-none" />
+                {/* Subtle overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D]/40 to-transparent pointer-events-none rounded-2xl" />
               </div>
-              {/* Experience badge */}
-              <div className="absolute -bottom-4 -left-4 glass rounded-lg p-4 animate-glow-pulse">
-                <p className="text-2xl font-bold font-[family-name:var(--font-montserrat)] text-[#c9a84c]">OJK</p>
+
+              {/* Floating OJK Licensed Badge */}
+              <motion.div
+                className="absolute -bottom-4 -left-4 glass rounded-xl p-4 border border-[#2E7D6F]/20"
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <p className="text-2xl font-bold font-[family-name:var(--font-montserrat)] text-[#2E7D6F]">OJK</p>
                 <p className="text-[10px] tracking-[0.2em] text-white/60 uppercase">Licensed</p>
-              </div>
+              </motion.div>
             </motion.div>
           </AnimatedSection>
 
-          {/* Right - Content */}
+          {/* Right - Company Info + Stats */}
           <AnimatedSection direction="right" delay={0.2}>
+            {/* Label */}
             <div className="flex items-center gap-3 mb-4">
-              <div className="gold-line" />
-              <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">About Us</span>
+              <div className="accent-line" />
+              <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">About Us</span>
             </div>
+
+            {/* Heading */}
             <TextReveal
               text="PT Solusiutama Tekno Broker Asuransi"
               as="h2"
@@ -130,28 +138,30 @@ export default function About() {
               delay={0.1}
               staggerDelay={0.02}
             />
-            <p className="text-white/50 leading-relaxed mb-10">
+
+            {/* Description */}
+            <p className="text-white/50 leading-relaxed mb-10 max-w-lg">
               Sebagai perusahaan insurtech terpercaya di Indonesia yang berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK), Jasa Proteksi berkomitmen menghadirkan produk asuransi yang mudah, cepat, dan terjangkau untuk setiap gaya hidup. Dengan tagline &apos;Melindungi Setiap Langkah Hidupmu&apos;, kami terus berinovasi untuk memberikan perlindungan terbaik bagi kamu dan keluarga.
             </p>
 
-            {/* Stats */}
+            {/* Stats Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
               {stats.map((stat) => (
                 <StatItem key={stat.label} {...stat} />
               ))}
             </div>
 
-            {/* CTA */}
-            <MagneticButton
+            {/* CTA Button */}
+            <a
               href="#kontak"
-              className="inline-flex items-center gap-2 px-8 py-3 border border-[#c9a84c]/40 text-[#c9a84c] font-semibold tracking-wider text-sm hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 group shine-button"
+              className="inline-flex items-center gap-2 px-8 py-3 border border-[#2E7D6F]/40 text-[#2E7D6F] font-semibold tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-white transition-all duration-500 group shine-button rounded-lg"
             >
               Pelajari Lebih Lanjut
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </MagneticButton>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500" />
+            </a>
           </AnimatedSection>
         </div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }

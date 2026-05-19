@@ -18,14 +18,14 @@ export default function CookieConsent() {
         className="fixed bottom-0 left-0 right-0 z-[55] p-4"
       >
         <div className="max-w-5xl mx-auto glass-dark rounded-xl p-5 flex flex-col sm:flex-row items-center gap-4 border border-white/5">
-          <Cookie className="w-6 h-6 text-[#c9a84c] flex-shrink-0" />
+          <Cookie className="w-6 h-6 text-[#2E7D6F] flex-shrink-0" />
           <p className="text-white/60 text-sm flex-1 text-center sm:text-left">
             Kami menggunakan cookies untuk meningkatkan pengalaman Anda. Dengan melanjutkan, Anda menyetujui penggunaan cookies kami.
           </p>
           <div className="flex gap-3 flex-shrink-0">
             <button
               onClick={() => setVisible(false)}
-              className="px-5 py-2 text-sm font-medium tracking-wider bg-[#c9a84c] text-[#00001f] hover:bg-[#dfc06f] transition-colors duration-300 rounded-md"
+              className="px-5 py-2 text-sm font-medium tracking-wider bg-[#2E7D6F] text-[#0D0D0D] hover:bg-[#3A9B8A] transition-colors duration-300 rounded-md"
             >
               Terima
             </button>

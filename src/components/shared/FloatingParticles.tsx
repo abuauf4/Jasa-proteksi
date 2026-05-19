@@ -14,9 +14,9 @@ export default function FloatingParticles({ count = 20 }: FloatingParticlesProps
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      duration: Math.random() * 20 + 15,
-      delay: Math.random() * 10,
+      size: Math.random() * 2.5 + 1,
+      duration: Math.random() * 7 + 8, // 8-15s for slow, insurance feel
+      delay: Math.random() * 8,
     }))
   );
 
@@ -31,7 +31,7 @@ export default function FloatingParticles({ count = 20 }: FloatingParticlesProps
       {particles.current.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute rounded-full bg-[#c9a84c]/30"
+          className="absolute rounded-full bg-[#2E7D6F]"
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,
@@ -39,8 +39,8 @@ export default function FloatingParticles({ count = 20 }: FloatingParticlesProps
             height: p.size,
           }}
           animate={{
-            y: [0, -30, 0],
-            opacity: [0.2, 0.6, 0.2],
+            y: [0, -20, 0],
+            opacity: [0.05, 0.15, 0.05], // very subtle: 5-15%
           }}
           transition={{
             duration: p.duration,

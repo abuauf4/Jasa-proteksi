@@ -56,7 +56,7 @@ export default function CountdownTimer({ targetDate, className = "", compact = f
               <span className="text-[10px] text-white/50 uppercase tracking-widest">{unit.label}</span>
             </div>
             {i < timeUnits.length - 1 && (
-              <span className="text-[#c9a84c] font-bold text-lg">:</span>
+              <span className="text-[#2E7D6F] font-bold text-lg">:</span>
             )}
           </div>
         ))}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Diamond, Instagram, Facebook, Youtube, ArrowRight, Shield } from "lucide-react";
+import { Diamond, Instagram, Facebook, Youtube, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -39,20 +39,20 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#00001f] text-white">
+    <footer className="bg-[#0D0D0D] text-white">
       {/* Marquee Brand Banner */}
-      <div className="border-y border-[#c9a84c]/10 py-4 overflow-hidden">
+      <div className="border-y border-[#2E7D6F]/10 py-4 overflow-hidden">
         <div className="animate-marquee whitespace-nowrap">
           {Array(8).fill(null).map((_, i) => (
             <span key={i} className="inline-flex items-center gap-8 mx-8">
               <span className="text-lg font-bold font-[family-name:var(--font-montserrat)] tracking-[0.2em] text-white/10">
                 JASA PROTEKSI INSURTECH
               </span>
-              <Diamond className="w-2 h-2 text-[#c9a84c]/30" />
-              <span className="text-sm tracking-[0.3em] text-[#c9a84c]/20 uppercase">
+              <Diamond className="w-2 h-2 text-[#2E7D6F]/30" />
+              <span className="text-sm tracking-[0.3em] text-[#2E7D6F]/20 uppercase">
                 Melindungi Setiap Langkah Hidupmu
               </span>
-              <Diamond className="w-2 h-2 text-[#c9a84c]/30" />
+              <Diamond className="w-2 h-2 text-[#2E7D6F]/30" />
             </span>
           ))}
         </div>
@@ -74,10 +74,10 @@ export default function Footer() {
                 />
               </div>
               <span className="text-xl font-bold font-[family-name:var(--font-montserrat)] tracking-wider">JASA PROTEKSI</span>
-              <Diamond className="w-3 h-3 text-[#c9a84c]" />
+              <Diamond className="w-3 h-3 text-[#2E7D6F]" />
             </a>
             <p className="text-white/40 text-sm leading-relaxed mb-6">
-              Platform asuransi online terpercaya di Indonesia. Melindungi Setiap Langkah Hidupmu.
+              Platform asuransi online terpercaya di Indonesia. <span className="text-[#2E7D6F]">Melindungi Setiap Langkah Hidupmu.</span>
             </p>
             <div className="flex gap-3">
               {socials.map((social) => (
@@ -85,7 +85,7 @@ export default function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/40 hover:bg-[#c9a84c]/5 transition-all duration-300"
+                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:text-[#2E7D6F] hover:border-[#2E7D6F]/40 hover:bg-[#2E7D6F]/5 transition-all duration-300"
                 >
                   <social.icon className="w-4 h-4" />
                 </a>
@@ -95,7 +95,7 @@ export default function Footer() {
 
           {/* Column 2 - Quick Links */}
           <div>
-            <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-6 text-[#c9a84c]">
+            <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-6 text-[#2E7D6F]">
               Quick Links
             </h4>
             <ul className="space-y-3">
@@ -103,7 +103,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-white/40 text-sm hover:text-[#c9a84c] transition-colors duration-300 hover:pl-1"
+                    className="text-white/40 text-sm hover:text-[#2E7D6F] transition-colors duration-300 hover:pl-1"
                   >
                     {link.label}
                   </a>
@@ -114,7 +114,7 @@ export default function Footer() {
 
           {/* Column 3 - Produk */}
           <div>
-            <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-6 text-[#c9a84c]">
+            <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-6 text-[#2E7D6F]">
               Produk
             </h4>
             <ul className="space-y-3">
@@ -128,7 +128,7 @@ export default function Footer() {
 
           {/* Column 4 - Newsletter */}
           <div>
-            <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-6 text-[#c9a84c]">
+            <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-6 text-[#2E7D6F]">
               Newsletter
             </h4>
             <p className="text-white/40 text-sm mb-4">
@@ -138,10 +138,10 @@ export default function Footer() {
               <Input
                 placeholder="Email Anda"
                 type="email"
-                className="bg-white/5 border-white/10 focus:border-[#c9a84c] h-10 text-sm rounded-md text-white placeholder:text-white/30"
+                className="bg-white/5 border-white/10 focus:border-[#2E7D6F] h-10 text-sm rounded-md text-white placeholder:text-white/30"
               />
               <Button
-                className="bg-[#c9a84c] hover:bg-[#dfc06f] text-[#00001f] h-10 px-4 rounded-md flex-shrink-0 shine-button"
+                className="bg-[#2E7D6F] hover:bg-[#3A9B8A] text-[#0D0D0D] h-10 px-4 rounded-md flex-shrink-0"
                 size="icon"
               >
                 <ArrowRight className="w-4 h-4" />
@@ -162,12 +162,12 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-[#c9a84c]/20">
+      <div className="border-t border-[#2E7D6F]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/30 text-xs">
             &copy; 2025 PT Solusiutama Tekno Broker Asuransi. All rights reserved.
           </p>
-          <p className="text-[#c9a84c]/40 text-xs">
+          <p className="text-[#2E7D6F]/40 text-xs">
             Melindungi Setiap Langkah Hidupmu
           </p>
         </div>

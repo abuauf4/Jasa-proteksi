@@ -45,7 +45,7 @@ export default function AnimatedBorder({
           padding: borderWidth,
           opacity: isHovering ? 1 : 0,
           background: isHovering
-            ? `radial-gradient(300px circle at ${mousePos.x}px ${mousePos.y}px, #c9a84c, transparent 50%)`
+            ? `radial-gradient(300px circle at ${mousePos.x}px ${mousePos.y}px, #2E7D6F, transparent 50%)`
             : "transparent",
           WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMaskComposite: "xor",

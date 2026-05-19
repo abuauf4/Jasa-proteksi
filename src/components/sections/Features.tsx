@@ -1,10 +1,8 @@
 "use client";
 
 import { Zap, ShieldCheck, Award, Clock, ArrowRight } from "lucide-react";
-import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
-import MagneticButton from "@/components/shared/MagneticButton";
 
 const features = [
   {
@@ -31,87 +29,90 @@ const features = [
 
 export default function Features() {
   return (
-    <SectionWrapper id="fitur">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left - Text Content */}
-          <AnimatedSection direction="left">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="gold-line" />
-              <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Why Jasa Proteksi</span>
-            </div>
-            <TextReveal
-              text="Alasan Jasa Proteksi Pas untuk Kamu"
-              as="h2"
-              className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mb-10 leading-tight"
-              delay={0.1}
-              staggerDelay={0.04}
-            />
+    <section id="fitur" className="bg-[#F5F5F0] overflow-hidden">
+      <div className="py-20 lg:py-28">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left - Emotional Storytelling */}
+            <AnimatedSection direction="left">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-[2px] bg-[#2E7D6F]" />
+                <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">
+                  Why Jasa Proteksi
+                </span>
+              </div>
+              <TextReveal
+                text="Protection for what truly matters"
+                as="h2"
+                className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mb-12 leading-tight"
+                delay={0.15}
+                staggerDelay={0.04}
+              />
 
-            <div className="space-y-8">
-              {features.map((feature, i) => (
-                <AnimatedSection key={feature.title} delay={i * 0.12} direction="left">
-                  <div className="flex gap-5 group">
-                    <div className="flex-shrink-0">
-                      <div className="w-[2px] h-full min-h-[60px] bg-gradient-to-b from-[#c9a84c] to-[#c9a84c]/20 relative">
-                        <div className="absolute -left-[7px] top-0 w-4 h-4 rounded-full border-2 border-[#c9a84c] bg-background" />
+              <div>
+                {features.map((feature, i) => (
+                  <AnimatedSection key={feature.title} delay={i * 0.15} direction="left">
+                    <div className="flex gap-5 group mb-10 last:mb-0">
+                      <div className="flex-shrink-0">
+                        <div className="w-[2px] h-full min-h-[60px] bg-gradient-to-b from-[#2E7D6F] to-[#2E7D6F]/20 relative">
+                          <div className="absolute -left-[7px] top-0 w-4 h-4 rounded-full border-2 border-[#2E7D6F] bg-[#F5F5F0]" />
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mb-1 group-hover:text-[#2E7D6F] transition-colors duration-500">
+                          {feature.title}
+                        </h3>
+                        <p className="text-gray-500 text-sm leading-relaxed">
+                          {feature.description}
+                        </p>
                       </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] mb-1 group-hover:text-[#c9a84c] transition-colors duration-300">
-                        {feature.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
+                  </AnimatedSection>
+                ))}
+              </div>
 
-            <AnimatedSection delay={0.5} className="mt-10">
-              <MagneticButton
-                href="#model"
-                className="inline-flex items-center gap-2 text-[#c9a84c] font-medium text-sm tracking-wider group hover:gap-3 transition-all duration-300"
-              >
-                Explore All Products
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-              </MagneticButton>
+              <AnimatedSection delay={0.6} className="mt-10">
+                <a
+                  href="#model"
+                  className="inline-flex items-center gap-2 text-[#2E7D6F] font-medium text-sm tracking-wider group"
+                >
+                  Explore All Products
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500" />
+                </a>
+              </AnimatedSection>
             </AnimatedSection>
-          </AnimatedSection>
 
-          {/* Right - Award/Certification Showcase */}
-          <AnimatedSection direction="right" delay={0.2}>
-            <div className="relative group">
-              <div className="absolute -inset-4 bg-gradient-to-br from-[#c9a84c]/10 to-transparent rounded-2xl group-hover:from-[#c9a84c]/15 transition-all duration-700" />
-              <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#0a0a2e] to-[#1a1a3e] p-10 min-h-[400px] flex flex-col items-center justify-center border border-[#c9a84c]/20">
-                {/* Award Badge */}
-                <div className="w-24 h-24 rounded-full bg-[#c9a84c]/10 border-2 border-[#c9a84c]/30 flex items-center justify-center mb-6 animate-glow-pulse">
-                  <Award className="w-12 h-12 text-[#c9a84c]" />
+            {/* Right - Award/Certification Showcase */}
+            <AnimatedSection direction="right" delay={0.25}>
+              <div className="relative group">
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#0A0F1E] to-[#141B30] p-10 min-h-[400px] flex flex-col items-center justify-center border border-white/[0.06]">
+                  {/* Award Badge */}
+                  <div className="w-24 h-24 rounded-full border-2 border-[#2E7D6F]/30 flex items-center justify-center mb-6">
+                    <Award className="w-12 h-12 text-[#2E7D6F]" />
+                  </div>
+                  <h3 className="text-xl font-bold font-[family-name:var(--font-montserrat)] text-white text-center mb-2">
+                    Insurance Asia Awards 2025
+                  </h3>
+                  <p className="text-[#2E7D6F] text-sm tracking-wider uppercase text-center mb-4">
+                    Insurtech Initiative of the Year
+                  </p>
+                  <p className="text-white/40 text-xs text-center max-w-sm leading-relaxed">
+                    Diakui atas kontribusi dan inovasi luar biasa di seluruh industri asuransi wilayah Asia-Pasifik
+                  </p>
+                  {/* Subtle shine on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 </div>
-                <h3 className="text-xl font-bold font-[family-name:var(--font-montserrat)] text-white text-center mb-2">
-                  Insurance Asia Awards 2025
-                </h3>
-                <p className="text-[#c9a84c] text-sm tracking-wider uppercase text-center mb-4">
-                  Insurtech Initiative of the Year
-                </p>
-                <p className="text-white/40 text-xs text-center max-w-sm leading-relaxed">
-                  Diakui atas kontribusi dan inovasi luar biasa di seluruh industri asuransi wilayah Asia-Pasifik
-                </p>
-                {/* Decorative frame */}
-                <div className="absolute inset-0 border border-[#c9a84c]/20 rounded-xl pointer-events-none" />
-                {/* Shine effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                {/* Floating badge */}
+                <div className="absolute -bottom-3 -right-3 bg-[#0A0F1E] border border-[#2E7D6F]/30 rounded-lg px-3 py-2">
+                  <p className="text-[10px] tracking-[0.2em] text-[#2E7D6F] uppercase font-medium">
+                    OJK Licensed
+                  </p>
+                </div>
               </div>
-              {/* Floating badge */}
-              <div className="absolute -bottom-4 -right-4 glass rounded-lg p-3 animate-glow-pulse">
-                <p className="text-[10px] tracking-[0.2em] text-[#c9a84c] uppercase font-medium">OJK Licensed</p>
-              </div>
-            </div>
-          </AnimatedSection>
+            </AnimatedSection>
+          </div>
         </div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }

@@ -15,7 +15,7 @@ export default function FloatingWhatsApp() {
             initial={{ opacity: 0, x: 10, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 10, scale: 0.9 }}
-            className="absolute right-14 top-1/2 -translate-y-1/2 bg-white dark:bg-[#0a0a2e] text-foreground text-sm px-4 py-2 rounded-lg shadow-lg whitespace-nowrap border border-border"
+            className="absolute right-14 top-1/2 -translate-y-1/2 bg-white dark:bg-[#0A0F1E] text-foreground text-sm px-4 py-2 rounded-lg shadow-lg whitespace-nowrap border border-border"
           >
             Chat dengan tim Jasa Proteksi
           </motion.div>
@@ -32,7 +32,8 @@ export default function FloatingWhatsApp() {
         aria-label="Chat via WhatsApp"
       >
         <MessageCircle className="w-6 h-6" />
-        <div className="absolute inset-0 rounded-full animate-pulse-gold" />
+        {/* Subtle emerald pulse ring */}
+        <span className="absolute inset-0 rounded-full animate-ping opacity-20 bg-[#2E7D6F]" style={{ animationDuration: '2s' }} />
       </a>
     </div>
   );

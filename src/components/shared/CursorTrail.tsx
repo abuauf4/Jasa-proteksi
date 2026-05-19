@@ -43,7 +43,7 @@ export default function CursorTrail() {
       {dots.map((dot, i) => (
         <motion.div
           key={dot.id}
-          className="fixed top-0 left-0 w-1 h-1 rounded-full bg-[#c9a84c] pointer-events-none z-[9998]"
+          className="fixed top-0 left-0 w-1 h-1 rounded-full bg-[#2E7D6F] pointer-events-none z-[9998]"
           initial={{ opacity: 0.4, scale: 1 }}
           animate={{ opacity: 0, scale: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}

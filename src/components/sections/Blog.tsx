@@ -1,10 +1,9 @@
 "use client";
 
-import { BookOpen, HelpCircle, ListChecks, Heart } from "lucide-react";
+import { BookOpen, HelpCircle, ListChecks, Heart, ArrowRight } from "lucide-react";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
-import SpotlightCard from "@/components/shared/SpotlightCard";
 
 const blogPosts = [
   {
@@ -32,18 +31,18 @@ const blogPosts = [
 
 export default function Blog() {
   return (
-    <SectionWrapper id="blog">
+    <SectionWrapper id="blog" className="bg-[#F5F5F0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <AnimatedSection className="text-center mb-16">
           <div className="flex justify-center mb-4">
-            <div className="gold-line" />
+            <div className="accent-line" />
           </div>
-          <span className="text-xs tracking-[0.3em] text-[#c9a84c] uppercase font-medium">Latest News</span>
+          <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">Latest News</span>
           <TextReveal
             text="Artikel & Edukasi"
             as="h2"
-            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-4 text-[#0D0D0D]"
             delay={0.1}
           />
         </AnimatedSection>
@@ -52,42 +51,43 @@ export default function Blog() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {blogPosts.map((post, i) => (
             <AnimatedSection key={post.title} delay={i * 0.12}>
-              <SpotlightCard className="h-full" spotlightColor="rgba(201, 168, 76, 0.04)">
-                <article className="group cursor-pointer h-full">
-                  {/* Icon Header */}
-                  <div className="relative h-52 overflow-hidden rounded-xl mb-5 bg-gradient-to-br from-[#0a0a2e] to-[#1a1a3e] flex items-center justify-center border border-[#c9a84c]/10">
-                    <div className="text-center">
-                      <post.icon className="w-12 h-12 text-[#c9a84c]/30 mx-auto mb-3 group-hover:text-[#c9a84c]/60 transition-colors duration-500" />
-                      <p className="text-[#c9a84c]/20 text-sm font-[family-name:var(--font-montserrat)]">Jasa Proteksi Article</p>
-                    </div>
-                    {/* Category overlay */}
-                    <div className="absolute top-3 left-3">
-                      <span className="text-[10px] tracking-wider text-[#c9a84c] border border-[#c9a84c]/30 px-2 py-0.5 rounded bg-[#00001f]/60 backdrop-blur-sm uppercase font-medium">
-                        {post.category}
-                      </span>
-                    </div>
+              <article className="group cursor-pointer h-full bg-white rounded-xl border border-gray-200 overflow-hidden transition-all duration-500 hover:border-[#2E7D6F]/20">
+                {/* Icon Header */}
+                <div className="relative h-52 overflow-hidden bg-gradient-to-br from-[#0A0F1E] to-[#141B30] flex items-center justify-center border-b border-gray-200">
+                  <div className="text-center">
+                    <post.icon className="w-12 h-12 text-[#2E7D6F]/30 mx-auto mb-3 group-hover:text-[#2E7D6F]/60 transition-colors duration-500" />
+                    <p className="text-[#2E7D6F]/20 text-sm font-[family-name:var(--font-montserrat)]">Jasa Proteksi Article</p>
                   </div>
+                  {/* Category overlay */}
+                  <div className="absolute top-3 left-3">
+                    <span className="text-[10px] tracking-wider text-[#2E7D6F] border border-[#2E7D6F]/30 px-2 py-0.5 rounded bg-[#0D0D0D]/60 backdrop-blur-sm uppercase font-medium">
+                      {post.category}
+                    </span>
+                  </div>
+                </div>
 
+                {/* Content */}
+                <div className="p-6">
                   {/* Title */}
-                  <h3 className="text-lg font-bold font-[family-name:var(--font-montserrat)] mb-2 group-hover:text-[#c9a84c] transition-colors duration-300 line-clamp-2">
+                  <h3 className="text-lg font-bold font-[family-name:var(--font-montserrat)] mb-2 group-hover:text-[#2E7D6F] transition-colors duration-300 line-clamp-2 text-[#0D0D0D]">
                     {post.title}
                   </h3>
 
                   {/* Excerpt */}
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                  <p className="text-sm text-gray-500 leading-relaxed mb-4">
                     {post.excerpt}
                   </p>
 
                   {/* Footer */}
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground">{post.date}</span>
-                    <span className="inline-flex items-center gap-1 text-[#c9a84c] text-sm font-medium group-hover:gap-2 transition-all duration-300">
+                    <span className="text-xs text-gray-400">{post.date}</span>
+                    <span className="inline-flex items-center gap-1 text-[#2E7D6F] text-sm font-medium group-hover:gap-2 transition-all duration-300">
                       Baca
-                      <Heart className="w-3.5 h-3.5" />
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
-                </article>
-              </SpotlightCard>
+                </div>
+              </article>
             </AnimatedSection>
           ))}
         </div>
@@ -96,7 +96,7 @@ export default function Blog() {
         <AnimatedSection delay={0.4} className="mt-12 text-center">
           <a
             href="#blog"
-            className="inline-flex items-center gap-2 px-8 py-3 border border-[#c9a84c]/40 text-[#c9a84c] font-semibold tracking-wider text-sm hover:bg-[#c9a84c] hover:text-[#00001f] transition-all duration-300 shine-button"
+            className="inline-flex items-center gap-2 px-8 py-3 border border-[#2E7D6F]/40 text-[#2E7D6F] font-semibold tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-500 rounded-md"
           >
             Lihat Semua Artikel
           </a>
