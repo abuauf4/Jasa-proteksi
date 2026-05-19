@@ -1,11 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { Car, Bike, Plane, PawPrint, Zap, UserCheck, ArrowRight, Shield } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Car, Bike, Plane, PawPrint, Zap, UserCheck, ArrowRight, Shield, Calculator } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
-import { products } from "@/lib/products";
+import PriceEstimationModal from "@/components/flow/PriceEstimationModal";
+import LeadFormModal from "@/components/flow/LeadFormModal";
+
+interface DBProduct {
+  id: string;
+  name: string;
+  slug: string;
+  category: string;
+  description: string;
+  benefits: string;
+  estimatedPrice: number;
+  minimumOfferPrice: number;
+  isActive: boolean;
+}
 
 const categories = ["Semua", "Kendaraan", "Perjalanan", "Hewan", "Personal"];
 
@@ -20,10 +33,63 @@ const iconMap: Record<string, React.ElementType> = {
 
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
+function formatRupiah(amount: number): string {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
 export default function Portfolio() {
   const [active, setActive] = useState("Semua");
+  const [products, setProducts] = useState<DBProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Modal states
+  const [estimationOpen, setEstimationOpen] = useState(false);
+  const [leadFormOpen, setLeadFormOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<DBProduct | null>(null);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        setProducts(data.products || []);
+      } catch {
+        console.error("Failed to fetch products");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProducts();
+  }, []);
 
   const filtered = active === "Semua" ? products : products.filter((p) => p.category === active);
+
+  const handleCekHarga = (product: DBProduct) => {
+    setSelectedProduct(product);
+    setEstimationOpen(true);
+  };
+
+  const handleProceedToForm = (product: DBProduct) => {
+    setEstimationOpen(false);
+    setSelectedProduct(product);
+    setTimeout(() => setLeadFormOpen(true), 300);
+  };
+
+  const handleBackToEstimation = () => {
+    setLeadFormOpen(false);
+    setTimeout(() => setEstimationOpen(true), 300);
+  };
+
+  const handleCloseAll = () => {
+    setEstimationOpen(false);
+    setLeadFormOpen(false);
+    setSelectedProduct(null);
+  };
 
   return (
     <section id="model" className="bg-white overflow-hidden">
@@ -71,9 +137,10 @@ export default function Portfolio() {
             <AnimatePresence mode="wait">
               {filtered.map((product, i) => {
                 const IconComponent = iconMap[product.slug] || Shield;
+                const benefits: string[] = JSON.parse(product.benefits || "[]");
                 return (
                   <motion.div
-                    key={product.slug}
+                    key={product.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -12 }}
@@ -92,12 +159,6 @@ export default function Portfolio() {
                             {product.name}
                           </span>
                         </div>
-                        {/* Discount Badge */}
-                        <div className="absolute top-3 right-3">
-                          <span className="text-[10px] tracking-wider text-white bg-[#2E7D6F] px-3 py-1 rounded font-bold">
-                            {product.discount}
-                          </span>
-                        </div>
                         {/* Category Badge */}
                         <div className="absolute top-3 left-3">
                           <span className="text-[9px] tracking-wider text-[#2E7D6F]/70 border border-[#2E7D6F]/30 px-2.5 py-0.5 rounded bg-[#0A0F1E]/50 backdrop-blur-sm">
@@ -112,15 +173,15 @@ export default function Portfolio() {
                           {product.name}
                         </h3>
                         <p className="text-xl font-bold text-[#2E7D6F] font-[family-name:var(--font-montserrat)] mb-4">
-                          {product.price}
+                          {formatRupiah(product.estimatedPrice)}<span className="text-sm text-gray-400 font-normal">/tahun</span>
                         </p>
 
-                        {/* Highlights */}
+                        {/* Benefits */}
                         <div className="grid grid-cols-2 gap-2.5 mb-5">
-                          {product.highlights.slice(0, 4).map((h) => (
-                            <div key={h.label} className="flex items-center gap-1.5 text-gray-400 text-[10px]">
+                          {benefits.slice(0, 4).map((b) => (
+                            <div key={b} className="flex items-center gap-1.5 text-gray-400 text-[10px]">
                               <Shield className="w-3 h-3 text-[#2E7D6F] flex-shrink-0" />
-                              <span>{h.value}</span>
+                              <span>{b}</span>
                             </div>
                           ))}
                         </div>
@@ -130,13 +191,14 @@ export default function Portfolio() {
                         </p>
 
                         <div className="mt-auto">
-                          <a
-                            href="#kontak"
-                            className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#2E7D6F]/30 text-[#2E7D6F] text-[11px] font-medium tracking-wider hover:bg-[#2E7D6F] hover:text-white transition-all duration-600 group/btn"
+                          <button
+                            onClick={() => handleCekHarga(product)}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2E7D6F] text-white text-[11px] font-medium tracking-wider hover:bg-[#3A9B8A] transition-all duration-600 rounded-md group/btn"
                           >
-                            Lihat Detail
+                            <Calculator className="w-3 h-3" />
+                            Cek Estimasi
                             <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform duration-600" />
-                          </a>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -147,6 +209,20 @@ export default function Portfolio() {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <PriceEstimationModal
+        isOpen={estimationOpen}
+        onClose={handleCloseAll}
+        product={selectedProduct}
+        onProceed={handleProceedToForm}
+      />
+      <LeadFormModal
+        isOpen={leadFormOpen}
+        onClose={handleCloseAll}
+        onBack={handleBackToEstimation}
+        product={selectedProduct}
+      />
     </section>
   );
 }
