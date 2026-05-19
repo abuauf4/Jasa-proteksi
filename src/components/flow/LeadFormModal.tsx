@@ -145,7 +145,7 @@ export default function LeadFormModal({
 
   const buildWhatsAppUrl = () => {
     if (!result) return "#";
-    const phone = "6287766860381";
+    const phone = "6281379290494";
     const message = `Halo Jasa Proteksi,\n\nSaya tertarik dengan produk asuransi berikut:\n\nNama: ${result.customerName}\nProduk: ${result.productName}\nHarga Estimasi: ${formatRupiah(result.estimatedPrice)}\nPenawaran Saya: ${formatRupiah(result.customerOfferPrice)}\n${result.notes ? `Catatan: ${result.notes}` : ""}\n\nMohon informasi lebih lanjut. Terima kasih.`;
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   };

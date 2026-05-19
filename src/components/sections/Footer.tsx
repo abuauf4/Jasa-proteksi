@@ -27,9 +27,9 @@ const productLinks = [
 const contactItems = [
   "Menara Anugrah Lantai 23, Unit A",
   "Kawasan Mega Kuningan, Jakarta Selatan",
-  "+6221 5088-6381",
-  "WhatsApp: +62 877-6686-0381",
-  "cs@jasaproteksi.id",
+  "Telepon: +62 813-7929-0494",
+  "WhatsApp: +62 813-7929-0494",
+  "abuaufa.nauka@gmail.com",
 ];
 
 const socials = [

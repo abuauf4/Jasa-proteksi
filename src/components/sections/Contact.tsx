@@ -11,9 +11,9 @@ import TextReveal from "@/components/shared/TextReveal";
 
 const contactInfo = [
   { icon: MapPin, label: "Alamat", value: "Menara Anugrah Lantai 23, Unit A, Kantor Taman E 3.3, Jl. DR Ide Anak Agung Gde Agung Lot 8.6, Kawasan Mega Kuningan, Jakarta Selatan 12950" },
-  { icon: Phone, label: "Telepon", value: "+6221 5088-6381" },
-  { icon: MessageCircle, label: "WhatsApp", value: "+62 877-6686-0381" },
-  { icon: Mail, label: "Email", value: "cs@jasaproteksi.id" },
+  { icon: Phone, label: "Telepon", value: "+62 813-7929-0494" },
+  { icon: MessageCircle, label: "WhatsApp", value: "+62 813-7929-0494" },
+  { icon: Mail, label: "Email", value: "abuaufa.nauka@gmail.com" },
   { icon: Clock, label: "Jam Layanan", value: "Senin-Jumat: 10.00-17.00 WIB" },
 ];
 

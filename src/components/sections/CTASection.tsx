@@ -54,7 +54,7 @@ export default function CTASection() {
               GET PROTECTED
             </a>
             <a
-              href="https://wa.me/6287766860381"
+              href="https://wa.me/6281379290494"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2.5 px-9 py-4 bg-[#25D366] text-white font-semibold tracking-wider text-sm hover:bg-[#20bd5a] transition-all duration-800 rounded-md"
