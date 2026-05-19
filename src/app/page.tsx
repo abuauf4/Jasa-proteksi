@@ -26,16 +26,16 @@ export default function Home() {
       <Navigation />
       <main className="flex-1">
         <Hero />
-        <Portfolio />
+        <div className="section-transition-light"><Portfolio /></div>
         <TrustSection />
         <Services />
-        <Features />
+        <div className="section-transition-light"><Features /></div>
         <Testimonials />
         <Pricing />
         <About />
-        <FAQ />
+        <div className="section-transition-light"><FAQ /></div>
         <Blog />
-        <Contact />
+        <div className="section-transition-light"><Contact /></div>
         <MapSection />
         <CTASection />
       </main>

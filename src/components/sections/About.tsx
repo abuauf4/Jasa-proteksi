@@ -77,7 +77,7 @@ export default function About() {
   return (
     <section id="tentang" className="section-padding relative overflow-hidden bg-[#0D0D0D] text-white">
       <div ref={sectionRef} className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-28 items-center">
           {/* Left - OJK Certification Showcase with slower parallax */}
           <AnimatedSection direction="left">
             <motion.div className="relative" style={{ y: imageY }}>
@@ -101,7 +101,7 @@ export default function About() {
                     <span className="text-white/40 text-xs tracking-wider">APPARINDO No. 113-2005/APPARINDO/2025</span>
                   </div>
                   {/* Description */}
-                  <p className="text-white/25 text-xs text-center max-w-sm leading-[1.7]">
+                  <p className="text-white/25 text-xs text-center max-w-sm leading-[1.8]">
                     Pialang asuransi yang telah berizin dan diawasi oleh Otoritas Jasa Keuangan
                   </p>
                 </div>
@@ -113,7 +113,7 @@ export default function About() {
               <motion.div
                 className="absolute -bottom-4 -left-4 glass rounded-xl p-4 border border-[#2E7D6F]/15"
                 animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
                 <p className="text-2xl font-bold font-[family-name:var(--font-montserrat)] text-[#2E7D6F]">OJK</p>
                 <p className="text-[10px] tracking-[0.2em] text-white/50 uppercase">Licensed</p>
@@ -124,7 +124,7 @@ export default function About() {
           {/* Right - Company Info + Stats */}
           <AnimatedSection direction="right" delay={0.15}>
             {/* Label */}
-            <div className="flex items-center gap-3 mb-5">
+            <div className="flex items-center gap-3 mb-6">
               <div className="accent-line" />
               <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">About Us</span>
             </div>
@@ -133,18 +133,18 @@ export default function About() {
             <TextReveal
               text="PT Solusiutama Tekno Broker Asuransi"
               as="h2"
-              className="text-3xl lg:text-4xl xl:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mb-7 leading-[1.1]"
+              className="text-3xl lg:text-4xl xl:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mb-8 leading-[1.1]"
               delay={0.1}
               staggerDelay={0.02}
             />
 
             {/* Description */}
-            <p className="text-white/40 leading-[1.7] mb-12 max-w-lg text-[15px]">
+            <p className="text-white/40 leading-[1.8] mb-14 max-w-lg text-[15px]">
               Sebagai perusahaan insurtech terpercaya di Indonesia yang berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK), Jasa Proteksi berkomitmen menghadirkan produk asuransi yang mudah, cepat, dan terjangkau untuk setiap gaya hidup. Dengan tagline &apos;Melindungi Setiap Langkah Hidupmu&apos;, kami terus berinovasi untuk memberikan perlindungan terbaik bagi kamu dan keluarga.
             </p>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 mb-14">
               {stats.map((stat) => (
                 <StatItem key={stat.label} {...stat} />
               ))}
@@ -153,10 +153,10 @@ export default function About() {
             {/* CTA Button */}
             <a
               href="#kontak"
-              className="inline-flex items-center gap-2.5 px-8 py-3.5 border border-[#2E7D6F]/30 text-[#2E7D6F] font-semibold tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-white transition-all duration-600 group shine-button rounded-lg"
+              className="inline-flex items-center gap-2.5 px-8 py-3.5 border border-[#2E7D6F]/30 text-[#2E7D6F] font-semibold tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-white transition-all duration-800 group shine-button rounded-lg"
             >
               Pelajari Lebih Lanjut
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-600" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-800" />
             </a>
           </AnimatedSection>
         </div>

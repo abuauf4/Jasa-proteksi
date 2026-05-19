@@ -41,26 +41,26 @@ export default function FAQ() {
     <SectionWrapper id="faq" className="bg-[#F5F5F0]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <AnimatedSection className="text-center mb-20">
-          <div className="flex justify-center mb-5">
+        <AnimatedSection className="text-center mb-24">
+          <div className="flex justify-center mb-6">
             <div className="accent-line" />
           </div>
           <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">FAQ</span>
           <TextReveal
             text="Pertanyaan Umum"
             as="h2"
-            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-5 text-[#0D0D0D] leading-[1.1]"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-6 text-[#0D0D0D] leading-[1.1]"
             delay={0.1}
             staggerDelay={0.05}
           />
         </AnimatedSection>
 
         {/* Accordion */}
-        <div className="space-y-4">
+        <div className="space-y-5">
           {faqs.map((faq, i) => (
-            <AnimatedSection key={i} delay={i * 0.08}>
+            <AnimatedSection key={i} delay={i * 0.07}>
               <div
-                className={`border rounded-xl overflow-hidden transition-all duration-600 bg-white ${
+                className={`border rounded-xl overflow-hidden transition-all duration-800 bg-white ${
                   openIndex === i
                     ? "border-[#2E7D6F]/25 bg-[#2E7D6F]/[0.03]"
                     : "border-gray-100 hover:border-[#2E7D6F]/15"
@@ -76,7 +76,7 @@ export default function FAQ() {
                   </span>
                   <motion.div
                     animate={{ rotate: openIndex === i ? 180 : 0 }}
-                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <ChevronDown
                       className="w-5 h-5 flex-shrink-0 text-[#2E7D6F]"
@@ -89,7 +89,7 @@ export default function FAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <p className="px-6 pb-6 text-gray-400 text-sm leading-[1.7]">
                         {faq.a}
@@ -103,11 +103,11 @@ export default function FAQ() {
         </div>
 
         {/* CTA */}
-        <AnimatedSection delay={0.5} className="mt-14 text-center">
+        <AnimatedSection delay={0.5} className="mt-16 text-center">
           <p className="text-gray-400 mb-5">Masih punya pertanyaan?</p>
           <a
             href="#kontak"
-            className="inline-flex items-center gap-2 text-[#2E7D6F] font-medium text-sm tracking-wider hover:gap-3 transition-all duration-600"
+            className="inline-flex items-center gap-2 text-[#2E7D6F] font-medium text-sm tracking-wider hover:gap-3 transition-all duration-800"
           >
             <MessageCircle className="w-4 h-4" />
             Hubungi Kami Langsung

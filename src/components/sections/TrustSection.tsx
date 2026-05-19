@@ -18,7 +18,7 @@ import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
 
 // Premium cinematic easing
-const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ─── Partner Logos (placeholder brand names) ─── */
 const partners = [
@@ -138,19 +138,14 @@ function StatCard({
   const IconComponent = stat.icon;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.9, delay: index * 0.15, ease }}
+      transition={{ duration: 1, delay: index * 0.12, ease }}
       className="relative group"
     >
-      <div className="relative p-8 rounded-xl bg-white/[0.03] border border-white/[0.06] backdrop-blur-sm hover:border-[#2E7D6F]/25 transition-all duration-700 overflow-hidden">
-        {/* Subtle top glow on hover */}
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#2E7D6F]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-        {/* Ambient light on hover */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2E7D6F]/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
+      <div className="glass-card premium-top-line soft-glow-hover relative p-9 rounded-xl overflow-hidden hover:-translate-y-[2px] transition-all duration-800">
         <div className="relative z-10">
-          <IconComponent className="w-5 h-5 text-[#2E7D6F] mb-5" />
+          <IconComponent className="w-5 h-5 text-[#2E7D6F] mb-6" />
           <p className="text-3xl lg:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-[#F5F5F0] mb-2">
             <AnimatedCounter
               target={stat.value}
@@ -197,11 +192,11 @@ export default function TrustSection() {
         {/* ════════════════════════════════════════════
             PART 1: PARTNER LOGOS
         ════════════════════════════════════════════ */}
-        <div className="py-20 lg:py-28">
+        <div className="py-24 lg:py-32">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Section Header */}
-            <AnimatedSection className="text-center mb-16 lg:mb-20">
-              <div className="flex justify-center mb-5">
+            <AnimatedSection className="text-center mb-20 lg:mb-24">
+              <div className="flex justify-center mb-6">
                 <div className="w-8 h-[2px] bg-[#2E7D6F]" />
               </div>
               <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
@@ -210,7 +205,7 @@ export default function TrustSection() {
               <TextReveal
                 text="Protection you can trust"
                 as="h2"
-                className="text-4xl lg:text-5xl xl:text-6xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-5 mb-6 leading-[1.1]"
+                className="text-4xl lg:text-5xl xl:text-6xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-6 mb-7 leading-[1.1]"
                 delay={0.15}
                 staggerDelay={0.05}
               />
@@ -252,25 +247,22 @@ export default function TrustSection() {
         {/* ════════════════════════════════════════════
             PART 2: TRUST BADGES
         ════════════════════════════════════════════ */}
-        <div className="py-20 lg:py-28">
+        <div className="py-24 lg:py-32">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
               {trustBadges.map((badge, i) => {
                 const IconComponent = badge.icon;
                 return (
-                  <AnimatedSection key={badge.title} delay={i * 0.12}>
+                  <AnimatedSection key={badge.title} delay={i * 0.1}>
                     <div className="relative group h-full">
-                      <div className="relative p-8 rounded-xl bg-white/[0.02] border border-white/[0.05] backdrop-blur-sm hover:border-[#2E7D6F]/20 transition-all duration-700 h-full overflow-hidden">
-                        {/* Top glow line on hover */}
-                        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#2E7D6F]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-                        <div className="w-12 h-12 rounded-lg bg-[#2E7D6F]/[0.07] border border-[#2E7D6F]/10 flex items-center justify-center mb-5 group-hover:bg-[#2E7D6F]/[0.12] transition-colors duration-700">
+                      <div className="glass-card premium-top-line soft-glow-hover relative p-9 rounded-xl h-full overflow-hidden hover:-translate-y-[2px] transition-all duration-800">
+                        <div className="w-12 h-12 rounded-lg bg-[#2E7D6F]/[0.07] border border-[#2E7D6F]/10 flex items-center justify-center mb-6 group-hover:bg-[#2E7D6F]/[0.12] transition-colors duration-800">
                           <IconComponent className="w-6 h-6 text-[#2E7D6F]" />
                         </div>
                         <h3 className="text-base font-semibold font-[family-name:var(--font-montserrat)] text-white mb-2">
                           {badge.title}
                         </h3>
-                        <p className="text-white/35 text-sm leading-relaxed">
+                        <p className="text-white/35 text-sm leading-[1.7]">
                           {badge.desc}
                         </p>
                       </div>
@@ -290,22 +282,22 @@ export default function TrustSection() {
         {/* ════════════════════════════════════════════
             PART 3: CLAIM STATISTICS
         ════════════════════════════════════════════ */}
-        <div className="py-20 lg:py-28">
+        <div className="py-24 lg:py-32">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <AnimatedSection className="text-center mb-16 lg:mb-20">
+            <AnimatedSection className="text-center mb-20 lg:mb-24">
               <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
                 Proven Track Record
               </span>
               <TextReveal
                 text="Numbers that speak for themselves"
                 as="h3"
-                className="text-3xl lg:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4 leading-[1.15]"
+                className="text-3xl lg:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-5 leading-[1.15]"
                 delay={0.1}
                 staggerDelay={0.04}
               />
             </AnimatedSection>
 
-            <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-7">
               {claimStats.map((stat, i) => (
                 <StatCard
                   key={stat.label}
@@ -326,9 +318,9 @@ export default function TrustSection() {
         {/* ════════════════════════════════════════════
             PART 4: SECURE PROCESS
         ════════════════════════════════════════════ */}
-        <div className="py-20 lg:py-28">
+        <div className="py-24 lg:py-32">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-28 items-center">
               {/* Left - Emotional Storytelling */}
               <AnimatedSection direction="left">
                 <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
@@ -337,11 +329,11 @@ export default function TrustSection() {
                 <TextReveal
                   text="Every step, protected"
                   as="h3"
-                  className="text-3xl lg:text-4xl xl:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-4 mb-6 leading-[1.1]"
+                  className="text-3xl lg:text-4xl xl:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-5 mb-7 leading-[1.1]"
                   delay={0.1}
                   staggerDelay={0.04}
                 />
-                <p className="text-white/40 text-base leading-relaxed mb-8 max-w-md">
+                <p className="text-white/40 text-base leading-[1.8] mb-9 max-w-md">
                   From selection to activation, your data and transactions are
                   secured with bank-level encryption. Trust is built into every
                   step.
@@ -355,13 +347,13 @@ export default function TrustSection() {
               </AnimatedSection>
 
               {/* Right - Process Steps */}
-              <div className="space-y-6">
+              <div className="space-y-5">
                 {secureProcess.map((step, i) => (
-                  <AnimatedSection key={step.step} delay={i * 0.12} direction="right">
-                    <div className="group flex gap-6 p-6 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-[#2E7D6F]/15 transition-all duration-700">
+                  <AnimatedSection key={step.step} delay={i * 0.1} direction="right">
+                    <div className="glass-card premium-top-line group flex gap-6 p-7 rounded-xl transition-all duration-800 hover:-translate-y-[1px]">
                       {/* Step Number */}
                       <div className="flex-shrink-0">
-                        <div className="w-12 h-12 rounded-lg bg-[#2E7D6F]/[0.07] border border-[#2E7D6F]/10 flex items-center justify-center group-hover:bg-[#2E7D6F]/[0.12] transition-colors duration-700">
+                        <div className="w-12 h-12 rounded-lg bg-[#2E7D6F]/[0.07] border border-[#2E7D6F]/10 flex items-center justify-center group-hover:bg-[#2E7D6F]/[0.12] transition-colors duration-800">
                           <span className="text-sm font-bold font-[family-name:var(--font-montserrat)] text-[#2E7D6F]">
                             {step.step}
                           </span>
@@ -372,12 +364,12 @@ export default function TrustSection() {
                         <h4 className="text-base font-semibold font-[family-name:var(--font-montserrat)] text-white mb-1.5">
                           {step.title}
                         </h4>
-                        <p className="text-white/35 text-sm leading-relaxed">
+                        <p className="text-white/35 text-sm leading-[1.7]">
                           {step.desc}
                         </p>
                       </div>
                       {/* Check icon */}
-                      <div className="flex-shrink-0 ml-auto self-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="flex-shrink-0 ml-auto self-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
                         <CheckCircle2 className="w-5 h-5 text-[#2E7D6F]/40" />
                       </div>
                     </div>
@@ -387,12 +379,12 @@ export default function TrustSection() {
             </div>
 
             {/* Customer Protection Guarantee */}
-            <AnimatedSection delay={0.5} className="mt-16 lg:mt-20">
-              <div className="relative p-8 lg:p-10 rounded-xl bg-white/[0.02] border border-white/[0.05] backdrop-blur-sm overflow-hidden">
+            <AnimatedSection delay={0.5} className="mt-20 lg:mt-24">
+              <div className="glass-card premium-top-line relative p-10 lg:p-12 rounded-xl overflow-hidden">
                 {/* Ambient glow */}
                 <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full blur-[80px] bg-[#2E7D6F]/[0.04] pointer-events-none" />
 
-                <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 md:gap-10">
+                <div className="relative z-10 flex flex-col md:flex-row items-center gap-7 md:gap-10">
                   <div className="flex-shrink-0">
                     <div className="w-14 h-14 rounded-full bg-[#2E7D6F]/10 border border-[#2E7D6F]/20 flex items-center justify-center">
                       <Handshake className="w-7 h-7 text-[#2E7D6F]" />
@@ -402,7 +394,7 @@ export default function TrustSection() {
                     <h4 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-white mb-2">
                       Customer Protection Guarantee
                     </h4>
-                    <p className="text-white/40 text-sm leading-relaxed max-w-xl">
+                    <p className="text-white/40 text-sm leading-[1.7] max-w-xl">
                       Jasa Proteksi menjamin perlindungan hak nasabah sesuai
                       regulasi OJK. Setiap transaksi dijamin transparan, klaim
                       diproses secara adil, dan data pribadi dilindungi sesuai

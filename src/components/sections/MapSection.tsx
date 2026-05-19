@@ -45,7 +45,7 @@ export default function MapSection() {
             href="https://maps.google.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 px-7 py-3 border border-[#2E7D6F]/30 text-[#2E7D6F] font-medium tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-600"
+            className="inline-flex items-center gap-2.5 px-7 py-3 border border-[#2E7D6F]/30 text-[#2E7D6F] font-medium tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-800"
           >
             <Navigation className="w-4 h-4" />
             Get Directions

@@ -8,6 +8,9 @@ import TextReveal from "@/components/shared/TextReveal";
 // Premium cinematic ease curve — slow, deliberate, luxurious
 const cinematicEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// Ultra-luxury easing — for hero interactions
+const heroEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -164,19 +167,19 @@ export default function Hero() {
             {/* Primary CTA — emerald bg */}
             <a
               href="#model"
-              className="group inline-flex items-center justify-center gap-3 px-9 py-4 bg-[#2E7D6F] text-[#0D0D0D] font-medium tracking-wider text-sm rounded-sm transition-all duration-600 hover:bg-[#3A9B8A] hover:shadow-[0_0_40px_rgba(46,125,111,0.12)]"
+              className="group inline-flex items-center justify-center gap-3 px-9 py-4 bg-[#2E7D6F] text-[#0D0D0D] font-medium tracking-wider text-sm rounded-sm transition-all duration-800 hover:bg-[#3A9B8A] hover:shadow-[0_0_40px_rgba(46,125,111,0.10)]"
             >
-              <Shield className="w-4 h-4 transition-transform duration-600 group-hover:scale-105" />
+              <Shield className="w-4 h-4 transition-transform duration-800 group-hover:scale-105" />
               Discover Coverage
             </a>
 
             {/* Secondary CTA — bordered */}
             <a
               href="#kontak"
-              className="group inline-flex items-center justify-center gap-3 px-9 py-4 border border-[#2E7D6F]/50 text-[#2E7D6F] font-medium tracking-wider text-sm rounded-sm transition-all duration-600 hover:bg-[#2E7D6F]/8 hover:border-[#2E7D6F] hover:shadow-[0_0_40px_rgba(46,125,111,0.06)]"
+              className="group inline-flex items-center justify-center gap-3 px-9 py-4 border border-[#2E7D6F]/50 text-[#2E7D6F] font-medium tracking-wider text-sm rounded-sm transition-all duration-800 hover:bg-[#2E7D6F]/8 hover:border-[#2E7D6F] hover:shadow-[0_0_40px_rgba(46,125,111,0.05)]"
             >
               Get Protected
-              <ArrowRight className="w-4 h-4 transition-transform duration-600 group-hover:translate-x-1" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-800 group-hover:translate-x-1" />
             </a>
           </motion.div>
         </div>

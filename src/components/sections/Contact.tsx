@@ -38,21 +38,21 @@ export default function Contact() {
     <SectionWrapper id="kontak" className="bg-[#F5F5F0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <AnimatedSection className="text-center mb-20">
-          <div className="flex justify-center mb-5">
+        <AnimatedSection className="text-center mb-24">
+          <div className="flex justify-center mb-6">
             <div className="accent-line" />
           </div>
           <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">Contact</span>
           <TextReveal
             text="Hubungi Kami"
             as="h2"
-            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-5 text-[#0D0D0D] leading-[1.1]"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-6 text-[#0D0D0D] leading-[1.1]"
             delay={0.1}
             staggerDelay={0.05}
           />
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-28">
           {/* Left - Form */}
           <AnimatedSection direction="left">
             <form onSubmit={handleSubmit} className="space-y-5 p-8 sm:p-10 rounded-xl border border-gray-100 bg-white">
@@ -106,7 +106,7 @@ export default function Contact() {
               />
               <button
                 type="submit"
-                className="w-full bg-[#0D0D0D] hover:bg-[#2E7D6F] text-white h-12 rounded-lg font-semibold tracking-wider transition-all duration-600 flex items-center justify-center gap-2"
+                className="w-full bg-[#0D0D0D] hover:bg-[#2E7D6F] text-white h-12 rounded-lg font-semibold tracking-wider transition-all duration-800 flex items-center justify-center gap-2"
               >
                 {submitted ? "Terkirim!" : "Kirim Pesan"}
                 {!submitted && <Send className="w-4 h-4" />}
@@ -126,7 +126,7 @@ export default function Contact() {
                   transition={{ delay: i * 0.08, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   viewport={{ once: true }}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-[#2E7D6F]/[0.07] flex items-center justify-center flex-shrink-0 group-hover:bg-[#2E7D6F]/[0.12] transition-colors duration-600">
+                  <div className="w-10 h-10 rounded-lg bg-[#2E7D6F]/[0.07] flex items-center justify-center flex-shrink-0 group-hover:bg-[#2E7D6F]/[0.12] transition-colors duration-800">
                     <info.icon className="w-5 h-5 text-[#2E7D6F]" />
                   </div>
                   <div>

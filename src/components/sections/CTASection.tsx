@@ -12,7 +12,7 @@ const trustBadges = [
 
 export default function CTASection() {
   return (
-    <section className="relative py-28 lg:py-36 overflow-hidden">
+    <section className="relative py-32 lg:py-44 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0D0D0D] via-[#0A0F1E] to-[#0D0D0D]" />
@@ -48,7 +48,7 @@ export default function CTASection() {
           <div className="flex flex-col sm:flex-row gap-5 justify-center mb-14">
             <a
               href="#kontak"
-              className="inline-flex items-center justify-center gap-2.5 px-9 py-4 bg-[#2E7D6F] text-[#0D0D0D] font-semibold tracking-wider text-sm hover:bg-[#3A9B8A] transition-all duration-600 rounded-md"
+              className="inline-flex items-center justify-center gap-2.5 px-9 py-4 bg-[#2E7D6F] text-[#0D0D0D] font-semibold tracking-wider text-sm hover:bg-[#3A9B8A] transition-all duration-800 rounded-md"
             >
               <Shield className="w-4 h-4" />
               GET PROTECTED
@@ -57,7 +57,7 @@ export default function CTASection() {
               href="https://wa.me/6287766860381"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-9 py-4 bg-[#25D366] text-white font-semibold tracking-wider text-sm hover:bg-[#20bd5a] transition-all duration-600 rounded-md"
+              className="inline-flex items-center justify-center gap-2.5 px-9 py-4 bg-[#25D366] text-white font-semibold tracking-wider text-sm hover:bg-[#20bd5a] transition-all duration-800 rounded-md"
             >
               <Phone className="w-4 h-4" />
               CHAT VIA WHATSAPP

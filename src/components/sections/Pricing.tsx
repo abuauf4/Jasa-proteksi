@@ -55,29 +55,29 @@ export default function Pricing() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <AnimatedSection className="text-center mb-20 lg:mb-24">
+        <AnimatedSection className="text-center mb-24 lg:mb-28">
           <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">Coverage</span>
           <TextReveal
             text="Choose your peace of mind"
             as="h2"
-            className="text-4xl lg:text-5xl xl:text-6xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-5 leading-[1.1]"
+            className="text-4xl lg:text-5xl xl:text-6xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-6 leading-[1.1]"
             delay={0.1}
             staggerDelay={0.05}
           />
         </AnimatedSection>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-9">
           {pricingTiers.map((tier, i) => (
-            <AnimatedSection key={tier.name} delay={i * 0.12}>
+            <AnimatedSection key={tier.name} delay={i * 0.1}>
               <motion.div
-                className={`relative h-full rounded-xl p-9 transition-all duration-700 card-lift ${
+                className={`relative h-full rounded-xl p-10 transition-all duration-800 card-lift ${
                   tier.recommended
                     ? "bg-[#0A0F1E]/80 border border-[#2E7D6F]/40 shadow-lg shadow-[#2E7D6F]/8 gradient-border"
                     : "bg-[#0A0F1E]/50 border border-white/[0.04] hover:border-[#2E7D6F]/15"
                 }`}
-                whileHover={{ y: -3 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               >
                 {/* Recommended Badge */}
                 {tier.recommended && (
@@ -118,7 +118,7 @@ export default function Pricing() {
                 {/* CTA */}
                 <a
                   href="#kontak"
-                  className={`block text-center py-3.5 font-semibold tracking-wider text-sm transition-all duration-600 shine-button rounded-lg ${
+                  className={`block text-center py-3.5 font-semibold tracking-wider text-sm transition-all duration-800 shine-button rounded-lg ${
                     tier.recommended
                       ? "bg-[#2E7D6F] text-white hover:bg-[#3A9B8A]"
                       : "border border-[#2E7D6F]/30 text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white"

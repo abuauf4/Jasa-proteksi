@@ -71,14 +71,14 @@ export default function Navigation() {
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-800 ${
           scrolled
             ? "bg-[#0D0D0D]/85 backdrop-blur-2xl shadow-lg shadow-black/15 border-b border-white/[0.03]"
             : "bg-transparent"
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">

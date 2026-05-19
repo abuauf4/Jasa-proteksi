@@ -26,7 +26,7 @@ export default function FloatingWhatsApp() {
         href="https://wa.me/6287766860381"
         target="_blank"
         rel="noopener noreferrer"
-        className="relative block w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg shadow-[#25D366]/30 hover:scale-110 transition-transform duration-300"
+        className="relative block w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-lg shadow-[#25D366]/30 hover:scale-105 transition-transform duration-800"
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         aria-label="Chat via WhatsApp"

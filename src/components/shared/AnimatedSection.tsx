@@ -15,22 +15,25 @@ interface AnimatedSectionProps {
 // Premium organic easing — slower, more deliberate, luxurious feel
 const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// Ultra-luxury easing — even more buttery, for hero/key reveals
+const luxuryEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
 export default function AnimatedSection({
   children,
   className = "",
   delay = 0,
   direction = "up",
   once = true,
-  duration = 0.9,
+  duration = 1.1,
 }: AnimatedSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, margin: "-80px" });
+  const isInView = useInView(ref, { once, margin: "-60px" });
 
   const directionMap = {
-    up: { y: 40, x: 0 },
-    down: { y: -40, x: 0 },
-    left: { x: 40, y: 0 },
-    right: { x: -40, y: 0 },
+    up: { y: 30, x: 0 },
+    down: { y: -30, x: 0 },
+    left: { x: 30, y: 0 },
+    right: { x: -30, y: 0 },
   };
 
   const offset = directionMap[direction];
@@ -41,7 +44,7 @@ export default function AnimatedSection({
       className={className}
       initial={{ opacity: 0, ...offset }}
       animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, ...offset }}
-      transition={{ duration, ease: premiumEase, delay }}
+      transition={{ duration, ease: luxuryEase, delay }}
     >
       {children}
     </motion.div>

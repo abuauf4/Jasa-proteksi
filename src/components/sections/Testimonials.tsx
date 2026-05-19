@@ -45,7 +45,7 @@ const testimonials = [
   },
 ];
 
-const premiumEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
@@ -59,9 +59,9 @@ export default function Testimonials() {
     <section id="testimoni" className="section-padding relative overflow-hidden bg-[#F5F5F0] text-foreground">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <AnimatedSection className="text-center mb-20">
+        <AnimatedSection className="text-center mb-24">
           {/* Decorative Quote Icon */}
-          <div className="flex justify-center mb-7">
+          <div className="flex justify-center mb-8">
             <Quote className="w-10 h-10 text-[#2E7D6F]/25" />
           </div>
           {/* Label */}
@@ -70,7 +70,7 @@ export default function Testimonials() {
           <TextReveal
             text="Trusted by thousands"
             as="h2"
-            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mt-5 leading-[1.1]"
+            className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mt-6 leading-[1.1]"
             delay={0.1}
             staggerDelay={0.05}
           />
@@ -81,10 +81,10 @@ export default function Testimonials() {
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.7, ease: premiumEase }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.8, ease: premiumEase }}
             >
               {/* Stars */}
               <div className="flex justify-center gap-1.5 mb-10">
@@ -125,10 +125,10 @@ export default function Testimonials() {
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-center gap-8 mt-14">
+        <div className="flex items-center justify-center gap-8 mt-16">
           <button
             onClick={prev}
-            className="w-10 h-10 rounded-full border border-[#2E7D6F]/25 flex items-center justify-center text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white transition-all duration-600"
+            className="w-10 h-10 rounded-full border border-[#2E7D6F]/25 flex items-center justify-center text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white transition-all duration-800"
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="w-5 h-5" />
@@ -140,7 +140,7 @@ export default function Testimonials() {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={`h-2 rounded-full transition-all duration-600 ${
+                className={`h-2 rounded-full transition-all duration-800 ${
                   i === current ? "bg-[#2E7D6F] w-7" : "bg-[#2E7D6F]/20 hover:bg-[#2E7D6F]/40 w-2"
                 }`}
                 aria-label={`Go to testimonial ${i + 1}`}
@@ -150,7 +150,7 @@ export default function Testimonials() {
 
           <button
             onClick={next}
-            className="w-10 h-10 rounded-full border border-[#2E7D6F]/25 flex items-center justify-center text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white transition-all duration-600"
+            className="w-10 h-10 rounded-full border border-[#2E7D6F]/25 flex items-center justify-center text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-white transition-all duration-800"
             aria-label="Next testimonial"
           >
             <ChevronRight className="w-5 h-5" />
