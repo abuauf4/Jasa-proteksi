@@ -26,9 +26,9 @@ export default function Home() {
       <Navigation />
       <main className="flex-1">
         <Hero />
+        <Portfolio />
         <Services />
         <Features />
-        <Portfolio />
         <Testimonials />
         <Pricing />
         <FAQ />
