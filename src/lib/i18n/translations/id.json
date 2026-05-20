@@ -1,0 +1,319 @@
+{
+  "nav": {
+    "beranda": "Beranda",
+    "produk": "Produk",
+    "trust": "Trust",
+    "layanan": "Layanan",
+    "coverage": "Coverage",
+    "tentang": "Tentang",
+    "kontak": "Kontak",
+    "dapatkanPerlindungan": "DAPATKAN PERLINDUNGAN",
+    "ojkLicensed": "Berizin OJK"
+  },
+  "hero": {
+    "label": "Insurtech Terpercaya",
+    "heading": "Perlindungan untuk yang paling berarti.",
+    "brand": "Jasa Proteksi",
+    "tagline": "Ketenangan pikiran untuk dunia modern. Asuransi yang mengikuti langkah hidupmu.",
+    "discoverCoverage": "Lihat Perlindungan",
+    "getProtected": "Dapatkan Perlindungan",
+    "scroll": "Gulir"
+  },
+  "about": {
+    "label": "Tentang Kami",
+    "heading": "PT Solusiutama Tekno Broker Asuransi",
+    "description": "Sebagai perusahaan insurtech terpercaya di Indonesia yang berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK), Jasa Proteksi berkomitmen menghadirkan produk asuransi yang mudah, cepat, dan terjangkau untuk setiap gaya hidup. Dengan tagline 'Melindungi Setiap Langkah Hidupmu', kami terus berinovasi untuk memberikan perlindungan terbaik bagi kamu dan keluarga.",
+    "learnMore": "Pelajari Lebih Lanjut",
+    "ojkLicensed": "Berizin OJK",
+    "ojkTitle": "Berizin & Diawasi OJK",
+    "ojkLicense": "Lisensi KEP-060/NB.1/2021",
+    "ojkDescription": "Pialang asuransi yang telah berizin dan diawasi oleh Otoritas Jasa Keuangan",
+    "stats": {
+      "products": "Produk Asuransi",
+      "customers": "Pelanggan",
+      "satisfaction": "Kepuasan Pelanggan",
+      "service": "Layanan"
+    }
+  },
+  "services": {
+    "label": "Layanan Kami",
+    "heading": "Dibangun untuk ketenangan pikiranmu",
+    "items": {
+      "fast": {
+        "title": "Pembelian Cepat",
+        "desc": "Lengkapi pengajuan asuransi kurang dari 3 menit saja. Proses mudah dan cepat tanpa ribet."
+      },
+      "recommendation": {
+        "title": "Rekomendasi yang Pas",
+        "desc": "Produk pilihan yang pas buat kebutuhanmu. Personalisasi sesuai gaya hidupmu."
+      },
+      "telesales": {
+        "title": "Telesales yang Ramah",
+        "desc": "Tim kami siap membantumu pilih asuransi yang tepat via telepon atau WhatsApp."
+      },
+      "transparent": {
+        "title": "Selalu Transparan",
+        "desc": "Hanya informasi terpercaya tentang perlindunganmu. Tidak ada biaya tersembunyi."
+      },
+      "easyClaim": {
+        "title": "Klaim Mudah",
+        "desc": "Klaim dengan sistem reimbursement dan cashless. Bisa dilakukan kapanpun dan dimanapun."
+      },
+      "personalize": {
+        "title": "Personalisasi Polis",
+        "desc": "Sesuaikan polis dengan kebutuhanmu. Cakupan dan perlindungan jadi lebih relevan."
+      }
+    }
+  },
+  "portfolio": {
+    "label": "Produk Kami",
+    "heading": "Perlindungan untuk setiap momen",
+    "cekEstimasi": "Cek Estimasi",
+    "categories": {
+      "all": "Semua",
+      "vehicle": "Kendaraan",
+      "travel": "Perjalanan",
+      "pet": "Hewan",
+      "personal": "Personal"
+    }
+  },
+  "features": {
+    "label": "Kenapa Jasa Proteksi",
+    "heading": "Perlindungan untuk yang paling berarti",
+    "exploreAll": "Lihat Semua Produk",
+    "ojkLicensed": "Berizin OJK",
+    "awardTitle": "Insurance Asia Awards 2025",
+    "awardSubtitle": "Insurtech Initiative of the Year",
+    "awardDesc": "Diakui atas kontribusi dan inovasi luar biasa di seluruh industri asuransi wilayah Asia-Pasifik",
+    "items": {
+      "fast": {
+        "title": "Cepat dan Efisien",
+        "desc": "Lengkapi pengajuan kurang dari 3 menit. Bayar dan langsung dapat polis tanpa proses panjang."
+      },
+      "ojk": {
+        "title": "Berizin dan Diawasi OJK",
+        "desc": "PT Solusiutama Tekno Broker Asuransi berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK) dengan nomor lisensi KEP-060/NB.1/2021."
+      },
+      "award": {
+        "title": "Insurtech Initiative of the Year 2025",
+        "desc": "Diakui oleh Insurance Asia Awards atas inovasi kami di sektor asuransi Asia-Pasifik."
+      },
+      "affordable": {
+        "title": "Premi Terjangkau",
+        "desc": "Harga premi yang kompetitif, plus suka ada diskon dan cashback untuk setiap produk asuransi."
+      }
+    }
+  },
+  "trust": {
+    "label": "Terpercaya & Berizin",
+    "heading": "Perlindungan yang bisa dipercaya",
+    "subheading": "Didukung oleh regulator dan perusahaan asuransi terkemuka di Indonesia",
+    "provenLabel": "Rekam Jejak Terbukti",
+    "provenHeading": "Angka yang berbicara sendiri",
+    "secureLabel": "Proses Aman",
+    "secureHeading": "Setiap langkah, terlindungi",
+    "secureDesc": "Dari pemilihan hingga aktivasi, data dan transaksi Anda diamankan dengan enkripsi tingkat bank. Kepercayaan tertanam di setiap langkah.",
+    "sslEncrypted": "Dienkripsi SSL 256-bit",
+    "guaranteeTitle": "Jaminan Perlindungan Nasabah",
+    "guaranteeDesc": "Jasa Proteksi menjamin perlindungan hak nasabah sesuai regulasi OJK. Setiap transaksi dijamin transparan, klaim diproses secara adil, dan data pribadi dilindungi sesuai standar keamanan tertinggi.",
+    "badges": {
+      "ojk": { "title": "Berizin & Diawasi OJK", "desc": "Lisensi KEP-060/NB.1/2021" },
+      "award": { "title": "Insurance Asia Awards 2025", "desc": "Insurtech Initiative of the Year" },
+      "apparindo": { "title": "Terverifikasi APPARINDO", "desc": "No. 113-2005/APPARINDO/2025" },
+      "iso": { "title": "ISO 27001 Compliant", "desc": "Keamanan data terjamin" }
+    },
+    "claimStats": {
+      "processed": "Klaim Diproses",
+      "approval": "Tingkat Persetujuan Klaim",
+      "resolution": "Rata-rata Penyelesaian",
+      "protected": "Nasabah Terlindungi"
+    },
+    "process": {
+      "select": { "title": "Pilih Produk", "desc": "Temukan perlindungan yang sesuai dengan kebutuhanmu." },
+      "fill": { "title": "Isi Data", "desc": "Proses verifikasi aman dan terenkripsi end-to-end." },
+      "pay": { "title": "Bayar Aman", "desc": "Pembayaran tersertifikasi dan terproteksi penuh." },
+      "active": { "title": "Polis Aktif", "desc": "Polis digital langsung terbit, perlindungan dimulai." }
+    }
+  },
+  "testimonials": {
+    "label": "Testimoni",
+    "heading": "Dipercaya ribuan pelanggan",
+    "user": "Pengguna"
+  },
+  "pricing": {
+    "label": "Coverage",
+    "heading": "Pilih ketenangan pikiranmu",
+    "recommended": "Rekomendasi",
+    "disclaimer": "Premi bersifat estimasi. Hubungi tim kami untuk penawaran terperinci.",
+    "tiers": {
+      "basic": {
+        "name": "Basic",
+        "price": "Premi Mulai Rp 50rb",
+        "subtitle": "Perjalanan & Kecelakaan Diri",
+        "features": ["Perlindungan dasar", "Klaim reimbursement", "Proses cepat di bawah 3 menit", "Polis digital instan"]
+      },
+      "premium": {
+        "name": "Premium",
+        "price": "Premi Mulai Rp 300rb",
+        "subtitle": "Kendaraan & Hewan Peliharaan",
+        "features": ["Perlindungan komprehensif", "Klaim cashless & reimbursement", "Diskon hingga 25% + cashback", "Personalisasi polis", "Telesales support 24/7"]
+      },
+      "complete": {
+        "name": "Complete",
+        "price": "Perlindungan Menyeluruh",
+        "subtitle": "Semua produk dalam satu paket",
+        "features": ["Proteksi all-in-one", "Klaim cashless & reimbursement", "Diskon khusus bundling", "Prioritas layanan klaim", "Personal advisor dedicated", "Gratis konsultasi asuransi"]
+      }
+    },
+    "contactUs": "Hubungi Kami"
+  },
+  "cta": {
+    "heading": "Siap merasakan ketenangan pikiran?",
+    "subheading": "Mulai perjalanan perlindungan Anda hari ini",
+    "getProtected": "DAPATKAN PERLINDUNGAN",
+    "chatWhatsApp": "CHAT VIA WHATSAPP",
+    "badges": {
+      "ojk": "Berizin & Diawasi OJK",
+      "award": "Insurance Asia Awards 2025",
+      "fast": "Proses di Bawah 3 Menit"
+    }
+  },
+  "contact": {
+    "label": "Kontak",
+    "heading": "Hubungi Kami",
+    "form": {
+      "name": "Nama Lengkap",
+      "email": "Email",
+      "phone": "No. Telepon",
+      "subject": "Subjek",
+      "message": "Pesan Anda...",
+      "submit": "Kirim Pesan",
+      "sent": "Terkirim!"
+    },
+    "info": {
+      "address": "Alamat",
+      "phone": "Telepon",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "hours": "Jam Layanan"
+    }
+  },
+  "footer": {
+    "tagline": "Melindungi Setiap Langkah Hidupmu",
+    "brandDesc": "Platform asuransi online terpercaya di Indonesia.",
+    "quickLinks": "Tautan Cepat",
+    "products": "Produk",
+    "newsletter": "Newsletter",
+    "newsletterDesc": "Subscribe dan dapatkan diskon 5% untuk polis pertamamu",
+    "emailPlaceholder": "Email Anda",
+    "contactLabel": "Kontak",
+    "copyright": "\u00a9 2025 PT Solusiutama Tekno Broker Asuransi. All rights reserved."
+  },
+  "faq": {
+    "label": "FAQ",
+    "heading": "Pertanyaan Umum",
+    "stillHaveQuestion": "Masih punya pertanyaan?",
+    "contactUsDirectly": "Hubungi Kami Langsung",
+    "items": {
+      "q1": { "q": "Apakah Jasa Proteksi itu?", "a": "Jasa Proteksi adalah platform yang menawarkan produk asuransi online, yang sesuai dengan kebutuhan gaya hidupmu. Jasa Proteksi berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK) dengan nomor lisensi KEP-060/NB.1/2021." },
+      "q2": { "q": "Bagaimana cara Jasa Proteksi bekerja?", "a": "Jasa Proteksi menawarkan berbagai opsi produk asuransi dari asuransi terbaik dan ternama sehingga kamu tidak perlu melewati proses yang panjang dan rumit. Cukup dengan beberapa klik, kamu sudah bisa terlindungi dengan proses yang nyaman, praktis, dengan harga yang terjangkau." },
+      "q3": { "q": "Bagaimana cara saya membeli produk asuransi?", "a": "Pilih asuransi sesuai kebutuhan di halaman Produk dan masukan data-data yang diperlukan. Ketika semua informasi sudah dilengkapi, lanjut ke pembayaran melalui QRIS, dompet digital, virtual account, hingga kartu kredit. Setelah pembayaran sukses, polis asuransi akan langsung kamu terima." },
+      "q4": { "q": "Ada produk asuransi apa sajakah di Jasa Proteksi?", "a": "Jasa Proteksi menawarkan: 1) Asuransi Motor & Motor Listrik, 2) Asuransi Mobil & Mobil Listrik, 3) Asuransi Perjalanan (domestik & internasional), 4) Asuransi Hewan Peliharaan (anjing & kucing), 5) Asuransi Kecelakaan Diri. Semua tersedia dengan premi terjangkau dan proses pembelian yang mudah." },
+      "q5": { "q": "Apakah proses klaim di Jasa Proteksi mudah?", "a": "Sangat mudah! Jasa Proteksi menawarkan klaim dengan sistem reimbursement dan cashless. Proses klaim bisa dilakukan kapanpun dan dimanapun kamu berada. Untuk bantuan, kamu bisa menghubungi Customer Service Jasa Proteksi di hari Senin s.d Jumat, jam 10.00-17.00 WIB." },
+      "q6": { "q": "Bagaimana jika produk yang saya inginkan tidak ada di Jasa Proteksi?", "a": "Jasa Proteksi tetap bisa bantu kamu! Hubungi tim Telesales dengan mengklik tombol WhatsApp yang ada di website kami. Tim kami akan membantu menemukan solusi asuransi yang tepat untuk kebutuhanmu." }
+    }
+  },
+  "blog": {
+    "label": "Berita Terbaru",
+    "heading": "Artikel & Edukasi",
+    "readMore": "Baca",
+    "viewAll": "Lihat Semua Artikel",
+    "articleLabel": "Artikel Jasa Proteksi",
+    "items": {
+      "post1": { "category": "Edukasi", "title": "Apa Itu Asuransi? Pengertian, Jenis, Manfaat Lengkapnya", "excerpt": "Pahami dasar-dasar asuransi dan mengapa perlindungan ini penting untuk kamu dan keluarga.", "date": "20 Mei 2025" },
+      "post2": { "category": "Tips", "title": "10 Pertanyaan Tentang Asuransi dan Jawabannya", "excerpt": "Jawaban atas pertanyaan yang paling sering ditanyakan tentang dunia asuransi.", "date": "15 Mei 2025" },
+      "post3": { "category": "Lifestyle", "title": "7 Jenis Asuransi di Indonesia, Kenali Terlebih Dahulu", "excerpt": "Kenali berbagai jenis asuransi yang tersedia dan mana yang paling sesuai untuk kebutuhanmu.", "date": "10 Mei 2025" }
+    }
+  },
+  "map": {
+    "heading": "Lokasi Kami",
+    "companyName": "Jasa Proteksi Indonesia",
+    "address": "Menara Anugrah Lantai 23, Kawasan Mega Kuningan, Jakarta Selatan",
+    "getDirections": "Lihat Peta"
+  },
+  "gallery": {
+    "label": "Galeri",
+    "heading": "Produk & Penghargaan",
+    "categories": {
+      "all": "Semua",
+      "vehicle": "Kendaraan",
+      "travel": "Perjalanan",
+      "pet": "Hewan",
+      "personal": "Personal",
+      "award": "Penghargaan"
+    },
+    "items": {
+      "carMotor": "Asuransi Mobil & Motor",
+      "travel": "Perlindungan Perjalanan",
+      "pet": "Asuransi Hewan Peliharaan",
+      "evMotor": "Asuransi Motor Listrik",
+      "personal": "Asuransi Kecelakaan Diri",
+      "award": "Insurance Asia Awards 2025"
+    }
+  },
+  "conversion": {
+    "floatingWhatsApp": "Chat dengan tim Jasa Proteksi",
+    "cookieMessage": "Kami menggunakan cookies untuk meningkatkan pengalaman Anda. Dengan melanjutkan, Anda menyetujui penggunaan cookies kami.",
+    "cookieAccept": "Terima",
+    "cookieReject": "Tolak",
+    "stickyCTA": "DAPATKAN PERLINDUNGAN"
+  },
+  "leadFlow": {
+    "step1Label": "Langkah 1 dari 2",
+    "step1Title": "Isi data untuk melihat estimasi harga",
+    "nameLabel": "Nama Lengkap",
+    "namePlaceholder": "Masukkan nama lengkap",
+    "whatsappLabel": "Nomor WhatsApp",
+    "whatsappPlaceholder": "08xxxxxxxxxx",
+    "notesLabel": "Kebutuhan / Catatan",
+    "notesPlaceholder": "Opsional: jelaskan kebutuhan Anda...",
+    "viewEstimation": "Lihat Estimasi",
+    "processing": "Memproses...",
+    "phoneError": "Nomor WhatsApp tidak valid. Gunakan format: 08xxxxxxxxxx",
+    "connectionError": "Terjadi kesalahan koneksi. Silakan coba lagi.",
+    "estimationTitle": "Estimasi Harga",
+    "estimatedPriceLabel": "Estimasi Harga",
+    "perYear": "/tahun",
+    "benefitsLabel": "Manfaat Perlindungan",
+    "agreeWhatsApp": "Setuju, Lanjut Konsultasi via WhatsApp",
+    "closeHint": "Klik X untuk menutup",
+    "exitPromptTitle": "Punya budget tertentu?",
+    "exitPromptDesc": "Ajukan penawaran sesuai kemampuan Anda. Kami akan meninjau dan menghubungi Anda jika penawaran memenuhi syarat.",
+    "submitOffer": "Ajukan Penawaran",
+    "close": "Tutup",
+    "offerTitle": "Ajukan Penawaran",
+    "offerPriceLabel": "Harga Penawaran Anda (Rp)",
+    "offerMinLabel": "Minimum",
+    "offerInfoText": "Penawaran Anda akan ditinjau. Jika memenuhi syarat minimum, Anda bisa langsung konsultasi via WhatsApp.",
+    "back": "Kembali",
+    "sendOffer": "Kirim Penawaran",
+    "offerValidError": "Masukkan harga penawaran yang valid",
+    "offerError": "Terjadi kesalahan.",
+    "resultValidTitle": "Penawaran Diterima",
+    "resultValidDesc": "Terima kasih, {name}. Penawaran Anda telah kami catat. Silakan lanjut konsultasi dengan tim kami melalui WhatsApp.",
+    "resultProduct": "Produk",
+    "resultEstPrice": "Estimasi Harga",
+    "resultYourOffer": "Penawaran Anda",
+    "resultStatus": "Status",
+    "resultValidStatus": "Valid — Dapat Dilanjutkan",
+    "continueWhatsApp": "Lanjut Konsultasi via WhatsApp",
+    "resultRejectedTitle": "Penawaran Belum Memenuhi Syarat",
+    "resultRejectedDesc": "Maaf, penawaran Anda belum memenuhi syarat minimum {minPrice} untuk produk {productName}.",
+    "resultRejectedNote": "Data Anda tetap kami simpan. Tim kami mungkin akan menghubungi Anda.",
+    "changeOffer": "Ubah Penawaran",
+    "chatWhatsApp": "Chat WhatsApp"
+  },
+  "common": {
+    "backToTop": "Kembali ke atas"
+  }
+}

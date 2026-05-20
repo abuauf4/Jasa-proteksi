@@ -4,11 +4,10 @@ import { useState } from "react";
 import { Car, Bike, Plane, PawPrint, Zap, UserCheck, ArrowRight, Shield, Calculator } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 import TextReveal from "@/components/shared/TextReveal";
 import LeadFlowModal from "@/components/flow/LeadFlowModal";
 import { products as staticProducts, InsuranceProduct } from "@/lib/products";
-
-const categories = ["Semua", "Kendaraan", "Perjalanan", "Hewan", "Personal"];
 
 const iconMap: Record<string, React.ElementType> = {
   "asuransi-mobil": Car,
@@ -22,14 +21,23 @@ const iconMap: Record<string, React.ElementType> = {
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Portfolio() {
-  const [active, setActive] = useState("Semua");
+  const [active, setActive] = useState("all");
   const products = staticProducts;
+  const { t } = useLanguage();
+
+  const categories = [
+    { key: "all", label: t("portfolio.categories.all") },
+    { key: "Kendaraan", label: t("portfolio.categories.vehicle") },
+    { key: "Perjalanan", label: t("portfolio.categories.travel") },
+    { key: "Hewan", label: t("portfolio.categories.pet") },
+    { key: "Personal", label: t("portfolio.categories.personal") },
+  ];
 
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<InsuranceProduct | null>(null);
 
-  const filtered = active === "Semua" ? products : products.filter((p) => p.category === active);
+  const filtered = active === "all" ? products : products.filter((p) => p.category === active);
 
   const handleCekHarga = (product: InsuranceProduct) => {
     setSelectedProduct(product);
@@ -51,12 +59,12 @@ export default function Portfolio() {
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-[2px] bg-[#2E7D6F]" />
                 <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
-                  Our Products
+                  {t("portfolio.label")}
                 </span>
               </div>
               <AnimatedSection>
                 <TextReveal
-                  text="Protection for every moment"
+                  text={t("portfolio.heading")}
                   as="h2"
                   className="text-3xl lg:text-4xl xl:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] leading-[1.1]"
                   delay={0.15}
@@ -68,15 +76,15 @@ export default function Portfolio() {
             <div className="inline-flex gap-1 p-1 rounded-lg bg-gray-50/80 border border-gray-100 flex-wrap">
               {categories.map((cat) => (
                 <button
-                  key={cat}
-                  onClick={() => setActive(cat)}
+                  key={cat.key}
+                  onClick={() => setActive(cat.key)}
                   className={`px-5 py-2 text-[11px] font-medium tracking-wider transition-all duration-600 rounded-md ${
-                    active === cat
+                    active === cat.key
                       ? "bg-[#2E7D6F] text-white"
                       : "text-gray-400 hover:text-gray-700"
                   }`}
                 >
-                  {cat}
+                  {cat.label}
                 </button>
               ))}
             </div>
@@ -151,7 +159,7 @@ export default function Portfolio() {
                             className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2E7D6F] text-white text-[11px] font-medium tracking-wider hover:bg-[#3A9B8A] transition-all duration-600 rounded-md group/btn"
                           >
                             <Calculator className="w-3 h-3" />
-                            Cek Estimasi
+                            {t("portfolio.cekEstimasi")}
                             <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform duration-600" />
                           </button>
                         </div>

@@ -5,6 +5,7 @@ import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const testimonials = [
   {
@@ -48,12 +49,13 @@ const testimonials = [
 const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Testimonials() {
+  const { t } = useLanguage();
   const [current, setCurrent] = useState(0);
 
   const prev = () => setCurrent((c) => (c === 0 ? testimonials.length - 1 : c - 1));
   const next = () => setCurrent((c) => (c === testimonials.length - 1 ? 0 : c + 1));
 
-  const t = testimonials[current];
+  const currentTestimonial = testimonials[current];
 
   return (
     <section id="testimoni" className="section-padding relative overflow-hidden bg-[#F5F5F0] text-foreground">
@@ -65,10 +67,10 @@ export default function Testimonials() {
             <Quote className="w-10 h-10 text-[#2E7D6F]/25" />
           </div>
           {/* Label */}
-          <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">Testimonials</span>
+          <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">{t("testimonials.label")}</span>
           {/* Heading */}
           <TextReveal
-            text="Trusted by thousands"
+            text={t("testimonials.heading")}
             as="h2"
             className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mt-6 leading-[1.1]"
             delay={0.1}
@@ -97,7 +99,7 @@ export default function Testimonials() {
                   >
                     <Star
                       className={`w-5 h-5 ${
-                        i < t.rating ? "text-[#2E7D6F] fill-[#2E7D6F]" : "text-[#0D0D0D]/10"
+                        i < currentTestimonial.rating ? "text-[#2E7D6F] fill-[#2E7D6F]" : "text-[#0D0D0D]/10"
                       }`}
                     />
                   </motion.div>
@@ -106,7 +108,7 @@ export default function Testimonials() {
 
               {/* Quote */}
               <blockquote className="text-xl sm:text-2xl lg:text-3xl font-light text-[#0D0D0D]/75 italic leading-[1.5] mb-12 font-[family-name:var(--font-montserrat)]">
-                &ldquo;{t.quote}&rdquo;
+                &ldquo;{currentTestimonial.quote}&rdquo;
               </blockquote>
 
               {/* Decorative accent line */}
@@ -116,10 +118,10 @@ export default function Testimonials() {
 
               {/* Name */}
               <p className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-[#2E7D6F]">
-                {t.name}
+                {currentTestimonial.name}
               </p>
               {/* Product */}
-              <p className="text-sm text-[#0D0D0D]/30 mt-1.5">Pengguna {t.product}</p>
+              <p className="text-sm text-[#0D0D0D]/30 mt-1.5">{t("testimonials.user")} {currentTestimonial.product}</p>
             </motion.div>
           </AnimatePresence>
         </div>

@@ -4,6 +4,7 @@ import { Diamond, Instagram, Facebook, Youtube, ArrowRight } from "lucide-react"
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const quickLinks = [
   { label: "Beranda", href: "#beranda" },
@@ -39,6 +40,7 @@ const socials = [
 ];
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="bg-[#0D0D0D] text-white">
       {/* Marquee Brand Banner */}
@@ -51,7 +53,7 @@ export default function Footer() {
               </span>
               <Diamond className="w-2 h-2 text-[#2E7D6F]/20" />
               <span className="text-sm tracking-[0.3em] text-[#2E7D6F]/15 uppercase">
-                Melindungi Setiap Langkah Hidupmu
+                {t("footer.tagline")}
               </span>
               <Diamond className="w-2 h-2 text-[#2E7D6F]/20" />
             </span>
@@ -78,7 +80,7 @@ export default function Footer() {
               <Diamond className="w-3 h-3 text-[#2E7D6F]" />
             </a>
             <p className="text-white/30 text-sm leading-[1.7] mb-7">
-              Platform asuransi online terpercaya di Indonesia. <span className="text-[#2E7D6F]">Melindungi Setiap Langkah Hidupmu.</span>
+              {t("footer.brandDesc")} <span className="text-[#2E7D6F]">{t("footer.tagline")}</span>
             </p>
             <div className="flex gap-3">
               {socials.map((social) => (
@@ -97,7 +99,7 @@ export default function Footer() {
           {/* Column 2 - Quick Links */}
           <div>
             <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-7 text-[#2E7D6F]">
-              Quick Links
+              {t("footer.quickLinks")}
             </h4>
             <ul className="space-y-3.5">
               {quickLinks.map((link) => (
@@ -116,7 +118,7 @@ export default function Footer() {
           {/* Column 3 - Produk */}
           <div>
             <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-7 text-[#2E7D6F]">
-              Produk
+              {t("footer.products")}
             </h4>
             <ul className="space-y-3.5">
               {productLinks.map((product) => (
@@ -130,14 +132,14 @@ export default function Footer() {
           {/* Column 4 - Newsletter */}
           <div>
             <h4 className="text-sm font-semibold font-[family-name:var(--font-montserrat)] tracking-wider uppercase mb-7 text-[#2E7D6F]">
-              Newsletter
+              {t("footer.newsletter")}
             </h4>
             <p className="text-white/30 text-sm mb-5 leading-relaxed">
-              Subscribe dan dapatkan diskon 5% untuk polis pertamamu
+              {t("footer.newsletterDesc")}
             </p>
             <div className="flex gap-2">
               <Input
-                placeholder="Email Anda"
+                placeholder={t("footer.emailPlaceholder")}
                 type="email"
                 className="bg-white/[0.03] border-white/[0.06] focus:border-[#2E7D6F] h-10 text-sm rounded-md text-white placeholder:text-white/20 transition-colors duration-600"
               />
@@ -151,7 +153,7 @@ export default function Footer() {
 
             {/* Contact */}
             <div className="mt-8">
-              <h5 className="text-[10px] tracking-wider text-white/40 uppercase mb-4">Kontak</h5>
+              <h5 className="text-[10px] tracking-wider text-white/40 uppercase mb-4">{t("footer.contactLabel")}</h5>
               {contactItems.map((item) => (
                 <p key={item} className="text-white/30 text-sm leading-[1.7]">
                   {item}
@@ -166,10 +168,10 @@ export default function Footer() {
       <div className="border-t border-[#2E7D6F]/12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/20 text-xs">
-            &copy; 2025 PT Solusiutama Tekno Broker Asuransi. All rights reserved.
+            {t("footer.copyright")}
           </p>
           <p className="text-[#2E7D6F]/30 text-xs">
-            Melindungi Setiap Langkah Hidupmu
+            {t("footer.tagline")}
           </p>
         </div>
       </div>

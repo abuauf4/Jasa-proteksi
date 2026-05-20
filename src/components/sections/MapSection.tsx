@@ -2,8 +2,10 @@
 
 import { MapPin, Navigation } from "lucide-react";
 import AnimatedSection from "@/components/shared/AnimatedSection";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export default function MapSection() {
+  const { t } = useLanguage();
   return (
     <section id="lokasi" className="relative bg-[#0D0D0D] py-20 lg:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,7 +14,7 @@ export default function MapSection() {
             <div className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#2E7D6F]/50 to-transparent" />
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-white leading-[1.1]">
-            Lokasi Kami
+            {t("map.heading")}
           </h2>
         </AnimatedSection>
 
@@ -26,8 +28,8 @@ export default function MapSection() {
                   {/* Subtle emerald pulse ring */}
                   <div className="absolute inset-0 rounded-full animate-ping opacity-15 bg-[#2E7D6F]" style={{ animationDuration: '3s' }} />
                 </div>
-                <p className="text-white/50 text-sm mb-1.5">Jasa Proteksi Indonesia</p>
-                <p className="text-white/30 text-xs">Menara Anugrah Lantai 23, Kawasan Mega Kuningan, Jakarta Selatan</p>
+                <p className="text-white/50 text-sm mb-1.5">{t("map.companyName")}</p>
+                <p className="text-white/30 text-xs">{t("map.address")}</p>
               </div>
             </div>
             {/* Decorative grid lines */}
@@ -48,7 +50,7 @@ export default function MapSection() {
             className="inline-flex items-center gap-2.5 px-7 py-3 border border-[#2E7D6F]/30 text-[#2E7D6F] font-medium tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-800"
           >
             <Navigation className="w-4 h-4" />
-            Get Directions
+            {t("map.getDirections")}
           </a>
         </AnimatedSection>
       </div>

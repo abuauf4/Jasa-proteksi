@@ -8,6 +8,7 @@ import {
   Info, Calculator, ArrowLeft, Handshake,
 } from "lucide-react";
 import { InsuranceProduct } from "@/lib/products";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 // Step 1: Form (Name, WA, Notes) → "Lihat Estimasi"
 // Step 2: Estimation shown + confident WhatsApp CTA + only close button
@@ -48,6 +49,7 @@ export default function LeadFlowModal({
   onClose,
   product,
 }: LeadFlowModalProps) {
+  const { t } = useLanguage();
   const [step, setStep] = useState<Step>("form");
   const [formData, setFormData] = useState({
     customerName: "",
@@ -74,7 +76,7 @@ export default function LeadFlowModal({
 
     const cleanPhone = formData.whatsappNumber.replace(/[\s\-+]/g, "");
     if (!/^\d{10,15}$/.test(cleanPhone)) {
-      setError("Nomor WhatsApp tidak valid. Gunakan format: 08xxxxxxxxxx");
+      setError(t("leadFlow.phoneError"));
       setIsSubmitting(false);
       return;
     }
@@ -110,7 +112,7 @@ export default function LeadFlowModal({
         const data = await res.json();
 
         if (!res.ok) {
-          setError(data.error || "Terjadi kesalahan. Silakan coba lagi.");
+          setError(data.error || t("leadFlow.connectionError"));
           setIsSubmitting(false);
           return;
         }
@@ -139,7 +141,7 @@ export default function LeadFlowModal({
 
       setStep("estimation");
     } catch {
-      setError("Terjadi kesalahan koneksi. Silakan coba lagi.");
+      setError(t("leadFlow.connectionError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -168,7 +170,7 @@ export default function LeadFlowModal({
 
     const priceValue = parseInt(offerPrice.replace(/\D/g, ""));
     if (!priceValue || priceValue <= 0) {
-      setError("Masukkan harga penawaran yang valid");
+      setError(t("leadFlow.offerValidError"));
       setIsSubmitting(false);
       return;
     }
@@ -185,7 +187,7 @@ export default function LeadFlowModal({
         const data = await res.json();
 
         if (!res.ok) {
-          setError(data.error || "Terjadi kesalahan.");
+          setError(data.error || t("leadFlow.offerError"));
           setIsSubmitting(false);
           return;
         }
@@ -197,7 +199,7 @@ export default function LeadFlowModal({
         setStep(isValid ? "result-valid" : "result-rejected");
       }
     } catch {
-      setError("Terjadi kesalahan koneksi. Silakan coba lagi.");
+      setError(t("leadFlow.connectionError"));
     } finally {
       setIsSubmitting(false);
     }
@@ -303,9 +305,9 @@ export default function LeadFlowModal({
                   </div>
 
                   <div className="px-6 pt-5 pb-2">
-                    <p className="text-center text-white/40 text-[10px] tracking-wider uppercase mb-1">Langkah 1 dari 2</p>
+                    <p className="text-center text-white/40 text-[10px] tracking-wider uppercase mb-1">{t("leadFlow.step1Label")}</p>
                     <h4 className="text-center text-white/80 text-sm font-semibold font-[family-name:var(--font-montserrat)] mb-5">
-                      Isi data untuk melihat estimasi harga
+                      {t("leadFlow.step1Title")}
                     </h4>
                   </div>
 
@@ -313,40 +315,40 @@ export default function LeadFlowModal({
                     <div className="space-y-4">
                       <div>
                         <label className="flex items-center gap-1.5 text-white/40 text-[10px] tracking-wider uppercase mb-2">
-                          <User className="w-3 h-3" /> Nama Lengkap
+                          <User className="w-3 h-3" /> {t("leadFlow.nameLabel")}
                         </label>
                         <input
                           type="text"
                           required
                           value={formData.customerName}
                           onChange={(e) => handleInputChange("customerName", e.target.value)}
-                          placeholder="Masukkan nama lengkap"
+                          placeholder={t("leadFlow.namePlaceholder")}
                           className="w-full bg-white/[0.03] border border-white/[0.08] rounded-md px-4 py-3 text-white/80 text-sm placeholder:text-white/15 focus:outline-none focus:border-[#2E7D6F]/40 focus:ring-1 focus:ring-[#2E7D6F]/20 transition-all duration-500"
                         />
                       </div>
 
                       <div>
                         <label className="flex items-center gap-1.5 text-white/40 text-[10px] tracking-wider uppercase mb-2">
-                          <Phone className="w-3 h-3" /> Nomor WhatsApp
+                          <Phone className="w-3 h-3" /> {t("leadFlow.whatsappLabel")}
                         </label>
                         <input
                           type="tel"
                           required
                           value={formData.whatsappNumber}
                           onChange={(e) => handleInputChange("whatsappNumber", e.target.value)}
-                          placeholder="08xxxxxxxxxx"
+                          placeholder={t("leadFlow.whatsappPlaceholder")}
                           className="w-full bg-white/[0.03] border border-white/[0.08] rounded-md px-4 py-3 text-white/80 text-sm placeholder:text-white/15 focus:outline-none focus:border-[#2E7D6F]/40 focus:ring-1 focus:ring-[#2E7D6F]/20 transition-all duration-500"
                         />
                       </div>
 
                       <div>
                         <label className="flex items-center gap-1.5 text-white/40 text-[10px] tracking-wider uppercase mb-2">
-                          <FileText className="w-3 h-3" /> Kebutuhan / Catatan
+                          <FileText className="w-3 h-3" /> {t("leadFlow.notesLabel")}
                         </label>
                         <textarea
                           value={formData.notes}
                           onChange={(e) => handleInputChange("notes", e.target.value)}
-                          placeholder="Opsional: jelaskan kebutuhan Anda..."
+                          placeholder={t("leadFlow.notesPlaceholder")}
                           rows={2}
                           className="w-full bg-white/[0.03] border border-white/[0.08] rounded-md px-4 py-3 text-white/80 text-sm placeholder:text-white/15 focus:outline-none focus:border-[#2E7D6F]/40 focus:ring-1 focus:ring-[#2E7D6F]/20 transition-all duration-500 resize-none"
                         />
@@ -372,12 +374,12 @@ export default function LeadFlowModal({
                       {isSubmitting ? (
                         <>
                           <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          Memproses...
+                          {t("leadFlow.processing")}
                         </>
                       ) : (
                         <>
                           <Calculator className="w-4 h-4" />
-                          Lihat Estimasi
+                          {t("leadFlow.viewEstimation")}
                         </>
                       )}
                     </button>
@@ -398,7 +400,7 @@ export default function LeadFlowModal({
                       <CheckCircle2 className="w-6 h-6 text-[#2E7D6F]" />
                     </div>
                     <h3 className="text-lg font-bold text-white/90 font-[family-name:var(--font-montserrat)] mb-1">
-                      Estimasi Harga
+                      {t("leadFlow.estimationTitle")}
                     </h3>
                     <p className="text-white/30 text-[10px]">{leadData.productName}</p>
                   </div>
@@ -406,17 +408,17 @@ export default function LeadFlowModal({
                   <div className="px-6 pb-8">
                     {/* Price display */}
                     <div className="text-center bg-white/[0.03] border border-white/[0.05] rounded-lg p-5 mb-5">
-                      <p className="text-white/40 text-[10px] tracking-wider uppercase mb-2">Estimasi Harga</p>
+                      <p className="text-white/40 text-[10px] tracking-wider uppercase mb-2">{t("leadFlow.estimatedPriceLabel")}</p>
                       <p className="text-3xl font-bold text-[#2E7D6F] font-[family-name:var(--font-montserrat)]">
                         {formatRupiah(leadData.estimatedPrice)}
                       </p>
-                      <p className="text-white/25 text-[10px] mt-1">/tahun</p>
+                      <p className="text-white/25 text-[10px] mt-1">{t("leadFlow.perYear")}</p>
                     </div>
 
                     {/* Benefits */}
                     {benefits.length > 0 && (
                       <div className="mb-6">
-                        <p className="text-white/50 text-[10px] tracking-wider uppercase mb-2.5">Manfaat Perlindungan</p>
+                        <p className="text-white/50 text-[10px] tracking-wider uppercase mb-2.5">{t("leadFlow.benefitsLabel")}</p>
                         <div className="grid grid-cols-2 gap-1.5">
                           {benefits.slice(0, 6).map((b, i) => (
                             <div key={i} className="flex items-center gap-1.5 text-white/40 text-[10px]">
@@ -437,12 +439,12 @@ export default function LeadFlowModal({
                       className="w-full flex items-center justify-center gap-2.5 px-6 py-4 bg-[#2E7D6F] text-white font-semibold tracking-wider text-sm hover:bg-[#3A9B8A] transition-all duration-600 rounded-md"
                     >
                       <MessageCircle className="w-5 h-5" />
-                      Setuju, Lanjut Konsultasi via WhatsApp
+                      {t("leadFlow.agreeWhatsApp")}
                     </a>
 
                     {/* Subtle hint — no aggressive secondary action */}
                     <p className="text-center text-white/20 text-[10px] mt-4 leading-relaxed">
-                      Klik X untuk menutup
+                      {t("leadFlow.closeHint")}
                     </p>
                   </div>
                 </motion.div>
@@ -461,10 +463,10 @@ export default function LeadFlowModal({
                   </div>
 
                   <h4 className="text-white/90 font-semibold text-base mb-2 font-[family-name:var(--font-montserrat)]">
-                    Punya budget tertentu?
+                    {t("leadFlow.exitPromptTitle")}
                   </h4>
                   <p className="text-white/40 text-xs leading-relaxed mb-6 max-w-sm mx-auto">
-                    Ajukan penawaran sesuai kemampuan Anda. Kami akan meninjau dan menghubungi Anda jika penawaran memenuhi syarat.
+                    {t("leadFlow.exitPromptDesc")}
                   </p>
 
                   <div className="flex flex-col gap-3">
@@ -473,7 +475,7 @@ export default function LeadFlowModal({
                       className="w-full flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#2E7D6F] text-white font-semibold tracking-wider text-sm hover:bg-[#3A9B8A] transition-all duration-600 rounded-md"
                     >
                       <Send className="w-4 h-4" />
-                      Ajukan Penawaran
+                      {t("leadFlow.submitOffer")}
                       <ArrowRight className="w-4 h-4" />
                     </button>
 
@@ -481,7 +483,7 @@ export default function LeadFlowModal({
                       onClick={resetAndClose}
                       className="w-full px-5 py-3 border border-white/[0.08] text-white/30 text-xs font-medium tracking-wider hover:border-white/15 hover:text-white/50 transition-all duration-500 rounded-md"
                     >
-                      Tutup
+                      {t("leadFlow.close")}
                     </button>
                   </div>
                 </motion.div>
@@ -504,16 +506,16 @@ export default function LeadFlowModal({
 
                   <div className="px-6 pt-8 pb-2 text-center">
                     <h3 className="text-lg font-bold text-white/90 font-[family-name:var(--font-montserrat)] mb-1">
-                      Ajukan Penawaran
+                      {t("leadFlow.offerTitle")}
                     </h3>
-                    <p className="text-white/30 text-xs">{product.name} — Estimasi {formatRupiah(product.estimatedPrice)}/tahun</p>
+                    <p className="text-white/30 text-xs">{product.name} — {t("leadFlow.estimatedPriceLabel")} {formatRupiah(product.estimatedPrice)}{t("leadFlow.perYear")}</p>
                   </div>
 
                   <form onSubmit={handleSubmitOffer} className="px-6 pb-8">
                     <div className="space-y-4">
                       <div>
                         <label className="flex items-center gap-1.5 text-white/40 text-[10px] tracking-wider uppercase mb-2">
-                          Harga Penawaran Anda (Rp)
+                          {t("leadFlow.offerPriceLabel")}
                         </label>
                         <input
                           type="text"
@@ -528,7 +530,7 @@ export default function LeadFlowModal({
                           className="w-full bg-white/[0.03] border border-white/[0.08] rounded-md px-4 py-3 text-[#2E7D6F] text-sm font-semibold placeholder:text-white/15 focus:outline-none focus:border-[#2E7D6F]/40 focus:ring-1 focus:ring-[#2E7D6F]/20 transition-all duration-500"
                         />
                         <p className="text-white/20 text-[10px] mt-1.5">
-                          Minimum: {formatRupiah(product.minimumOfferPrice)}/tahun
+                          {t("leadFlow.offerMinLabel")}: {formatRupiah(product.minimumOfferPrice)}{t("leadFlow.perYear")}
                         </p>
                       </div>
                     </div>
@@ -538,7 +540,7 @@ export default function LeadFlowModal({
                       <div className="flex items-start gap-2">
                         <Info className="w-3 h-3 text-[#2E7D6F]/50 mt-0.5 flex-shrink-0" />
                         <p className="text-white/40 text-[10px] leading-relaxed">
-                          Penawaran Anda akan ditinjau. Jika memenuhi syarat minimum, Anda bisa langsung konsultasi via WhatsApp.
+                          {t("leadFlow.offerInfoText")}
                         </p>
                       </div>
                     </div>
@@ -560,7 +562,7 @@ export default function LeadFlowModal({
                         onClick={() => setStep("exit-prompt")}
                         className="flex-1 px-5 py-3 border border-white/10 text-white/40 text-xs font-medium tracking-wider hover:border-white/20 transition-all duration-500 rounded-md"
                       >
-                        Kembali
+                        {t("leadFlow.back")}
                       </button>
                       <button
                         type="submit"
@@ -570,7 +572,7 @@ export default function LeadFlowModal({
                         {isSubmitting ? (
                           <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         ) : (
-                          <><Send className="w-3.5 h-3.5" /> Kirim Penawaran</>
+                          <><Send className="w-3.5 h-3.5" /> {t("leadFlow.sendOffer")}</>
                         )}
                       </button>
                     </div>
@@ -590,34 +592,33 @@ export default function LeadFlowModal({
                     <CheckCircle2 className="w-7 h-7 text-[#2E7D6F]" />
                   </div>
                   <h4 className="text-white/90 font-semibold text-base mb-2 font-[family-name:var(--font-montserrat)]">
-                    Penawaran Diterima
+                    {t("leadFlow.resultValidTitle")}
                   </h4>
                   <p className="text-white/40 text-xs leading-relaxed mb-6 max-w-sm mx-auto">
-                    Terima kasih, {leadData?.customerName}. Penawaran Anda telah kami catat.
-                    Silakan lanjut konsultasi dengan tim kami melalui WhatsApp.
+                    {t("leadFlow.resultValidDesc").replace("{name}", leadData?.customerName || "")}
                   </p>
 
                   {/* Summary */}
                   <div className="bg-white/[0.03] border border-white/[0.05] rounded-lg p-4 mb-6 text-left">
                     <div className="space-y-2.5">
                       <div className="flex justify-between text-xs">
-                        <span className="text-white/30">Produk</span>
+                        <span className="text-white/30">{t("leadFlow.resultProduct")}</span>
                         <span className="text-white/70">{product.name}</span>
                       </div>
                       <div className="flex justify-between text-xs">
-                        <span className="text-white/30">Estimasi Harga</span>
+                        <span className="text-white/30">{t("leadFlow.resultEstPrice")}</span>
                         <span className="text-white/70">{formatRupiah(product.estimatedPrice)}</span>
                       </div>
                       <div className="flex justify-between text-xs">
-                        <span className="text-white/30">Penawaran Anda</span>
+                        <span className="text-white/30">{t("leadFlow.resultYourOffer")}</span>
                         <span className="text-[#2E7D6F] font-semibold">
                           {offerPrice ? `Rp ${parseInt(offerPrice.replace(/\D/g, "")).toLocaleString("id-ID")}` : "-"}
                         </span>
                       </div>
                       <div className="border-t border-white/[0.05] pt-2.5">
                         <div className="flex justify-between text-xs">
-                          <span className="text-white/30">Status</span>
-                          <span className="text-[#2E7D6F] font-medium">Valid — Dapat Dilanjutkan</span>
+                          <span className="text-white/30">{t("leadFlow.resultStatus")}</span>
+                          <span className="text-[#2E7D6F] font-medium">{t("leadFlow.resultValidStatus")}</span>
                         </div>
                       </div>
                     </div>
@@ -631,7 +632,7 @@ export default function LeadFlowModal({
                     className="w-full flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#2E7D6F] text-white font-semibold tracking-wider text-sm hover:bg-[#3A9B8A] transition-all duration-600 rounded-md"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    Lanjut Konsultasi via WhatsApp
+                    {t("leadFlow.continueWhatsApp")}
                   </a>
                 </motion.div>
               )}
@@ -648,19 +649,19 @@ export default function LeadFlowModal({
                     <AlertTriangle className="w-7 h-7 text-amber-400/80" />
                   </div>
                   <h4 className="text-white/90 font-semibold text-base mb-2 font-[family-name:var(--font-montserrat)]">
-                    Penawaran Belum Memenuhi Syarat
+                    {t("leadFlow.resultRejectedTitle")}
                   </h4>
                   <p className="text-white/40 text-xs leading-relaxed mb-5 max-w-sm mx-auto">
-                    Maaf, penawaran Anda belum memenuhi syarat minimum {formatRupiah(product.minimumOfferPrice)} untuk produk {product.name}.
+                    {t("leadFlow.resultRejectedDesc").replace("{minPrice}", formatRupiah(product.minimumOfferPrice)).replace("{productName}", product.name)}
                   </p>
                   <p className="text-white/25 text-[10px] leading-relaxed mb-6">
-                    Data Anda tetap kami simpan. Tim kami mungkin akan menghubungi Anda.
+                    {t("leadFlow.resultRejectedNote")}
                   </p>
 
                   <div className="bg-white/[0.03] border border-white/[0.05] rounded-lg p-4 mb-6 text-left">
                     <div className="space-y-2.5">
                       <div className="flex justify-between text-xs">
-                        <span className="text-white/30">Penawaran Anda</span>
+                        <span className="text-white/30">{t("leadFlow.resultYourOffer")}</span>
                         <span className="text-amber-400/80 font-medium">
                           {offerPrice ? `Rp ${parseInt(offerPrice.replace(/\D/g, "")).toLocaleString("id-ID")}` : "-"}
                         </span>
@@ -677,7 +678,7 @@ export default function LeadFlowModal({
                       onClick={() => setStep("offer")}
                       className="flex-1 px-5 py-3 border border-white/10 text-white/50 text-xs font-medium tracking-wider hover:border-white/20 transition-all duration-500 rounded-md"
                     >
-                      Ubah Penawaran
+                      {t("leadFlow.changeOffer")}
                     </button>
                     <a
                       href={buildWhatsAppUrl()}
@@ -686,7 +687,7 @@ export default function LeadFlowModal({
                       onClick={handleWhatsAppClick}
                       className="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-[#2E7D6F] text-white text-xs font-semibold tracking-wider hover:bg-[#3A9B8A] transition-all duration-500 rounded-md"
                     >
-                      <MessageCircle className="w-3.5 h-3.5" /> Chat WhatsApp
+                      <MessageCircle className="w-3.5 h-3.5" /> {t("leadFlow.chatWhatsApp")}
                     </a>
                   </div>
                 </motion.div>

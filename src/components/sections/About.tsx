@@ -5,12 +5,13 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Award, ShieldCheck } from "lucide-react";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const stats = [
-  { value: 6, suffix: "+", label: "Produk Asuransi" },
-  { value: 100, suffix: "K+", label: "Pelanggan" },
-  { value: 98, suffix: "%", label: "Kepuasan Pelanggan" },
-  { value: 24, suffix: "/7", label: "Layanan" },
+  { value: 6, suffix: "+", labelKey: "about.stats.products" },
+  { value: 100, suffix: "K+", labelKey: "about.stats.customers" },
+  { value: 98, suffix: "%", labelKey: "about.stats.satisfaction" },
+  { value: 24, suffix: "/7", labelKey: "about.stats.service" },
 ];
 
 function useCountUp(target: number, inView: boolean, duration = 2500) {
@@ -66,6 +67,7 @@ function StatItem({ value, suffix, label }: { value: number; suffix: string; lab
 }
 
 export default function About() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -89,7 +91,7 @@ export default function About() {
                   </div>
                   {/* Title */}
                   <h3 className="text-lg font-bold font-[family-name:var(--font-montserrat)] text-white text-center mb-2">
-                    Berizin & Diawasi OJK
+                    {t("about.ojkTitle")}
                   </h3>
                   {/* License Number */}
                   <p className="text-[#2E7D6F] text-xs tracking-wider uppercase text-center mb-5">
@@ -116,7 +118,7 @@ export default function About() {
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
                 <p className="text-2xl font-bold font-[family-name:var(--font-montserrat)] text-[#2E7D6F]">OJK</p>
-                <p className="text-[10px] tracking-[0.2em] text-white/50 uppercase">Licensed</p>
+                <p className="text-[10px] tracking-[0.2em] text-white/50 uppercase">{t("about.ojkLicensed")}</p>
               </motion.div>
             </motion.div>
           </AnimatedSection>
@@ -126,7 +128,7 @@ export default function About() {
             {/* Label */}
             <div className="flex items-center gap-3 mb-6">
               <div className="accent-line" />
-              <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">About Us</span>
+              <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">{t("about.label")}</span>
             </div>
 
             {/* Heading */}
@@ -140,13 +142,13 @@ export default function About() {
 
             {/* Description */}
             <p className="text-white/40 leading-[1.8] mb-14 max-w-lg text-[15px]">
-              Sebagai perusahaan insurtech terpercaya di Indonesia yang berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK), Jasa Proteksi berkomitmen menghadirkan produk asuransi yang mudah, cepat, dan terjangkau untuk setiap gaya hidup. Dengan tagline &apos;Melindungi Setiap Langkah Hidupmu&apos;, kami terus berinovasi untuk memberikan perlindungan terbaik bagi kamu dan keluarga.
+              {t("about.description")}
             </p>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 mb-14">
               {stats.map((stat) => (
-                <StatItem key={stat.label} {...stat} />
+                <StatItem key={stat.labelKey} value={stat.value} suffix={stat.suffix} label={t(stat.labelKey)} />
               ))}
             </div>
 
@@ -155,7 +157,7 @@ export default function About() {
               href="#kontak"
               className="inline-flex items-center gap-2.5 px-8 py-3.5 border border-[#2E7D6F]/30 text-[#2E7D6F] font-semibold tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-white transition-all duration-800 group shine-button rounded-lg"
             >
-              Pelajari Lebih Lanjut
+              {t("about.learnMore")}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-800" />
             </a>
           </AnimatedSection>

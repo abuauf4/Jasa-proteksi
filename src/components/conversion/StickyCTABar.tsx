@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Shield, Phone, X } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export default function StickyCTABar() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
@@ -43,7 +45,7 @@ export default function StickyCTABar() {
                   className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#2E7D6F] text-[#0D0D0D] font-semibold tracking-wider text-xs hover:bg-[#3A9B8A] transition-colors duration-300 rounded-md"
                 >
                   <Shield className="w-3.5 h-3.5" />
-                  DAPATKAN PERLINDUNGAN
+                  {t("conversion.stickyCTA")}
                 </a>
               </div>
               <button

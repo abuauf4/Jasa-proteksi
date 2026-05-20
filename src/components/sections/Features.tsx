@@ -3,31 +3,17 @@
 import { Zap, ShieldCheck, Award, Clock, ArrowRight } from "lucide-react";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
-const features = [
-  {
-    icon: Zap,
-    title: "Cepat dan Efisien",
-    description: "Lengkapi pengajuan kurang dari 3 menit. Bayar dan langsung dapat polis tanpa proses panjang.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Berizin dan Diawasi OJK",
-    description: "PT Solusiutama Tekno Broker Asuransi berizin dan diawasi oleh Otoritas Jasa Keuangan (OJK) dengan nomor lisensi KEP-060/NB.1/2021.",
-  },
-  {
-    icon: Award,
-    title: "Insurtech Initiative of the Year 2025",
-    description: "Diakui oleh Insurance Asia Awards atas inovasi kami di sektor asuransi Asia-Pasifik.",
-  },
-  {
-    icon: Clock,
-    title: "Premi Terjangkau",
-    description: "Harga premi yang kompetitif, plus suka ada diskon dan cashback untuk setiap produk asuransi.",
-  },
+const featureConfig = [
+  { key: "fast", icon: Zap },
+  { key: "ojk", icon: ShieldCheck },
+  { key: "award", icon: Award },
+  { key: "affordable", icon: Clock },
 ];
 
 export default function Features() {
+  const { t } = useLanguage();
   return (
     <section id="fitur" className="bg-[#F5F5F0] overflow-hidden">
       <div className="py-28 lg:py-40">
@@ -38,11 +24,11 @@ export default function Features() {
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-8 h-[2px] bg-[#2E7D6F]" />
                 <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
-                  Why Jasa Proteksi
+                  {t("features.label")}
                 </span>
               </div>
               <TextReveal
-                text="Protection for what truly matters"
+                text={t("features.heading")}
                 as="h2"
                 className="text-4xl lg:text-5xl xl:text-6xl font-bold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mb-16 leading-[1.08]"
                 delay={0.15}
@@ -50,8 +36,8 @@ export default function Features() {
               />
 
               <div>
-                {features.map((feature, i) => (
-                  <AnimatedSection key={feature.title} delay={i * 0.1} direction="left">
+                {featureConfig.map((feature, i) => (
+                  <AnimatedSection key={feature.key} delay={i * 0.1} direction="left">
                     <div className="flex gap-6 group mb-12 last:mb-0">
                       <div className="flex-shrink-0">
                         <div className="w-[2px] h-full min-h-[60px] bg-gradient-to-b from-[#2E7D6F] to-[#2E7D6F]/15 relative">
@@ -60,10 +46,10 @@ export default function Features() {
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-[#0D0D0D] mb-2 group-hover:text-[#2E7D6F] transition-colors duration-800">
-                          {feature.title}
+                          {t(`features.items.${feature.key}.title`)}
                         </h3>
                         <p className="text-gray-400 text-sm leading-[1.8]">
-                          {feature.description}
+                          {t(`features.items.${feature.key}.desc`)}
                         </p>
                       </div>
                     </div>
@@ -76,7 +62,7 @@ export default function Features() {
                   href="#model"
                   className="inline-flex items-center gap-2.5 text-[#2E7D6F] font-medium text-sm tracking-wider group"
                 >
-                  Explore All Products
+                  {t("features.exploreAll")}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-800" />
                 </a>
               </AnimatedSection>
@@ -91,13 +77,13 @@ export default function Features() {
                     <Award className="w-12 h-12 text-[#2E7D6F]" />
                   </div>
                   <h3 className="text-xl font-bold font-[family-name:var(--font-montserrat)] text-white text-center mb-2">
-                    Insurance Asia Awards 2025
+                    {t("features.awardTitle")}
                   </h3>
                   <p className="text-[#2E7D6F] text-sm tracking-wider uppercase text-center mb-5">
-                    Insurtech Initiative of the Year
+                    {t("features.awardSubtitle")}
                   </p>
                   <p className="text-white/30 text-xs text-center max-w-sm leading-[1.7]">
-                    Diakui atas kontribusi dan inovasi luar biasa di seluruh industri asuransi wilayah Asia-Pasifik
+                    {t("features.awardDesc")}
                   </p>
                   {/* Subtle shine on hover */}
                   <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -105,7 +91,7 @@ export default function Features() {
                 {/* Floating badge */}
                 <div className="absolute -bottom-3 -right-3 bg-[#0A0F1E] border border-[#2E7D6F]/25 rounded-lg px-4 py-2.5">
                   <p className="text-[10px] tracking-[0.2em] text-[#2E7D6F] uppercase font-medium">
-                    OJK Licensed
+                    {t("features.ojkLicensed")}
                   </p>
                 </div>
               </div>

@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import SmoothScroll from "@/components/shared/SmoothScroll";
 import Preloader from "@/components/shared/Preloader";
 import ScrollProgress from "@/components/shared/ScrollProgress";
+import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -59,12 +60,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SmoothScroll>
-            <Preloader />
-            <ScrollProgress />
-            {children}
-          </SmoothScroll>
-          <Toaster />
+          <LanguageProvider>
+            <SmoothScroll>
+              <Preloader />
+              <ScrollProgress />
+              {children}
+            </SmoothScroll>
+            <Toaster />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

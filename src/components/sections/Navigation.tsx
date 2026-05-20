@@ -6,15 +6,17 @@ import { useTheme } from "next-themes";
 import { Sun, Moon, Menu, X } from "lucide-react";
 import Image from "next/image";
 import MagneticButton from "@/components/shared/MagneticButton";
+import LanguageSwitcher from "@/components/shared/LanguageSwitcher";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
-const navLinks = [
-  { label: "Beranda", href: "#beranda" },
-  { label: "Produk", href: "#model" },
-  { label: "Trust", href: "#trust" },
-  { label: "Layanan", href: "#layanan" },
-  { label: "Coverage", href: "#promo" },
-  { label: "Tentang", href: "#tentang" },
-  { label: "Kontak", href: "#kontak" },
+const navLinkKeys = [
+  { key: "beranda", href: "#beranda" },
+  { key: "produk", href: "#model" },
+  { key: "trust", href: "#trust" },
+  { key: "layanan", href: "#layanan" },
+  { key: "coverage", href: "#promo" },
+  { key: "tentang", href: "#tentang" },
+  { key: "kontak", href: "#kontak" },
 ];
 
 const emptySubscribe = () => () => {};
@@ -32,12 +34,13 @@ export default function Navigation() {
   const [activeSection, setActiveSection] = useState("beranda");
   const { theme, setTheme } = useTheme();
   const mounted = useMounted();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = navLinks.map((l) => l.href.replace("#", ""));
+      const sections = navLinkKeys.map((l) => l.href.replace("#", ""));
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el) {
@@ -102,13 +105,13 @@ export default function Navigation() {
               </div>
               <div className="hidden sm:flex items-center gap-2">
                 <div className="w-px h-6 bg-white/15" />
-                <span className="text-[10px] tracking-[0.2em] text-white/40 uppercase font-medium">OJK Licensed</span>
+                <span className="text-[10px] tracking-[0.2em] text-white/40 uppercase font-medium">{t("nav.ojkLicensed")}</span>
               </div>
             </a>
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-0.5">
-              {navLinks.map((link) => (
+              {navLinkKeys.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
@@ -121,7 +124,7 @@ export default function Navigation() {
                         : "text-white/70 group-hover:text-white/90"
                     }
                   >
-                    {link.label}
+                    {t(`nav.${link.key}`)}
                   </span>
                   {activeSection === link.href.replace("#", "") && (
                     <motion.div
@@ -135,7 +138,8 @@ export default function Navigation() {
             </div>
 
             {/* Desktop Actions */}
-            <div className="hidden lg:flex items-center gap-4">
+            <div className="hidden lg:flex items-center gap-3">
+              <LanguageSwitcher />
               {mounted && (
                 <button
                   onClick={toggleTheme}
@@ -151,13 +155,14 @@ export default function Navigation() {
                 className="relative px-6 py-2.5 text-[11px] font-semibold tracking-[0.15em] border border-[#2E7D6F]/50 text-[#2E7D6F] hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-600 overflow-hidden group"
                 strength={0.2}
               >
-                <span className="relative z-10">DAPATKAN PERLINDUNGAN</span>
+                <span className="relative z-10">{t("nav.dapatkanPerlindungan")}</span>
                 <div className="absolute inset-0 bg-[#2E7D6F] transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-600" />
               </MagneticButton>
             </div>
 
             {/* Mobile Actions */}
             <div className="flex lg:hidden items-center gap-3">
+              <LanguageSwitcher />
               {mounted && (
                 <button
                   onClick={toggleTheme}
@@ -203,7 +208,7 @@ export default function Navigation() {
 
               {/* Links */}
               <div className="flex-1 flex flex-col items-center justify-center gap-7">
-                {navLinks.map((link, i) => (
+                {navLinkKeys.map((link, i) => (
                   <motion.a
                     key={link.href}
                     href={link.href}
@@ -218,7 +223,7 @@ export default function Navigation() {
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ delay: i * 0.08, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    {link.label}
+                    {t(`nav.${link.key}`)}
                   </motion.a>
                 ))}
               </div>
@@ -230,7 +235,7 @@ export default function Navigation() {
                   onClick={() => setMobileOpen(false)}
                   className="w-full max-w-xs text-center py-4 border border-[#2E7D6F]/50 text-[#2E7D6F] font-semibold tracking-wider hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-600"
                 >
-                  DAPATKAN PERLINDUNGAN
+                  {t("nav.dapatkanPerlindungan")}
                 </a>
               </div>
             </div>

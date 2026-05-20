@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 // Premium cinematic easing
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -34,58 +35,26 @@ const partners = [
 
 /* ─── Claim Statistics ─── */
 const claimStats = [
-  { value: 15000, suffix: "+", label: "Klaim Diproses", icon: FileCheck },
-  { value: 98, suffix: "%", label: "Claim Approval Rate", icon: TrendingUp },
-  { value: 72, suffix: "Jam", label: "Rata-rata Penyelesaian", icon: Lock },
-  { value: 100, suffix: "K+", label: "Nasabah Terlindungi", icon: Users },
+  { value: 15000, suffix: "+", labelKey: "processed", icon: FileCheck },
+  { value: 98, suffix: "%", labelKey: "approval", icon: TrendingUp },
+  { value: 72, suffix: "Jam", labelKey: "resolution", icon: Lock },
+  { value: 100, suffix: "K+", labelKey: "protected", icon: Users },
 ];
 
 /* ─── Trust Badges ─── */
 const trustBadges = [
-  {
-    icon: ShieldCheck,
-    title: "Berizin & Diawasi OJK",
-    desc: "Lisensi KEP-060/NB.1/2021",
-  },
-  {
-    icon: Award,
-    title: "Insurance Asia Awards 2025",
-    desc: "Insurtech Initiative of the Year",
-  },
-  {
-    icon: Landmark,
-    title: "APPARINDO Verified",
-    desc: "No. 113-2005/APPARINDO/2025",
-  },
-  {
-    icon: BadgeCheck,
-    title: "ISO 27001 Compliant",
-    desc: "Data security guaranteed",
-  },
+  { icon: ShieldCheck, key: "ojk" },
+  { icon: Award, key: "award" },
+  { icon: Landmark, key: "apparindo" },
+  { icon: BadgeCheck, key: "iso" },
 ];
 
 /* ─── Secure Process Steps ─── */
 const secureProcess = [
-  {
-    step: "01",
-    title: "Pilih Produk",
-    desc: "Temukan perlindungan yang sesuai dengan kebutuhanmu.",
-  },
-  {
-    step: "02",
-    title: "Isi Data",
-    desc: "Proses verifikasi aman dan terenkripsi end-to-end.",
-  },
-  {
-    step: "03",
-    title: "Bayar Aman",
-    desc: "Pembayaran tersertifikasi dan terproteksi penuh.",
-  },
-  {
-    step: "04",
-    title: "Polis Aktif",
-    desc: "Polis digital langsung terbit, perlindungan dimulai.",
-  },
+  { step: "01", key: "select" },
+  { step: "02", key: "fill" },
+  { step: "03", key: "pay" },
+  { step: "04", key: "active" },
 ];
 
 /* ─── Animated Counter ─── */
@@ -135,6 +104,7 @@ function StatCard({
   index: number;
   inView: boolean;
 }) {
+  const { t } = useLanguage();
   const IconComponent = stat.icon;
   return (
     <motion.div
@@ -153,7 +123,7 @@ function StatCard({
               inView={inView}
             />
           </p>
-          <p className="text-white/40 text-sm tracking-wider">{stat.label}</p>
+          <p className="text-white/40 text-sm tracking-wider">{t(`trust.claimStats.${stat.labelKey}`)}</p>
         </div>
       </div>
     </motion.div>
@@ -162,6 +132,7 @@ function StatCard({
 
 /* ─── Main Component ─── */
 export default function TrustSection() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
@@ -200,17 +171,17 @@ export default function TrustSection() {
                 <div className="w-8 h-[2px] bg-[#2E7D6F]" />
               </div>
               <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
-                Trusted & Licensed
+                {t("trust.label")}
               </span>
               <TextReveal
-                text="Protection you can trust"
+                text={t("trust.heading")}
                 as="h2"
                 className="text-4xl lg:text-5xl xl:text-6xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-6 mb-7 leading-[1.1]"
                 delay={0.15}
                 staggerDelay={0.05}
               />
               <p className="text-white/40 text-base lg:text-lg max-w-lg mx-auto leading-relaxed">
-                Backed by Indonesia&apos;s leading regulators and insurers
+                {t("trust.subheading")}
               </p>
             </AnimatedSection>
 
@@ -253,17 +224,17 @@ export default function TrustSection() {
               {trustBadges.map((badge, i) => {
                 const IconComponent = badge.icon;
                 return (
-                  <AnimatedSection key={badge.title} delay={i * 0.1}>
+                  <AnimatedSection key={badge.key} delay={i * 0.1}>
                     <div className="relative group h-full">
                       <div className="glass-card premium-top-line soft-glow-hover relative p-9 rounded-xl h-full overflow-hidden hover:-translate-y-[2px] transition-all duration-800">
                         <div className="w-12 h-12 rounded-lg bg-[#2E7D6F]/[0.07] border border-[#2E7D6F]/10 flex items-center justify-center mb-6 group-hover:bg-[#2E7D6F]/[0.12] transition-colors duration-800">
                           <IconComponent className="w-6 h-6 text-[#2E7D6F]" />
                         </div>
                         <h3 className="text-base font-semibold font-[family-name:var(--font-montserrat)] text-white mb-2">
-                          {badge.title}
+                          {t(`trust.badges.${badge.key}.title`)}
                         </h3>
                         <p className="text-white/35 text-sm leading-[1.7]">
-                          {badge.desc}
+                          {t(`trust.badges.${badge.key}.desc`)}
                         </p>
                       </div>
                     </div>
@@ -286,10 +257,10 @@ export default function TrustSection() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <AnimatedSection className="text-center mb-20 lg:mb-24">
               <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
-                Proven Track Record
+                {t("trust.provenLabel")}
               </span>
               <TextReveal
-                text="Numbers that speak for themselves"
+                text={t("trust.provenHeading")}
                 as="h3"
                 className="text-3xl lg:text-4xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-5 leading-[1.15]"
                 delay={0.1}
@@ -300,7 +271,7 @@ export default function TrustSection() {
             <div ref={statsRef} className="grid grid-cols-2 lg:grid-cols-4 gap-7">
               {claimStats.map((stat, i) => (
                 <StatCard
-                  key={stat.label}
+                  key={stat.labelKey}
                   stat={stat}
                   index={i}
                   inView={statsInView}
@@ -324,24 +295,22 @@ export default function TrustSection() {
               {/* Left - Emotional Storytelling */}
               <AnimatedSection direction="left">
                 <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
-                  Secure Process
+                  {t("trust.secureLabel")}
                 </span>
                 <TextReveal
-                  text="Every step, protected"
+                  text={t("trust.secureHeading")}
                   as="h3"
                   className="text-3xl lg:text-4xl xl:text-5xl font-bold font-[family-name:var(--font-montserrat)] text-white mt-5 mb-7 leading-[1.1]"
                   delay={0.1}
                   staggerDelay={0.04}
                 />
                 <p className="text-white/40 text-base leading-[1.8] mb-9 max-w-md">
-                  From selection to activation, your data and transactions are
-                  secured with bank-level encryption. Trust is built into every
-                  step.
+                  {t("trust.secureDesc")}
                 </p>
                 <div className="flex items-center gap-3">
                   <Lock className="w-4 h-4 text-[#2E7D6F]" />
                   <span className="text-white/50 text-sm tracking-wider">
-                    256-bit SSL Encrypted
+                    {t("trust.sslEncrypted")}
                   </span>
                 </div>
               </AnimatedSection>
@@ -362,10 +331,10 @@ export default function TrustSection() {
                       {/* Content */}
                       <div>
                         <h4 className="text-base font-semibold font-[family-name:var(--font-montserrat)] text-white mb-1.5">
-                          {step.title}
+                          {t(`trust.process.${step.key}.title`)}
                         </h4>
                         <p className="text-white/35 text-sm leading-[1.7]">
-                          {step.desc}
+                          {t(`trust.process.${step.key}.desc`)}
                         </p>
                       </div>
                       {/* Check icon */}
@@ -392,13 +361,10 @@ export default function TrustSection() {
                   </div>
                   <div className="text-center md:text-left">
                     <h4 className="text-lg font-semibold font-[family-name:var(--font-montserrat)] text-white mb-2">
-                      Customer Protection Guarantee
+                      {t("trust.guaranteeTitle")}
                     </h4>
                     <p className="text-white/40 text-sm leading-[1.7] max-w-xl">
-                      Jasa Proteksi menjamin perlindungan hak nasabah sesuai
-                      regulasi OJK. Setiap transaksi dijamin transparan, klaim
-                      diproses secara adil, dan data pribadi dilindungi sesuai
-                      standar keamanan tertinggi.
+                      {t("trust.guaranteeDesc")}
                     </p>
                   </div>
                 </div>

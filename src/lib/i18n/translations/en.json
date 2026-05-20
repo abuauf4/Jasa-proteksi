@@ -1,0 +1,319 @@
+{
+  "nav": {
+    "beranda": "Home",
+    "produk": "Products",
+    "trust": "Trust",
+    "layanan": "Services",
+    "coverage": "Coverage",
+    "tentang": "About",
+    "kontak": "Contact",
+    "dapatkanPerlindungan": "GET PROTECTED",
+    "ojkLicensed": "OJK Licensed"
+  },
+  "hero": {
+    "label": "Trusted Insurtech",
+    "heading": "Protection for what truly matters.",
+    "brand": "Jasa Proteksi",
+    "tagline": "Peace of mind for the modern world. Insurance that moves with your life.",
+    "discoverCoverage": "Discover Coverage",
+    "getProtected": "Get Protected",
+    "scroll": "Scroll"
+  },
+  "about": {
+    "label": "About Us",
+    "heading": "PT Solusiutama Tekno Broker Asuransi",
+    "description": "As a trusted insurtech company in Indonesia, licensed and supervised by the Financial Services Authority (OJK), Jasa Proteksi is committed to delivering insurance products that are easy, fast, and affordable for every lifestyle. With the tagline 'Protecting Every Step of Your Life', we continue to innovate to provide the best protection for you and your family.",
+    "learnMore": "Learn More",
+    "ojkLicensed": "OJK Licensed",
+    "ojkTitle": "Licensed & Supervised by OJK",
+    "ojkLicense": "License KEP-060/NB.1/2021",
+    "ojkDescription": "Insurance broker licensed and supervised by the Financial Services Authority",
+    "stats": {
+      "products": "Insurance Products",
+      "customers": "Customers",
+      "satisfaction": "Customer Satisfaction",
+      "service": "Service"
+    }
+  },
+  "services": {
+    "label": "Our Services",
+    "heading": "Built around your peace of mind",
+    "items": {
+      "fast": {
+        "title": "Fast Purchase",
+        "desc": "Complete your insurance application in under 3 minutes. Easy and hassle-free process."
+      },
+      "recommendation": {
+        "title": "Right Recommendation",
+        "desc": "Products tailored to your needs. Personalized to match your lifestyle."
+      },
+      "telesales": {
+        "title": "Friendly Telesales",
+        "desc": "Our team is ready to help you choose the right insurance via phone or WhatsApp."
+      },
+      "transparent": {
+        "title": "Always Transparent",
+        "desc": "Only trustworthy information about your protection. No hidden fees."
+      },
+      "easyClaim": {
+        "title": "Easy Claims",
+        "desc": "Claims via reimbursement and cashless systems. Available anytime, anywhere."
+      },
+      "personalize": {
+        "title": "Policy Personalization",
+        "desc": "Customize your policy to your needs. Coverage and protection become more relevant."
+      }
+    }
+  },
+  "portfolio": {
+    "label": "Our Products",
+    "heading": "Protection for every moment",
+    "cekEstimasi": "Get Estimate",
+    "categories": {
+      "all": "All",
+      "vehicle": "Vehicle",
+      "travel": "Travel",
+      "pet": "Pet",
+      "personal": "Personal"
+    }
+  },
+  "features": {
+    "label": "Why Jasa Proteksi",
+    "heading": "Protection for what truly matters",
+    "exploreAll": "Explore All Products",
+    "ojkLicensed": "OJK Licensed",
+    "awardTitle": "Insurance Asia Awards 2025",
+    "awardSubtitle": "Insurtech Initiative of the Year",
+    "awardDesc": "Recognized for outstanding contribution and innovation across the Asia-Pacific insurance industry",
+    "items": {
+      "fast": {
+        "title": "Fast and Efficient",
+        "desc": "Complete your application in under 3 minutes. Pay and get your policy instantly without lengthy processes."
+      },
+      "ojk": {
+        "title": "Licensed & Supervised by OJK",
+        "desc": "PT Solusiutama Tekno Broker Asuransi is licensed and supervised by the Financial Services Authority (OJK) with license number KEP-060/NB.1/2021."
+      },
+      "award": {
+        "title": "Insurtech Initiative of the Year 2025",
+        "desc": "Recognized by Insurance Asia Awards for our innovation in the Asia-Pacific insurance sector."
+      },
+      "affordable": {
+        "title": "Affordable Premiums",
+        "desc": "Competitive premium prices, plus frequent discounts and cashback for every insurance product."
+      }
+    }
+  },
+  "trust": {
+    "label": "Trusted & Licensed",
+    "heading": "Protection you can trust",
+    "subheading": "Backed by Indonesia's leading regulators and insurers",
+    "provenLabel": "Proven Track Record",
+    "provenHeading": "Numbers that speak for themselves",
+    "secureLabel": "Secure Process",
+    "secureHeading": "Every step, protected",
+    "secureDesc": "From selection to activation, your data and transactions are secured with bank-level encryption. Trust is built into every step.",
+    "sslEncrypted": "256-bit SSL Encrypted",
+    "guaranteeTitle": "Customer Protection Guarantee",
+    "guaranteeDesc": "Jasa Proteksi guarantees the protection of customer rights in accordance with OJK regulations. Every transaction is guaranteed transparent, claims are processed fairly, and personal data is protected to the highest security standards.",
+    "badges": {
+      "ojk": { "title": "Licensed & Supervised by OJK", "desc": "License KEP-060/NB.1/2021" },
+      "award": { "title": "Insurance Asia Awards 2025", "desc": "Insurtech Initiative of the Year" },
+      "apparindo": { "title": "APPARINDO Verified", "desc": "No. 113-2005/APPARINDO/2025" },
+      "iso": { "title": "ISO 27001 Compliant", "desc": "Data security guaranteed" }
+    },
+    "claimStats": {
+      "processed": "Claims Processed",
+      "approval": "Claim Approval Rate",
+      "resolution": "Avg. Resolution Time",
+      "protected": "Protected Customers"
+    },
+    "process": {
+      "select": { "title": "Select Product", "desc": "Find the protection that suits your needs." },
+      "fill": { "title": "Fill in Data", "desc": "Safe and end-to-end encrypted verification process." },
+      "pay": { "title": "Secure Payment", "desc": "Certified and fully protected payment." },
+      "active": { "title": "Policy Active", "desc": "Digital policy issued instantly, protection begins." }
+    }
+  },
+  "testimonials": {
+    "label": "Testimonials",
+    "heading": "Trusted by thousands",
+    "user": "User"
+  },
+  "pricing": {
+    "label": "Coverage",
+    "heading": "Choose your peace of mind",
+    "recommended": "Recommended",
+    "disclaimer": "Premiums are estimates. Contact our team for a detailed quote.",
+    "tiers": {
+      "basic": {
+        "name": "Basic",
+        "price": "Premium from Rp 50K",
+        "subtitle": "Travel & Personal Accident",
+        "features": ["Basic protection", "Reimbursement claims", "Fast process under 3 minutes", "Instant digital policy"]
+      },
+      "premium": {
+        "name": "Premium",
+        "price": "Premium from Rp 300K",
+        "subtitle": "Vehicle & Pet Insurance",
+        "features": ["Comprehensive protection", "Cashless & reimbursement claims", "Discount up to 25% + cashback", "Policy personalization", "24/7 telesales support"]
+      },
+      "complete": {
+        "name": "Complete",
+        "price": "Complete Protection",
+        "subtitle": "All products in one package",
+        "features": ["All-in-one protection", "Cashless & reimbursement claims", "Special bundling discount", "Priority claim service", "Dedicated personal advisor", "Free insurance consultation"]
+      }
+    },
+    "contactUs": "Contact Us"
+  },
+  "cta": {
+    "heading": "Ready for peace of mind?",
+    "subheading": "Start your protection journey today",
+    "getProtected": "GET PROTECTED",
+    "chatWhatsApp": "CHAT VIA WHATSAPP",
+    "badges": {
+      "ojk": "Licensed & Supervised by OJK",
+      "award": "Insurance Asia Awards 2025",
+      "fast": "Process Under 3 Minutes"
+    }
+  },
+  "contact": {
+    "label": "Contact",
+    "heading": "Contact Us",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "subject": "Subject",
+      "message": "Your message...",
+      "submit": "Send Message",
+      "sent": "Sent!"
+    },
+    "info": {
+      "address": "Address",
+      "phone": "Phone",
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "hours": "Service Hours"
+    }
+  },
+  "footer": {
+    "tagline": "Protecting Every Step of Your Life",
+    "brandDesc": "Trusted online insurance platform in Indonesia.",
+    "quickLinks": "Quick Links",
+    "products": "Products",
+    "newsletter": "Newsletter",
+    "newsletterDesc": "Subscribe and get 5% off your first policy",
+    "emailPlaceholder": "Your Email",
+    "contactLabel": "Contact",
+    "copyright": "\u00a9 2025 PT Solusiutama Tekno Broker Asuransi. All rights reserved."
+  },
+  "faq": {
+    "label": "FAQ",
+    "heading": "Frequently Asked Questions",
+    "stillHaveQuestion": "Still have questions?",
+    "contactUsDirectly": "Contact Us Directly",
+    "items": {
+      "q1": { "q": "What is Jasa Proteksi?", "a": "Jasa Proteksi is a platform that offers online insurance products tailored to your lifestyle needs. Jasa Proteksi is licensed and supervised by the Financial Services Authority (OJK) with license number KEP-060/NB.1/2021." },
+      "q2": { "q": "How does Jasa Proteksi work?", "a": "Jasa Proteksi offers various insurance product options from the best and most renowned insurers so you don't have to go through a long and complicated process. With just a few clicks, you can be protected through a comfortable, practical process at an affordable price." },
+      "q3": { "q": "How do I purchase an insurance product?", "a": "Select the insurance that suits your needs on the Products page and enter the required data. Once all information is complete, proceed to payment via QRIS, e-wallet, virtual account, or credit card. After successful payment, your insurance policy will be issued immediately." },
+      "q4": { "q": "What insurance products are available at Jasa Proteksi?", "a": "Jasa Proteksi offers: 1) Motorcycle & Electric Motorcycle Insurance, 2) Car & Electric Car Insurance, 3) Travel Insurance (domestic & international), 4) Pet Insurance (dogs & cats), 5) Personal Accident Insurance. All available with affordable premiums and an easy purchase process." },
+      "q5": { "q": "Is the claims process at Jasa Proteksi easy?", "a": "Very easy! Jasa Proteksi offers claims via reimbursement and cashless systems. Claims can be made anytime and anywhere. For assistance, you can contact Jasa Proteksi Customer Service Monday through Friday, 10:00-17:00 WIB." },
+      "q6": { "q": "What if the product I want isn't available at Jasa Proteksi?", "a": "Jasa Proteksi can still help you! Contact our Telesales team by clicking the WhatsApp button on our website. Our team will help you find the right insurance solution for your needs." }
+    }
+  },
+  "blog": {
+    "label": "Latest News",
+    "heading": "Articles & Education",
+    "readMore": "Read",
+    "viewAll": "View All Articles",
+    "articleLabel": "Jasa Proteksi Article",
+    "items": {
+      "post1": { "category": "Education", "title": "What Is Insurance? Complete Definition, types, and Benefits", "excerpt": "Understand the basics of insurance and why this protection is important for you and your family.", "date": "May 20, 2025" },
+      "post2": { "category": "Tips", "title": "10 Questions About Insurance and Their Answers", "excerpt": "Answers to the most frequently asked questions about the insurance world.", "date": "May 15, 2025" },
+      "post3": { "category": "Lifestyle", "title": "7 Types of Insurance in Indonesia, Get to Know Them First", "excerpt": "Learn about the various types of insurance available and which one best suits your needs.", "date": "May 10, 2025" }
+    }
+  },
+  "map": {
+    "heading": "Our Location",
+    "companyName": "Jasa Proteksi Indonesia",
+    "address": "Menara Anugrah 23rd Floor, Mega Kuningan Area, South Jakarta",
+    "getDirections": "Get Directions"
+  },
+  "gallery": {
+    "label": "Gallery",
+    "heading": "Products & Awards",
+    "categories": {
+      "all": "All",
+      "vehicle": "Vehicle",
+      "travel": "Travel",
+      "pet": "Pet",
+      "personal": "Personal",
+      "award": "Award"
+    },
+    "items": {
+      "carMotor": "Car & Motorcycle Insurance",
+      "travel": "Travel Protection",
+      "pet": "Pet Insurance",
+      "evMotor": "Electric Motorcycle Insurance",
+      "personal": "Personal Accident Insurance",
+      "award": "Insurance Asia Awards 2025"
+    }
+  },
+  "conversion": {
+    "floatingWhatsApp": "Chat with Jasa Proteksi team",
+    "cookieMessage": "We use cookies to improve your experience. By continuing, you agree to our use of cookies.",
+    "cookieAccept": "Accept",
+    "cookieReject": "Decline",
+    "stickyCTA": "GET PROTECTED"
+  },
+  "leadFlow": {
+    "step1Label": "Step 1 of 2",
+    "step1Title": "Fill in your details to see the price estimate",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "whatsappLabel": "WhatsApp Number",
+    "whatsappPlaceholder": "08xxxxxxxxxx",
+    "notesLabel": "Needs / Notes",
+    "notesPlaceholder": "Optional: describe your needs...",
+    "viewEstimation": "View Estimate",
+    "processing": "Processing...",
+    "phoneError": "Invalid WhatsApp number. Use format: 08xxxxxxxxxx",
+    "connectionError": "A connection error occurred. Please try again.",
+    "estimationTitle": "Price Estimate",
+    "estimatedPriceLabel": "Estimated Price",
+    "perYear": "/year",
+    "benefitsLabel": "Coverage Benefits",
+    "agreeWhatsApp": "Agree, Continue Consultation via WhatsApp",
+    "closeHint": "Click X to close",
+    "exitPromptTitle": "Have a specific budget?",
+    "exitPromptDesc": "Submit an offer within your budget. We'll review it and contact you if it meets the requirements.",
+    "submitOffer": "Submit Offer",
+    "close": "Close",
+    "offerTitle": "Submit Your Offer",
+    "offerPriceLabel": "Your Offer Price (Rp)",
+    "offerMinLabel": "Minimum",
+    "offerInfoText": "Your offer will be reviewed. If it meets the minimum requirement, you can proceed with a WhatsApp consultation.",
+    "back": "Back",
+    "sendOffer": "Send Offer",
+    "offerValidError": "Please enter a valid offer price",
+    "offerError": "An error occurred.",
+    "resultValidTitle": "Offer Accepted",
+    "resultValidDesc": "Thank you, {name}. Your offer has been recorded. Please continue consulting with our team via WhatsApp.",
+    "resultProduct": "Product",
+    "resultEstPrice": "Estimated Price",
+    "resultYourOffer": "Your Offer",
+    "resultStatus": "Status",
+    "resultValidStatus": "Valid — Can Proceed",
+    "continueWhatsApp": "Continue Consultation via WhatsApp",
+    "resultRejectedTitle": "Offer Does Not Meet Requirements",
+    "resultRejectedDesc": "Sorry, your offer does not meet the minimum requirement of {minPrice} for the {productName} product.",
+    "resultRejectedNote": "Your data has been saved. Our team may contact you.",
+    "changeOffer": "Change Offer",
+    "chatWhatsApp": "Chat WhatsApp"
+  },
+  "common": {
+    "backToTop": "Back to top"
+  }
+}

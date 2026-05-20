@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ChevronDown, Shield, ArrowRight } from "lucide-react";
 import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 // Premium cinematic ease curve — slow, deliberate, luxurious
 const cinematicEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
@@ -12,6 +13,7 @@ const cinematicEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 const heroEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export default function Hero() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -119,13 +121,13 @@ export default function Hero() {
               }}
             />
             <span className="text-[10px] sm:text-[11px] tracking-[0.35em] text-[#B8B8B8]/50 font-medium uppercase">
-              Insurtech Terpercaya
+              {t("hero.label")}
             </span>
           </motion.div>
 
           {/* Main heading — Text Reveal */}
           <TextReveal
-            text="Protection for what truly matters."
+            text={t("hero.heading")}
             as="h1"
             className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.25rem] font-bold font-[family-name:var(--font-montserrat)] text-[#F5F5F0] leading-[1.08] mb-6"
             delay={0.6}
@@ -153,8 +155,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 1.5, ease: cinematicEase }}
           >
-            Peace of mind for the modern world. Insurance that moves with your
-            life.
+            {t("hero.tagline")}
           </motion.p>
 
           {/* CTA Buttons — calm, elegant */}
@@ -170,7 +171,7 @@ export default function Hero() {
               className="group inline-flex items-center justify-center gap-3 px-9 py-4 bg-[#2E7D6F] text-[#0D0D0D] font-medium tracking-wider text-sm rounded-sm transition-all duration-800 hover:bg-[#3A9B8A] hover:shadow-[0_0_40px_rgba(46,125,111,0.10)]"
             >
               <Shield className="w-4 h-4 transition-transform duration-800 group-hover:scale-105" />
-              Discover Coverage
+              {t("hero.discoverCoverage")}
             </a>
 
             {/* Secondary CTA — bordered */}
@@ -178,7 +179,7 @@ export default function Hero() {
               href="#kontak"
               className="group inline-flex items-center justify-center gap-3 px-9 py-4 border border-[#2E7D6F]/50 text-[#2E7D6F] font-medium tracking-wider text-sm rounded-sm transition-all duration-800 hover:bg-[#2E7D6F]/8 hover:border-[#2E7D6F] hover:shadow-[0_0_40px_rgba(46,125,111,0.05)]"
             >
-              Get Protected
+              {t("hero.getProtected")}
               <ArrowRight className="w-4 h-4 transition-transform duration-800 group-hover:translate-x-1" />
             </a>
           </motion.div>
@@ -193,7 +194,7 @@ export default function Hero() {
         transition={{ delay: 2.5, duration: 1.2, ease: cinematicEase }}
       >
         <span className="text-[8px] tracking-[0.4em] text-[#B8B8B8]/25 uppercase font-light">
-          Scroll
+          {t("hero.scroll")}
         </span>
         <motion.div
           animate={{ y: [0, 5, 0] }}

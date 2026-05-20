@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export default function FloatingWhatsApp() {
+  const { t } = useLanguage();
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
@@ -17,7 +19,7 @@ export default function FloatingWhatsApp() {
             exit={{ opacity: 0, x: 10, scale: 0.9 }}
             className="absolute right-14 top-1/2 -translate-y-1/2 bg-white dark:bg-[#0A0F1E] text-foreground text-sm px-4 py-2 rounded-lg shadow-lg whitespace-nowrap border border-border"
           >
-            Chat dengan tim Jasa Proteksi
+            {t("conversion.floatingWhatsApp")}
           </motion.div>
         )}
       </AnimatePresence>

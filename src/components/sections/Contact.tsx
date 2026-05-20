@@ -8,16 +8,18 @@ import { Textarea } from "@/components/ui/textarea";
 import SectionWrapper from "@/components/shared/SectionWrapper";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const contactInfo = [
-  { icon: MapPin, label: "Alamat", value: "Menara Anugrah Lantai 23, Unit A, Kantor Taman E 3.3, Jl. DR Ide Anak Agung Gde Agung Lot 8.6, Kawasan Mega Kuningan, Jakarta Selatan 12950" },
-  { icon: Phone, label: "Telepon", value: "+62 813-7929-0494" },
-  { icon: MessageCircle, label: "WhatsApp", value: "+62 813-7929-0494" },
-  { icon: Mail, label: "Email", value: "abuaufa.nauka@gmail.com" },
-  { icon: Clock, label: "Jam Layanan", value: "Senin-Jumat: 10.00-17.00 WIB" },
+  { icon: MapPin, labelKey: "address", value: "Menara Anugrah Lantai 23, Unit A, Kantor Taman E 3.3, Jl. DR Ide Anak Agung Gde Agung Lot 8.6, Kawasan Mega Kuningan, Jakarta Selatan 12950" },
+  { icon: Phone, labelKey: "phone", value: "+62 813-7929-0494" },
+  { icon: MessageCircle, labelKey: "whatsapp", value: "+62 813-7929-0494" },
+  { icon: Mail, labelKey: "email", value: "abuaufa.nauka@gmail.com" },
+  { icon: Clock, labelKey: "hours", value: "Senin-Jumat: 10.00-17.00 WIB" },
 ];
 
 export default function Contact() {
+  const { t } = useLanguage();
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -42,9 +44,9 @@ export default function Contact() {
           <div className="flex justify-center mb-6">
             <div className="accent-line" />
           </div>
-          <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">Contact</span>
+          <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">{t("contact.label")}</span>
           <TextReveal
-            text="Hubungi Kami"
+            text={t("contact.heading")}
             as="h2"
             className="text-4xl lg:text-5xl font-bold font-[family-name:var(--font-montserrat)] mt-6 text-[#0D0D0D] leading-[1.1]"
             delay={0.1}
@@ -59,7 +61,7 @@ export default function Contact() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <Input
-                    placeholder="Nama Lengkap"
+                    placeholder={t("contact.form.name")}
                     value={formState.name}
                     onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                     required
@@ -69,7 +71,7 @@ export default function Contact() {
                 <div>
                   <Input
                     type="email"
-                    placeholder="Email"
+                    placeholder={t("contact.form.email")}
                     value={formState.email}
                     onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                     required
@@ -81,7 +83,7 @@ export default function Contact() {
                 <div>
                   <Input
                     type="tel"
-                    placeholder="No. Telepon"
+                    placeholder={t("contact.form.phone")}
                     value={formState.phone}
                     onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
                     className="bg-[#F5F5F0] border-gray-100 focus:border-[#2E7D6F] h-12 rounded-lg transition-colors duration-500"
@@ -89,7 +91,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <Input
-                    placeholder="Subjek"
+                    placeholder={t("contact.form.subject")}
                     value={formState.subject}
                     onChange={(e) => setFormState({ ...formState, subject: e.target.value })}
                     className="bg-[#F5F5F0] border-gray-100 focus:border-[#2E7D6F] h-12 rounded-lg transition-colors duration-500"
@@ -97,7 +99,7 @@ export default function Contact() {
                 </div>
               </div>
               <Textarea
-                placeholder="Pesan Anda..."
+                placeholder={t("contact.form.message")}
                 value={formState.message}
                 onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                 rows={5}
@@ -108,7 +110,7 @@ export default function Contact() {
                 type="submit"
                 className="w-full bg-[#0D0D0D] hover:bg-[#2E7D6F] text-white h-12 rounded-lg font-semibold tracking-wider transition-all duration-800 flex items-center justify-center gap-2"
               >
-                {submitted ? "Terkirim!" : "Kirim Pesan"}
+                {submitted ? t("contact.form.sent") : t("contact.form.submit")}
                 {!submitted && <Send className="w-4 h-4" />}
               </button>
             </form>
@@ -119,7 +121,7 @@ export default function Contact() {
             <div className="space-y-7">
               {contactInfo.map((info, i) => (
                 <motion.div
-                  key={info.label}
+                  key={info.labelKey}
                   className="flex items-start gap-5 group"
                   initial={{ opacity: 0, x: 16 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -130,7 +132,7 @@ export default function Contact() {
                     <info.icon className="w-5 h-5 text-[#2E7D6F]" />
                   </div>
                   <div>
-                    <p className="text-[10px] tracking-wider text-gray-300 uppercase mb-1">{info.label}</p>
+                    <p className="text-[10px] tracking-wider text-gray-300 uppercase mb-1">{t(`contact.info.${info.labelKey}`)}</p>
                     <p className="font-medium text-sm text-[#0D0D0D]">{info.value}</p>
                   </div>
                 </motion.div>
