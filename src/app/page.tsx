@@ -97,7 +97,7 @@ interface ArticlePreviewItem {
 }
 
 export default async function Page() {
-  // Fetch site settings & hero content & latest 3 articles server-side.
+  // Fetch site settings & hero content server-side.
   let initialSettings = {
     whatsapp: "",
     whatsapp2: "",
@@ -116,25 +116,11 @@ export default async function Page() {
     ctaLink: string;
     backgroundImage: string | null;
   } | null = null;
-  let articles: ArticlePreviewItem[] = [];
 
   try {
-    const [settingsRows, heroRow, articleRows] = await Promise.all([
+    const [settingsRows, heroRow] = await Promise.all([
       db.siteSetting.findMany(),
       db.heroContent.findFirst(),
-      db.article.findMany({
-        where: { status: "published" },
-        orderBy: { publishedAt: "desc" },
-        take: 3,
-        select: {
-          id: true,
-          slug: true,
-          title: true,
-          excerpt: true,
-          coverImage: true,
-          publishedAt: true,
-        },
-      }),
     ]);
 
     const map: Record<string, string> = {};
@@ -163,11 +149,6 @@ export default async function Page() {
         backgroundImage: heroRow.backgroundImage,
       };
     }
-
-    articles = articleRows.map((a) => ({
-      ...a,
-      publishedAt: a.publishedAt ? a.publishedAt.toISOString() : null,
-    }));
   } catch (error) {
     console.error("Server data fetch error:", error);
     // Continue with empty defaults — client will fetch via API
@@ -177,7 +158,6 @@ export default async function Page() {
     <HomePage
       initialSettings={initialSettings}
       initialHero={initialHero}
-      articles={articles}
     />
   );
 }

@@ -81,16 +81,11 @@ export function SiteHeader() {
             className="flex items-center gap-2 group"
             aria-label="Jasa Proteksi — Beranda"
           >
-            <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#0F766E] flex items-center justify-center">
-              <ShieldCheck className="h-5 w-5 text-white" aria-hidden />
+            <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#0F172A] flex items-center justify-center">
+              <ShieldCheck className="h-4 w-4 text-[#5EEAD4]" aria-hidden />
             </span>
-            <span className="flex flex-col leading-none">
-              <span className="text-base font-bold text-[#0F172A] tracking-tight">
-                Jasa Proteksi
-              </span>
-              <span className="text-[10px] text-[#64748B] hidden sm:block">
-                Simulasi Premi Asuransi Mobil
-              </span>
+            <span className="text-[15px] font-bold text-[#0F172A] tracking-tight">
+              Jasa Proteksi
             </span>
           </Link>
 
