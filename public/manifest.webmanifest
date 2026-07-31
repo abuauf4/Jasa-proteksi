@@ -1,0 +1,20 @@
+{
+  "name": "Jasa Proteksi - Platform Perbandingan Asuransi",
+  "short_name": "Jasa Proteksi",
+  "description": "Platform perbandingan asuransi kendaraan terpercaya di Indonesia. Bandingkan premi dari 8+ partner terpercaya.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#10B981",
+  "orientation": "portrait-primary",
+  "categories": ["finance", "insurance"],
+  "lang": "id",
+  "icons": [
+    {
+      "src": "/logo-jasa-proteksi.webp",
+      "sizes": "any",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
+}

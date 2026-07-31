@@ -1,0 +1,413 @@
+{
+  "nav": {
+    "beranda": "Beranda",
+    "produk": "Perlindungan",
+    "partner": "Partner",
+    "whyBroker": "Kenapa Kami",
+    "advisor": "Advisor",
+    "trust": "Kepercayaan",
+    "artikel": "Artikel",
+    "kontak": "Kontak",
+    "faq": "FAQ",
+    "cekHarga": "CEK HARGA",
+    "professionalService": "Proses Profesional"
+  },
+  "hero": {
+    "label": "Asuransi Mobil",
+    "heading": "Lindungi Mobil Anda\ndengan Tenang",
+    "brand": "Jasa Proteksi",
+    "tagline": "Cek estimasi premi dan pilih perlindungan All Risk atau TLO yang sesuai dengan kebutuhan Anda.",
+    "coverageType": "All Risk & TLO",
+    "coverageDesc": "Perlindungan sesuai kebutuhan Anda",
+    "primaryCta": "Cek Premi Mobil",
+    "secondaryCta": "Konsultasi Gratis",
+    "benefitAllRisk": "All Risk atau TLO",
+    "benefitEasy": "Proses Mudah",
+    "benefitConsult": "Konsultasi Cepat",
+    "socialProof": "Konsultasi mudah untuk kebutuhan proteksi mobil",
+    "discoverCoverage": "Lihat Perlindungan",
+    "getProtected": "Konsultasi Gratis",
+    "scroll": "Gulir"
+  },
+  "partner": {
+    "label": "Partner Asuransi",
+    "heading": "Didukung partner asuransi terpercaya",
+    "subheading": "Kami bekerja sama dengan perusahaan asuransi terkemuka untuk memberikan pilihan terbaik bagi Anda",
+    "partnerCount": "8+ Partner Asuransi",
+    "coverageLabel": "Jangkauan Perlindungan"
+  },
+  "portfolio": {
+    "label": "Proteksi Kendaraan",
+    "heading": "Temukan solusi proteksi kendaraan dari partner asuransi terpercaya",
+    "cekHarga": "Cek Harga",
+    "categories": {
+      "all": "Semua",
+      "vehicle": "Kendaraan",
+      "travel": "Perjalanan",
+      "pet": "Hewan",
+      "personal": "Personal"
+    }
+  },
+  "features": {
+    "label": "Keunggulan Kami",
+    "heading": "Perlindungan yang mudah, aman, dan terjangkau",
+    "exploreAll": "Lihat Semua Keunggulan",
+    "items": {
+      "fast": {
+        "title": "Proses Cepat & Mudah",
+        "desc": "Dapatkan estimasi premi dan rekomendasi dari berbagai partner asuransi dalam hitungan menit. Tanpa proses rumit, langsung ke hasil."
+      },
+      "secure": {
+        "title": "Proses Aman & Transparan",
+        "desc": "Data dan transaksi Anda diamankan dengan enkripsi tingkat bank. Semua informasi disampaikan dengan jelas tanpa biaya tersembunyi."
+      },
+      "affordable": {
+        "title": "Premi Terjangkau",
+        "desc": "Bandingkan penawaran dari berbagai partner asuransi sekaligus. Dapatkan perlindungan terbaik dengan harga yang sesuai budget Anda."
+      }
+    },
+    "secureTitle": "Proses Aman & Transparan",
+    "secureSubtitle": "Data Anda terlindungi",
+    "secureDesc": "Dari pemilihan hingga aktivasi polis, setiap langkah diamankan dengan enkripsi SSL 256-bit. Kepercayaan Anda adalah prioritas kami."
+  },
+  "about": {
+    "label": "Tentang Kami",
+    "description": "Jasa Proteksi adalah platform perbandingan asuransi kendaraan yang dioperasikan oleh PT. Jasa Global Proteksi. Kami membantu Anda menemukan perlindungan kendaraan terbaik dari berbagai perusahaan asuransi terkemuka.",
+    "learnMore": "Pelajari Lebih Lanjut",
+    "secureTitle": "Proses Aman & Terpercaya",
+    "secureDesc": "Setiap transaksi dijamin transparan dan data pribadi dilindungi sesuai standar keamanan tertinggi.",
+    "trustStatements": {
+      "secureProcess": "Proses pengajuan aman",
+      "dataProtected": "Data terlindungi",
+      "trustedPartners": "Didukung partner asuransi terpercaya"
+    }
+  },
+  "gallery": {
+    "label": "Galeri",
+    "heading": "Jenis Perlindungan Kami",
+    "categories": {
+      "all": "Semua",
+      "vehicle": "Kendaraan",
+      "travel": "Perjalanan",
+      "pet": "Hewan",
+      "personal": "Personal"
+    },
+    "items": {
+      "carMotor": "Asuransi Mobil & Motor",
+      "travel": "Asuransi Perjalanan",
+      "pet": "Asuransi Hewan Peliharaan",
+      "evMotor": "Asuransi Motor Listrik",
+      "personal": "Asuransi Kecelakaan Diri"
+    }
+  },
+  "whyBroker": {
+    "label": "Kenapa Menggunakan Jasa Proteksi",
+    "heading": "Lebih mudah menemukan proteksi terbaik bersama Jasa Proteksi",
+    "subheading": "Kami membantu Anda membandingkan dan memilih perlindungan terbaik dari berbagai partner asuransi",
+    "items": {
+      "compare": {
+        "title": "Bandingkan Lebih Mudah",
+        "desc": "Dapatkan rekomendasi dari berbagai perusahaan asuransi sekaligus. Bandingkan manfaat, premi, dan fasilitas dalam satu tempat tanpa perlu menghubungi masing-masing asuransi."
+      },
+      "advisor": {
+        "title": "Dibantu Advisor Ahli",
+        "desc": "Tim advisor berpengalaman siap membantu Anda memahami setiap opsi perlindungan. Konsultasi personal, bukan chatbot generik yang menjawab otomatis."
+      },
+      "simpleLang": {
+        "title": "Penjelasan Bahasa Sederhana",
+        "desc": "Kami menjelaskan setiap produk asuransi dengan bahasa yang mudah dipahami, tanpa istilah teknis yang membingungkan. Anda berhak mengerti apa yang Anda beli."
+      },
+      "personal": {
+        "title": "Pendampingan Personal",
+        "desc": "Setiap nasabah mendapatkan pendampingan personal dari advisor berpengalaman. Bukan chatbot generik, bukan template — tapi konsultasi yang sesuai dengan kebutuhan Anda."
+      },
+      "claimAssist": {
+        "title": "Bantuan Klaim",
+        "desc": "Saat terjadi klaim, kami mendampingi Anda dari awal hingga selesai. Tim advisor kami yang memperjuangkan hak Anda, bukan Anda sendirian."
+      },
+      "transparent": {
+        "title": "Proses Transparan",
+        "desc": "Semua informasi disampaikan dengan jelas — dari premi hingga ketentuan polis. Tidak ada biaya tersembunyi, tidak ada clause yang ditutup-tutupi."
+      }
+    }
+  },
+  "advisor": {
+    "label": "Konsultasi Advisor",
+    "heading": "Dibantu manusia, bukan chatbot",
+    "subheading": "Setiap konsultasi dilayani oleh advisor asuransi berpengalaman yang memahami kebutuhan Anda secara personal",
+    "howItWorks": "Cara Kerja",
+    "steps": {
+      "step1": {
+        "title": "Pilih Jenis Perlindungan",
+        "desc": "Tentukan jenis proteksi kendaraan yang Anda butuhkan — mobil atau motor, TLO atau All Risk."
+      },
+      "step2": {
+        "title": "Isi Data Kendaraan",
+        "desc": "Lengkapi informasi kendaraan atau aset yang ingin diproteksi. Data Anda aman dan terenkripsi."
+      },
+      "step3": {
+        "title": "Dapatkan Rekomendasi",
+        "desc": "Sistem kami mencarikan rekomendasi terbaik dari berbagai partner asuransi sesuai kebutuhan Anda."
+      },
+      "step4": {
+        "title": "Konsultasi dengan Advisor",
+        "desc": "Hubungi advisor kami via WhatsApp untuk diskusi lebih lanjut dan finalisasi perlindungan yang tepat."
+      }
+    },
+    "advisorTitle": "Advisor Asuransi",
+    "advisorDesc": "Tim advisor kami adalah profesional berpengalaman di industri asuransi yang siap membantu Anda memahami setiap opsi, membandingkan penawaran, dan memilih perlindungan terbaik.",
+    "ctaText": "Konsultasikan kebutuhan proteksi Anda bersama advisor kami",
+    "ctaButton": "Konsultasi Gratis, Respon < 1 Jam"
+  },
+  "trust": {
+    "label": "Terpercaya & Profesional",
+    "heading": "Proteksi yang bisa Anda percaya",
+    "subheading": "Didukung oleh perusahaan asuransi terkemuka di Indonesia",
+    "provenLabel": "Jaminan Kepercayaan",
+    "provenHeading": "Perlindungan yang terjamin",
+    "secureLabel": "Proses Aman",
+    "secureHeading": "Setiap langkah, terlindungi",
+    "secureDesc": "Dari pemilihan hingga aktivasi, data dan transaksi Anda diamankan dengan enkripsi tingkat bank. Kepercayaan tertanam di setiap langkah.",
+    "sslEncrypted": "Dienkripsi SSL 256-bit",
+    "guaranteeTitle": "Jaminan Perlindungan Nasabah",
+    "guaranteeDesc": "PT. Jasa Global Proteksi menjamin perlindungan hak nasabah sesuai standar industri asuransi. Setiap transaksi dijamin transparan, klaim diproses secara adil, dan data pribadi dilindungi sesuai standar keamanan tertinggi.",
+    "badges": {
+      "secure": { "title": "Proses Transparan & Aman", "desc": "Data dan transaksi Anda terlindungi" }
+    },
+    "trustStatements": {
+      "secureProcess": "Proses pengajuan aman",
+      "dataProtected": "Data terlindungi",
+      "trustedPartners": "Didukung partner asuransi terpercaya"
+    },
+    "process": {
+      "select": { "title": "Pilih Perlindungan", "desc": "Temukan jenis proteksi yang sesuai dengan kebutuhanmu." },
+      "fill": { "title": "Isi Data Kendaraan", "desc": "Proses verifikasi aman dan terenkripsi end-to-end." },
+      "recommend": { "title": "Lihat Rekomendasi", "desc": "Bandingkan penawaran dari berbagai partner asuransi." },
+      "consult": { "title": "Konsultasi Advisor", "desc": "Diskusi dengan advisor untuk finalisasi perlindungan." }
+    }
+  },
+  "testimonials": {
+    "label": "Testimoni",
+    "heading": "Dipercaya banyak klien",
+    "user": "Klien"
+  },
+  "cta": {
+    "heading": "Siap mulai perlindungan?",
+    "subheading": "Konsultasikan pilihan terbaik bersama advisor kami",
+    "cekHarga": "CEK HARGA",
+    "chatWhatsApp": "CHAT ADVISOR",
+    "badges": {
+      "advisor": "Dibantu Advisor Ahli"
+    }
+  },
+  "contact": {
+    "label": "Kontak",
+    "heading": "Hubungi Kami",
+    "form": {
+      "name": "Nama Lengkap",
+      "email": "Email",
+      "phone": "No. Telepon",
+      "subject": "Subjek",
+      "message": "Pesan Anda...",
+      "submit": "Kirim Pesan",
+      "sent": "Terkirim!"
+    },
+    "info": {
+      "address": "Alamat",
+      "phone": "Telepon",
+      "whatsapp": "WhatsApp",
+      "whatsapp2": "WhatsApp 2",
+      "email": "Email",
+      "hours": "Jam Layanan"
+    }
+  },
+  "footer": {
+    "tagline": "Smart People Smart Proteksi",
+    "brandDesc": "Platform perbandingan asuransi kendaraan yang membantu Anda menemukan perlindungan terbaik dari partner terpercaya.",
+    "quickLinks": "Tautan Cepat",
+    "products": "Jenis Perlindungan",
+    "newsletter": "Newsletter",
+    "newsletterDesc": "Subscribe untuk tips proteksi dan penawaran eksklusif",
+    "emailPlaceholder": "Email Anda",
+    "contactLabel": "Kontak",
+    "copyright": "\u00a9 2025 PT. Jasa Global Proteksi. All rights reserved.",
+    "madeBy": "Dibuat oleh Nauka Motion - Small Movement, Real Impact"
+  },
+  "protectionChoices": {
+    "label": "Pilihan Proteksi",
+    "heading": "Pilih jenis perlindungan kendaraan Anda",
+    "subheading": "Kami membantu Anda menemukan perlindungan yang sesuai kebutuhan dari partner asuransi terpercaya",
+    "cekHarga": "Cek Harga",
+    "comingSoon": "Segera Hadir",
+    "items": {
+      "mobil": {
+        "title": "Asuransi Mobil",
+        "desc": "Proteksi menyeluruh untuk mobil Anda — dari All Risk komprehensif hingga TLO. Bandingkan premi dari 8+ partner asuransi dan pilih yang paling sesuai."
+      },
+      "motor": {
+        "title": "Asuransi Motor",
+        "desc": "Proteksi untuk kendaraan roda dua Anda. Dapatkan penawaran terbaik dengan pendampingan advisor berpengalaman."
+      }
+    }
+  },
+  "faq": {
+    "label": "FAQ",
+    "heading": "Pertanyaan Umum",
+    "stillHaveQuestion": "Masih punya pertanyaan?",
+    "contactUsDirectly": "Hubungi Advisor Kami",
+    "items": {
+      "q1": { "q": "Apa itu Jasa Proteksi?", "a": "Jasa Proteksi adalah platform perbandingan asuransi kendaraan yang dioperasikan oleh PT. Jasa Global Proteksi. Kami membantu Anda menemukan perlindungan kendaraan terbaik dari berbagai perusahaan asuransi terkemuka." },
+      "q2": { "q": "Kenapa harus menggunakan Jasa Proteksi?", "a": "Jasa Proteksi membantu Anda membandingkan produk dari berbagai perusahaan asuransi sekaligus. Anda mendapatkan pilihan yang lebih banyak, saran dari advisor ahli, dan proses klaim yang lebih mudah — semua tanpa biaya tambahan." },
+      "q3": { "q": "Bagaimana cara mendapatkan rekomendasi asuransi kendaraan?", "a": "Pilih jenis perlindungan kendaraan yang Anda butuhkan, lengkapi data kendaraan Anda, lalu sistem kami akan menampilkan simulasi premi dan rekomendasi dari berbagai partner asuransi. Anda juga bisa berkonsultasi langsung dengan advisor kami via WhatsApp." },
+      "q4": { "q": "Apakah ada biaya untuk konsultasi dengan advisor?", "a": "Tidak, konsultasi dengan advisor Jasa Proteksi sepenuhnya gratis. Kami dibayar oleh perusahaan asuransi partner, jadi Anda mendapatkan saran profesional tanpa biaya tambahan." },
+      "q5": { "q": "Bagaimana proses klaim jika terjadi sesuatu?", "a": "Kami mendampingi Anda dari awal hingga klaim selesai. Hubungi kami, dan advisor Anda akan membantu mengurus seluruh proses klaim dengan perusahaan asuransi terkait." },
+      "q6": { "q": "Partner asuransi apa saja yang bekerja sama dengan Jasa Proteksi?", "a": "Kami bekerja sama dengan perusahaan asuransi terkemuka di Indonesia antara lain Sinarmas, ACA, Mega Insurance, Zurich Syariah, Tugu, OONA, MAG, dan Sahabat. Semua partner kami adalah perusahaan asuransi terpercaya yang berlisensi dan diawasi oleh OJK." }
+    }
+  },
+  "conversion": {
+    "floatingWhatsApp": "Konsultasi Gratis, Respon < 1 Jam",
+    "cookieMessage": "Kami menggunakan cookies untuk meningkatkan pengalaman Anda. Dengan melanjutkan, Anda menyetujui penggunaan cookies kami.",
+    "cookieAccept": "Terima",
+    "cookieReject": "Tolak",
+    "stickyCTA": "Hitung Premi"
+  },
+  "leadFlow": {
+    "step1Label": "Langkah 1 dari 4",
+    "step1Title": "Isi data kendaraan untuk melihat estimasi premi",
+    "coverageTypeLabel": "Jenis Perlindungan",
+    "tlo": "Total Loss Only (TLO)",
+    "allRisk": "Komprehensif (All Risk)",
+    "merkLabel": "Merk Kendaraan",
+    "merkPlaceholder": "Pilih merk kendaraan",
+    "tipeLabel": "Tipe Kendaraan",
+    "tipePlaceholder": "Pilih tipe kendaraan",
+    "tahunLabel": "Tahun Pembuatan",
+    "tahunPlaceholder": "Pilih tahun",
+    "platLabel": "Plat Daerah",
+    "platPlaceholder": "Pilih plat daerah",
+    "hargaOtrLabel": "Harga OTR",
+    "hargaOtrPlaceholder": "Masukkan estimasi harga kendaraan",
+    "hargaOtrAutoPlaceholder": "Harga otomatis terisi berdasarkan data kendaraan",
+    "hargaOtrHelper": "Harga otomatis terisi berdasarkan data pricelist. Anda juga bisa mengubahnya manual.",
+    "addonLabel": "Add-on Protection",
+    "addonItems": {
+      "flood": "Banjir & Badai",
+      "earthquake": "Gempa Bumi",
+      "srcc": "Huru-Hara (SRCC)",
+      "terrorism": "Terrorisme & Sabotase",
+      "bengkelAuthorized": "Bengkel Authorized",
+      "tpl": "Tanggung Jawab Pihak Ketiga",
+      "paDriver": "Pengemudi",
+      "paPassenger": "Penumpang"
+    },
+    "nameLabel": "Nama Lengkap",
+    "namePlaceholder": "Masukkan nama lengkap",
+    "whatsappLabel": "Nomor WhatsApp",
+    "whatsappPlaceholder": "08xxxxxxxxxx",
+    "viewRecommendation": "Cek Harga",
+    "processing": "Memproses...",
+    "phoneError": "Nomor WhatsApp tidak valid. Gunakan format: 08xxxxxxxxxx",
+    "connectionError": "Terjadi kesalahan koneksi. Silakan coba lagi.",
+    "validationError": "Mohon lengkapi semua data yang diperlukan",
+    "step2Label": "Langkah 2 dari 4",
+    "step2Title": "Simulasi Premi Asuransi",
+    "step2Subtitle": "Data Anda aman dan tidak akan dibagikan tanpa izin",
+    "nextStep": "Lanjutkan",
+    "step3Label": "Langkah 3 dari 4",
+    "step3Title": "Isi data diri Anda",
+    "vehicleValueLabel": "Estimasi Nilai Kendaraan",
+    "vehicleValueSource": "Data dari Pricelist Zurich Mei 2026",
+    "manualInput": "Ubah manual",
+    "vehicleNotFound": "Data kendaraan belum tersedia",
+    "enterManualPrice": "Silakan isi estimasi harga kendaraan secara manual.",
+    "premiumBreakdown": "Rincian Premi",
+    "basePremium": "Premi Dasar",
+    "addOnPremium": "Premi Add-on",
+    "selectPartner": "Pilih Partner Asuransi",
+    "simulating": "Menghitung simulasi...",
+    "simulationTitle": "Hasil Simulasi Premi",
+    "perYear": "tahun",
+    "resultTitle": "Asuransi yang cocok untukmu",
+    "resultSubtitle": "Rekomendasi berdasarkan data kendaraan dan jenis perlindungan yang Anda pilih",
+    "vehicleSummary": "Ringkasan Kendaraan",
+    "coverageType": "Jenis Perlindungan",
+    "addOn": "Add-on",
+    "partnerCard": {
+      "protection": "Jenis Perlindungan",
+      "mainBenefit": "Benefit Utama",
+      "estimatedPremium": "Estimasi Premi",
+      "facilities": "Fasilitas",
+      "addOnAvailable": "Add-on Tersedia",
+      "chooseAndConsult": "Pilih & Lanjut Konsultasi"
+    },
+    "agreeWhatsApp": "Setuju, Lanjut Konsultasi via WhatsApp",
+    "closeHint": "Klik X untuk menutup",
+    "exitPromptTitle": "Ingin konsultasi langsung?",
+    "exitPromptDesc": "Hubungi advisor kami langsung via WhatsApp untuk mendiskusikan kebutuhan proteksi Anda secara personal.",
+    "submitOffer": "Chat Advisor",
+    "close": "Tutup",
+    "offerTitle": "Ajukan Penawaran",
+    "offerPriceLabel": "Harga Penawaran Anda (Rp)",
+    "offerMinLabel": "Minimum",
+    "offerInfoText": "Penawaran Anda akan ditinjau oleh advisor kami. Jika memenuhi syarat, kami akan menghubungi Anda.",
+    "back": "Kembali",
+    "sendOffer": "Kirim Penawaran",
+    "offerValidError": "Masukkan harga penawaran yang valid",
+    "offerError": "Terjadi kesalahan.",
+    "resultValidTitle": "Penawaran Diterima",
+    "resultValidDesc": "Terima kasih, {name}. Penawaran Anda telah kami catat. Silakan lanjut konsultasi dengan advisor kami melalui WhatsApp.",
+    "resultProduct": "Produk",
+    "resultEstPrice": "Estimasi Harga",
+    "resultYourOffer": "Penawaran Anda",
+    "resultStatus": "Status",
+    "resultValidStatus": "Valid — Dapat Dilanjutkan",
+    "continueWhatsApp": "Lanjut Konsultasi via WhatsApp",
+    "resultRejectedTitle": "Penawaran Belum Memenuhi Syarat",
+    "resultRejectedDesc": "Maaf, penawaran Anda belum memenuhi syarat minimum {minPrice} untuk produk {productName}.",
+    "resultRejectedNote": "Data Anda tetap kami simpan. Tim advisor kami mungkin akan menghubungi Anda.",
+    "changeOffer": "Ubah Penawaran",
+    "chatWhatsApp": "Chat Advisor",
+    "consultWhatsApp": "Lanjut Konsultasi",
+    "discussBudget": "Diskusikan Budget Anda",
+    "budgetLabel": "Budget yang diinginkan",
+    "budgetPlaceholder": "Masukkan budget Anda",
+    "budgetNotesLabel": "Catatan (opsional)",
+    "budgetNotesPlaceholder": "Misalnya: saya ingin perlindungan dasar saja...",
+    "budgetAdvisorMessage": "Advisor kami akan membantu mencarikan opsi perlindungan yang paling sesuai dengan budget Anda.",
+    "budgetSubmitButton": "Kirim Budget",
+    "budgetSubmitting": "Mengirim...",
+    "budgetSuccessTitle": "Budget Anda telah dikirim",
+    "budgetSuccessDesc": "Advisor kami akan menghubungi Anda untuk membahas opsi perlindungan yang sesuai dengan budget Anda.",
+    "budgetConsultButton": "Lanjut Konsultasi via WhatsApp",
+    "allRiskNotAvailable": "All Risk tidak tersedia untuk kendaraan berusia di atas 12 tahun. Silakan pilih TLO.",
+    "tloNotAvailable": "TLO tidak tersedia untuk kendaraan berusia di atas 15 tahun.",
+    "noCoverageAvailable": "Maaf, tidak ada jenis perlindungan yang tersedia untuk kendaraan berusia di atas 15 tahun.",
+    "vehicleAgeWarning": "Usia kendaraan: {age} tahun",
+    "loadingRateInfo": "Loading rate {loadingPercent}% diterapkan karena usia kendaraan melebihi 5 tahun",
+    "discountInfo": "Diskon {discountPercent}% dari premi dasar",
+    "adminFeeInfo": "Biaya administrasi",
+    "otrRangeInfo": "Estimasi Harga OTR",
+    "partnerComparisonTitle": "Perbandingan Partner Asuransi",
+    "partnerBestValue": "Harga Terbaik",
+    "partnerPremium": "Estimasi Premi",
+    "partnerBenefits": "Keunggulan",
+    "partnerFacilities": "Fasilitas"
+  },
+  "blog": {
+    "label": "Artikel & Insight",
+    "heading": "Tips dan panduan asuransi kendaraan",
+    "articleLabel": "Artikel",
+    "readMore": "Baca Selengkapnya",
+    "noArticles": "Belum ada artikel",
+    "viewAll": "Lihat Semua Artikel"
+  },
+  "common": {
+    "backToTop": "Kembali ke atas"
+  },
+  "map": {
+    "heading": "Lokasi Kami",
+    "companyName": "Jasa Proteksi",
+    "address": "Jl. Jalur Sutera Tim., RT.001/RW.015, Kunciran, Kec. Pinang, Kota Tangerang, Banten 15143",
+    "getDirections": "Buka Google Maps"
+  }
+}

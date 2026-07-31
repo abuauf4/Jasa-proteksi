@@ -1,0 +1,1128 @@
+=== Hero.tsx (164 lines) ===
+"use client";
+
+import { useState, useEffect } from "react";
+import { Search, ArrowRight, ShieldCheck, Zap, MessageCircle } from "lucide-react";
+import Image from "next/image";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useSiteSettings, useHeroData } from "@/lib/ServerDataContext";
+import { trackEvent } from "@/lib/conversion";
+
+export default function Hero() {
+  const { t } = useLanguage();
+  const { settings, loading: settingsLoading, ctaWhatsApp } = useSiteSettings();
+  const { heroData, heroLoading } = useHeroData();
+  const ounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const dataReady = mounted && !heroLoading && !settingsLoading;
+
+  // Use DB data when available, translation fallbacks otherwise
+  const heading = heroData?.tagline || t("hero.heading");
+  const tagline = heroData?.subtext || t("hero.tagline");
+  const primaryCtaText = heroData?.ctaText || t("hero.primaryCta");
+  const bgImage = heroData?.backgroundImage || "/hero-car-bg.webp";
+
+  const whatsappLink = ctaWhatsApp
+    ? `https://wa.me/${ctaWhatsApp}`
+    : "/produk/asuransi-mobil";
+
+  const benefits = [
+    { icon: ShieldCheck, text: t("hero.benefitAllRisk") },
+    { icon: Zap, text: t("hero.benefitEasy") },
+    { icon: MessageCircle, text: t("hero.benefitConsult") },
+  ];
+
+  return (
+    <section
+      id="beranda"
+      className="relative bg-white pt-[68px] lg:pt-[72px]"
+      style={{ visibility: dataReady ? "visible" : "hidden" }}
+    >
+      <div className="mx-auto max-w-[1200px] px-5 sm:px-6 lg:px-8">
+        {/* ═══════ Mobile-first: Single column ═══════ */}
+        <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-12 xl:gap-16">
+          {/* ── Left: Text Content ── */}
+          <div className="py-10 sm:py-14 lg:py-20 xl:py-24">
+            {/* 1. Badge */}
+
+=== Navigation.tsx (235 lines) ===
+"use client";
+
+import { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, X, Phone, ArrowRight } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useSiteSettings } from "@/lib/ServerDataContext";
+
+const navLinkKeys = [
+  { key: "beranda", href: "#beranda" },
+  { key: "produk", href: "#model" },
+  { key: "partner", href: "#trust" },
+  { key: "whyBroker", href: "#why-broker" },
+  { key: "advisor", href: "#advisor" },
+  { key: "trust", href: "#trust-legal" },
+  { key: "artikel", href: "/blog" },
+  { key: "kontak", href: "#kontak" },
+];
+
+export default function Navigation() {
+   const [scrolled, setScrolled] = useState(false);
+  const obileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("beranda");
+  const { t } = useLanguage();
+  const { loading, ctaWhatsApp } = useSiteSettings();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+
+      const anchorLinks = navLinkKeys.filter((l) => l.href.startsWith("#"));
+      const sections = anchorLinks.map((l) => l.href.replace("#", ""));
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 120) {
+            setActiveSection(sections[i]);
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+
+=== Footer.tsx (157 lines) ===
+"use client";
+
+import { Diamond, MessageCircle, Mail, Phone, MapPin } from "lucide-react";
+import Image from "next/image";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useSiteSettings } from "@/lib/ServerDataContext";
+
+const quickLinks = [
+  { labelKey: "nav.beranda", href: "#beranda" },
+  { labelKey: "nav.produk", href: "#model" },
+  { labelKey: "nav.partner", href: "#trust" },
+  { labelKey: "nav.whyBroker", href: "#why-broker" },
+  { labelKey: "nav.advisor", href: "#advisor" },
+  { labelKey: "nav.trust", href: "#trust-legal" },
+  { labelKey: "nav.kontak", href: "#kontak" },
+];
+
+const productLinks = [
+  "Asuransi Mobil",
+  "Asuransi Motor (Segera Hadir)",
+  "Asuransi Perjalanan (Segera Hadir)",
+  "Asuransi Motor Listrik (Segera Hadir)",
+];
+
+export default function Footer() {
+  const { t } = useLanguage();
+  const { settings, loading, ctaWhatsApp } = useSiteSettings();
+
+  // Build dynamic contact items from site settings (only after loaded)
+  const contactItems: { icon: typeof MapPin; text: string; href?: string }[] = [];
+  if (!loading) {
+    if (settings.address) contactItems.push({ icon: MapPin, text: settings.address });
+    if (settings.phone) contactItems.push({ icon: Phone, text: `+${settings.phone}` });
+    if (ctaWhatsApp) contactItems.push({ icon: MessageCircle, text: `+${ctaWhatsApp}`, href: `https://wa.me/${ctaWhatsApp}` });
+    if (settings.email) contactItems.push({ icon: Mail, text: settings.email, href: `mailto:${settings.email}` });
+  }
+
+  return (
+    <footer className="bg-[#0F172A] text-[#94A3B8]">
+      {/* Marquee Brand Banner */}
+      <div className="border-y border-[#1E293B] py-4 overflow-hidden">
+        <div className="animate-marquee whitespace-nowrap">
+          {Array(8).fill(null).map((_, i) => (
+            <span key={i} className="inline-flex items-center gap-8 mx-8">
+              <span className="text-lg font-bold  tracking-[0.2em] text-white/20">
+                JASA PROTEKSI
+              </span>
+              <Diamond className="w-2 h-2 text-[#14B8A6]/50" />
+              <span className="text-sm tracking-[0.3em] text-[#14B8A6]/50 uppercase">
+                {t("footer.tagline")}
+
+=== FAQ.tsx (86 lines) ===
+"use client";
+
+import { useState } from "react";
+import { Plus, Minus, MessageCircle } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useSiteSettings } from "@/lib/ServerDataContext";
+
+const faqKeys = ["q1", "q2", "q3", "q4", "q5", "q6"];
+
+export default function FAQ() {
+  const { t } = useLanguage();
+  const { ctaWhatsApp } = useSiteSettings();
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  return (
+    <section id="faq" className="bg-[#EEF3F8] ds-section">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 lg:mb-16">
+          <div className="flex justify-center mb-4">
+            <div className="ds-accent-line" />
+          </div>
+          <span className="ds-label text-[#0F766E]">{t("faq.label")}</span>
+          <h2 className="ds-h2 text-[#172033] mt-3 sm:mt-4">
+            {t("faq.heading")}
+          </h2>
+        </div>
+
+        <div className="space-y-3 sm:space-y-4">
+          {faqKeys.map((key, i) => (
+            <div
+              key={key}
+              className={`rounded-xl border overflow-hidden transition-all duration-300 bg-white ${
+                openIndex === i
+                  ? "border-[#0F766E] shadow-sm"
+                  : "border-[#DDE4EC] hover:border-[#0F766E]/30"
+              }`}
+            >
+              <button
+                onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                className="w-full flex items-center justify-between p-5 sm:p-6 text-left min-h-[48px]"
+                aria-expanded={openIndex === i}
+              >
+                <span className="font-semibold text-sm sm:text-base pr-4 text-[#172033]">
+                  {t(`faq.items.${key}.q`)}
+                </span>
+                <span className="flex-shrink-0 transition-transform duration-300">
+                  {openIndex === i ? (
+                    <Minus className="w-5 h-5 text-[#0F766E]" />
+                  ) : (
+                    <Plus className="w-5 h-5 text-[#0F766E]" />
+
+=== HowItWorks.tsx (78 lines) ===
+"use client";
+
+import { MessageSquare, Search, GitCompare, CheckCircle } from "lucide-react";
+
+const steps = [
+  {
+    icon: MessageSquare,
+    number: "01",
+    title: "Ceritakan Kebutuhan",
+    description:
+      "Bagikan kebutuhan dan situasi Anda melalui konsultasi yang mudah dan tanpa tekanan.",
+  },
+  {
+    icon: Search,
+    number: "02",
+    title: "Pelajari Pilihan Proteksi",
+    description:
+      "Kami membantu Anda memahami produk yang relevan dengan bahasa yang sederhana dan jelas.",
+  },
+  {
+    icon: GitCompare,
+    number: "03",
+    title: "Bandingkan Manfaat",
+    description:
+      "Bandingkan manfaat, premi, dan ketentuan dari beberapa opsi secara objektif.",
+  },
+  {
+    icon: CheckCircle,
+    number: "04",
+    title: "Tentukan dengan Lebih Yakin",
+    description:
+      "Ambil keputusan dengan pemahaman yang lebih baik dan perasaan yang lebih tenang.",
+  },
+];
+
+export default function HowItWorks() {
+  return (
+    <section id="cara-kerja" className="bg-[#F8FAFC] ds-section">
+      <div className="ds-container">
+        <div className="text-center mb-12 lg:mb-16">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="ds-accent-line" />
+          </div>
+          <h2 className="ds-h2 text-[#172033] mb-4">Cara Kerja</h2>
+          <p className="ds-body-lg text-[#64748B] max-w-xl mx-auto">
+            Empat langkah sederhana untuk mendapatkan perlindungan yang tepat
+            sesuai kebutuhan Anda.
+          </p>
+        </div>
+
+
+=== ProtectionChoices.tsx (97 lines) ===
+"use client";
+
+import { Car, Bike, ArrowRight } from "lucide-react";
+import SectionHeader from "@/components/shared/SectionHeader";
+import CTAButton from "@/components/shared/CTAButton";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+const protections = [
+  {
+    key: "mobil",
+    icon: Car,
+    href: "/produk/asuransi-mobil",
+    available: true,
+  },
+  {
+    key: "motor",
+    icon: Bike,
+    href: "#",
+    available: false,
+  },
+];
+
+export default function ProtectionChoices() {
+  const { t } = useLanguage();
+
+  return (
+    <section className="bg-[#F8FAFC] ds-section">
+      <div className="ds-container">
+        <SectionHeader
+          label={t("protectionChoices.label")}
+          heading={t("protectionChoices.heading")}
+          subheading={t("protectionChoices.subheading")}
+          accent="primary"
+          headingColor="text-[#172033]"
+          subheadingColor="text-[#64748B]"
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-6 max-w-3xl mx-auto">
+          {protections.map(({ key, icon: Icon, href, available }) => {
+            return (
+              <div
+                key={key}
+                className={`relative ds-card group flex flex-col justify-between min-h-[220px] sm:min-h-[240px] transition-all duration-300 ${
+                  available
+                    ? "hover:shadow-lg hover:border-[#0F766E]/30 cursor-pointer"
+                    : "opacity-70 cursor-not-allowed"
+                }`}
+                onClick={available ? undefined : undefined}
+                role={available ? "link" : undefined}
+                tabIndex={available ? 0 : -1}
+
+=== WhyBroker.tsx (74 lines) ===
+"use client";
+
+import {
+  GitCompareArrows,
+  Headphones,
+  MessageSquareText,
+  FileCheck,
+  Eye,
+  Handshake,
+} from "lucide-react";
+import SectionHeader from "@/components/shared/SectionHeader";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+const brokerKeys = [
+  "compare",
+  "advisor",
+  "simpleLang",
+  "personal",
+  "claimAssist",
+  "transparent",
+];
+
+const brokerIcons: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
+  compare: GitCompareArrows,
+  advisor: Headphones,
+  simpleLang: MessageSquareText,
+  personal: Handshake,
+  claimAssist: FileCheck,
+  transparent: Eye,
+};
+
+export default function WhyBroker() {
+  const { t } = useLanguage();
+
+  return (
+    <section id="why-broker" className="bg-[#EEF3F8] ds-section">
+      <div className="ds-container">
+        <SectionHeader
+          label={t("whyBroker.label")}
+          heading={t("whyBroker.heading")}
+          subheading={t("whyBroker.subheading")}
+          accent="primary"
+          headingColor="text-[#172033]"
+          subheadingColor="text-[#64748B]"
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+
+=== About.tsx (120 lines) ===
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import GradientMesh from "@/components/shared/GradientMesh";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+const trustStatements = [
+  { labelKey: "about.trustStatements.secureProcess", icon: ShieldCheck },
+  { labelKey: "about.trustStatements.dataProtected", icon: ShieldCheck },
+  { labelKey: "about.trustStatements.trustedPartners", icon: ShieldCheck },
+];
+
+export default function About() {
+  const { t } = useLanguage();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const imageY = useTransform(scrollYProgress, [0, 1], ["1.5%", "-1.5%"]);
+
+  return (
+    <section id="tentang" className="ds-section relative overflow-hidden bg-gradient-to-br from-[#042F2E] via-[#0F172A] to-[#0C4A6E] text-white">
+      {/* Gradient Mesh */}
+      <GradientMesh variant="teal-aurora" />
+
+      <div ref={sectionRef} className="relative z-10 ds-container safe-px">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-20 xl:gap-28 items-center">
+          {/* Left - Image with parallax */}
+          <AnimatedSection direction="left">
+            <motion.div className="relative" style={{ y: imageY }}>
+              <div className="relative overflow-hidden rounded-2xl">
+                <Image
+                  src="/about-office-team.webp"
+                  alt="PT. Jasa Global Proteksi - Platform Perbandingan Asuransi Kendaraan"
+                  width={672}
+                  height={420}
+                  loading="lazy"
+                  className="w-full h-auto min-h-[320px] sm:min-h-[420px] object-cover rounded-2xl"
+                />
+                {/* Overlay gradient for depth */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#042F2E]/60 via-transparent to-transparent rounded-2xl" />
+                {/* Badge overlay */}
+                <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
+
+=== Pricing.tsx (115 lines) ===
+"use client";
+
+import { Check, Star } from "lucide-react";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+const tierConfig = [
+  { key: "basic" as const, featureCount: 4, recommended: false },
+  { key: "premium" as const, featureCount: 5, recommended: true },
+  { key: "complete" as const, featureCount: 6, recommended: false },
+];
+
+export default function Pricing() {
+  const { t } = useLanguage();
+
+  const pricingTiers = tierConfig.map(({ key, featureCount, recommended }) => ({
+    key,
+    name: t(`pricing.tiers.${key}.name`),
+    dp: t(`pricing.tiers.${key}.price`),
+    monthly: t(`pricing.tiers.${key}.subtitle`),
+    features: Array.from({ length: featureCount }, (_, j) => t(`pricing.tiers.${key}.features.${j}`)),
+    recommended,
+  }));
+  return (
+    <section id="promo" className="section-padding relative overflow-hidden bg-[#0D0D0D] text-white">
+      {/* Ambient glow */}
+      <div className="absolute top-[30%] right-[20%] w-[500px] h-[500px] rounded-full blur-[140px]" style={{ backgroundColor: "rgba(46, 125, 111, 0.02)" }} />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <AnimatedSection className="text-center mb-24 lg:mb-28">
+          <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">{t("pricing.label")}</span>
+          <TextReveal
+            text={t("pricing.heading")}
+            as="h2"
+            className="text-4xl lg:text-5xl xl:text-6xl font-bold  text-white mt-6 leading-[1.1]"
+            delay={0.1}
+            staggerDelay={0.05}
+          />
+        </AnimatedSection>
+
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-9">
+          {pricingTiers.map((tier, i) => (
+            <AnimatedSection key={tier.key} delay={i * 0.1}>
+              <div
+                className={`relative h-full rounded-xl p-10 transition-all duration-500 hover:-translate-y-1 ${
+                  tier.recommended
+                    ? "bg-[#0A0F1E]/80 border border-[#2E7D6F]/40 shadow-lg shadow-[#2E7D6F]/8 gradient-border"
+
+=== TrustSection.tsx (340 lines) ===
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  ShieldCheck,
+  Lock,
+  CheckCircle2,
+  Handshake,
+  Diamond,
+} from "lucide-react";
+import Image from "next/image";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import SectionHeader from "@/components/shared/SectionHeader";
+import GradientMesh from "@/components/shared/GradientMesh";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+// Partner logo mapping: slug → logo file in /public/partners/
+const PARTNER_LOGO_MAP: Record<string, string> = {
+  sinarmas: "/partners/sinarmas.webp",
+  aca: "/partners/aca.webp",
+  "mega-insurance": "/partners/mega-insurance.webp",
+  "zurich-syariah": "/partners/zurich-syariah.webp",
+  tugu: "/partners/tugu.webp",
+  mag: "/partners/mag.webp",
+  "multi-artha-guna": "/partners/mag.webp",
+  sahabat: "/partners/sahabat.webp",
+  oona: "/partners/oona.webp",
+};
+
+// Display dimensions for partner logos (half of source for retina)
+const LOGO_DISPLAY_W = 160;
+const LOGO_DISPLAY_H = 60;
+
+// Default fallback partners
+const defaultPartners = [
+  "Sinarmas",
+  "ACA",
+  "Mega Insurance",
+  "Zurich Syariah",
+  "Tugu",
+  "OONA",
+  "MAG",
+  "Sahabat",
+];
+
+const trustStatements = [
+  { labelKey: "secureProcess", icon: Lock },
+  { labelKey: "dataProtected", icon: ShieldCheck },
+  { labelKey: "trustedPartners", icon: Handshake },
+
+=== CTASection.tsx (97 lines) ===
+"use client";
+
+import { Search, Phone, UserCheck } from "lucide-react";
+import Image from "next/image";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import CTAButton from "@/components/shared/CTAButton";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useSiteSettings } from "@/lib/ServerDataContext";
+import { trackEvent } from "@/lib/conversion";
+
+const trustBadgeConfig = [
+  { icon: UserCheck, key: "advisor" },
+];
+
+export default function CTASection() {
+  const { t } = useLanguage();
+  const { settings, loading, ctaWhatsApp } = useSiteSettings();
+
+  const trustBadges = trustBadgeConfig.map(({ icon, key }) => ({
+    icon,
+    label: t(`cta.badges.${key}`),
+    key,
+  }));
+
+  return (
+    <section className="relative ds-section overflow-hidden">
+      {/* Background — Teal gradient */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D9488] to-[#047857]" />
+      {/* Background image with overlay */}
+      <Image
+        src="/cta-handshake.webp"
+        alt=""
+        fill
+        loading="lazy"
+        className="object-cover object-center opacity-20"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D9488]/85 to-[#047857]/85" />
+
+      {/* Subtle pattern */}
+      <div className="absolute inset-0 dot-pattern opacity-[0.04]" />
+
+      {/* Content */}
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center safe-px">
+        <AnimatedSection>
+          <TextReveal
+            text={t("cta.heading")}
+            as="h2"
+            className="ds-h2 font-bold  text-white mb-5 sm:mb-7"
+            delay={0.1}
+
+=== FinalCTA.tsx (35 lines) ===
+"use client";
+
+import { MessageCircle } from "lucide-react";
+import { useSiteSettings } from "@/lib/ServerDataContext";
+import { trackEvent } from "@/lib/conversion";
+
+export default function FinalCTA() {
+  const { ctaWhatsApp } = useSiteSettings();
+
+  return (
+    <section className="bg-[#0B1F3A] ds-section">
+      <div className="ds-container text-center">
+        <h2 className="ds-h2 text-white mb-4">
+          Belum Tahu Proteksi yang Anda Butuhkan?
+        </h2>
+        <p className="ds-body-lg text-[#94A3B8] max-w-lg mx-auto mb-8">
+          Ceritakan kebutuhan Anda dan biarkan kami membantu menemukan
+          perlindungan yang tepat. Tanpa biaya, tanpa tekanan.
+        </p>
+        <a
+          href={ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() =>
+            trackEvent("whatsapp_click", { method: "final_cta" })
+          }
+          className="inline-flex items-center justify-center gap-2.5 px-8 py-4 min-h-[52px] bg-[#0F766E] hover:bg-[#0B5F59] text-white font-semibold text-[15px] rounded-xl transition-colors duration-300"
+        >
+          <MessageCircle className="w-5 h-5" />
+          Bicara dengan Konsultan
+        </a>
+      </div>
+    </section>
+  );
+}
+
+=== Contact.tsx (242 lines) ===
+"use client";
+
+import { useState } from "react";
+import { MapPin, Phone, Mail, Clock, MessageCircle, Send } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import SectionWrapper from "@/components/shared/SectionWrapper";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useSiteSettings } from "@/lib/ServerDataContext";
+import { trackEvent } from "@/lib/conversion";
+
+interface ContactInfo {
+  icon: React.ComponentType<{ className?: string }>;
+  labelKey: string;
+  value: string;
+  href?: string;
+}
+
+export default function Contact() {
+  const { t } = useLanguage();
+  const { settings, loading: settingsLoading } = useSiteSettings();
+  const [formState, setFormState] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  // Build contact info from site settings (no more hardcoded fallbacks)
+  const contactInfo: ContactInfo[] = [];
+  if (!settingsLoading) {
+    if (settings.address) {
+      contactInfo.push({ icon: MapPin, labelKey: "address", value: settings.address });
+    }
+    if (settings.phone) {
+      contactInfo.push({ icon: Phone, labelKey: "phone", value: `+${settings.phone}` });
+    }
+    if (settings.whatsapp) {
+      contactInfo.push({
+        icon: MessageCircle,
+        labelKey: "whatsapp",
+        value: `+${settings.whatsapp}`,
+        href: `https://wa.me/${settings.whatsapp}`,
+      });
+    }
+
+=== Blog.tsx (118 lines) ===
+"use client";
+
+import { useState, useEffect } from "react";
+import { ArrowRight, BookOpen } from "lucide-react";
+import SectionWrapper from "@/components/shared/SectionWrapper";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+interface Article {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  coverImage: string | null;
+  publishedAt: string | null;
+  category: { name: string } | null;
+}
+
+export default function Blog() {
+  const { t } = useLanguage();
+  const [articles, setArticles] = useState<Article[] | null>(null);
+
+  useEffect(() => {
+    fetch("/api/articles?status=published&limit=3")
+      .then((res) => res.json())
+      .then((data) => setArticles(data.articles || []))
+      .catch(() => setArticles([]));
+  }, []);
+
+  // Don't render section at all while loading or when no articles exist
+  // This prevents showing an empty/ugly section on the homepage
+  if (articles === null) return null;
+  if (articles.length === 0) return null;
+
+  return (
+    <SectionWrapper id="blog" className="bg-[#F5F5F0]">
+      <div className="ds-container safe-px">
+        {/* Section Header */}
+        <AnimatedSection className="text-center mb-14 lg:mb-20">
+          <div className="flex justify-center mb-5 sm:mb-6">
+            <div className="ds-accent-line" />
+          </div>
+          <span className="ds-label text-[#2E7D6F]">{t("blog.label")}</span>
+          <TextReveal
+            text={t("blog.heading")}
+            as="h2"
+            className="ds-h2 font-bold  mt-5 sm:mt-6 text-[#0D0D0D]"
+            delay={0.1}
+            staggerDelay={0.05}
+
+=== Features.tsx (97 lines) ===
+"use client";
+
+import { Zap, Clock, ArrowRight, ShieldCheck } from "lucide-react";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+const featureConfig = [
+  { key: "fast", icon: Zap },
+  { key: "secure", icon: ShieldCheck },
+  { key: "affordable", icon: Clock },
+];
+
+export default function Features() {
+  const { t } = useLanguage();
+  return (
+    <section id="fitur" className="bg-[#F5F5F0] overflow-hidden">
+      <div className="py-28 lg:py-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-28 items-center">
+            {/* Left - Emotional Storytelling */}
+            <AnimatedSection direction="left">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-[2px] bg-[#2E7D6F]" />
+                <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
+                  {t("features.label")}
+                </span>
+              </div>
+              <TextReveal
+                text={t("features.heading")}
+                as="h2"
+                className="text-4xl lg:text-5xl xl:text-6xl font-bold  text-[#0D0D0D] mb-16 leading-[1.08]"
+                delay={0.15}
+                staggerDelay={0.04}
+              />
+
+              <div>
+                {featureConfig.map((feature, i) => (
+                  <AnimatedSection key={feature.key} delay={i * 0.1} direction="left">
+                    <div className="flex gap-6 group mb-12 last:mb-0">
+                      <div className="flex-shrink-0">
+                        <div className="w-[2px] h-full min-h-[60px] bg-gradient-to-b from-[#2E7D6F] to-[#2E7D6F]/15 relative">
+                          <div className="absolute -left-[7px] top-0 w-4 h-4 rounded-full border-2 border-[#2E7D6F] bg-[#F5F5F0]" />
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold  text-[#0D0D0D] mb-2 group-hover:text-[#2E7D6F] transition-colors duration-800">
+                          {t(`features.items.${feature.key}.title`)}
+                        </h3>
+                        <p className="text-gray-400 text-sm leading-[1.8]">
+
+=== Gallery.tsx (104 lines) ===
+"use client";
+
+import { useState } from "react";
+import { Shield, Plane, PawPrint, Zap, UserCheck, ZoomIn } from "lucide-react";
+import SectionWrapper from "@/components/shared/SectionWrapper";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+const galleryItems = [
+  { icon: Shield, categoryKey: "vehicle", titleKey: "carMotor", color: "from-[#141B30]/60 to-[#0A0F1E]/30" },
+  { icon: Plane, categoryKey: "travel", titleKey: "travel", color: "from-[#141B30]/60 to-[#0A0F1E]/30" },
+  { icon: PawPrint, categoryKey: "pet", titleKey: "pet", color: "from-[#141B30]/60 to-[#0A0F1E]/30" },
+  { icon: Zap, categoryKey: "vehicle", titleKey: "evMotor", color: "from-[#141B30]/60 to-[#0A0F1E]/30" },
+  { icon: UserCheck, categoryKey: "personal", titleKey: "personal", color: "from-[#141B30]/60 to-[#0A0F1E]/30" },
+];
+
+const categoryKeys = ["all", "vehicle", "travel", "pet", "personal"];
+
+export default function Gallery() {
+  const { t } = useLanguage();
+  const [active, setActive] = useState("all");
+
+  const filtered = active === "all" ? galleryItems : galleryItems.filter((g) => g.categoryKey === active);
+
+  return (
+    <SectionWrapper id="galeri" className="bg-[#0D0D0D]" dark>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <AnimatedSection className="text-center mb-12 lg:mb-16">
+          <div className="flex justify-center mb-4">
+            <div className="accent-line" />
+          </div>
+          <span className="text-xs tracking-[0.3em] text-[#2E7D6F] uppercase font-medium">{t("gallery.label")}</span>
+          <TextReveal
+            text={t("gallery.heading")}
+            as="h2"
+            className="text-4xl lg:text-5xl font-bold  text-white mt-4"
+            delay={0.1}
+          />
+        </AnimatedSection>
+
+        {/* Filter */}
+        <AnimatedSection delay={0.15} className="flex justify-center mb-10">
+          <div className="inline-flex gap-1 p-1 rounded-lg bg-white/5 border border-white/5 flex-wrap justify-center">
+            {categoryKeys.map((catKey) => (
+              <button
+                key={catKey}
+                onClick={() => setActive(catKey)}
+                className={`px-5 py-2 text-sm font-medium tracking-wider transition-all duration-300 rounded-md ${
+
+=== MapSection.tsx (59 lines) ===
+"use client";
+
+import { MapPin, Navigation } from "lucide-react";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+export default function MapSection() {
+  const { t } = useLanguage();
+  return (
+    <section id="lokasi" className="relative bg-[#0D0D0D] py-20 lg:py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <AnimatedSection className="text-center mb-10">
+          <div className="flex justify-center mb-5">
+            <div className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#2E7D6F]/50 to-transparent" />
+          </div>
+          <h2 className="text-3xl lg:text-4xl font-bold  text-white leading-[1.1]">
+            {t("map.heading")}
+          </h2>
+        </AnimatedSection>
+
+        <AnimatedSection delay={0.15}>
+          <div className="relative rounded-xl overflow-hidden border border-white/[0.05] h-80 bg-[#0A0F1E]">
+            {/* Map placeholder */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-[#2E7D6F]/10 flex items-center justify-center mx-auto mb-5 relative">
+                  <MapPin className="w-8 h-8 text-[#2E7D6F]" />
+                  {/* Subtle emerald pulse ring */}
+                  <div className="absolute inset-0 rounded-full animate-ping opacity-15 bg-[#2E7D6F]" style={{ animationDuration: '3s' }} />
+                </div>
+                <p className="text-white/50 text-sm mb-1.5">{t("map.companyName")}</p>
+                <p className="text-white/30 text-xs">{t("map.address")}</p>
+              </div>
+            </div>
+            {/* Decorative grid lines */}
+            <div className="absolute inset-0 opacity-[0.03]">
+              <div className="h-full w-full" style={{
+                backgroundImage: "linear-gradient(rgba(46,125,111,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(46,125,111,0.3) 1px, transparent 1px)",
+                backgroundSize: "40px 40px"
+              }} />
+            </div>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={0.25} className="mt-8 text-center">
+          <a
+            href="https://maps.google.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 px-7 py-3 border border-[#2E7D6F]/30 text-[#2E7D6F] font-medium tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-800"
+
+=== Portfolio.tsx (264 lines) ===
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { Car, Bike, Plane, PawPrint, Zap, UserCheck, ArrowRight, Shield, Search } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import GradientMesh from "@/components/shared/GradientMesh";
+import SectionHeader from "@/components/shared/SectionHeader";
+import CTAButton from "@/components/shared/CTAButton";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import TextReveal from "@/components/shared/TextReveal";
+import { products as staticProducts, InsuranceProduct } from "@/lib/products";
+import { prefetchVehicleData } from "@/lib/vehiclePrefetch";
+
+// LeadFlowModal no longer imported — product "Cek Harga" CTA now navigates
+// to /produk/[slug] dedicated page instead of opening a modal overlay.
+
+const iconMap: Record<string, React.ElementType> = {
+  "asuransi-mobil": Car,
+  "asuransi-motor": Bike,
+  "asuransi-perjalanan": Plane,
+  "asuransi-hewan-peliharaan": PawPrint,
+  "asuransi-motor-listrik": Zap,
+  "asuransi-kecelakaan-diri": UserCheck,
+};
+
+const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+function mergeProductData(dbProducts: any[]): InsuranceProduct[] {
+  return dbProducts
+    .filter((p) => p.isActive)
+    .map((dbProduct) => {
+      const staticProduct = staticProducts.find((sp) => sp.slug === dbProduct.slug);
+      if (staticProduct) {
+        return {
+          ...staticProduct,
+          id: dbProduct.id,
+          name: dbProduct.name,
+          slug: dbProduct.slug,
+          category: dbProduct.category,
+          description: dbProduct.description,
+          benefits: dbProduct.benefits,
+          estimatedPrice: dbProduct.estimatedPrice,
+          minimumOfferPrice: dbProduct.minimumOfferPrice,
+          isActive: dbProduct.isActive,
+        };
+      }
+      return {
+        id: dbProduct.id,
+
+=== AdvisorAssistance.tsx (126 lines) ===
+"use client";
+
+import { UserCheck, MessageCircle, ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import GradientMesh from "@/components/shared/GradientMesh";
+import CTAButton from "@/components/shared/CTAButton";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useSiteSettings } from "@/lib/ServerDataContext";
+import { trackEvent } from "@/lib/conversion";
+
+const stepKeys = ["step1", "step2", "step3", "step4"];
+
+const stepIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+  step1: ShieldCheck,
+  step2: UserCheck,
+  step3: CheckCircle2,
+  step4: MessageCircle,
+};
+
+export default function AdvisorAssistance() {
+  const { t } = useLanguage();
+  const { settings, loading, ctaWhatsApp } = useSiteSettings();
+
+  return (
+    <section id="advisor" className="bg-[#F0FDFA] overflow-hidden relative">
+      {/* Gradient Mesh */}
+      <GradientMesh variant="warm-teal" />
+
+      <div className="relative z-10 ds-section">
+        <div className="ds-container safe-px">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-20 xl:gap-28 items-center">
+            {/* Left - How It Works */}
+            <AnimatedSection direction="left">
+              <div className="flex items-center gap-3 mb-5 sm:mb-6">
+                <div className="w-12 h-[2px] bg-[#0D9488] rounded-sm" />
+                <span className="ds-label text-[#0D9488]">{t("advisor.label")}</span>
+              </div>
+              <TextReveal
+                text={t("advisor.heading")}
+                as="h2"
+                className="ds-h2 font-bold  text-[#0F172A] mb-5 sm:mb-7"
+                delay={0.15}
+                staggerDelay={0.04}
+              />
+              <p className="ds-body-lg text-[#64748B] mb-9 sm:mb-12 max-w-md">
+                {t("advisor.subheading")}
+              </p>
+
+
+=== Services.tsx (73 lines) ===
+"use client";
+
+import { Zap, Target, Headphones, Eye, FileCheck, Settings } from "lucide-react";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+const serviceKeys = ["fast", "recommendation", "telesales", "transparent", "easyClaim", "personalize"];
+
+const serviceIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+  fast: Zap,
+  recommendation: Target,
+  telesales: Headphones,
+  transparent: Eye,
+  easyClaim: FileCheck,
+  personalize: Settings,
+};
+
+export default function Services() {
+  const { t } = useLanguage();
+
+  return (
+    <section id="layanan" className="bg-[#0D0D0D] overflow-hidden relative">
+      {/* Ambient background glow */}
+      <div className="absolute top-[20%] left-[30%] w-[500px] h-[500px] rounded-full blur-[140px]" style={{ backgroundColor: "rgba(46, 125, 111, 0.02)" }} />
+
+      <div className="py-28 lg:py-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <AnimatedSection className="text-center mb-24 lg:mb-32">
+            <div className="flex justify-center mb-6">
+              <div className="w-8 h-[2px] bg-[#2E7D6F]" />
+            </div>
+            <span className="text-[11px] tracking-[0.35em] text-[#2E7D6F] uppercase font-medium">
+              {t("services.label")}
+            </span>
+            <TextReveal
+              text={t("services.heading")}
+              as="h2"
+              className="text-4xl lg:text-5xl xl:text-6xl font-bold  text-white mt-6 leading-[1.1]"
+              delay={0.15}
+              staggerDelay={0.05}
+            />
+          </AnimatedSection>
+
+          {/* Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {serviceKeys.map((key, i) => {
+              const Icon = serviceIcons[key];
+              return (
+
+=== Testimonials.tsx (189 lines) ===
+"use client";
+
+import { useState } from "react";
+import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import AnimatedSection from "@/components/shared/AnimatedSection";
+import TextReveal from "@/components/shared/TextReveal";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+const testimonials = [
+  {
+    quote: "Saya sampai 2 kali beli asuransi mobil di Jasa Proteksi, karena memang puas dengan pelayanan telemarketingnya, dan diskon yg diberikan pun juga lumayan besar.",
+    name: "Christianto Aribowo",
+    city: "Jakarta",
+    product: "Asuransi Mobil",
+    rating: 5,
+  },
+  {
+    quote: "Hanya tinggal klik-klik lalu bayar! Mudah, murah dan lengkap.",
+    name: "Raditya Anugrah",
+    city: "Tangerang",
+    product: "Asuransi Motor",
+    rating: 5,
+  },
+  {
+    quote: "Proses pembelian mudah banget, cukup 5 menit saya langsung berhasil membeli asuransi untuk motor saya. Penjelasan produk pun sangat jelas dan banyak promonya!",
+    name: "Desi Widayanti",
+    city: "Depok",
+    product: "Asuransi Motor",
+    rating: 5,
+  },
+  {
+    quote: "Proses klaimnya cepat dan tanpa ribet. Saya sangat terbantu saat kendaraan saya mengalami kecelakaan. Tim advisor selalu siap membantu!",
+    name: "Dewi Anggraini",
+    city: "Surabaya",
+    product: "Asuransi Mobil",
+    rating: 5,
+  },
+  {
+    quote: "Harga premi yang kompetitif dengan coverage yang lengkap. Saya sudah merekomendasikan ke teman-teman di kantor. Puas banget!",
+    name: "Rudi Hermawan",
+    city: "Bandung",
+    product: "Asuransi Mobil",
+    rating: 5,
+  },
+];
+
+function getInitials(name: string) {
+  return name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
+}
+
+=== TransparencySection.tsx (77 lines) ===
+"use client";
+
+import { Eye, Users, FileText, Shield, Headphones } from "lucide-react";
+
+const items = [
+  {
+    icon: Users,
+    title: "Peran Jasa Proteksi",
+    description:
+      "Kami adalah platform perbandingan asuransi kendaraan yang membantu Anda menemukan produk perlindungan yang sesuai dari berbagai perusahaan asuransi terkemuka di Indonesia. Kami tidak menjual produk kami sendiri — kami membantu Anda memilih yang terbaik.",
+  },
+  {
+    icon: FileText,
+    title: "Cara Rekomendasi Diberikan",
+    description:
+      "Rekomendasi kami berdasarkan analisis kebutuhan Anda, bukan berdasarkan komisi tertinggi. Kami membandingkan manfaat, premi, dan ketentuan secara objektif agar Anda bisa mengambil keputusan yang tepat.",
+  },
+  {
+    icon: Eye,
+    title: "Biaya Konsultasi",
+    description:
+      "Konsultasi awal bersama kami sepenuhnya gratis dan tanpa kewajiban membeli. Anda berhak mengetahui semua informasi yang Anda butuhkan sebelum mengambil keputusan apapun.",
+  },
+  {
+    icon: Shield,
+    title: "Penerbit Polis",
+    description:
+      "Polis asuransi diterbitkan langsung oleh perusahaan asuransi mitra, bukan oleh Jasa Proteksi. Anda mendapatkan polis resmi langsung dari penyedia asuransi pilihan Anda.",
+  },
+  {
+    icon: Headphones,
+    title: "Bantuan Setelah Pembelian",
+    description:
+      "Kami tetap mendampingi Anda setelah polis terbit. Mulai dari pertanyaan tentang polis, perubahan data, hingga bantuan proses klaim — tim kami siap membantu kapan saja.",
+  },
+];
+
+export default function TransparencySection() {
+  return (
+    <section id="transparansi" className="bg-white ds-section">
+      <div className="ds-container">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          <div className="lg:sticky lg:top-32">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="ds-accent-line" />
+            </div>
+            <h2 className="ds-h2 text-[#172033] mb-4">Transparansi Kami</h2>
+            <p className="ds-body-lg text-[#64748B] max-w-md">
+              Kami percaya bahwa keputusan terbaik dimulai dari informasi yang
+              jelas. Berikut hal yang perlu Anda ketahui tentang Jasa Proteksi

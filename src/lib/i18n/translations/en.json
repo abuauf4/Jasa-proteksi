@@ -1,0 +1,413 @@
+{
+  "nav": {
+    "beranda": "Home",
+    "produk": "Protection",
+    "partner": "Partners",
+    "whyBroker": "Why Us",
+    "advisor": "Advisor",
+    "trust": "Trust",
+    "artikel": "Articles",
+    "kontak": "Contact",
+    "faq": "FAQ",
+    "cekHarga": "CHECK PRICE",
+    "professionalService": "Professional Service"
+  },
+  "hero": {
+    "label": "Car Insurance",
+    "heading": "Protect Your Car\nwith Confidence",
+    "brand": "Jasa Proteksi",
+    "tagline": "Check premium estimates and choose All Risk or TLO protection that fits your needs.",
+    "coverageType": "All Risk & TLO",
+    "coverageDesc": "Protection that suits your needs",
+    "primaryCta": "Check Car Premium",
+    "secondaryCta": "Free Consultation",
+    "benefitAllRisk": "All Risk or TLO",
+    "benefitEasy": "Easy Process",
+    "benefitConsult": "Quick Consultation",
+    "socialProof": "Easy consultation for your car protection needs",
+    "discoverCoverage": "View Protection",
+    "getProtected": "Free Consultation",
+    "scroll": "Scroll"
+  },
+  "partner": {
+    "label": "Insurance Partners",
+    "heading": "Backed by trusted insurance partners",
+    "subheading": "We partner with leading insurance companies to bring you the best options",
+    "partnerCount": "8+ Insurance Partners",
+    "coverageLabel": "Coverage Range"
+  },
+  "portfolio": {
+    "label": "Vehicle Protection",
+    "heading": "Find vehicle protection solutions from trusted insurance partners",
+    "cekHarga": "Check Price",
+    "categories": {
+      "all": "All",
+      "vehicle": "Vehicle",
+      "travel": "Travel",
+      "pet": "Pet",
+      "personal": "Personal"
+    }
+  },
+  "features": {
+    "label": "Our Advantages",
+    "heading": "Protection that is easy, secure, and affordable",
+    "exploreAll": "Explore All Advantages",
+    "items": {
+      "fast": {
+        "title": "Fast & Easy Process",
+        "desc": "Get premium estimates and recommendations from various insurance partners in minutes. No complicated processes, straight to the results."
+      },
+      "secure": {
+        "title": "Secure & Transparent Process",
+        "desc": "Your data and transactions are secured with bank-level encryption. All information is presented clearly with no hidden fees."
+      },
+      "affordable": {
+        "title": "Affordable Premiums",
+        "desc": "Compare offers from multiple insurance partners at once. Get the best protection at a price that fits your budget."
+      }
+    },
+    "secureTitle": "Secure & Transparent Process",
+    "secureSubtitle": "Your data is protected",
+    "secureDesc": "From selection to policy activation, every step is secured with 256-bit SSL encryption. Your trust is our priority."
+  },
+  "about": {
+    "label": "About Us",
+    "description": "Jasa Proteksi is an insurance comparison platform operated by PT. Jasa Global Proteksi. We help you find the best vehicle protection from various leading insurance companies.",
+    "learnMore": "Learn More",
+    "secureTitle": "Secure & Trusted Process",
+    "secureDesc": "Every transaction is guaranteed transparent and personal data is protected to the highest security standards.",
+    "trustStatements": {
+      "secureProcess": "Secure application process",
+      "dataProtected": "Data protected",
+      "trustedPartners": "Backed by trusted insurance partners"
+    }
+  },
+  "gallery": {
+    "label": "Gallery",
+    "heading": "Our Protection Types",
+    "categories": {
+      "all": "All",
+      "vehicle": "Vehicle",
+      "travel": "Travel",
+      "pet": "Pet",
+      "personal": "Personal"
+    },
+    "items": {
+      "carMotor": "Car & Motorcycle Insurance",
+      "travel": "Travel Insurance",
+      "pet": "Pet Insurance",
+      "evMotor": "Electric Motorcycle Insurance",
+      "personal": "Personal Accident Insurance"
+    }
+  },
+  "whyBroker": {
+    "label": "Why Use Jasa Proteksi",
+    "heading": "Easier to find the best protection with Jasa Proteksi",
+    "subheading": "We help you compare and choose the best protection from various insurance partners",
+    "items": {
+      "compare": {
+        "title": "Compare More Easily",
+        "desc": "Get recommendations from multiple insurance companies at once. Compare benefits, premiums, and facilities in one place without needing to contact each insurer individually."
+      },
+      "advisor": {
+        "title": "Expert Advisor Assistance",
+        "desc": "Our experienced advisors are ready to help you understand every protection option. Personal consultation, not a generic chatbot with automated responses."
+      },
+      "simpleLang": {
+        "title": "Simple Language Explanations",
+        "desc": "We explain every insurance product in easy-to-understand language, without confusing technical jargon. You deserve to know what you're buying."
+      },
+      "personal": {
+        "title": "Personal Guidance",
+        "desc": "Every client gets personal guidance from an experienced advisor. Not a generic chatbot, not a template — but consultation tailored to your needs."
+      },
+      "claimAssist": {
+        "title": "Claim Assistance",
+        "desc": "When a claim occurs, we accompany you from start to finish. Our advisor team fights for your rights, not you alone."
+      },
+      "transparent": {
+        "title": "Transparent Process",
+        "desc": "All information is presented clearly — from premiums to policy terms. No hidden fees, no hidden clauses."
+      }
+    }
+  },
+  "advisor": {
+    "label": "Advisor Consultation",
+    "heading": "Helped by humans, not chatbots",
+    "subheading": "Every consultation is served by an experienced insurance advisor who understands your needs personally",
+    "howItWorks": "How It Works",
+    "steps": {
+      "step1": {
+        "title": "Select Protection Type",
+        "desc": "Choose the type of vehicle protection you need — car or motorcycle, TLO or All Risk."
+      },
+      "step2": {
+        "title": "Fill Vehicle Data",
+        "desc": "Complete the vehicle or asset information you want to protect. Your data is secure and encrypted."
+      },
+      "step3": {
+        "title": "Get Recommendations",
+        "desc": "Our system finds the best recommendations from various insurance partners that match your needs."
+      },
+      "step4": {
+        "title": "Consult with Advisor",
+        "desc": "Contact our advisor via WhatsApp for further discussion and finalize the right protection."
+      }
+    },
+    "advisorTitle": "Insurance Advisor",
+    "advisorDesc": "Our advisors are experienced professionals in the insurance industry, ready to help you understand every option, compare offers, and choose the best protection.",
+    "ctaText": "Consult your protection needs with our advisor",
+    "ctaButton": "Free Consultation, Response < 1 Hour"
+  },
+  "trust": {
+    "label": "Trusted & Professional",
+    "heading": "Protection you can trust",
+    "subheading": "Backed by Indonesia's leading insurers",
+    "provenLabel": "Trust Guarantee",
+    "provenHeading": "Guaranteed protection",
+    "secureLabel": "Secure Process",
+    "secureHeading": "Every step, protected",
+    "secureDesc": "From selection to activation, your data and transactions are secured with bank-level encryption. Trust is built into every step.",
+    "sslEncrypted": "256-bit SSL Encrypted",
+    "guaranteeTitle": "Customer Protection Guarantee",
+    "guaranteeDesc": "PT. Jasa Global Proteksi guarantees the protection of customer rights in accordance with industry standards. Every transaction is guaranteed transparent, claims are processed fairly, and personal data is protected to the highest security standards.",
+    "badges": {
+      "secure": { "title": "Secure & Transparent Process", "desc": "Your data and transactions are protected" }
+    },
+    "trustStatements": {
+      "secureProcess": "Secure Application Process",
+      "dataProtected": "Data Protected",
+      "trustedPartners": "Backed by Trusted Insurance Partners"
+    },
+    "process": {
+      "select": { "title": "Select Protection", "desc": "Find the type of protection that suits your needs." },
+      "fill": { "title": "Fill Vehicle Data", "desc": "Safe and end-to-end encrypted verification process." },
+      "recommend": { "title": "View Recommendations", "desc": "Compare offers from various insurance partners." },
+      "consult": { "title": "Consult Advisor", "desc": "Discuss with an advisor to finalize your protection." }
+    }
+  },
+  "testimonials": {
+    "label": "Testimonials",
+    "heading": "Trusted by many clients",
+    "user": "Client"
+  },
+  "cta": {
+    "heading": "Ready to start protection?",
+    "subheading": "Consult the best options with our advisor",
+    "cekHarga": "CHECK PRICE",
+    "chatWhatsApp": "CHAT ADVISOR",
+    "badges": {
+      "advisor": "Expert Advisor Assistance"
+    }
+  },
+  "contact": {
+    "label": "Contact",
+    "heading": "Contact Us",
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "subject": "Subject",
+      "message": "Your message...",
+      "submit": "Send Message",
+      "sent": "Sent!"
+    },
+    "info": {
+      "address": "Address",
+      "phone": "Phone",
+      "whatsapp": "WhatsApp",
+      "whatsapp2": "WhatsApp 2",
+      "email": "Email",
+      "hours": "Service Hours"
+    }
+  },
+  "footer": {
+    "tagline": "Smart People Smart Proteksi",
+    "brandDesc": "Insurance comparison platform that helps you find the best vehicle protection from trusted partners.",
+    "quickLinks": "Quick Links",
+    "products": "Protection Types",
+    "newsletter": "Newsletter",
+    "newsletterDesc": "Subscribe for protection tips and exclusive offers",
+    "emailPlaceholder": "Your Email",
+    "contactLabel": "Contact",
+    "copyright": "\u00a9 2025 PT. Jasa Global Proteksi. All rights reserved.",
+    "madeBy": "Made by Nauka Motion - Small Movement, Real Impact"
+  },
+  "protectionChoices": {
+    "label": "Protection Options",
+    "heading": "Choose your vehicle protection type",
+    "subheading": "We help you find the right protection from trusted insurance partners",
+    "cekHarga": "Check Price",
+    "comingSoon": "Coming Soon",
+    "items": {
+      "mobil": {
+        "title": "Car Insurance",
+        "desc": "Comprehensive protection for your car — from All Risk to TLO. Compare premiums from 8+ insurance partners and choose the one that fits best."
+      },
+      "motor": {
+        "title": "Motorcycle Insurance",
+        "desc": "Protection for your two-wheeled vehicle. Get the best offers with guidance from experienced advisors."
+      }
+    }
+  },
+  "faq": {
+    "label": "FAQ",
+    "heading": "Frequently Asked Questions",
+    "stillHaveQuestion": "Still have questions?",
+    "contactUsDirectly": "Contact Our Advisor",
+    "items": {
+      "q1": { "q": "What is Jasa Proteksi?", "a": "Jasa Proteksi is an insurance comparison platform operated by PT. Jasa Global Proteksi. We help you find the best vehicle protection from various leading insurance companies." },
+      "q2": { "q": "Why should I use Jasa Proteksi?", "a": "Jasa Proteksi helps you compare products from multiple insurance companies at once. You get more choices, advice from expert advisors, and easier claims process — all at no additional cost." },
+      "q3": { "q": "How do I get vehicle insurance recommendations?", "a": "Select the type of vehicle protection you need, fill in your vehicle information, and our system will display premium simulation and recommendations from various insurance partners. You can also consult directly with our advisor via WhatsApp." },
+      "q4": { "q": "Is there a fee for consulting with an advisor?", "a": "No, consultation with a Jasa Proteksi advisor is completely free. We are paid by the partner insurance companies, so you get professional advice at no additional cost." },
+      "q5": { "q": "How does the claims process work?", "a": "We accompany you from start to finish during the claims process. Contact us, and your advisor will help manage the entire process with the relevant insurance company." },
+      "q6": { "q": "Which insurance partners work with Jasa Proteksi?", "a": "We work with leading insurance companies in Indonesia including Sinarmas, ACA, Mega Insurance, Zurich Syariah, Tugu, OONA, MAG, and Sahabat. All our partners are licensed and OJK-supervised trusted insurance companies." }
+    }
+  },
+  "conversion": {
+    "floatingWhatsApp": "Free Consultation, Response < 1 Hour",
+    "cookieMessage": "We use cookies to improve your experience. By continuing, you agree to our use of cookies.",
+    "cookieAccept": "Accept",
+    "cookieReject": "Decline",
+    "stickyCTA": "Calculate Premium"
+  },
+  "leadFlow": {
+    "step1Label": "Step 1 of 4",
+    "step1Title": "Enter vehicle data to see premium estimates",
+    "coverageTypeLabel": "Protection Type",
+    "tlo": "Total Loss Only (TLO)",
+    "allRisk": "Comprehensive (All Risk)",
+    "merkLabel": "Vehicle Brand",
+    "merkPlaceholder": "Select vehicle brand",
+    "tipeLabel": "Vehicle Type",
+    "tipePlaceholder": "Select vehicle type",
+    "tahunLabel": "Year of Manufacture",
+    "tahunPlaceholder": "Select year",
+    "platLabel": "Plate Region",
+    "platPlaceholder": "Select plate region",
+    "hargaOtrLabel": "OTR Price",
+    "hargaOtrPlaceholder": "Enter estimated vehicle price",
+    "hargaOtrAutoPlaceholder": "Price auto-filled based on vehicle data",
+    "hargaOtrHelper": "Price auto-filled from pricelist data. You can also change it manually.",
+    "addonLabel": "Add-on Protection",
+    "addonItems": {
+      "flood": "Flood & Storm",
+      "earthquake": "Earthquake",
+      "srcc": "Riot & Civil Commotion",
+      "terrorism": "Terrorism & Sabotage",
+      "bengkelAuthorized": "Authorized Workshop",
+      "tpl": "Third Party Liability",
+      "paDriver": "Driver",
+      "paPassenger": "Passenger"
+    },
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "whatsappLabel": "WhatsApp Number",
+    "whatsappPlaceholder": "08xxxxxxxxxx",
+    "viewRecommendation": "Check Price",
+    "processing": "Processing...",
+    "phoneError": "Invalid WhatsApp number. Use format: 08xxxxxxxxxx",
+    "connectionError": "A connection error occurred. Please try again.",
+    "validationError": "Please complete all required fields",
+    "step2Label": "Step 2 of 4",
+    "step2Title": "Insurance Premium Simulation",
+    "step2Subtitle": "Your data is safe and will not be shared without permission",
+    "nextStep": "Continue",
+    "step3Label": "Step 3 of 4",
+    "step3Title": "Enter your personal data",
+    "vehicleValueLabel": "Estimated Vehicle Value",
+    "vehicleValueSource": "Data from Zurich Pricelist May 2026",
+    "manualInput": "Edit manually",
+    "vehicleNotFound": "Vehicle data not available",
+    "enterManualPrice": "Please enter estimated vehicle price manually.",
+    "premiumBreakdown": "Premium Breakdown",
+    "basePremium": "Base Premium",
+    "addOnPremium": "Add-on Premium",
+    "selectPartner": "Select Insurance Partner",
+    "simulating": "Calculating simulation...",
+    "simulationTitle": "Premium Simulation Results",
+    "perYear": "year",
+    "resultTitle": "Insurance that suits you",
+    "resultSubtitle": "Recommendations based on your vehicle data and selected protection type",
+    "vehicleSummary": "Vehicle Summary",
+    "coverageType": "Protection Type",
+    "addOn": "Add-on",
+    "partnerCard": {
+      "protection": "Protection Type",
+      "mainBenefit": "Main Benefit",
+      "estimatedPremium": "Estimated Premium",
+      "facilities": "Facilities",
+      "addOnAvailable": "Add-on Available",
+      "chooseAndConsult": "Choose & Consult with Advisor"
+    },
+    "agreeWhatsApp": "Agree, Continue Consultation via WhatsApp",
+    "closeHint": "Click X to close",
+    "exitPromptTitle": "Want to consult directly?",
+    "exitPromptDesc": "Contact our advisor directly via WhatsApp to discuss your protection needs personally.",
+    "submitOffer": "Chat Advisor",
+    "close": "Close",
+    "offerTitle": "Submit Your Offer",
+    "offerPriceLabel": "Your Offer Price (Rp)",
+    "offerMinLabel": "Minimum",
+    "offerInfoText": "Your offer will be reviewed by our advisor. If it meets the requirements, we will contact you.",
+    "back": "Back",
+    "sendOffer": "Send Offer",
+    "offerValidError": "Please enter a valid offer price",
+    "offerError": "An error occurred.",
+    "resultValidTitle": "Offer Accepted",
+    "resultValidDesc": "Thank you, {name}. Your offer has been recorded. Please continue consulting with our advisor via WhatsApp.",
+    "resultProduct": "Product",
+    "resultEstPrice": "Estimated Price",
+    "resultYourOffer": "Your Offer",
+    "resultStatus": "Status",
+    "resultValidStatus": "Valid — Can Proceed",
+    "continueWhatsApp": "Continue Consultation via WhatsApp",
+    "resultRejectedTitle": "Offer Does Not Meet Requirements",
+    "resultRejectedDesc": "Sorry, your offer does not meet the minimum requirement of {minPrice} for the {productName} product.",
+    "resultRejectedNote": "Your data has been saved. Our advisory team may contact you.",
+    "changeOffer": "Change Offer",
+    "chatWhatsApp": "Chat Advisor",
+    "consultWhatsApp": "Continue Consultation",
+    "discussBudget": "Discuss Your Budget",
+    "budgetLabel": "Desired budget",
+    "budgetPlaceholder": "Enter your budget",
+    "budgetNotesLabel": "Notes (optional)",
+    "budgetNotesPlaceholder": "For example: I want basic protection only...",
+    "budgetAdvisorMessage": "Our advisor will help find the protection option that best fits your budget.",
+    "budgetSubmitButton": "Submit Budget",
+    "budgetSubmitting": "Submitting...",
+    "budgetSuccessTitle": "Your budget has been submitted",
+    "budgetSuccessDesc": "Our advisor will contact you to discuss protection options that fit your budget.",
+    "budgetConsultButton": "Continue Consultation via WhatsApp",
+    "allRiskNotAvailable": "All Risk is not available for vehicles over 12 years old. Please select TLO.",
+    "tloNotAvailable": "TLO is not available for vehicles over 15 years old.",
+    "noCoverageAvailable": "Sorry, no coverage type is available for vehicles over 15 years old.",
+    "vehicleAgeWarning": "Vehicle age: {age} years",
+    "loadingRateInfo": "Loading rate {loadingPercent}% applied due to vehicle age exceeding 5 years",
+    "discountInfo": "Discount {discountPercent}% off base premium",
+    "adminFeeInfo": "Administration fee",
+    "otrRangeInfo": "Estimated OTR Price",
+    "partnerComparisonTitle": "Insurance Partner Comparison",
+    "partnerBestValue": "Best Value",
+    "partnerPremium": "Estimated Premium",
+    "partnerBenefits": "Key Benefits",
+    "partnerFacilities": "Facilities"
+  },
+  "blog": {
+    "label": "Articles & Insights",
+    "heading": "Tips and guides on vehicle insurance",
+    "articleLabel": "Article",
+    "readMore": "Read More",
+    "noArticles": "No articles yet",
+    "viewAll": "View All Articles"
+  },
+  "common": {
+    "backToTop": "Back to top"
+  },
+  "map": {
+    "heading": "Our Location",
+    "companyName": "Jasa Proteksi",
+    "address": "Jl. Jalur Sutera Tim., RT.001/RW.015, Kunciran, Kec. Pinang, Kota Tangerang, Banten 15143",
+    "getDirections": "Open Google Maps"
+  }
+}

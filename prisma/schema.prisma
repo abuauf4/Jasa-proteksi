@@ -1,0 +1,424 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Product {
+  id                String   @id @default(cuid())
+  name              String
+  slug              String   @unique
+  category          String
+  description       String
+  benefits          String   // JSON stringified array
+  estimatedPrice    Int      // in IDR
+  minimumOfferPrice Int      // in IDR
+  isActive          Boolean  @default(true)
+  sortOrder         Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  leads Lead[]
+
+  @@map("ins_products")
+}
+
+model Lead {
+  id                        String    @id @default(cuid())
+  customerName              String
+  whatsappNumber            String
+  productId                 String
+  productNameSnapshot       String
+  estimatedPriceSnapshot    Int       // snapshot at time of submission
+  minimumOfferPriceSnapshot Int       // snapshot at time of submission
+  customerOfferPrice        Int?      // nullable — set only when user makes an offer
+  status                    String    @default("estimation_viewed")
+  notes                     String?
+  coverageType              String?
+  vehicleBrand              String?
+  vehicleType               String?
+  vehicleYear               String?
+  plateRegion               String?
+  vehiclePriceOtr           Int?
+  addOns                    String?
+  customerBudget            Int?
+  estimatedPremium          Int?
+  budgetGap                 Int?
+  budgetNotes               String?
+  selectedPartner           String?
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+
+  product  Product         @relation(fields: [productId], references: [id])
+  history  LeadHistory[]
+
+  @@index([productId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([status, createdAt])
+
+  @@map("ins_leads")
+}
+
+model LeadHistory {
+  id        String   @id @default(cuid())
+  leadId    String
+  action    String
+  detail    String?
+  createdAt DateTime @default(now())
+
+  lead Lead @relation(fields: [leadId], references: [id])
+
+  @@index([leadId])
+
+  @@map("ins_lead_history")
+}
+
+model Vehicle {
+  id               String   @id @default(cuid())
+  brand            String
+  vehicleCode      String
+  modelDescription String
+  vehicleYear      Int
+  vehicleValue     Int      // in IDR (integer in existing DB)
+  vehicleType      String   @default("mobil")
+  sourceFile       String   @default("Pricelist MV4 Mei 2026.pdf")
+  sourceYear       Int      @default(2026)
+  importedAt       DateTime @default(now())
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([vehicleCode, vehicleYear])
+  @@index([brand, modelDescription, vehicleYear])
+  @@index([brand])
+  @@index([vehicleCode])
+  @@index([vehicleType])
+  @@map("ins_vehicles")
+}
+
+model RateSettings {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  label       String
+  value       Float
+  unit        String   @default("rate")
+  category    String   @default("general")
+  description String?
+  isActive    Boolean  @default(true)
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+
+  @@map("ins_rate_settings")
+}
+
+model MotorRate {
+  id           String   @id @default(cuid())
+  coverageType String
+  category     Int
+  vehicleType  String
+  coverageMin  Int      // in IDR (integer in existing DB)
+  coverageMax  Int      // in IDR (integer in existing DB)
+  rateWilayah1     Float
+  rateWilayah2     Float
+  rateWilayah3     Float
+  rateAtasWilayah1 Float?
+  rateAtasWilayah2 Float?
+  rateAtasWilayah3 Float?
+  isActive         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([coverageType, category])
+  @@index([coverageType, vehicleType])
+  @@map("ins_motor_rates")
+}
+
+model LoadingRate {
+  id             String   @id @default(cuid())
+  minAge         Int
+  maxAge         Int
+  loadingPercent Float
+  coverageType   String   @default("Comprehensive")
+  description    String?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([coverageType, isActive])
+  @@map("ins_loading_rates")
+}
+
+model RegionMapping {
+  id          String   @id @default(cuid())
+  plateCode   String   @unique
+  platePrefix String
+  city        String
+  wilayah     Int
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([plateCode])
+  @@index([wilayah])
+  @@map("ins_region_mappings")
+}
+
+model AddonRate {
+  id           String  @id @default(cuid())
+  addonKey     String
+  addonLabel   String
+  coverageType String
+  wilayah      Int
+  rate         Float
+  fixedAmount  Int?
+  isActive     Boolean @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([addonKey, coverageType, wilayah])
+  @@map("ins_addon_rates")
+}
+
+model TplRate {
+  id              String   @id @default(cuid())
+  vehicleCategory String
+  coverageMin     Int      // in IDR (integer in existing DB)
+  coverageMax     Int      // in IDR (integer in existing DB)
+  rate            Float
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([vehicleCategory])
+  @@index([isActive])
+  @@map("ins_tpl_rates")
+}
+
+// ─── Admin Panel Models ───
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  username  String   @unique
+  email     String?  // optional, for notifications only
+  password  String   // bcrypt hashed
+  role      String   @default("admin") // "admin" | "sales"
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assignedLeads InsuranceLead[] @relation("AssignedSales")
+  followups     LeadFollowup[]  @relation("SalesFollowups")
+  articles      Article[]
+
+  @@index([role, isActive])
+}
+
+model InsuranceLead {
+  id                String   @id @default(cuid())
+  customerName      String
+  whatsappNumber    String
+  vehicleBrand      String?
+  vehicleType       String?
+  vehicleYear       String?
+  plateRegion       String?
+  vehiclePriceOtr   Int?
+  coverageType      String?   // "TLO" | "AllRisk"
+  addOns            String?   // JSON array
+  customerBudget    Int?
+  estimatedPremium  Int?
+  originalPremium   Int?      // harga sebelum diskon
+  discountAmount    Int?      // jumlah diskon
+  adminFee          Int?      // biaya admin
+  selectedPartner   String?
+  status            String    @default("baru") // baru | dihubungi | ragu_ragu | negosiasi | approved | lost | expired
+  assignedSalesId   String?
+  notes             String?
+  source            String?   // "website" | "manual" | "referral"
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  assignedSales  User?           @relation("AssignedSales", fields: [assignedSalesId], references: [id], onDelete: SetNull)
+  followups      LeadFollowup[]  @relation("LeadFollowups")
+
+  @@index([assignedSalesId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([status, assignedSalesId])
+  @@map("ins_insurance_leads")
+}
+
+model LeadFollowup {
+  id               String    @id @default(cuid())
+  leadId           String
+  salesId          String?
+  followupDate     DateTime  @default(now())
+  notes            String
+  nextFollowupDate DateTime?
+  result           String?   // "interested" | "ragu" | "rejected" | "no_answer" | "deal"
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  lead   InsuranceLead @relation("LeadFollowups", fields: [leadId], references: [id], onDelete: Cascade)
+  sales  User?         @relation("SalesFollowups", fields: [salesId], references: [id], onDelete: SetNull)
+
+  @@index([leadId])
+  @@index([salesId])
+  @@index([followupDate])
+  @@map("ins_lead_followups")
+}
+
+model InsurancePartner {
+  id                    String   @id @default(cuid())
+  name                  String
+  slug                  String   @unique
+  logoUrl               String?
+  status                String   @default("active") // active | inactive
+  benefits              String?  // JSON array of benefit strings
+  facilities            String?  // JSON array of facility strings
+  modifier              Float    @default(1.0)      // base rate multiplier (pengali premi dasar)
+  addonModifier         Float    @default(1.0)      // addon rate multiplier (pengali premi addon)
+  adminFee              Int      @default(50000)    // biaya admin per partner (IDR)
+  bengkelResmiMaxYears  Int?     // max vehicle age (years) for bengkel authorized add-on eligibility
+  description           String?
+  sortOrder             Int      @default(0)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  addonRateOverrides PartnerAddonRate[]
+
+  @@index([status])
+  @@map("ins_insurance_partners")
+}
+
+model PartnerAddonRate {
+  id           String  @id @default(cuid())
+  partnerId    String
+  addonKey     String  // e.g. "flood", "earthquake", "bengkelAuthorized"
+  addonLabel   String  // e.g. "Bengkel Authorized", "Banjir & Angin Kencang"
+  rate         Float   // rate override for this partner (e.g. 0.005 = 0.5%)
+  isActive     Boolean @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  partner InsurancePartner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+
+  @@unique([partnerId, addonKey])
+  @@index([partnerId])
+  @@index([addonKey])
+  @@map("ins_partner_addon_rates")
+}
+
+model InsuranceRate {
+  id           String   @id @default(cuid())
+  category     String   // "base" | "loading" | "addon" | "partner_modifier"
+  coverageType String   // "AllRisk" | "TLO" | "All"
+  key          String   // e.g. "base_rate", "flood", "earthquake", "loading_6_10"
+  label        String   // e.g. "All Risk Base Rate", "Banjir & Angin Kencang"
+  value        Float    // the rate value
+  config       String?  // JSON for extra config
+  isActive     Boolean  @default(true)
+  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now())
+
+  @@unique([category, coverageType, key])
+  @@index([category])
+  @@index([isActive])
+  @@map("ins_insurance_rates")
+}
+
+// ─── CMS: Articles ───
+model Article {
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  content       String?  @db.Text
+  excerpt       String?  @db.Text
+  coverImage    String?
+  status        String   @default("draft") // draft | published | archived
+  categoryId    String?
+  authorId      String?
+  metaTitle     String?
+  metaDescription String?
+  ogImage       String?
+  publishedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  category      ArticleCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  author        User?            @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([categoryId])
+  @@index([slug])
+}
+
+model ArticleCategory {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  articles    Article[]
+
+  @@index([slug])
+}
+
+// ─── CMS: Media Library ───
+model Media {
+  id        String   @id @default(cuid())
+  filename  String
+  url       String
+  alt       String?
+  size      Int?
+  mimeType  String?
+  uploadedBy String?
+  createdAt DateTime @default(now())
+
+  @@index([uploadedBy])
+}
+
+// ─── Site Settings (dynamic key-value) ───
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String @db.Text
+  label String
+  type  String @default("text") // text | textarea | number | boolean | url | email
+  group String @default("general") // general | contact | integration | appearance
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([group])
+}
+
+// ─── Hero Content ───
+model HeroContent {
+  id             String @id @default(cuid())
+  tagline        String @default("Proteksi Terbaik untuk Kendaraan Anda")
+  subtext        String @default("Dapatkan estimasi premi asuransi kendaraan secara instan dari berbagai perusahaan asuransi terkemuka")
+  ctaText        String @default("Hitung Premi Sekarang")
+  ctaLink        String @default("#calculator")
+  backgroundImage String?
+  updatedAt      DateTime @updatedAt
+}
+
+// ─── SEO Meta per Page ───
+model SeoMeta {
+  id          String @id @default(cuid())
+  page        String @unique // e.g. "homepage", "blog", "calculator"
+  metaTitle   String?
+  metaDescription String? @db.Text
+  keywords    String?
+  ogImage     String?
+  updatedAt   DateTime @updatedAt
+
+  @@index([page])
+}
