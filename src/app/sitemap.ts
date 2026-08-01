@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Sitemap: failed to fetch articles:", error);
   }
 
-  // Static pages — homepage is highest priority, calculator + SEO landing pages next
+  // Static pages — homepage + SEO pillar articles
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
@@ -53,6 +53,43 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
+    },
+    // SEO pillar articles
+    {
+      url: `${SITE_URL}/perbedaan-all-risk-dan-tlo`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/cara-menghitung-premi-asuransi-mobil`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/biaya-asuransi-mobil`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/faktor-premi-asuransi-mobil`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/asuransi-mobil-bekas`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/perluasan-asuransi-mobil`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     {
       url: `${SITE_URL}/tentang-kami`,
