@@ -603,6 +603,20 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   color: #0F172A;
+  transition: color 200ms ease;
 }
 @media (min-width: 640px) { .ds-premium-hero { font-size: 2.75rem; } } /* 44px */
 @media (min-width: 1024px) { .ds-premium-hero { font-size: 3rem; } }   /* 48px */
+
+/* Pulse animation when premium value changes (partner selected) */
+@keyframes ds-premium-pulse {
+  0% { transform: scale(1); color: #0F172A; }
+  30% { transform: scale(1.04); color: #0F766E; }
+  100% { transform: scale(1); color: #0F172A; }
+}
+.ds-premium-pulse {
+  animation: ds-premium-pulse 400ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ds-premium-pulse { animation: none; }
+}

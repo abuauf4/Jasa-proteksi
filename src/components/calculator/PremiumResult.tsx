@@ -7,7 +7,7 @@ import {
   MessageCircle, Send, ChevronDown, ChevronUp,
 } from "lucide-react";
 import { UseCalculatorReturn } from "./useCalculator";
-import { type PremiumPartner } from "./types";
+import { type PremiumPartner, partnerLogoPath } from "./types";
 import { formatIDR, formatPercent, formatRate, buildWhatsAppLink } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-events";
 import { useSiteSettings } from "@/lib/ServerDataContext";
@@ -32,19 +32,25 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
   const { state, prevStep, reset, markWhatsappClicked } = calc;
   const { settings } = useSiteSettings();
   const [showBreakdown, setShowBreakdown] = React.useState(false);
-  const [showPartners, setShowPartners] = React.useState(false);
-
-  if (state.isLoadingPremium) return <PremiumLoading />;
-  if (!state.premium) return null;
+  const [showPartners, setShowPartners] = React.useState(true);
+  const [pulseKey, setPulseKey] = React.useState(0);
 
   const p = state.premium;
-  const v = state.vehicle;
-
   const partner: PremiumPartner | null =
-    state.selectedPartnerIndex !== null && p.partners[state.selectedPartnerIndex]
+    state.selectedPartnerIndex !== null && p?.partners[state.selectedPartnerIndex]
       ? p.partners[state.selectedPartnerIndex]
       : null;
-  const displayPremium = partner?.estimatedPremium ?? p.totalPremium;
+  const displayPremium = partner?.estimatedPremium ?? p?.totalPremium ?? 0;
+
+  // Pulse animation when premium value changes (partner selected/changed)
+  React.useEffect(() => {
+    setPulseKey((k) => k + 1);
+  }, [displayPremium]);
+
+  if (state.isLoadingPremium) return <PremiumLoading />;
+  if (!p) return null;
+
+  const v = state.vehicle;
 
   const vehicleName = v.model.toLowerCase().startsWith(v.brand.toLowerCase())
     ? v.model
@@ -90,21 +96,59 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
         </div>
       )}
 
-      {/* Premium number — BIG, immediately visible */}
+      {/* Premium number — BIG, immediately visible. Updates when partner selected. */}
       <div className="text-center">
         <p className="ds-eyebrow mb-1.5">Estimasi Premi Tahunan</p>
-        <p className="ds-premium-hero">
+        <p key={pulseKey} className="ds-premium-hero ds-premium-pulse">
           {formatIDR(displayPremium)}
         </p>
+
+        {/* Partner logo + name (when selected) */}
         {partner && (
-          <p className="text-xs text-[#115E59] mt-2 font-semibold">
-            dari {partner.name}
-          </p>
+          <div className="flex items-center justify-center gap-2 mt-3">
+            {partnerLogoPath(partner.name) && (
+              <img
+                src={partnerLogoPath(partner.name)}
+                alt={`Logo ${partner.name}`}
+                className="h-6 w-auto object-contain"
+                loading="lazy"
+              />
+            )}
+            <span className="text-xs text-[#115E59] font-semibold">
+              dari {partner.name}
+            </span>
+          </div>
         )}
+
         <p className="text-xs text-[#64748B] mt-1.5">
           Nilai kendaraan {formatIDR(p.vehicleValue)}
           {p.otrRange?.display ? ` · Rentang OTR ${p.otrRange.display}` : ""}
         </p>
+
+        {/* Per-partner rule chips — only when partner selected */}
+        {partner && (
+          <div className="flex flex-wrap justify-center gap-1.5 mt-2.5">
+            <span className="ds-chip">
+              Admin <strong className="text-[#0F172A] ml-0.5">{formatIDR(partner.adminFee)}</strong>
+            </span>
+            {partner.bengkelAuthorizedExcluded ? (
+              <span className="ds-chip" style={{ background: "#FEF2F2", color: "#991B1B", borderColor: "#FCA5A5" }}>
+                <AlertCircle className="h-3 w-3" aria-hidden />
+                Tanpa bengkel resmi
+              </span>
+            ) : partner.bengkelResmiRate ? (
+              <span className="ds-chip-teal ds-chip">
+                <ShieldCheck className="h-3 w-3" aria-hidden />
+                Bengkel resmi {(partner.bengkelResmiRate * 100).toFixed(2)}%
+              </span>
+            ) : null}
+            {partner.modifier !== 1 && (
+              <span className="ds-chip">
+                Modifier ×{partner.modifier.toFixed(2)}
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Vehicle data summary — compact, single row on desktop */}
@@ -302,29 +346,57 @@ function PartnerCard({ partner, selected, vehicleAge, hasBengkelAddon, onSelect 
   const [expanded, setExpanded] = React.useState(false);
   const bd = partner.breakdown;
   const hasBengkelExcluded = partner.bengkelAuthorizedExcluded === true;
+  const logoPath = partnerLogoPath(partner.name);
+
+  // Auto-expand when this card becomes selected
+  React.useEffect(() => {
+    if (selected) setExpanded(true);
+  }, [selected]);
+
+  const handleCardClick = () => {
+    onSelect();
+    // If not yet expanded, expand it so user sees the breakdown immediately
+    if (!expanded) setExpanded(true);
+  };
 
   return (
     <div
       className={`
         rounded-xl border-2 transition-all overflow-hidden
-        ${selected ? "border-[#0F766E] bg-[#ECFDF5]" : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"}
+        ${selected ? "border-[#0F766E] bg-[#ECFDF5] shadow-sm" : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"}
       `}
     >
       {/* Header row — clickable to select + expand */}
       <div className="flex items-stretch">
         <button
           type="button"
-          onClick={onSelect}
-          className="flex-1 flex items-center justify-between gap-2 p-3 text-left min-h-[56px]"
+          onClick={handleCardClick}
+          className="flex-1 flex items-center gap-3 p-3 text-left min-h-[64px]"
           aria-pressed={selected}
           aria-label={`Pilih ${partner.name}`}
         >
-          <div className="flex flex-col gap-0.5 min-w-0">
+          {/* Partner logo */}
+          {logoPath ? (
+            <img
+              src={logoPath}
+              alt={`Logo ${partner.name}`}
+              className={`h-8 w-auto object-contain flex-shrink-0 transition-opacity ${selected ? "opacity-100" : "opacity-70"}`}
+              loading="lazy"
+            />
+          ) : (
+            <span className="h-8 w-8 rounded-lg bg-[#F1F5F9] flex items-center justify-center text-xs font-bold text-[#475569] flex-shrink-0">
+              {partner.name.charAt(0)}
+            </span>
+          )}
+
+          <div className="flex flex-col gap-0.5 min-w-0 flex-1">
             <span className="font-semibold text-[#0F172A] text-sm truncate">{partner.name}</span>
-            {selected && (
+            {selected ? (
               <span className="text-xs text-[#0F766E] font-semibold flex items-center gap-1">
                 <CheckCircle2 className="h-3 w-3" aria-hidden /> Dipilih
               </span>
+            ) : (
+              <span className="text-xs text-[#64748B]">Klik untuk pilih</span>
             )}
           </div>
           <span className="font-bold text-[#0F172A] text-sm whitespace-nowrap">

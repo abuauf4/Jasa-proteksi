@@ -202,6 +202,30 @@ export function plateCodeFromLabel(label: string): string {
   return label.split(" ")[0];
 }
 
+/**
+ * Map partner display name to logo file slug.
+ * Logo files live in /public/partners/{slug}.webp.
+ */
+export function partnerLogoSlug(partnerName: string): string | null {
+  const map: Record<string, string> = {
+    "Sinarmas": "sinarmas",
+    "Multi Artha Guna": "mag",
+    "ACA": "aca",
+    "Mega Insurance": "mega-insurance",
+    "Zurich Syariah": "zurich-syariah",
+    "Tugu": "tugu",
+    "Sahabat": "sahabat",
+    "Oona": "oona",
+  };
+  return map[partnerName] ?? null;
+}
+
+/** Full path to partner logo, or null if no logo available. */
+export function partnerLogoPath(partnerName: string): string | null {
+  const slug = partnerLogoSlug(partnerName);
+  return slug ? `/partners/${slug}.webp` : null;
+}
+
 /** The 4 input steps shown to the user as "Langkah X dari 4".
  *  Result is the 5th state but not counted as a user input step. */
 export const STEP_FLOW: CalculatorStep[] = ["vehicle", "region", "protection", "extension"];
