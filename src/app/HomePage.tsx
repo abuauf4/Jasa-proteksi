@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { MobileStickyCTA } from "@/components/site/MobileStickyCTA";
 import {
   HeroSection,
+  TrustBar,
   HowItWorks,
   CoverageComparison,
   FAQSection,
@@ -33,11 +34,12 @@ export default function HomePage({ initialSettings, initialHero }: HomePageProps
         <SiteHeader />
         <main className="flex-1">
           <HeroSection />
+          <TrustBar />
           <HowItWorks />
           <CoverageComparison />
           <FAQSection />
           <FinalCTA />
-          <LegalDisclaimer className="ds-container mt-12 mb-12" />
+          <LegalDisclaimer className="ds-container mt-8 mb-8" />
         </main>
         <SiteFooter />
         <MobileStickyCTA />
