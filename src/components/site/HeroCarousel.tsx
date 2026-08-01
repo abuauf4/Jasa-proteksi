@@ -7,6 +7,7 @@ interface HeroCarouselProps {
   alt: string;
   className?: string;
   interval?: number; // ms between slides
+  onSlideChange?: (index: number) => void;
 }
 
 /**
@@ -14,10 +15,16 @@ interface HeroCarouselProps {
  * - Crossfade transition between images
  * - Dot indicators at bottom
  * - Respects prefers-reduced-motion (no auto-rotate)
+ * - Calls onSlideChange when slide changes
  */
-export function HeroCarousel({ images, alt, className = "", interval = 5000 }: HeroCarouselProps) {
+export function HeroCarousel({ images, alt, className = "", interval = 5000, onSlideChange }: HeroCarouselProps) {
   const [current, setCurrent] = React.useState(0);
   const [reducedMotion, setReducedMotion] = React.useState(false);
+
+  // Notify parent of slide changes
+  React.useEffect(() => {
+    onSlideChange?.(current);
+  }, [current, onSlideChange]);
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;

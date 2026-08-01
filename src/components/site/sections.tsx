@@ -35,6 +35,9 @@ export function HeroSection() {
 
   const heroImage = heroData?.backgroundImage || "/hero-car-bg.webp";
 
+  // Track current carousel slide for text alignment
+  const [currentSlide, setCurrentSlide] = React.useState(0);
+
   // Build hero images array: multiple from settings, fallback to single backgroundImage
   const heroImages = React.useMemo(() => {
     const bg = heroData?.backgroundImage;
@@ -51,13 +54,11 @@ export function HeroSection() {
       <section id="beranda" className="relative w-full bg-white pt-2 sm:pt-3">
         <Container className="!px-3 sm:!px-5">
           {/* Rounded image card — wider than calculator, flush to navbar */}
-          <div className="relative w-full h-[240px] sm:h-[300px] lg:h-[380px] rounded-3xl overflow-hidden shadow-md">
-            <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" />
-            {/* Light gradient overlay — bottom fade for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/10 to-transparent pointer-events-none" />
+          <div className="relative w-full rounded-3xl overflow-hidden shadow-md" style={{ aspectRatio: "4 / 3" }}>
+            <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" onSlideChange={setCurrentSlide} />
 
             {/* Shield graphic overlay — semi-transparent */}
-            <div className="absolute top-5 right-4 sm:right-8 lg:right-12 pointer-events-none opacity-20" aria-hidden>
+            <div className="absolute top-5 right-4 sm:right-8 lg:right-12 pointer-events-none opacity-20 z-10" aria-hidden>
               <svg width="90" height="105" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M60 0L120 20V70C120 100 95 125 60 140C25 125 0 100 0 70V20L60 0Z" fill="white" fillOpacity="0.8" />
                 <path d="M60 10L110 27V70C110 95 90 117 60 130C30 117 10 95 10 70V27L60 10Z" stroke="white" strokeWidth="2" fill="none" />
@@ -65,9 +66,9 @@ export function HeroSection() {
               </svg>
             </div>
 
-            {/* Text overlay — positioned at top of image */}
-            <div className="absolute inset-0 flex flex-col justify-start pt-4 sm:pt-5">
-              <div className="!px-4 sm:!px-6">
+            {/* Text overlay — left aligned for images 1-2, right aligned for image 3 */}
+            <div className={`absolute inset-0 flex flex-col justify-start pt-4 sm:pt-5 z-10 ${currentSlide === 2 ? "items-end text-right" : "items-start text-left"}`}>
+              <div className="!px-4 sm:!px-6 max-w-[75%]">
                 {/* Badge */}
                 <span
                   className="inline-flex items-center gap-1.5 self-start px-3 h-[24px] rounded-full bg-white/90 backdrop-blur-sm text-[#0F766E] font-semibold shadow-sm"
@@ -77,16 +78,18 @@ export function HeroSection() {
                   Asuransi Mobil Online
                 </span>
 
-                {/* Headline — compact */}
-                <h2 className="font-extrabold text-[#0F172A] tracking-tight text-[20px] leading-[1.2] sm:text-[24px] lg:text-[28px] lg:leading-[1.15] mt-2 max-w-xs">
+                {/* Headline — smaller */}
+                <h2 className="font-extrabold text-[#0F172A] tracking-tight text-[16px] leading-[1.2] sm:text-[18px] lg:text-[22px] lg:leading-[1.15] mt-2">
                   Mobil Terlindungi,
                   <br />
                   Perjalanan Lebih Tenang.
                 </h2>
 
-                {/* Subheadline — 1 line */}
-                <p className="text-[12px] sm:text-[13px] text-[#475569] leading-snug max-w-xs mt-0.5">
-                  Estimasi premi All Risk atau TLO dari berbagai perusahaan.
+                {/* Subheadline — 3 lines */}
+                <p className="text-[11px] sm:text-[12px] text-[#475569] leading-snug mt-1">
+                  Estimasi Premi<br />
+                  All Risk atau TLO<br />
+                  dari berbagai perusahaan
                 </p>
               </div>
             </div>
