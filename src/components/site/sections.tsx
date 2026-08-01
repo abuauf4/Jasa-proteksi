@@ -50,10 +50,10 @@ export function HeroSection() {
 
   return (
     <>
-      {/* ═══ VISUAL HERO — rounded image card flush to navbar, calc overlays ═══ */}
-      <section id="beranda" className="relative w-full bg-white pt-2 sm:pt-3">
+      {/* ═══ VISUAL HERO — rounded image card, calc overlays deeper ═══ */}
+      <section id="beranda" className="relative w-full bg-white pt-2 sm:pt-3 pb-16 sm:pb-20">
         <Container className="!px-3 sm:!px-5">
-          {/* Rounded image card — wider than calculator, flush to navbar */}
+          {/* Rounded image card — all 4 corners rounded */}
           <div className="relative w-full rounded-3xl overflow-hidden shadow-md" style={{ aspectRatio: "4 / 3" }}>
             <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" onSlideChange={setCurrentSlide} />
 
@@ -66,7 +66,7 @@ export function HeroSection() {
               </svg>
             </div>
 
-            {/* Text overlay — left aligned for images 1-2, right aligned for image 3 */}
+            {/* Text overlay — with text outline for readability */}
             <div className={`absolute inset-0 flex flex-col justify-start pt-4 sm:pt-5 z-10 ${currentSlide === 2 ? "items-end text-right" : "items-start text-left"}`}>
               <div className="!px-4 sm:!px-6 max-w-[75%]">
                 {/* Badge */}
@@ -78,15 +78,21 @@ export function HeroSection() {
                   Asuransi Mobil Online
                 </span>
 
-                {/* Headline — smaller */}
-                <h2 className="font-extrabold text-[#0F172A] tracking-tight text-[16px] leading-[1.2] sm:text-[18px] lg:text-[22px] lg:leading-[1.15] mt-2">
+                {/* Headline — with text-shadow outline */}
+                <h2
+                  className="font-extrabold tracking-tight text-[16px] leading-[1.2] sm:text-[18px] lg:text-[22px] lg:leading-[1.15] mt-2 text-white"
+                  style={{ textShadow: "0 1px 3px rgba(0,0,0,0.5), 0 0 1px rgba(0,0,0,0.3)" }}
+                >
                   Mobil Terlindungi,
                   <br />
                   Perjalanan Lebih Tenang.
                 </h2>
 
-                {/* Subheadline — 3 lines */}
-                <p className="text-[11px] sm:text-[12px] text-[#475569] leading-snug mt-1">
+                {/* Subheadline — 3 lines with text-shadow */}
+                <p
+                  className="text-[11px] sm:text-[12px] leading-snug mt-1 text-white"
+                  style={{ textShadow: "0 1px 3px rgba(0,0,0,0.5), 0 0 1px rgba(0,0,0,0.3)" }}
+                >
                   Estimasi Premi<br />
                   All Risk atau TLO<br />
                   dari berbagai perusahaan
@@ -97,9 +103,9 @@ export function HeroSection() {
         </Container>
       </section>
 
-      {/* ═══ CALCULATOR — overlay ke gambar hero (negative margin) ═══ */}
-      <section className="bg-white relative z-10">
-        <Container className="!px-5 sm:!px-6 -mt-12 sm:-mt-16 relative z-10 pb-6 lg:pb-8">
+      {/* ═══ CALCULATOR — deeper overlay ke gambar hero ═══ */}
+      <section className="bg-white relative z-10 -mt-20 sm:-mt-24">
+        <Container className="!px-5 sm:!px-6 relative z-10 pb-6 lg:pb-8">
           <div id="kalkulator" className="scroll-mt-20 lg:max-w-[500px] lg:mx-auto">
             <HeroCalculator />
           </div>
