@@ -173,6 +173,44 @@ async function JsonLd() {
           },
         ],
       },
+      {
+        "@type": "FAQPage",
+        "@id": `${SITE_URL}/#faq`,
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Apa perbedaan All Risk dan TLO?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "All Risk melindungi dari kerusakan sebagian hingga berat. TLO hanya memberikan ganti rugi jika kendaraan mengalami kerusakan total atau hilang sesuai ketentuan polis.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Apakah hasil simulasi merupakan harga final?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Tidak. Hasil simulasi merupakan estimasi awal. Premi final mengikuti verifikasi dan quotation dari perusahaan asuransi penerbit polis.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Apakah simulasi mewajibkan pengguna membeli?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Tidak. Simulasi gratis dan tidak mengikat. Anda hanya melanjutkan pengajuan jika sudah yakin.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Siapa yang menerbitkan polis?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Polis diterbitkan oleh perusahaan asuransi terkait. Jasa Proteksi membantu proses simulasi dan pengajuan, bukan penerbit polis.",
+            },
+          },
+        ],
+      },
     ],
   };
 
