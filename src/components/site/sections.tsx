@@ -50,10 +50,11 @@ export function HeroSection() {
 
   return (
     <>
-      {/* ═══ HERO IMAGE — full bleed, rounded, no crop ═══ */}
-      <section id="beranda" className="relative w-full bg-white px-2 sm:px-3 pt-2">
-        <div className="relative w-full rounded-3xl overflow-hidden shadow-md">
-          <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" onSlideChange={setCurrentSlide} className="w-full h-auto" />
+      {/* ═══ HERO — image card + calculator overlap (separate DOM, overflow visible) ═══ */}
+      <section id="beranda" className="relative w-full bg-white overflow-visible px-3 sm:px-4 pt-2">
+        {/* Image wrapper — overflow-hidden HANYA untuk border radius */}
+        <div className="relative w-full overflow-hidden shadow-md" style={{ borderRadius: "28px", aspectRatio: "4 / 3" }}>
+          <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" onSlideChange={setCurrentSlide} className="w-full h-full object-cover" />
 
           {/* Shield graphic */}
           <div className="absolute top-5 right-4 sm:right-8 lg:right-12 pointer-events-none opacity-20 z-10" aria-hidden>
@@ -88,17 +89,18 @@ export function HeroSection() {
             </div>
           </div>
         </div>
-      </section>
 
-      {/* ═══ CALCULATOR — deep overlay ═══ */}
-      <section className="bg-white relative z-10 -mt-20 sm:-mt-24">
-        <Container className="!px-5 sm:!px-6 pb-6 lg:pb-8">
-          <div id="kalkulator" className="scroll-mt-20 lg:max-w-[500px] lg:mx-auto">
+        {/* Calculator — separate card, overlap ke depan gambar */}
+        <div id="kalkulator" className="relative z-20 scroll-mt-20 mx-auto lg:max-w-[500px]" style={{ marginTop: "-64px" }}>
+          <div className="px-2 sm:px-4">
             <HeroCalculator />
           </div>
-        </Container>
+        </div>
+      </section>
 
-        <Container className="!px-5 sm:!px-6 pb-8 lg:pb-12">
+      {/* Bottom info cards */}
+      <section className="bg-white">
+        <Container className="!px-5 sm:!px-6 pt-4 pb-8 lg:pb-12">
           <div className="grid grid-cols-2 gap-3 lg:max-w-[500px] lg:mx-auto">
             <Link href="/asuransi-mobil-all-risk" className="group flex items-center gap-3 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all">
               <span className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-center text-[#0F766E]">
