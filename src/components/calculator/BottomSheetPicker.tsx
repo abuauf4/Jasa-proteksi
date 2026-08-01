@@ -187,26 +187,29 @@ export function PickerTrigger({
         disabled={disabled}
         data-invalid={invalid ? "true" : undefined}
         className={`
-          ds-input flex items-center justify-between gap-2 text-left
+          ds-input flex items-center gap-2.5 text-left
           ${disabled ? "opacity-50 cursor-not-allowed bg-[#F8FAFC]" : "cursor-pointer hover:border-[#CBD5E1]"}
           ${invalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}
         `}
       >
-        <span className={value ? "text-[#0F172A] truncate" : invalid ? "text-[#B91C1C]" : "text-[#94A3B8]"}>
+        {/* Left icon circle */}
+        {icon && (
+          <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${invalid ? "bg-[#FEE2E2] text-[#B91C1C]" : "bg-[#ECFDF5] text-[#0F766E]"}`}>
+            {icon}
+          </span>
+        )}
+        <span className={`flex-1 truncate ${value ? "text-[#0F172A]" : invalid ? "text-[#B91C1C]" : "text-[#94A3B8]"}`}>
           {value || placeholder}
         </span>
-        <span className="flex items-center gap-1.5 flex-shrink-0">
-          {icon}
-          <svg
-            className="h-4 w-4 text-[#64748B]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </span>
+        <svg
+          className="h-4 w-4 text-[#64748B] flex-shrink-0"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
       </button>
     </div>
   );

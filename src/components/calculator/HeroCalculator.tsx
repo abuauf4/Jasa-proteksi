@@ -116,17 +116,24 @@ export function HeroCalculator({
 
   return (
     <div ref={scrollRef} className={`ds-card-calc ${className ?? ""}`}>
-      {/* Header row: title + step indicator (kaya reference) */}
+      {/* Header row: title + step indicator */}
       {!hideHeader && (
-        <div className="mb-2">
-          <h3 className="text-2xl font-bold text-[#0F172A] tracking-tight">Cek Premi Mobil</h3>
-          <p className="text-[14px] text-[#475569] mt-0.5">
-            Estimasi otomatis dari data kendaraan.
-          </p>
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <h3 className="text-2xl font-bold text-[#0F172A] tracking-tight">Cek Premi Mobil</h3>
+            <p className="text-[14px] text-[#475569] mt-0.5">
+              Estimasi otomatis dari data kendaraan.
+            </p>
+          </div>
+          {!isResult && (
+            <span className="text-[13px] font-semibold text-[#64748B] whitespace-nowrap">
+              Langkah {stepNumber} dari {totalSteps - 1}
+            </span>
+          )}
         </div>
       )}
 
-      {/* Progress — segmented bar (no text label, indicator only) */}
+      {/* Progress — segmented bar */}
       {!isResult && (
         <div className="flex items-center gap-1.5 mb-4" aria-hidden>
           {[1, 2].map((n) => (

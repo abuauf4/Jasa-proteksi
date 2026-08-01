@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Search, ChevronDown, AlertCircle, Car, Check, CheckCircle2 } from "lucide-react";
+import { Search, ChevronDown, AlertCircle, Car, Check, CheckCircle2, Calendar, MapPin, Wallet } from "lucide-react";
 import { UseCalculatorReturn } from "./useCalculator";
 import { PLATE_OPTIONS, ADDON_META, TLO_EXCLUDED_ADDONS, ALL_ADDON_KEYS } from "./types";
 import { formatIDR } from "@/lib/format";
@@ -33,6 +33,7 @@ export function VehicleStep({ calc, submitted = false }: { calc: UseCalculatorRe
         placeholder="Pilih merek"
         onClick={() => setBrandSheet(true)}
         invalid={brandInvalid}
+        icon={<Car className="h-4 w-4" aria-hidden />}
       />
       <BottomSheetPicker
         open={brandSheet}
@@ -52,6 +53,7 @@ export function VehicleStep({ calc, submitted = false }: { calc: UseCalculatorRe
         onClick={() => v.brand && setModelSheet(true)}
         disabled={!v.brand}
         invalid={modelInvalid && !!v.brand}
+        icon={<Car className="h-4 w-4" aria-hidden />}
       />
       <BottomSheetPicker
         open={modelSheet}
@@ -63,30 +65,35 @@ export function VehicleStep({ calc, submitted = false }: { calc: UseCalculatorRe
         placeholder="Cari tipe..."
       />
 
-      {/* Year — native select */}
+      {/* Year — native select with icon */}
       <div>
         <div className="flex items-baseline justify-between mb-1.5">
           <span className="text-sm font-semibold text-[#0F172A]">Tahun keluaran</span>
           {yearInvalid && <span className="text-xs text-[#B91C1C] font-semibold">Wajib</span>}
         </div>
         <div className="relative">
-          <select
-            className={`ds-input appearance-none pr-10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${yearInvalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}`}
-            value={v.year}
-            onChange={(e) => updateVehicle({ year: e.target.value })}
-            disabled={!v.model}
-            aria-label="Tahun keluaran"
-            aria-invalid={yearInvalid || undefined}
-          >
-            <option value="">{v.model ? "Pilih tahun" : "Pilih tipe dulu"}</option>
-            {state.availableYears.map((y) => (
-              <option key={y} value={y}>{y}</option>
-            ))}
-          </select>
-          <ChevronDown
-            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#64748B]"
-            aria-hidden
-          />
+          <div className={`ds-input flex items-center gap-2.5 pr-10 ${yearInvalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}`}>
+            <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${yearInvalid ? "bg-[#FEE2E2] text-[#B91C1C]" : "bg-[#ECFDF5] text-[#0F766E]"}`}>
+              <Calendar className="h-4 w-4" aria-hidden />
+            </span>
+            <select
+              className={`flex-1 bg-transparent border-0 outline-none cursor-pointer appearance-none disabled:opacity-50 disabled:cursor-not-allowed text-[16px] ${v.year ? "text-[#0F172A]" : "text-[#94A3B8]"}`}
+              value={v.year}
+              onChange={(e) => updateVehicle({ year: e.target.value })}
+              disabled={!v.model}
+              aria-label="Tahun keluaran"
+              aria-invalid={yearInvalid || undefined}
+            >
+              <option value="">{v.model ? "Pilih tahun" : "Pilih tipe dulu"}</option>
+              {state.availableYears.map((y) => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+            <ChevronDown
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#64748B]"
+              aria-hidden
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -106,29 +113,34 @@ export function CoverageStep({ calc, submitted = false }: { calc: UseCalculatorR
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Region — native select */}
+      {/* Region — native select with icon */}
       <div>
         <div className="flex items-baseline justify-between mb-1.5">
           <span className="text-sm font-semibold text-[#0F172A]">Wilayah (Plat)</span>
           {plateInvalid && <span className="text-xs text-[#B91C1C] font-semibold">Wajib</span>}
         </div>
         <div className="relative">
-          <select
-            className={`ds-input appearance-none pr-10 cursor-pointer ${plateInvalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}`}
-            value={state.region.plate}
-            onChange={(e) => updateRegion({ plate: e.target.value })}
-            aria-label="Wilayah penggunaan"
-            aria-invalid={plateInvalid || undefined}
-          >
-            <option value="">Pilih plat nomor wilayah</option>
-            {PLATE_OPTIONS.map((p) => (
-              <option key={p} value={p}>{p}</option>
-            ))}
-          </select>
-          <ChevronDown
-            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#64748B]"
-            aria-hidden
-          />
+          <div className={`ds-input flex items-center gap-2.5 pr-10 ${plateInvalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}`}>
+            <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${plateInvalid ? "bg-[#FEE2E2] text-[#B91C1C]" : "bg-[#ECFDF5] text-[#0F766E]"}`}>
+              <MapPin className="h-4 w-4" aria-hidden />
+            </span>
+            <select
+              className={`flex-1 bg-transparent border-0 outline-none cursor-pointer appearance-none text-[16px] ${state.region.plate ? "text-[#0F172A]" : "text-[#94A3B8]"}`}
+              value={state.region.plate}
+              onChange={(e) => updateRegion({ plate: e.target.value })}
+              aria-label="Wilayah penggunaan"
+              aria-invalid={plateInvalid || undefined}
+            >
+              <option value="">Pilih plat nomor wilayah</option>
+              {PLATE_OPTIONS.map((p) => (
+                <option key={p} value={p}>{p}</option>
+              ))}
+            </select>
+            <ChevronDown
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#64748B]"
+              aria-hidden
+            />
+          </div>
         </div>
       </div>
 
@@ -141,18 +153,23 @@ export function CoverageStep({ calc, submitted = false }: { calc: UseCalculatorR
         </div>
         {state.showManualOtr ? (
           <>
-            <input
-              type="text"
-              inputMode="numeric"
-              className={`ds-input ${state.manualOtrValidation && !state.manualOtrValidation.isValid ? "!border-[#B91C1C]" : ""}`}
-              placeholder="Masukkan nilai OTR"
-              value={v.vehicleValue ? formatIDR(parseInt(v.vehicleValue, 10)) : ""}
-              onChange={(e) => {
-                const digits = e.target.value.replace(/\D/g, "");
-                updateVehicle({ vehicleValue: digits });
-              }}
-              aria-invalid={state.manualOtrValidation ? !state.manualOtrValidation.isValid : undefined}
-            />
+            <div className={`ds-input flex items-center gap-2.5 ${state.manualOtrValidation && !state.manualOtrValidation.isValid ? "!border-[#B91C1C]" : ""}`}>
+              <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-[#ECFDF5] text-[#0F766E]">
+                <Wallet className="h-4 w-4" aria-hidden />
+              </span>
+              <input
+                type="text"
+                inputMode="numeric"
+                className={`flex-1 bg-transparent border-0 outline-none text-[16px] text-[#0F172A] ${state.manualOtrValidation && !state.manualOtrValidation.isValid ? "text-[#B91C1C]" : ""}`}
+                placeholder="Masukkan nilai OTR"
+                value={v.vehicleValue ? formatIDR(parseInt(v.vehicleValue, 10)) : ""}
+                onChange={(e) => {
+                  const digits = e.target.value.replace(/\D/g, "");
+                  updateVehicle({ vehicleValue: digits });
+                }}
+                aria-invalid={state.manualOtrValidation ? !state.manualOtrValidation.isValid : undefined}
+              />
+            </div>
             {state.manualOtrValidation && !state.manualOtrValidation.isValid && (
               <div className="mt-1.5 rounded-lg bg-[#FEF2F2] border border-[#FCA5A5] p-2.5 flex items-start gap-1.5" role="alert">
                 <AlertCircle className="h-3.5 w-3.5 text-[#B91C1C] flex-shrink-0 mt-0.5" aria-hidden />
@@ -174,8 +191,11 @@ export function CoverageStep({ calc, submitted = false }: { calc: UseCalculatorR
             )}
           </>
         ) : state.vehicleFound ? (
-          <div className="ds-input bg-[#F8FAFC] flex items-center justify-between">
-            <span className="font-bold text-[#0F172A]">
+          <div className="ds-input bg-[#F8FAFC] flex items-center gap-2.5">
+            <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-[#ECFDF5] text-[#0F766E]">
+              <Wallet className="h-4 w-4" aria-hidden />
+            </span>
+            <span className="font-bold text-[#0F172A] flex-1">
               {v.vehicleValue ? formatIDR(parseInt(v.vehicleValue, 10)) : "—"}
             </span>
             <button
@@ -187,9 +207,12 @@ export function CoverageStep({ calc, submitted = false }: { calc: UseCalculatorR
             </button>
           </div>
         ) : v.year ? (
-          <div className="ds-input flex items-center gap-2 bg-[#FFFBEB] border-[#FDE68A]">
+          <div className="ds-input flex items-center gap-2.5 bg-[#FFFBEB] border-[#FDE68A]">
+            <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-[#FEF3C7] text-[#92400E]">
+              <Wallet className="h-4 w-4" aria-hidden />
+            </span>
             <AlertCircle className="h-4 w-4 text-[#92400E] flex-shrink-0" aria-hidden />
-            <span className="text-sm text-[#92400E] flex-1">Nilai tidak ditemukan di database</span>
+            <span className="text-sm text-[#92400E] flex-1">Nilai tidak ditemukan</span>
             <button
               type="button"
               onClick={() => setShowManualOtr(true)}

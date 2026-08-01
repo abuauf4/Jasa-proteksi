@@ -37,10 +37,10 @@ export function HeroSection() {
 
   return (
     <>
-      {/* ═══ VISUAL HERO — full-width image, text overlay ═══ */}
+      {/* ═══ VISUAL HERO — full-width image, text overlay, shield graphic ═══ */}
       <section id="beranda" className="relative w-full overflow-hidden bg-[#F0FDFA]">
         {/* Full-width image */}
-        <div className="relative w-full h-[280px] sm:h-[340px] lg:h-[440px]">
+        <div className="relative w-full h-[320px] sm:h-[380px] lg:h-[480px]">
           <img
             src={heroImage}
             alt="Mobil terlindungi dengan asuransi"
@@ -48,19 +48,43 @@ export function HeroSection() {
             priority
           />
           {/* Light gradient overlay — bottom fade for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/30 to-transparent" />
+
+          {/* Shield graphic overlay — semi-transparent, reinforces "protection" */}
+          <div className="absolute top-8 right-4 sm:right-8 lg:right-16 pointer-events-none opacity-20" aria-hidden>
+            <svg width="120" height="140" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M60 0L120 20V70C120 100 95 125 60 140C25 125 0 100 0 70V20L60 0Z"
+                fill="white"
+                fillOpacity="0.8"
+              />
+              <path
+                d="M60 10L110 27V70C110 95 90 117 60 130C30 117 10 95 10 70V27L60 10Z"
+                stroke="white"
+                strokeWidth="2"
+                fill="none"
+              />
+              <path
+                d="M40 70L55 85L85 50"
+                stroke="#0F766E"
+                strokeWidth="6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
         </div>
 
         {/* Text overlay — positioned at bottom of image */}
-        <div className="absolute inset-0 flex flex-col justify-end pb-4 sm:pb-6">
+        <div className="absolute inset-0 flex flex-col justify-end pb-16 sm:pb-20">
           <Container className="!px-5 sm:!px-6">
             <div className="max-w-md">
               {/* Badge */}
               <span
-                className="inline-flex items-center self-start px-3 h-[26px] rounded-full bg-[#0F766E] text-white font-semibold mb-2"
+                className="inline-flex items-center gap-1.5 self-start px-3 h-[26px] rounded-full bg-white/90 backdrop-blur-sm text-[#0F766E] font-semibold mb-2 shadow-sm"
                 style={{ fontSize: "11px", letterSpacing: "0.05em" }}
               >
+                <ShieldCheck className="h-3 w-3" aria-hidden />
                 Asuransi Mobil Online
               </span>
 
@@ -106,11 +130,43 @@ export function HeroSection() {
         </div>
       </section>
 
-      {/* ═══ CALCULATOR — directly below hero ═══ */}
+      {/* ═══ CALCULATOR — floating card overlapping hero ═══ */}
       <section className="bg-white">
-        <Container className="!px-5 sm:!px-6 pt-4 pb-8 lg:pt-6 lg:pb-12">
+        <Container className="!px-5 sm:!px-6 -mt-12 sm:-mt-16 relative z-10 pb-6 lg:pb-10">
           <div id="kalkulator" className="scroll-mt-20 lg:max-w-[560px] lg:mx-auto">
             <HeroCalculator />
+          </div>
+        </Container>
+
+        {/* ═══ BOTTOM INFO CARDS — All Risk + TLO quick links ═══ */}
+        <Container className="!px-5 sm:!px-6 pb-8 lg:pb-12">
+          <div className="grid grid-cols-2 gap-3 lg:max-w-[560px] lg:mx-auto">
+            <Link
+              href="/asuransi-mobil-all-risk"
+              className="group flex items-center gap-3 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all"
+            >
+              <span className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-center text-[#0F766E]">
+                <ShieldCheck className="h-5 w-5" aria-hidden />
+              </span>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-[#0F172A] text-sm">All Risk</p>
+                <p className="text-xs text-[#64748B] truncate">Komprehensif</p>
+              </div>
+              <ArrowRight className="h-4 w-4 text-[#64748B] group-hover:text-[#0F766E] flex-shrink-0" aria-hidden />
+            </Link>
+            <Link
+              href="/asuransi-mobil-tlo"
+              className="group flex items-center gap-3 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all"
+            >
+              <span className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#F1F5F9] border border-[#E2E8F0] flex items-center justify-center text-[#475569]">
+                <ShieldCheck className="h-5 w-5" aria-hidden />
+              </span>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-[#0F172A] text-sm">TLO</p>
+                <p className="text-xs text-[#64748B] truncate">Total Loss Only</p>
+              </div>
+              <ArrowRight className="h-4 w-4 text-[#64748B] group-hover:text-[#0F766E] flex-shrink-0" aria-hidden />
+            </Link>
           </div>
         </Container>
       </section>
