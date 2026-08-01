@@ -31,8 +31,15 @@ export function HeroCalculator({
   hideHeader = false,
 }: HeroCalculatorProps) {
   const calc = useCalculator({ initialCoverageType });
-  const { state, nextStep, prevStep, calculatePremium, setError } = calc;
+  const { state, calculatePremium, setError } = calc;
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
+  // Track if user has attempted to proceed — used to show red borders on empty required fields
+  const [submitted, setSubmitted] = React.useState(false);
+
+  // Reset "submitted" flag when step changes (so fields don't show red until next attempt)
+  React.useEffect(() => {
+    setSubmitted(false);
+  }, [state.step]);
 
   // Scroll to top of calculator on step change (only on mobile where space is tight)
   React.useEffect(() => {
@@ -75,23 +82,23 @@ export function HeroCalculator({
   };
 
   const handleNext = async () => {
+    setSubmitted(true);
     if (!validateCurrentStep()) return;
-    // We're now using a 3-step flow: vehicle → coverage → result
-    // The useCalculator still has 5 internal steps but we present region+protection+extension as 1 step.
-    // From "vehicle" → skip to "extension" (last input step) which triggers calculate on next.
+    // 3-step UI flow: vehicle → coverage → result
+    // Internally region/protection/extension are 3 steps but UI presents them as 1,
+    // so we skip directly to calculatePremium from any coverage step.
     if (state.step === "vehicle") {
-      // Jump to the combined coverage step (we'll render it when step is "region", "protection", OR "extension")
       calc.goToStep("region");
-    } else if (state.step === "region" || state.step === "protection") {
-      calc.goToStep("extension");
-    } else if (state.step === "extension") {
+    } else if (state.step === "region" || state.step === "protection" || state.step === "extension") {
+      // Any coverage step → calculate directly (no intermediate step)
       await calculatePremium();
     }
   };
 
   const handleBack = () => {
     if (state.step === "result") {
-      calc.goToStep("extension");
+      // From result, go back to coverage step (region shows CoverageStep UI)
+      calc.goToStep("region");
     } else if (state.step === "region" || state.step === "protection" || state.step === "extension") {
       calc.goToStep("vehicle");
     }
@@ -137,8 +144,8 @@ export function HeroCalculator({
 
       {/* Step content */}
       <div aria-live="polite">
-        {isVehicleStep && <VehicleStep calc={calc} />}
-        {isCoverageStep && <CoverageStep calc={calc} />}
+        {isVehicleStep && <VehicleStep calc={calc} submitted={submitted} />}
+        {isCoverageStep && <CoverageStep calc={calc} submitted={submitted} />}
         {isResult && <PremiumResult calc={calc} />}
       </div>
 

@@ -11,13 +11,19 @@ import { BottomSheetPicker, PickerTrigger } from "./BottomSheetPicker";
    Step 1: Vehicle (brand + model + year + auto value, all in one view)
    ═══════════════════════════════════════════════════ */
 
-export function VehicleStep({ calc }: { calc: UseCalculatorReturn }) {
+export function VehicleStep({ calc, submitted = false }: { calc: UseCalculatorReturn; submitted?: boolean }) {
   const { state, brands, models, updateVehicle, setShowManualOtr } = calc;
   const v = state.vehicle;
   const [brandSheet, setBrandSheet] = React.useState(false);
   const [modelSheet, setModelSheet] = React.useState(false);
 
   const showManualEntry = !state.vehicleFound && v.brand && v.model && v.year && !state.showManualOtr;
+
+  // Show red only if user has attempted to proceed AND field is empty
+  const brandInvalid = submitted && !v.brand;
+  const modelInvalid = submitted && !v.model;
+  const yearInvalid = submitted && !v.year;
+  const valueInvalid = submitted && !v.vehicleValue;
 
   return (
     <div className="flex flex-col gap-4">
@@ -27,6 +33,7 @@ export function VehicleStep({ calc }: { calc: UseCalculatorReturn }) {
         value={v.brand}
         placeholder="Contoh: Toyota, Honda, BMW"
         onClick={() => setBrandSheet(true)}
+        invalid={brandInvalid}
         icon={<Car className="h-4 w-4 text-[#64748B]" aria-hidden />}
       />
       <BottomSheetPicker
@@ -46,6 +53,7 @@ export function VehicleStep({ calc }: { calc: UseCalculatorReturn }) {
         placeholder={v.brand ? "Contoh: Toyota 86 A/T" : "Pilih merek dulu"}
         onClick={() => v.brand && setModelSheet(true)}
         disabled={!v.brand}
+        invalid={modelInvalid && !!v.brand}
       />
       <BottomSheetPicker
         open={modelSheet}
@@ -59,14 +67,18 @@ export function VehicleStep({ calc }: { calc: UseCalculatorReturn }) {
 
       {/* Year — native select (usually 10-15 options) */}
       <div>
-        <span className="text-sm font-semibold text-[#0F172A] block mb-1.5">Tahun</span>
+        <div className="flex items-baseline justify-between mb-1.5">
+          <span className="text-sm font-semibold text-[#0F172A]">Tahun</span>
+          {yearInvalid && <span className="text-xs text-[#B91C1C] font-semibold">Wajib</span>}
+        </div>
         <div className="relative">
           <select
-            className="ds-input appearance-none pr-10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`ds-input appearance-none pr-10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${yearInvalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}`}
             value={v.year}
             onChange={(e) => updateVehicle({ year: e.target.value })}
             disabled={!v.model}
             aria-label="Tahun kendaraan"
+            aria-invalid={yearInvalid || undefined}
           >
             <option value="">{v.model ? "Pilih tahun" : "Pilih tipe dulu"}</option>
             {state.availableYears.map((y) => (
@@ -208,21 +220,26 @@ export function VehicleStep({ calc }: { calc: UseCalculatorReturn }) {
    Step 2: Coverage (region + AllRisk/TLO toggle + extension chips, all in one view)
    ═══════════════════════════════════════════════════ */
 
-export function CoverageStep({ calc }: { calc: UseCalculatorReturn }) {
+export function CoverageStep({ calc, submitted = false }: { calc: UseCalculatorReturn; submitted?: boolean }) {
   const { state, updateRegion, updateProtection, toggleAddon } = calc;
   const isTLO = state.protection.coverageType === "TLO";
+  const plateInvalid = submitted && !state.region.plate;
 
   return (
     <div className="flex flex-col gap-5">
       {/* Region — native select (~50 options, manageable) */}
       <div>
-        <span className="text-sm font-semibold text-[#0F172A] block mb-1.5">Wilayah (Plat)</span>
+        <div className="flex items-baseline justify-between mb-1.5">
+          <span className="text-sm font-semibold text-[#0F172A]">Wilayah (Plat)</span>
+          {plateInvalid && <span className="text-xs text-[#B91C1C] font-semibold">Wajib</span>}
+        </div>
         <div className="relative">
           <select
-            className="ds-input appearance-none pr-10 cursor-pointer"
+            className={`ds-input appearance-none pr-10 cursor-pointer ${plateInvalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}`}
             value={state.region.plate}
             onChange={(e) => updateRegion({ plate: e.target.value })}
             aria-label="Wilayah penggunaan"
+            aria-invalid={plateInvalid || undefined}
           >
             <option value="">Pilih plat nomor wilayah</option>
             {PLATE_OPTIONS.map((p) => (

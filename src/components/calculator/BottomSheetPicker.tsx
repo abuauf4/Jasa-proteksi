@@ -179,6 +179,7 @@ export function PickerTrigger({
     <div>
       <div className="flex items-baseline justify-between mb-1.5">
         <span className="text-sm font-semibold text-[#0F172A]">{label}</span>
+        {invalid && <span className="text-xs text-[#B91C1C] font-semibold">Wajib</span>}
       </div>
       <button
         type="button"
@@ -188,10 +189,10 @@ export function PickerTrigger({
         className={`
           ds-input flex items-center justify-between gap-2 text-left
           ${disabled ? "opacity-50 cursor-not-allowed bg-[#F8FAFC]" : "cursor-pointer hover:border-[#CBD5E1]"}
-          ${invalid ? "!border-[#B91C1C]" : ""}
+          ${invalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}
         `}
       >
-        <span className={value ? "text-[#0F172A] truncate" : "text-[#94A3B8]"}>
+        <span className={value ? "text-[#0F172A] truncate" : invalid ? "text-[#B91C1C]" : "text-[#94A3B8]"}>
           {value || placeholder}
         </span>
         <span className="flex items-center gap-1.5 flex-shrink-0">
