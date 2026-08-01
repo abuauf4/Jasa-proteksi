@@ -2,14 +2,13 @@
 
 import * as React from "react";
 import {
-  ArrowLeft, CheckCircle2, AlertCircle, Loader2,
-  RotateCcw, Pencil, ShieldCheck, Car, MapPin, FileText, Calculator,
-  MessageCircle, Send, ChevronDown, ChevronUp, Medal, Crown,
+  CheckCircle2, AlertCircle, Loader2, RotateCcw, Pencil,
+  ShieldCheck, Car, MapPin, Send, ChevronDown, ChevronUp, ChevronRight,
 } from "lucide-react";
 import { UseCalculatorReturn } from "./useCalculator";
-import { type PremiumPartner, partnerLogoPath } from "./types";
+import { type PremiumPartner, partnerLogoPath, ADDON_META, TLO_EXCLUDED_ADDONS, ALL_ADDON_KEYS } from "./types";
 import { useCountUp } from "./useCountUp";
-import { formatIDR, formatPercent, formatRate, buildWhatsAppLink } from "@/lib/format";
+import { formatIDR, buildWhatsAppLink } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-events";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import { Button } from "@/components/site/Button";
@@ -26,15 +25,12 @@ const ADDON_LABELS: Record<string, string> = {
 };
 
 /* ═══════════════════════════════════════════════════
-   Premium Result — premium number BIG at top, breakdown + partners collapsible
+   Premium Result — canggih dengan partner grid + coverage toggle + perluasan scroll
    ═══════════════════════════════════════════════════ */
 
 export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
-  const { state, prevStep, reset, markWhatsappClicked } = calc;
+  const { state, prevStep, reset, markWhatsappClicked, updateProtection, toggleAddon } = calc;
   const { settings } = useSiteSettings();
-  const [showBreakdown, setShowBreakdown] = React.useState(false);
-  const [showPartners, setShowPartners] = React.useState(true);
-  const [pulseKey, setPulseKey] = React.useState(0);
 
   const p = state.premium;
   const partner: PremiumPartner | null =
@@ -43,10 +39,10 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
       : null;
   const displayPremium = partner?.estimatedPremium ?? p?.totalPremium ?? 0;
 
-  // Count-up animation for premium reveal (more memorable than static)
+  // Count-up animation for premium reveal
   const animatedPremium = useCountUp(displayPremium, 900);
 
-  // Sort partners by cheapest — top 1 gets "Termurah" badge
+  // Sort partners by cheapest
   const sortedPartners = React.useMemo(() => {
     if (!p?.partners) return [];
     const partners = p.partners;
@@ -54,11 +50,6 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
       .map((partner, originalIdx) => ({ partner, originalIdx }))
       .sort((a, b) => a.partner.estimatedPremium - b.partner.estimatedPremium);
   }, [p?.partners]);
-
-  // Pulse animation when premium value changes (partner selected/changed)
-  React.useEffect(() => {
-    setPulseKey((k) => k + 1);
-  }, [displayPremium]);
 
   if (state.isLoadingPremium) return <PremiumLoading />;
   if (!p) return null;
@@ -68,6 +59,16 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
   const vehicleName = v.model.toLowerCase().startsWith(v.brand.toLowerCase())
     ? v.model
     : `${v.brand} ${v.model}`;
+
+  // Filter addons by coverage type + partner availability
+  const isTLO = state.protection.coverageType === "TLO";
+  const availableAddons = ALL_ADDON_KEYS.filter((key) => {
+    // Exclude bengkelAuthorized for TLO
+    if (isTLO && TLO_EXCLUDED_ADDONS.includes(key)) return false;
+    // If partner selected, filter by partner.availableAddOns
+    if (partner?.availableAddOns && !partner.availableAddOns.includes(key)) return false;
+    return true;
+  });
 
   const whatsappMessage = buildWhatsAppMessage({
     brand: v.brand,
@@ -82,181 +83,192 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
   const whatsappLink = buildWhatsAppLink(settings.whatsapp, whatsappMessage);
 
   const handleWhatsApp = () => {
-    trackEvent("whatsapp_click", {
-      coverage_type: state.protection.coverageType,
-      estimated_premium: displayPremium,
-    });
+    trackEvent("whatsapp_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
     markWhatsappClicked();
   };
 
   const handleApplyClick = () => {
-    trackEvent("apply_click", {
-      coverage_type: state.protection.coverageType,
-      estimated_premium: displayPremium,
-    });
+    trackEvent("apply_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
+  };
+
+  // Re-calculate when coverage type or addons change — handled by useEffect in useCalculator
+  const handleCoverageChange = (newCoverage: "AllRisk" | "TLO") => {
+    if (newCoverage === state.protection.coverageType) return;
+    updateProtection({ coverageType: newCoverage });
+    // useEffect in useCalculator will auto re-calculate
+  };
+
+  const handleAddonToggle = (key: string) => {
+    toggleAddon(key);
+    // useEffect in useCalculator will auto re-calculate
   };
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Eligibility warning (if not eligible, show first) */}
-      {p.isEligible === false && p.ineligibilityReason && (
-        <div className="rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-3.5 flex items-start gap-2.5" role="alert">
-          <AlertCircle className="h-5 w-5 text-[#92400E] flex-shrink-0 mt-0.5" aria-hidden />
+      {/* Card 1: Data Kendaraan */}
+      <div className="rounded-xl border border-[#E2E8F0] bg-white p-4">
+        <h3 className="text-sm font-bold text-[#0F172A] mb-3 flex items-center gap-2">
+          <Car className="h-4 w-4 text-[#0F766E]" aria-hidden />
+          Data Kendaraan
+        </h3>
+        <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
           <div>
-            <p className="font-semibold text-[#92400E] text-sm">Kendaraan tidak memenuhi syarat</p>
-            <p className="text-sm text-[#92400E] mt-0.5">{p.ineligibilityReason}</p>
+            <dt className="text-xs text-[#64748B]">Merek</dt>
+            <dd className="font-semibold text-[#0F172A]">{v.brand}</dd>
           </div>
-        </div>
-      )}
+          <div>
+            <dt className="text-xs text-[#64748B]">Tipe</dt>
+            <dd className="font-semibold text-[#0F172A] truncate">{v.model}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-[#64748B]">Tahun</dt>
+            <dd className="font-semibold text-[#0F172A]">{v.year}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-[#64748B]">Wilayah</dt>
+            <dd className="font-semibold text-[#0F172A]">{state.region.plate}</dd>
+          </div>
+        </dl>
+      </div>
 
-      {/* Premium number — BIG, in a contrasting card, with count-up animation */}
-      <div className="rounded-2xl bg-gradient-to-b from-[#ECFDF5] to-[#FFFFFF] border-2 border-[#A7F3D0] p-4 sm:p-5 text-center">
-        <p className="ds-eyebrow mb-1.5">Estimasi Premi Tahunan</p>
-        <p key={pulseKey} className="ds-premium-hero ds-premium-pulse">
+      {/* Card 2: Estimasi Premi + Harga Kendaraan (OTR) — minimal */}
+      <div className="rounded-2xl bg-gradient-to-b from-[#ECFDF5] to-[#FFFFFF] border-2 border-[#A7F3D0] p-4 text-center">
+        <p className="text-[11px] font-bold uppercase tracking-wider text-[#0F766E] mb-1">Estimasi Premi Tahunan</p>
+        <p className="ds-premium-hero">
           {formatIDR(animatedPremium)}
         </p>
-
-        {/* Partner logo + name (when selected) */}
         {partner && (
-          <div className="flex items-center justify-center gap-2 mt-3">
+          <div className="flex items-center justify-center gap-2 mt-2">
             {partnerLogoPath(partner.name) && (
               <img
                 src={partnerLogoPath(partner.name)}
                 alt={`Logo ${partner.name}`}
-                className="h-6 w-auto object-contain"
+                className="h-5 w-auto object-contain"
                 loading="lazy"
               />
             )}
-            <span className="text-xs text-[#115E59] font-semibold">
-              dari {partner.name}
-            </span>
+            <span className="text-xs text-[#115E59] font-semibold">dari {partner.name}</span>
           </div>
         )}
-
-        <p className="text-xs text-[#64748B] mt-2">
-          Nilai kendaraan {formatIDR(p.vehicleValue)}
-        </p>
-
-        {/* Per-partner rule chips — only when partner selected */}
-        {partner && (
-          <div className="flex flex-wrap justify-center gap-1.5 mt-3">
-            <span className="ds-chip">
-              Admin <strong className="text-[#0F172A] ml-0.5">{formatIDR(partner.adminFee)}</strong>
-            </span>
-            {partner.bengkelAuthorizedExcluded ? (
-              <span className="ds-chip" style={{ background: "#FEF2F2", color: "#991B1B", borderColor: "#FCA5A5" }}>
-                <AlertCircle className="h-3 w-3" aria-hidden />
-                Tanpa bengkel resmi
-              </span>
-            ) : partner.bengkelResmiRate ? (
-              <span className="ds-chip-teal ds-chip">
-                <ShieldCheck className="h-3 w-3" aria-hidden />
-                Bengkel resmi {(partner.bengkelResmiRate * 100).toFixed(2)}%
-              </span>
-            ) : null}
-            {partner.modifier !== 1 && (
-              <span className="ds-chip">
-                Modifier ×{partner.modifier.toFixed(2)}
-              </span>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Vehicle data summary — compact, single row on desktop */}
-      <div className="rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] p-3.5 flex flex-wrap gap-x-4 gap-y-1.5 text-xs">
-        <span className="flex items-center gap-1.5 text-[#475569]">
-          <Car className="h-3.5 w-3.5 text-[#0F766E]" aria-hidden />
-          {vehicleName} {v.year}
-        </span>
-        <span className="flex items-center gap-1.5 text-[#475569]">
-          <ShieldCheck className="h-3.5 w-3.5 text-[#0F766E]" aria-hidden />
-          {state.protection.coverageType === "AllRisk" ? "All Risk" : "TLO"}
-        </span>
-        <span className="flex items-center gap-1.5 text-[#475569]">
-          <MapPin className="h-3.5 w-3.5 text-[#0F766E]" aria-hidden />
-          {state.region.plate}
-        </span>
-        {state.extension.addOns.length > 0 && (
-          <span className="flex items-center gap-1.5 text-[#475569]">
-            <FileText className="h-3.5 w-3.5 text-[#0F766E]" aria-hidden />
-            {state.extension.addOns.length} perluasan
-          </span>
-        )}
-      </div>
-
-      {/* Breakdown — collapsible */}
-      <button
-        type="button"
-        onClick={() => setShowBreakdown((s) => !s)}
-        className="flex items-center justify-between w-full py-1.5 text-sm font-semibold text-[#0F172A]"
-        aria-expanded={showBreakdown}
-      >
-        <span className="flex items-center gap-2">
-          <Calculator className="h-4 w-4 text-[#0F766E]" aria-hidden />
-          Rincian Komponen Premi
-        </span>
-        {showBreakdown ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-      </button>
-      {showBreakdown && (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 flex flex-col gap-2 -mt-2">
-          <Row label="Premi Dasar" value={formatIDR(p.basePremium)} />
-          {p.addOns.map((a) => (
-            <Row key={a.key} label={`Perluasan: ${a.label}`} value={formatIDR(a.premium)} sub={`Tarif ${formatRate(a.rate)}`} />
-          ))}
-          <Row label="Subtotal" value={formatIDR(p.totalPremiumBeforeDiscount)} bold />
-          {p.discountAmount > 0 && (
-            <Row label={`Diskon (${formatPercent(p.discountPercent)})`} value={`− ${formatIDR(p.discountAmount)}`} negative />
-          )}
-          {p.adminFee > 0 && <Row label="Biaya Admin" value={formatIDR(p.adminFee)} />}
-          {p.policyFee > 0 && <Row label="Biaya Polis" value={formatIDR(p.policyFee)} />}
-          <div className="border-t border-[#E2E8F0] mt-1.5 pt-1.5">
-            <Row label="Total" value={formatIDR(p.totalPremium)} bold large />
-          </div>
+        <div className="mt-3 pt-3 border-t border-[#A7F3D0]">
+          <p className="text-xs text-[#64748B]">Harga Kendaraan (OTR)</p>
+          <p className="text-lg font-bold text-[#0F172A]">{formatIDR(p.vehicleValue)}</p>
         </div>
-      )}
+      </div>
 
-      {/* Partners — collapsible */}
-      {p.partners.length > 0 && (
-        <>
+      {/* Partner Logo Grid — 4 cols × 2 rows = 8 logos */}
+      <div>
+        <p className="text-sm font-bold text-[#0F172A] mb-2">Pilih Perusahaan Asuransi</p>
+        <div className="grid grid-cols-4 gap-2">
+          {sortedPartners.map(({ partner: pt, originalIdx }, rankIdx) => {
+            const selected = state.selectedPartnerIndex === originalIdx;
+            const logo = partnerLogoPath(pt.name);
+            const isCheapest = rankIdx === 0;
+            return (
+              <button
+                key={pt.name}
+                type="button"
+                onClick={() => calc.selectPartner(originalIdx)}
+                className={`
+                  relative aspect-square rounded-xl border-2 flex flex-col items-center justify-center p-2 transition-all
+                  ${selected
+                    ? "border-[#0F766E] bg-[#ECFDF5] shadow-sm"
+                    : isCheapest
+                    ? "border-[#FCD34D] bg-white hover:shadow-sm"
+                    : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"}
+                `}
+                aria-pressed={selected}
+                aria-label={`Pilih ${pt.name}`}
+              >
+                {isCheapest && (
+                  <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-full bg-[#F59E0B] text-white text-[9px] font-bold uppercase tracking-wider whitespace-nowrap">
+                    Termurah
+                  </span>
+                )}
+                {logo ? (
+                  <img
+                    src={logo}
+                    alt={pt.name}
+                    className={`max-h-10 max-w-full object-contain transition-opacity ${selected ? "opacity-100" : "opacity-70"}`}
+                    loading="lazy"
+                  />
+                ) : (
+                  <span className="text-xs font-bold text-[#475569]">{pt.name.charAt(0)}</span>
+                )}
+                <span className="text-[10px] font-semibold text-[#0F172A] mt-1 text-center leading-tight">
+                  {formatIDR(pt.estimatedPremium)}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-xs text-[#64748B] mt-1.5 text-center">Diurutkan dari premi termurah</p>
+      </div>
+
+      {/* Jenis Perlindungan — bagi 2 di 1 baris (TLO, All Risk) */}
+      <div>
+        <p className="text-sm font-bold text-[#0F172A] mb-2">Jenis Perlindungan</p>
+        <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
-            onClick={() => setShowPartners((s) => !s)}
-            className="flex items-center justify-between w-full py-1.5 text-sm font-semibold text-[#0F172A]"
-            aria-expanded={showPartners}
+            onClick={() => handleCoverageChange("AllRisk")}
+            className={`ds-toggle-card ${state.protection.coverageType === "AllRisk" ? "" : ""}`}
+            data-active={state.protection.coverageType === "AllRisk"}
           >
-            <span>Estimasi dari {p.partners.length} perusahaan asuransi</span>
-            {showPartners ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            <span className="font-bold text-[#0F172A] text-base">All Risk</span>
+            <span className="text-xs text-[#475569] leading-snug">Komprehensif</span>
           </button>
-          {showPartners && (
-            <div className="flex flex-col gap-2 -mt-2">
-              {sortedPartners.map(({ partner, originalIdx }, rankIdx) => {
-                const selected = state.selectedPartnerIndex === originalIdx;
-                const vehicleAge = p.vehicleAge ?? 0;
-                const isCheapest = rankIdx === 0;
-                return (
-                  <div key={partner.name} className={`ds-stagger-${Math.min(rankIdx + 1, 8)}`}>
-                    <PartnerCard
-                      partner={partner}
-                      selected={selected}
-                      vehicleAge={vehicleAge}
-                      hasBengkelAddon={state.extension.addOns.includes("bengkelAuthorized")}
-                      isCheapest={isCheapest}
-                      rank={rankIdx + 1}
-                      onSelect={() => calc.selectPartner(originalIdx)}
-                    />
-                  </div>
-                );
-              })}
-              <p className="text-xs text-[#64748B] mt-1 px-1 leading-relaxed">
-                Diurutkan dari premi termurah. Setiap perusahaan asuransi menerapkan tarif, biaya admin, dan aturan bengkel resmi yang berbeda.
-              </p>
-            </div>
-          )}
-        </>
-      )}
+          <button
+            type="button"
+            onClick={() => handleCoverageChange("TLO")}
+            className="ds-toggle-card"
+            data-active={state.protection.coverageType === "TLO"}
+          >
+            <span className="font-bold text-[#0F172A] text-base">TLO</span>
+            <span className="text-xs text-[#475569] leading-snug">Total Loss Only</span>
+          </button>
+        </div>
+      </div>
 
-      {/* CTAs — sticky bottom of card */}
+      {/* Perluasan — horizontal scroll, filter by partner + coverage */}
+      <div>
+        <div className="flex items-baseline justify-between mb-2">
+          <p className="text-sm font-bold text-[#0F172A]">Perluasan</p>
+          <span className="text-xs text-[#64748B]">Opsional</span>
+        </div>
+        <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: "thin" }}>
+          {availableAddons.map((key) => {
+            const meta = ADDON_META[key];
+            if (!meta) return null;
+            const isOn = state.extension.addOns.includes(key);
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => handleAddonToggle(key)}
+                className={`
+                  flex-shrink-0 px-3 py-2 rounded-lg text-sm font-medium transition-all border min-h-[44px] whitespace-nowrap
+                  ${isOn
+                    ? "bg-[#0F766E] text-white border-[#0F766E]"
+                    : "bg-white text-[#475569] border-[#E2E8F0] hover:border-[#CBD5E1]"}
+                `}
+                aria-pressed={isOn}
+              >
+                {isOn && <CheckCircle2 className="h-3.5 w-3.5 inline mr-1" aria-hidden />}
+                {meta.label}
+              </button>
+            );
+          })}
+          {availableAddons.length === 0 && (
+            <p className="text-xs text-[#64748B]">Tidak ada perluasan tersedia untuk pilihan ini.</p>
+          )}
+        </div>
+        {isTLO && (
+          <p className="text-xs text-[#92400E] mt-1">Bengkel Authorised tidak tersedia untuk TLO</p>
+        )}
+      </div>
+
+      {/* CTAs */}
       <div className="flex flex-col gap-2 pt-2 border-t border-[#E2E8F0]">
         <Button as="external" href={whatsappLink} variant="primary" size="lg" onClick={handleApplyClick} className="w-full">
           <Send className="h-4 w-4" aria-hidden />
@@ -264,7 +276,6 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
         </Button>
         <div className="grid grid-cols-2 gap-2">
           <Button as="external" href={whatsappLink} variant="secondary" size="md" onClick={handleWhatsApp}>
-            <MessageCircle className="h-4 w-4" aria-hidden />
             Konsultasi
           </Button>
           <Button type="button" variant="secondary" size="md" onClick={prevStep}>
@@ -300,255 +311,6 @@ function PremiumLoading() {
       <Loader2 className="h-7 w-7 text-[#0F766E] animate-spin" aria-hidden />
       <p className="text-sm font-semibold text-[#0F172A]">Menghitung estimasi premi...</p>
       <p className="text-xs text-[#64748B]">Engine memproses data kendaraan & tarif</p>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════
-   Helpers
-   ═══════════════════════════════════════════════════ */
-
-function Row({
-  label,
-  value,
-  sub,
-  bold,
-  large,
-  negative,
-}: {
-  label: string;
-  value: string;
-  sub?: string;
-  bold?: boolean;
-  large?: boolean;
-  negative?: boolean;
-}) {
-  return (
-    <div className="flex items-baseline justify-between gap-3">
-      <div className="flex flex-col">
-        <span className={`text-sm ${bold ? "font-semibold text-[#0F172A]" : "text-[#475569]"}`}>
-          {label}
-        </span>
-        {sub && <span className="text-xs text-[#94A3B8]">{sub}</span>}
-      </div>
-      <span
-        className={`
-          ${large ? "text-base" : "text-sm"}
-          ${bold ? "font-bold text-[#0F172A]" : negative ? "text-[#15803D] font-semibold" : "text-[#475569]"}
-          whitespace-nowrap
-        `}
-      >
-        {value}
-      </span>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════
-   Partner Card — exposes per-partner rules (adminFee, bengkel restriction, breakdown)
-   ═══════════════════════════════════════════════════ */
-
-interface PartnerCardProps {
-  partner: PremiumPartner;
-  selected: boolean;
-  vehicleAge: number;
-  hasBengkelAddon: boolean;
-  isCheapest?: boolean;
-  rank?: number;
-  onSelect: () => void;
-}
-
-function PartnerCard({ partner, selected, vehicleAge, hasBengkelAddon, isCheapest, rank, onSelect }: PartnerCardProps) {
-  const [expanded, setExpanded] = React.useState(false);
-  const bd = partner.breakdown;
-  const hasBengkelExcluded = partner.bengkelAuthorizedExcluded === true;
-  const logoPath = partnerLogoPath(partner.name);
-
-  // Auto-expand when this card becomes selected
-  React.useEffect(() => {
-    if (selected) setExpanded(true);
-  }, [selected]);
-
-  const handleCardClick = () => {
-    onSelect();
-    // If not yet expanded, expand it so user sees the breakdown immediately
-    if (!expanded) setExpanded(true);
-  };
-
-  return (
-    <div
-      className={`
-        rounded-xl border-2 transition-all overflow-hidden relative
-        ${selected
-          ? "border-[#0F766E] bg-[#ECFDF5] shadow-md"
-          : isCheapest
-          ? "border-[#FCD34D] bg-white hover:shadow-md"
-          : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"}
-      `}
-    >
-      {/* "Termurah" badge for cheapest partner */}
-      {isCheapest && (
-        <div className="absolute -top-2 left-3 z-10">
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#F59E0B] text-white text-[10px] font-bold uppercase tracking-wider shadow-sm">
-            <Medal className="h-3 w-3" aria-hidden />
-            Termurah
-          </span>
-        </div>
-      )}
-
-      {/* Header row — clickable to select + expand */}
-      <div className="flex items-stretch">
-        <button
-          type="button"
-          onClick={handleCardClick}
-          className="flex-1 flex items-center gap-3 p-3 text-left min-h-[64px] pt-4"
-          aria-pressed={selected}
-          aria-label={`Pilih ${partner.name}`}
-        >
-          {/* Rank number (small, left of logo) */}
-          {rank && (
-            <span className={`flex-shrink-0 text-xs font-bold tabular-nums w-4 text-center ${isCheapest ? "text-[#F59E0B]" : "text-[#94A3B8]"}`}>
-              {rank}
-            </span>
-          )}
-
-          {/* Partner logo */}
-          {logoPath ? (
-            <img
-              src={logoPath}
-              alt={`Logo ${partner.name}`}
-              className={`h-8 w-auto object-contain flex-shrink-0 transition-opacity ${selected ? "opacity-100" : "opacity-70"}`}
-              loading="lazy"
-            />
-          ) : (
-            <span className="h-8 w-8 rounded-lg bg-[#F1F5F9] flex items-center justify-center text-xs font-bold text-[#475569] flex-shrink-0">
-              {partner.name.charAt(0)}
-            </span>
-          )}
-
-          <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-            <span className="font-semibold text-[#0F172A] text-sm truncate">{partner.name}</span>
-            {selected ? (
-              <span className="text-xs text-[#0F766E] font-semibold flex items-center gap-1">
-                <CheckCircle2 className="h-3 w-3" aria-hidden /> Dipilih
-              </span>
-            ) : (
-              <span className="text-xs text-[#64748B]">Klik untuk pilih</span>
-            )}
-          </div>
-          <span className="font-bold text-[#0F172A] text-sm whitespace-nowrap">
-            {formatIDR(partner.estimatedPremium)}
-          </span>
-        </button>
-        <button
-          type="button"
-          onClick={() => setExpanded((v) => !v)}
-          className="px-3 border-l border-[#E2E8F0] text-[#64748B] hover:bg-[#F1F5F9] flex items-center"
-          aria-label={expanded ? "Tutup detail" : "Buka detail"}
-          aria-expanded={expanded}
-        >
-          {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </button>
-      </div>
-
-      {/* Rule chips — always visible */}
-      <div className="px-3 pb-2 flex flex-wrap gap-1.5">
-        <span className="ds-chip">
-          Admin <strong className="text-[#0F172A] ml-0.5">{formatIDR(partner.adminFee)}</strong>
-        </span>
-        {hasBengkelExcluded ? (
-          <span className="ds-chip" style={{ background: "#FEF2F2", color: "#991B1B", borderColor: "#FCA5A5" }}>
-            <AlertCircle className="h-3 w-3" aria-hidden />
-            Bengkel resmi tidak tersedia
-          </span>
-        ) : (
-          <span className="ds-chip-teal ds-chip">
-            <ShieldCheck className="h-3 w-3" aria-hidden />
-            Bengkel resmi {partner.bengkelResmiRate ? `· ${(partner.bengkelResmiRate * 100).toFixed(2)}%` : "tersedia"}
-          </span>
-        )}
-      </div>
-
-      {/* Expanded detail — per-partner breakdown */}
-      {expanded && bd && (
-        <div className="px-3 pb-3 pt-1 border-t border-[#E2E8F0] bg-[#F8FAFC]">
-          {/* Bengkel restriction reason */}
-          {hasBengkelExcluded && (
-            <div className="rounded-lg bg-[#FFFBEB] border border-[#FDE68A] p-2.5 mb-2 mt-2">
-              <p className="text-xs text-[#92400E] leading-relaxed">
-                <strong>Bengkel Authorised tidak tersedia</strong> untuk {partner.name} karena
-                usia kendaraan ({vehicleAge} tahun) melebihi batas maksimal yang ditetapkan
-                partner ini.
-                {hasBengkelAddon && (
-                  <span className="block mt-1">
-                    Perluasan bengkel authorized yang lu pilih akan otomatis dihapus dari
-                    estimasi partner ini.
-                  </span>
-                )}
-              </p>
-            </div>
-          )}
-
-          {/* Per-partner premium breakdown */}
-          <div className="flex flex-col gap-1.5 mt-2">
-            <Row label="Premi dasar (setelah modifier)" value={formatIDR(bd.basePremium)} sub={`Modifier ×${partner.modifier.toFixed(2)}`} />
-            {bd.addons.length > 0 && bd.addons.map((a) => {
-              // Show bengkelAuthorized rate explicitly when partner-specific
-              const isBengkelAddon = a.key === "bengkelAuthorized";
-              const rateLabel = isBengkelAddon && a.rate
-                ? `Tarif ${(a.rate * 100).toFixed(2)}%`
-                : undefined;
-              return (
-                <Row
-                  key={a.key}
-                  label={`Perluasan: ${a.label}`}
-                  value={formatIDR(a.premium)}
-                  sub={rateLabel}
-                />
-              );
-            })}
-            <Row label="Subtotal" value={formatIDR(bd.totalPremiumBeforeDiscount)} bold />
-            {bd.discountAmount > 0 && (
-              <Row label={`Diskon (${bd.discountPercent}%)`} value={`− ${formatIDR(bd.discountAmount)}`} negative />
-            )}
-            <Row label="Biaya admin" value={formatIDR(bd.adminFee)} />
-            {bd.policyFee !== undefined && bd.policyFee > 0 && (
-              <Row label="Biaya polis" value={formatIDR(bd.policyFee)} />
-            )}
-            <div className="border-t border-[#E2E8F0] mt-1 pt-1.5">
-              <Row label="Total" value={formatIDR(partner.estimatedPremium)} bold large />
-            </div>
-          </div>
-
-          {/* Benefits & facilities */}
-          {partner.benefits.length > 0 && (
-            <div className="mt-3">
-              <p className="text-xs font-semibold text-[#0F172A] mb-1">Manfaat</p>
-              <ul className="flex flex-col gap-0.5">
-                {partner.benefits.map((b) => (
-                  <li key={b} className="text-xs text-[#475569] flex items-start gap-1.5">
-                    <CheckCircle2 className="h-3 w-3 text-[#0F766E] mt-0.5 flex-shrink-0" aria-hidden />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {partner.facilities.length > 0 && (
-            <div className="mt-2">
-              <p className="text-xs font-semibold text-[#0F172A] mb-1">Fasilitas</p>
-              <ul className="flex flex-col gap-0.5">
-                {partner.facilities.map((f) => (
-                  <li key={f} className="text-xs text-[#475569] flex items-start gap-1.5">
-                    <span className="text-[#0F766E] mt-0.5">•</span>
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }

@@ -56,11 +56,14 @@ export function HeroCalculator({
   const validateCurrentStep = (): boolean => {
     if (state.step === "vehicle") {
       const v = state.vehicle;
-      if (!v.brand) { setError("Pilih merek kendaraan dulu."); return false; }
-      if (!v.model) { setError("Pilih tipe kendaraan dulu."); return false; }
-      if (!v.year) { setError("Pilih tahun kendaraan dulu."); return false; }
-      if (!v.vehicleValue) {
-        setError("Nilai kendaraan belum tersedia. Masukkan OTR manual.");
+      if (!v.brand) { setError("Pilih merek mobil dulu."); return false; }
+      if (!v.model) { setError("Pilih tipe mobil dulu."); return false; }
+      if (!v.year) { setError("Pilih tahun keluaran dulu."); return false; }
+    } else if (state.step === "region" || state.step === "protection" || state.step === "extension") {
+      // Coverage step: wilayah + OTR wajib
+      if (!state.region.plate) { setError("Pilih wilayah penggunaan."); return false; }
+      if (!state.vehicle.vehicleValue) {
+        setError("Nilai kendaraan (OTR) belum terisi. Masukkan manual jika perlu.");
         return false;
       }
       // Block if manual OTR is invalid (outside ±15% of database value)
@@ -73,9 +76,6 @@ export function HeroCalculator({
         }
         return false;
       }
-    } else if (state.step === "region" || state.step === "protection" || state.step === "extension") {
-      // Combined "coverage" step (we use the same state fields, just present them in 1 view)
-      if (!state.region.plate) { setError("Pilih wilayah penggunaan."); return false; }
     }
     setError(null);
     return true;

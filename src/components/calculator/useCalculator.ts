@@ -560,6 +560,21 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     }
   }, [state.lead]);
 
+  /* ─── Auto re-calculate when coverage type or addons change on result step ─── */
+  const prevCoverageRef = useRef<string>(state.protection.coverageType);
+  const prevAddonsRef = useRef<string>(state.extension.addOns.join(","));
+
+  useEffect(() => {
+    const coverageChanged = prevCoverageRef.current !== state.protection.coverageType;
+    const addonsChanged = prevAddonsRef.current !== state.extension.addOns.join(",");
+    prevCoverageRef.current = state.protection.coverageType;
+    prevAddonsRef.current = state.extension.addOns.join(",");
+
+    if (state.step === "result" && state.premium && (coverageChanged || addonsChanged)) {
+      calculatePremium();
+    }
+  }, [state.protection.coverageType, state.extension.addOns, state.step, state.premium, calculatePremium]);
+
   return {
     state,
     brands,
