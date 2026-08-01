@@ -24,63 +24,93 @@ const PARTNER_NAMES = [
 
 export function HeroSection() {
   const { settings } = useSiteSettings();
-
-  // Inline benefits (compact, no circles)
-  const benefits = [
-    "Estimasi otomatis",
-    "All Risk & TLO",
-    "Konsultasi gratis",
-  ];
+  const whatsappLink = settings.whatsapp
+    ? buildWhatsAppLink(
+        settings.whatsapp,
+        "Halo Jasa Proteksi, saya ingin konsultasi tentang premi asuransi mobil."
+      )
+    : null;
 
   return (
-    <section
-      id="beranda"
-      className="relative bg-gradient-to-b from-[#F0FDFA] via-[#F8FAFC] to-[#FFFFFF] overflow-hidden"
-    >
-      {/* Car image background — desktop right side only */}
-      <div
-        className="absolute right-0 top-0 bottom-0 w-1/2 opacity-[0.12] pointer-events-none bg-cover bg-center bg-no-repeat hidden lg:block"
-        style={{ backgroundImage: "url('/hero-car-bg.webp')" }}
-        aria-hidden
-      />
+    <>
+      {/* ═══ VISUAL HERO — full-width image, text overlay ═══ */}
+      <section id="beranda" className="relative w-full overflow-hidden bg-[#F0FDFA]">
+        {/* Full-width image */}
+        <div className="relative w-full h-[280px] sm:h-[340px] lg:h-[440px]">
+          <img
+            src="/hero-car-bg.webp"
+            alt="Mobil terlindungi dengan asuransi"
+            className="absolute inset-0 w-full h-full object-cover"
+            priority
+          />
+          {/* Light gradient overlay — bottom fade for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-transparent to-transparent" />
+        </div>
 
-      <Container className="relative !px-5 pt-5 pb-4 sm:!px-6 lg:pt-10 lg:pb-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-start">
-          {/* Left: copy — compact, no CTA (calculator is right there) */}
-          <div className="lg:col-span-5 flex flex-col lg:pt-4">
-            <span
-              className="inline-flex items-center self-start px-3 h-[28px] rounded-full bg-[#CCFBF1] border border-[#5EEAD4] text-[#0F766E] font-semibold"
-              style={{ fontSize: "12px", letterSpacing: "0.05em" }}
-            >
-              Platform Asuransi Mobil
-            </span>
+        {/* Text overlay — positioned at bottom of image */}
+        <div className="absolute inset-0 flex flex-col justify-end pb-4 sm:pb-6">
+          <Container className="!px-5 sm:!px-6">
+            <div className="max-w-md">
+              {/* Badge */}
+              <span
+                className="inline-flex items-center self-start px-3 h-[26px] rounded-full bg-[#0F766E] text-white font-semibold mb-2"
+                style={{ fontSize: "11px", letterSpacing: "0.05em" }}
+              >
+                Asuransi Mobil Online
+              </span>
 
-            <h1 className="font-bold text-[#0F172A] tracking-tight mt-3 mb-2 text-[34px] leading-[1.1] sm:text-[36px] lg:text-[56px] lg:leading-[1.1]">
-              Hitung Premi Asuransi Mobil Secara Online
-            </h1>
+              {/* Headline — 2 lines max */}
+              <h2 className="font-extrabold text-[#0F172A] tracking-tight text-[26px] leading-[1.15] sm:text-[32px] lg:text-[40px] lg:leading-[1.1] mb-1.5">
+                Mobil Terlindungi,
+                <br />
+                Perjalanan Lebih Tenang.
+              </h2>
 
-            <p className="text-base text-[#475569] max-w-md mb-3" style={{ lineHeight: "1.55" }}>
-              Cek estimasi premi All Risk atau TLO berdasarkan data kendaraan dan wilayah penggunaan Anda.
-            </p>
+              {/* Subheadline — 2 lines max */}
+              <p className="text-[13px] sm:text-sm text-[#475569] leading-snug mb-3 max-w-sm">
+                Cek estimasi premi All Risk atau TLO dari berbagai perusahaan asuransi.
+              </p>
 
-            {/* Benefits: inline text */}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              {benefits.map((b) => (
-                <span key={b} className="flex items-center gap-1.5 text-[13px] text-[#475569]">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#0F766E] flex-shrink-0" aria-hidden />
-                  {b}
-                </span>
-              ))}
+              {/* CTA + Link */}
+              <div className="flex items-center gap-3">
+                <Button
+                  as="link"
+                  href="/#kalkulator"
+                  variant="primary"
+                  size="lg"
+                  onClick={() => trackEvent("apply_click", {})}
+                  className="!h-12 !min-h-[48px]"
+                >
+                  Cek Premi Sekarang
+                </Button>
+                {whatsappLink && (
+                  <a
+                    href={whatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-[#0F766E] hover:text-[#0B5C55] font-medium inline-flex items-center gap-1"
+                    onClick={() => trackEvent("whatsapp_click", {})}
+                  >
+                    Konsultasi Gratis
+                    <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
+          </Container>
+        </div>
+      </section>
 
-          {/* Right: calculator */}
-          <div id="kalkulator" className="lg:col-span-7 scroll-mt-20 lg:max-w-[500px] lg:ml-auto lg:w-full">
+      {/* ═══ CALCULATOR — directly below hero ═══ */}
+      <section className="bg-white">
+        <Container className="!px-5 sm:!px-6 pt-4 pb-8 lg:pt-6 lg:pb-12">
+          <div id="kalkulator" className="scroll-mt-20 lg:max-w-[560px] lg:mx-auto">
             <HeroCalculator />
           </div>
-        </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
+    </>
   );
 }
 
