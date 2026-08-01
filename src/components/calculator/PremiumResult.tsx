@@ -18,7 +18,7 @@ const ADDON_LABELS: Record<string, string> = {
   earthquake: "Gempa Bumi",
   srcc: "Kerusuhan",
   terrorism: "Terorisme",
-  bengkelAuthorized: "Bengkel Authorised",
+  bengkelAuthorized: "Bengkel Resmi",
   tpl: "Tanggung Jawab Pihak Ketiga",
   paDriver: "Kecelakaan Diri Pengemudi",
   paPassenger: "Kecelakaan Diri Penumpang",
@@ -60,13 +60,17 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
     ? v.model
     : `${v.brand} ${v.model}`;
 
-  // Filter addons by coverage type + partner availability
+  // Filter addons by coverage type + partner availability + bengkel resmi eligibility
   const isTLO = state.protection.coverageType === "TLO";
   const availableAddons = ALL_ADDON_KEYS.filter((key) => {
     // Exclude bengkelAuthorized for TLO
     if (isTLO && TLO_EXCLUDED_ADDONS.includes(key)) return false;
-    // If partner selected, filter by partner.availableAddOns
+    // If partner selected, filter by partner.availableAddOns + bengkel exclusion
     if (partner?.availableAddOns && !partner.availableAddOns.includes(key)) return false;
+    // If partner selected and bengkel resmi excluded for this partner (vehicle too old), hide it
+    if (key === "bengkelAuthorized" && partner?.bengkelAuthorizedExcluded) return false;
+    // If no partner selected, check if ALL partners would exclude bengkel (vehicle age > 10 = max)
+    if (key === "bengkelAuthorized" && !partner && p.vehicleAge && p.vehicleAge > 10) return false;
     return true;
   });
 
@@ -261,7 +265,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
           )}
         </div>
         {isTLO && (
-          <p className="text-xs text-[#92400E] mt-1">Bengkel Authorised tidak tersedia untuk TLO</p>
+          <p className="text-xs text-[#92400E] mt-1">Bengkel Resmi tidak tersedia untuk TLO</p>
         )}
       </div>
 
@@ -330,7 +334,6 @@ function RincianSection({
 }) {
   const { state } = calc;
   const p = state.premium;
-  const [open, setOpen] = React.useState(false);
   const [showPartners, setShowPartners] = React.useState(false);
 
   if (!p) return null;
@@ -347,85 +350,75 @@ function RincianSection({
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between text-sm font-bold text-[#0F172A] py-2"
-        aria-expanded={open}
-      >
-        <span>Rincian Premi</span>
-        {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-      </button>
-      {open && (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 flex flex-col gap-2 mt-1">
-          <Row label="Premi Dasar" value={formatIDR(basePremium)} />
-          {addons.map((a) => (
-            <Row
-              key={a.key}
-              label={`Perluasan: ${a.label}`}
-              value={formatIDR(a.premium)}
-              sub={a.rate ? `Tarif ${formatRate(a.rate)}` : undefined}
-            />
-          ))}
-          <Row label="Subtotal" value={formatIDR(subtotal)} bold />
-          {discount > 0 && (
-            <Row label={`Diskon (${formatPercent(discountPercent)})`} value={`− ${formatIDR(discount)}`} negative />
-          )}
-          <Row label="Biaya Admin" value={formatIDR(adminFee)} />
-          {policyFee > 0 && <Row label="Biaya Polis" value={formatIDR(policyFee)} />}
-          <div className="border-t border-[#E2E8F0] mt-2 pt-2">
-            <Row label="Total" value={formatIDR(displayPremium)} bold large />
-          </div>
-
-          {/* Partner breakdown toggle */}
-          {p.partners.length > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={() => setShowPartners((v) => !v)}
-                className="w-full flex items-center justify-between text-sm font-semibold text-[#0F172A] py-2 mt-2 border-t border-[#E2E8F0]"
-                aria-expanded={showPartners}
-              >
-                <span>Estimasi dari {p.partners.length} perusahaan</span>
-                {showPartners ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-              </button>
-              {showPartners && (
-                <div className="flex flex-col gap-1.5 mt-1">
-                  {p.partners.map((pt, idx) => {
-                    const selected = state.selectedPartnerIndex === idx;
-                    return (
-                      <button
-                        key={pt.name}
-                        type="button"
-                        onClick={() => calc.selectPartner(idx)}
-                        className={`text-left p-2.5 rounded-lg border-2 transition-all flex items-center justify-between gap-2 ${
-                          selected ? "border-[#0F766E] bg-[#ECFDF5]" : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"
-                        }`}
-                        aria-pressed={selected}
-                      >
-                        <div className="flex items-center gap-2 min-w-0">
-                          {partnerLogoPath(pt.name) && (
-                            <img
-                              src={partnerLogoPath(pt.name)}
-                              alt={pt.name}
-                              className="h-6 w-auto object-contain flex-shrink-0"
-                              loading="lazy"
-                            />
-                          )}
-                          <span className="text-xs font-semibold text-[#0F172A] truncate">{pt.name}</span>
-                        </div>
-                        <span className="text-sm font-bold text-[#0F172A] whitespace-nowrap">
-                          {formatIDR(pt.estimatedPremium)}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </>
-          )}
+      <p className="text-sm font-bold text-[#0F172A] mb-2">Rincian Premi</p>
+      <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 flex flex-col gap-2">
+        <Row label="Premi Dasar" value={formatIDR(basePremium)} />
+        {addons.map((a) => (
+          <Row
+            key={a.key}
+            label={`Perluasan: ${a.label}`}
+            value={formatIDR(a.premium)}
+            sub={a.rate ? `Tarif ${formatRate(a.rate)}` : undefined}
+          />
+        ))}
+        <Row label="Subtotal" value={formatIDR(subtotal)} bold />
+        {discount > 0 && (
+          <Row label={`Diskon (${formatPercent(discountPercent)})`} value={`− ${formatIDR(discount)}`} negative />
+        )}
+        <Row label="Biaya Admin" value={formatIDR(adminFee)} />
+        {policyFee > 0 && <Row label="Biaya Polis" value={formatIDR(policyFee)} />}
+        <div className="border-t border-[#E2E8F0] mt-2 pt-2">
+          <Row label="Total" value={formatIDR(displayPremium)} bold large />
         </div>
-      )}
+
+        {/* Partner comparison toggle */}
+        {p.partners.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={() => setShowPartners((v) => !v)}
+              className="w-full flex items-center justify-between text-sm font-semibold text-[#0F172A] py-2 mt-2 border-t border-[#E2E8F0]"
+              aria-expanded={showPartners}
+            >
+              <span>Estimasi dari {p.partners.length} perusahaan</span>
+              {showPartners ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+            </button>
+            {showPartners && (
+              <div className="flex flex-col gap-1.5 mt-1">
+                {p.partners.map((pt, idx) => {
+                  const selected = state.selectedPartnerIndex === idx;
+                  return (
+                    <button
+                      key={pt.name}
+                      type="button"
+                      onClick={() => calc.selectPartner(idx)}
+                      className={`text-left p-2.5 rounded-lg border-2 transition-all flex items-center justify-between gap-2 ${
+                        selected ? "border-[#0F766E] bg-[#ECFDF5]" : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"
+                      }`}
+                      aria-pressed={selected}
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        {partnerLogoPath(pt.name) && (
+                          <img
+                            src={partnerLogoPath(pt.name)}
+                            alt={pt.name}
+                            className="h-6 w-auto object-contain flex-shrink-0"
+                            loading="lazy"
+                          />
+                        )}
+                        <span className="text-xs font-semibold text-[#0F172A] truncate">{pt.name}</span>
+                      </div>
+                      <span className="text-sm font-bold text-[#0F172A] whitespace-nowrap">
+                        {formatIDR(pt.estimatedPremium)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

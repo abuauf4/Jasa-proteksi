@@ -157,7 +157,7 @@ export const ADDON_META: Record<string, AddonMeta> = {
   },
   bengkelAuthorized: {
     key: "bengkelAuthorized",
-    label: "Bengkel Authorised",
+    label: "Bengkel Resmi",
     description: "Perbaikan di bengkel resmi merek kendaraan.",
   },
   tpl: {

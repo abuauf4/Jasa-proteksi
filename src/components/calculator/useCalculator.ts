@@ -359,8 +359,11 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   }, [initialCoverageType]);
 
   /* ─── Premium calculation ─── */
-  const calculatePremium = useCallback(async (): Promise<boolean> => {
-    setState((s) => ({ ...s, isLoadingPremium: true, error: null }));
+  const calculatePremium = useCallback(async (silent = false): Promise<boolean> => {
+    // If silent (recalculation from coverage/addon change), don't show full loading
+    if (!silent) {
+      setState((s) => ({ ...s, isLoadingPremium: true, error: null }));
+    }
 
     try {
       const v = state.vehicle;
@@ -427,7 +430,9 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       return true;
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Terjadi kesalahan jaringan.";
-      setState((s) => ({ ...s, isLoadingPremium: false, error: msg }));
+      if (!silent) {
+        setState((s) => ({ ...s, isLoadingPremium: false, error: msg }));
+      }
       trackEvent("calculator_error", { error_message: msg });
       return false;
     }
@@ -571,7 +576,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     prevAddonsRef.current = state.extension.addOns.join(",");
 
     if (state.step === "result" && state.premium && (coverageChanged || addonsChanged)) {
-      calculatePremium();
+      calculatePremium(true); // silent = true, no full loading screen
     }
   }, [state.protection.coverageType, state.extension.addOns, state.step, state.premium, calculatePremium]);
 
