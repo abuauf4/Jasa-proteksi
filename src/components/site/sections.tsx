@@ -8,7 +8,7 @@ import {
 import { Container, Section, SectionHeader, Card, Badge } from "./primitives";
 import { Button } from "./Button";
 import { HeroCalculator } from "@/components/calculator/HeroCalculator";
-import { useSiteSettings } from "@/lib/ServerDataContext";
+import { useSiteSettings, useHeroData } from "@/lib/ServerDataContext";
 import { buildWhatsAppLink } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-events";
 import { partnerLogoPath } from "@/components/calculator/types";
@@ -24,12 +24,16 @@ const PARTNER_NAMES = [
 
 export function HeroSection() {
   const { settings } = useSiteSettings();
+  const { heroData } = useHeroData();
   const whatsappLink = settings.whatsapp
     ? buildWhatsAppLink(
         settings.whatsapp,
         "Halo Jasa Proteksi, saya ingin konsultasi tentang premi asuransi mobil."
       )
     : null;
+
+  // Hero image: from admin settings (HeroContent.backgroundImage), fallback to default
+  const heroImage = heroData?.backgroundImage || "/hero-car-bg.webp";
 
   return (
     <>
@@ -38,7 +42,7 @@ export function HeroSection() {
         {/* Full-width image */}
         <div className="relative w-full h-[280px] sm:h-[340px] lg:h-[440px]">
           <img
-            src="/hero-car-bg.webp"
+            src={heroImage}
             alt="Mobil terlindungi dengan asuransi"
             className="absolute inset-0 w-full h-full object-cover"
             priority

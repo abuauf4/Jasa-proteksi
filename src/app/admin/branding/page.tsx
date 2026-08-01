@@ -190,7 +190,7 @@ export default function BrandingPage() {
           {/* Background Image */}
           <div className="space-y-2">
             <Label htmlFor="bgImage" className="flex items-center gap-2 text-sm">
-              <ImageIcon className="h-3 w-3" /> Gambar Background (URL)
+              <ImageIcon className="h-3 w-3" /> Gambar Hero Utama (URL)
             </Label>
             <Input
               id="bgImage"
@@ -199,7 +199,8 @@ export default function BrandingPage() {
               onChange={(e) => setBackgroundImage(e.target.value)}
             />
             <p className="text-xs text-slate-400">
-              URL gambar latar belakang hero. Kosongkan untuk menggunakan default.
+              URL gambar hero yang tampil di homepage. Upload gambar via menu Media,
+              lalu paste URL-nya di sini. Kosongkan untuk menggunakan gambar default.
             </p>
           </div>
 
