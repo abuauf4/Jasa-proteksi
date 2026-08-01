@@ -234,14 +234,14 @@ export function partnerLogoPath(partnerName: string): string | null {
  * Lower value = smaller logo (for logos with little whitespace).
  */
 export const partnerLogoScale: Record<string, number> = {
-  sinarmas: 0.82,
-  mag: 0.72,
-  aca: 0.72,
-  "mega-insurance": 0.78,
-  "zurich-syariah": 0.78,
-  tugu: 0.72,
-  sahabat: 0.76,
-  oona: 0.82,
+  sinarmas: 1.15,
+  mag: 1.55,
+  aca: 1.25,
+  "mega-insurance": 1.55,
+  "zurich-syariah": 1.25,
+  tugu: 1.45,
+  sahabat: 1.45,
+  oona: 1.15,
 };
 
 /** Get scale factor for a partner name (returns 1.0 if not configured). */

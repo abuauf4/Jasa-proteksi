@@ -183,7 +183,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
                 type="button"
                 onClick={() => calc.selectPartner(originalIdx)}
                 className={`
-                  relative aspect-square rounded-2xl border-2 flex items-center justify-center p-3 transition-all
+                  relative aspect-square rounded-2xl border-2 flex items-center justify-center transition-all
                   ${selected
                     ? "border-[#0F766E] bg-[#ECFDF5] shadow-sm"
                     : isCheapest
@@ -199,17 +199,17 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
                   </span>
                 )}
                 {logo ? (
-                  <div className="absolute inset-3 flex items-center justify-center">
+                  <div className="flex h-9 w-16 items-center justify-center overflow-visible">
                     <img
                       src={logo}
                       alt={pt.name}
-                      className="object-contain"
+                      width={96}
+                      height={48}
+                      className="h-auto max-h-full w-auto max-w-full object-contain"
                       style={{
-                        maxHeight: `${32 * scale}px`,
-                        maxWidth: `${78 * scale}%`,
-                        width: 'auto',
-                        height: 'auto',
-                        opacity: selected ? 1 : 0.7,
+                        transform: `scale(${scale})`,
+                        transformOrigin: "center",
+                        opacity: selected ? 1 : 0.75,
                       }}
                       loading="lazy"
                     />

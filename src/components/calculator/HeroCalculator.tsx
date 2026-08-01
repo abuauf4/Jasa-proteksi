@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { useCalculator } from "./useCalculator";
 import { VehicleStep, CoverageStep } from "./steps";
 import { PremiumResult } from "./PremiumResult";
+import { CalculationLoadingScreen } from "./CalculationLoadingScreen";
 import { Button } from "@/components/site/Button";
 import { formatIDR } from "@/lib/format";
 
@@ -116,6 +117,9 @@ export function HeroCalculator({
 
   return (
     <div ref={scrollRef} className={`ds-card-calc ${className ?? ""}`}>
+      {/* Initial calculation loading — full screen overlay */}
+      {state.isCalculatingInitial && <CalculationLoadingScreen />}
+
       {/* Header row: title + step indicator in 1 line */}
       {!hideHeader && (
         <div className="flex items-center justify-between mb-1">
@@ -166,7 +170,7 @@ export function HeroCalculator({
       )}
 
       {/* Navigation buttons — hidden on result step + step 1 (no Kembali on first step) */}
-      {!isResult && !state.isLoadingPremium && (
+      {!isResult && !state.isCalculatingInitial && (
         <div className="mt-5 flex flex-col-reverse sm:flex-row gap-2">
           {!isVehicleStep && (
             <Button
@@ -185,12 +189,12 @@ export function HeroCalculator({
             variant="primary"
             size="lg"
             onClick={handleNext}
-            disabled={state.isLoadingPremium}
+            disabled={state.isLoadingPremium || state.isCalculatingInitial}
             className={isVehicleStep ? "w-full" : "sm:flex-[2]"}
           >
             {isCoverageStep ? (
               <>
-                {state.isLoadingPremium ? (
+                {state.isLoadingPremium || state.isCalculatingInitial ? (
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
                 ) : (
                   <ArrowRight className="h-4 w-4" aria-hidden />

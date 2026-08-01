@@ -62,6 +62,8 @@ interface CalculatorState {
   } | null;
   /** Subtle "recalculating" indicator — doesn't clear previous result */
   isRecalculating: boolean;
+  /** Full loading for initial calculation (after last step, before result page) */
+  isCalculatingInitial: boolean;
 }
 
 export function useCalculator(options: UseCalculatorOptions = {}) {
@@ -92,6 +94,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     databaseVehicleValue: null,
     manualOtrValidation: null,
     isRecalculating: false,
+    isCalculatingInitial: false,
   });
 
   // Vehicle data is stored in STATE (not ref) so derived memos can react to it.
@@ -358,6 +361,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       databaseVehicleValue: null,
       manualOtrValidation: null,
       isRecalculating: false,
+      isCalculatingInitial: false,
     });
     startedRef.current = false;
   }, [initialCoverageType]);
@@ -377,9 +381,8 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     abortRef.current = controller;
 
     if (!silent) {
-      setState((s) => ({ ...s, isLoadingPremium: true, error: null }));
+      setState((s) => ({ ...s, isCalculatingInitial: true, isLoadingPremium: true, error: null }));
     } else {
-      // Show subtle "recalculating" indicator without clearing previous result
       setState((s) => ({ ...s, isRecalculating: true }));
     }
 
@@ -434,6 +437,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
         premium: data,
         selectedPartnerIndex: newPartnerIdx,
         isLoadingPremium: false,
+        isCalculatingInitial: false,
         isRecalculating: false,
         step: "result",
         error: null,
@@ -457,7 +461,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       if (err instanceof DOMException && err.name === "AbortError") return false;
       const msg = err instanceof Error ? err.message : "Terjadi kesalahan jaringan.";
       if (!silent) {
-        setState((s) => ({ ...s, isLoadingPremium: false, isRecalculating: false, error: msg }));
+        setState((s) => ({ ...s, isLoadingPremium: false, isCalculatingInitial: false, error: msg }));
       } else {
         setState((s) => ({ ...s, isRecalculating: false }));
       }
