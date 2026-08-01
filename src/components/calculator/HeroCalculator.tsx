@@ -114,31 +114,34 @@ export function HeroCalculator({
 
   return (
     <div ref={scrollRef} className={`ds-card-calc ${className ?? ""}`}>
-      {/* Header */}
+      {/* Header row: title + step indicator (kaya reference) */}
       {!hideHeader && (
-        <div className="mb-3">
-          <h3 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">Cek Premi Mobil</h3>
-          <p className="text-xs sm:text-sm text-[#475569] mt-0.5">
-            Estimasi otomatis dari data kendaraan.
-          </p>
+        <div className="flex items-center justify-between mb-2">
+          <div>
+            <h3 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">Cek Premi Mobil</h3>
+            <p className="text-xs text-[#475569] mt-0.5">
+              Estimasi otomatis dari data kendaraan.
+            </p>
+          </div>
+          {!isResult && (
+            <span className="text-xs font-semibold text-[#64748B] whitespace-nowrap">
+              Langkah {stepNumber} dari {totalSteps - 1}
+            </span>
+          )}
         </div>
       )}
 
-      {/* Progress — 3 dots only */}
+      {/* Progress — segmented bar (kaya reference: 4 segments) */}
       {!isResult && (
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-1.5 mb-4" aria-hidden>
           {[1, 2].map((n) => (
             <span
               key={n}
-              className={`h-1.5 rounded-full transition-all ${
-                n === stepNumber ? "w-8 bg-[#0F766E]" : n < stepNumber ? "w-4 bg-[#0F766E]" : "w-4 bg-[#E2E8F0]"
+              className={`h-1.5 rounded-full transition-all flex-1 ${
+                n <= stepNumber ? "bg-[#0F766E]" : "bg-[#E2E8F0]"
               }`}
-              aria-hidden
             />
           ))}
-          <span className="text-xs text-[#64748B] ml-auto">
-            Langkah {stepNumber} dari {totalSteps - 1}
-          </span>
         </div>
       )}
 

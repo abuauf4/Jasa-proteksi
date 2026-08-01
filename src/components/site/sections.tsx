@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import {
-  Calculator, MessageCircle, ArrowRight, ShieldCheck,
+  Calculator, MessageCircle, ArrowRight, ShieldCheck, Zap,
 } from "lucide-react";
 import { Container, Section, SectionHeader, Card, Badge } from "./primitives";
 import { Button } from "./Button";
@@ -31,34 +31,50 @@ export function HeroSection() {
       )
     : null;
 
+  const features = [
+    { icon: Zap, label: "Estimasi Otomatis" },
+    { icon: ShieldCheck, label: "All Risk & TLO" },
+    { icon: MessageCircle, label: "Konsultasi Gratis" },
+  ];
+
   return (
     <section
       id="beranda"
-      className="relative bg-[#0F172A] text-white overflow-hidden"
+      className="relative bg-gradient-to-b from-[#F0FDFA] via-[#F8FAFC] to-[#FFFFFF] overflow-hidden"
     >
-      <div
-        className="absolute inset-0 ds-dot-texture-light opacity-40 pointer-events-none"
-        aria-hidden
-      />
+      {/* Subtle dot texture */}
+      <div className="absolute inset-0 ds-dot-texture opacity-60 pointer-events-none" aria-hidden />
 
-      <Container className="relative pt-6 sm:pt-10 lg:pt-14 pb-8 sm:pb-12 lg:pb-16">
+      <Container className="relative pt-8 sm:pt-12 lg:pt-16 pb-8 sm:pb-12 lg:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
-          {/* Left: copy — compact on mobile */}
-          <div className="lg:col-span-5 flex flex-col gap-3 lg:gap-4 lg:pt-4">
-            <span className="ds-eyebrow !text-[#5EEAD4]">
-              Simulasi Premi · All Risk &amp; TLO
+          {/* Left: copy */}
+          <div className="lg:col-span-5 flex flex-col gap-4 lg:pt-4">
+            <span className="inline-flex items-center gap-2 self-start px-3 py-1 rounded-full bg-[#CCFBF1] border border-[#5EEAD4] text-[#0F766E] text-[11px] font-bold uppercase tracking-wider">
+              Platform Asuransi Mobil
             </span>
 
-            <h1 className="text-[1.75rem] leading-[1.15] sm:text-4xl lg:text-5xl font-extrabold tracking-tight !text-white">
-              Hitung premi mobil dari <span className="!text-[#5EEAD4]">8 perusahaan</span> dalam 30 detik.
+            <h1 className="text-[1.875rem] leading-[1.15] sm:text-4xl lg:text-[2.75rem] font-extrabold tracking-tight text-[#0F172A]">
+              Hitung Premi Asuransi Mobil Secara Online
             </h1>
 
-            <p className="text-sm sm:text-base !text-[#CBD5E1] max-w-md leading-relaxed">
-              Estimasi otomatis dari Sinarmas, ACA, Mega, Zurich, Tugu, Sahabat,
-              MAG &amp; Oona — berdasarkan data kendaraan &amp; wilayah kamu.
+            <p className="text-sm sm:text-base text-[#475569] max-w-md leading-relaxed">
+              Dapatkan estimasi premi All Risk atau TLO berdasarkan data kendaraan
+              dan wilayah penggunaan Anda.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-2 mt-1">
+            {/* 3 feature icons row */}
+            <div className="flex flex-wrap items-center gap-4 sm:gap-5 mt-1">
+              {features.map((f) => (
+                <div key={f.label} className="flex items-center gap-2">
+                  <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#CCFBF1] border border-[#5EEAD4] flex items-center justify-center text-[#0F766E]">
+                    <f.icon className="h-4 w-4" aria-hidden />
+                  </span>
+                  <span className="text-xs sm:text-sm font-semibold text-[#0F172A]">{f.label}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-2 mt-2">
               <Button
                 as="link"
                 href="/#kalkulator"
@@ -75,7 +91,6 @@ export function HeroSection() {
                   href={whatsappLink}
                   variant="secondary"
                   size="lg"
-                  className="!bg-transparent !text-white !border-white/30 hover:!bg-white/10 hover:!border-white/50"
                   onClick={() => trackEvent("whatsapp_click", {})}
                 >
                   <MessageCircle className="h-4 w-4" aria-hidden />
@@ -84,15 +99,15 @@ export function HeroSection() {
               )}
             </div>
 
-            {/* Compact trust strip inline — single row */}
-            <div className="mt-3 pt-3 border-t border-white/10 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-xs text-[#94A3B8]">
-              <span><strong className="!text-white text-sm font-bold">49</strong> merek</span>
-              <span><strong className="!text-white text-sm font-bold">13k+</strong> varian</span>
-              <span><strong className="!text-white text-sm font-bold">8</strong> partner</span>
+            {/* Trust strip */}
+            <div className="mt-3 pt-3 border-t border-[#E2E8F0] flex flex-wrap items-baseline gap-x-4 gap-y-1 text-xs text-[#64748B]">
+              <span><strong className="text-[#0F172A] text-sm font-bold">49</strong> merek</span>
+              <span><strong className="text-[#0F172A] text-sm font-bold">13k+</strong> varian</span>
+              <span><strong className="text-[#0F172A] text-sm font-bold">8</strong> partner</span>
             </div>
           </div>
 
-          {/* Right: calculator — prominent */}
+          {/* Right: calculator */}
           <div id="kalkulator" className="lg:col-span-7 scroll-mt-20">
             <HeroCalculator />
           </div>
