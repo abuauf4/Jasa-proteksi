@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import {
-  Calculator, MessageCircle, ArrowRight, ShieldCheck, Zap,
+  Calculator, MessageCircle, ArrowRight, ShieldCheck, CheckCircle2,
 } from "lucide-react";
 import { Container, Section, SectionHeader, Card, Badge } from "./primitives";
 import { Button } from "./Button";
@@ -31,10 +31,11 @@ export function HeroSection() {
       )
     : null;
 
-  const features = [
-    { icon: Zap, label: "Estimasi Otomatis" },
-    { icon: ShieldCheck, label: "All Risk & TLO" },
-    { icon: MessageCircle, label: "Konsultasi Gratis" },
+  // Inline benefits (compact, no circles, no borders)
+  const benefits = [
+    "Estimasi otomatis",
+    "All Risk & TLO",
+    "Konsultasi gratis",
   ];
 
   return (
@@ -42,82 +43,76 @@ export function HeroSection() {
       id="beranda"
       className="relative bg-gradient-to-b from-[#F0FDFA] via-[#F8FAFC] to-[#FFFFFF] overflow-hidden"
     >
-      {/* Subtle car image background — desktop right side, mobile hidden (kept clean) */}
+      {/* Car image background — desktop right side only, very subtle */}
       <div
-        className="absolute right-0 top-0 bottom-0 w-1/2 opacity-10 lg:opacity-[0.18] pointer-events-none bg-cover bg-center bg-no-repeat hidden sm:block"
+        className="absolute right-0 top-0 bottom-0 w-1/2 opacity-[0.12] pointer-events-none bg-cover bg-center bg-no-repeat hidden lg:block"
         style={{ backgroundImage: "url('/hero-car-bg.webp')" }}
         aria-hidden
       />
-      {/* Subtle dot texture overlay */}
-      <div className="absolute inset-0 ds-dot-texture opacity-40 pointer-events-none" aria-hidden />
 
-      <Container className="relative pt-5 sm:pt-8 lg:pt-12 pb-6 sm:pb-10 lg:pb-14">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-start">
-          {/* Left: copy — VERY compact on mobile so calculator shows above the fold */}
-          <div className="lg:col-span-5 flex flex-col gap-2.5 lg:gap-4 lg:pt-4">
-            <span className="inline-flex items-center gap-2 self-start px-2.5 py-1 rounded-full bg-[#CCFBF1] border border-[#5EEAD4] text-[#0F766E] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
+      <Container className="relative !px-5 pt-7 pb-6 sm:!px-6 lg:pt-12 lg:pb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          {/* Left: copy — compact on mobile */}
+          <div className="lg:col-span-5 flex flex-col lg:pt-4">
+            {/* Badge: small, not full-width */}
+            <span
+              className="inline-flex items-center self-start px-3 h-[28px] rounded-full bg-[#CCFBF1] border border-[#5EEAD4] text-[#0F766E] font-semibold"
+              style={{ fontSize: "12px", letterSpacing: "0.05em" }}
+            >
               Platform Asuransi Mobil
             </span>
 
-            {/* H1: moderate size, not too big — fits 2 lines on mobile */}
-            <h1 className="text-[1.5rem] leading-[1.2] sm:text-3xl lg:text-[2.5rem] font-extrabold tracking-tight text-[#0F172A]">
-              Hitung Premi Asuransi Mobil Online
+            {/* H1: 34px mobile, 36px cap on small screens, 56px desktop */}
+            <h1 className="font-bold text-[#0F172A] tracking-tight mt-4 mb-3.5 text-[34px] leading-[1.1] sm:text-[36px] lg:text-[56px] lg:leading-[1.1]">
+              Hitung Premi Asuransi Mobil Secara Online
             </h1>
 
-            {/* Subtitle: 1-2 lines max on mobile */}
-            <p className="text-xs sm:text-sm text-[#475569] max-w-md leading-relaxed">
-              Estimasi All Risk atau TLO otomatis dari data kendaraan &amp; wilayah.
+            {/* Description: 16px, max 3 lines */}
+            <p className="text-base text-[#475569] max-w-md mb-5" style={{ lineHeight: "1.55" }}>
+              Cek estimasi premi All Risk atau TLO berdasarkan data kendaraan dan wilayah penggunaan Anda.
             </p>
 
-            {/* 3 feature icons row — desktop only (mobile hidden to save space) */}
-            <div className="hidden lg:flex flex-wrap items-center gap-5 mt-1">
-              {features.map((f) => (
-                <div key={f.label} className="flex items-center gap-2">
-                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#CCFBF1] border border-[#5EEAD4] flex items-center justify-center text-[#0F766E]">
-                    <f.icon className="h-4 w-4" aria-hidden />
-                  </span>
-                  <span className="text-sm font-semibold text-[#0F172A]">{f.label}</span>
-                </div>
+            {/* Benefits: inline text with checkmarks, no circles */}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-5">
+              {benefits.map((b) => (
+                <span key={b} className="flex items-center gap-1.5 text-[13px] text-[#475569]">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-[#0F766E] flex-shrink-0" aria-hidden />
+                  {b}
+                </span>
               ))}
             </div>
 
-            {/* CTA buttons — desktop shows 2, mobile shows only primary */}
-            <div className="flex flex-col sm:flex-row gap-2 mt-1">
+            {/* Single CTA: 48px height */}
+            <div className="flex flex-col gap-2">
               <Button
                 as="link"
                 href="/#kalkulator"
                 variant="primary"
-                size="md"
+                size="lg"
                 onClick={() => trackEvent("apply_click", {})}
+                className="!h-12 !min-h-[48px]"
               >
                 <Calculator className="h-4 w-4" aria-hidden />
-                Mulai Hitung
+                Mulai Hitung Premi
               </Button>
+              {/* Text link (no button) */}
               {whatsappLink && (
-                <Button
-                  as="external"
+                <a
                   href={whatsappLink}
-                  variant="secondary"
-                  size="md"
-                  className="hidden sm:inline-flex"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#0F766E] hover:text-[#0B5C55] font-medium mt-1 self-start inline-flex items-center gap-1"
                   onClick={() => trackEvent("whatsapp_click", {})}
                 >
-                  <MessageCircle className="h-4 w-4" aria-hidden />
-                  Tanya Dulu
-                </Button>
+                  Belum yakin? Konsultasi gratis
+                  <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                </a>
               )}
-            </div>
-
-            {/* Trust strip — desktop only */}
-            <div className="hidden lg:flex mt-2 pt-3 border-t border-[#E2E8F0] items-baseline gap-x-4 gap-y-1 text-xs text-[#64748B]">
-              <span><strong className="text-[#0F172A] text-sm font-bold">49</strong> merek</span>
-              <span><strong className="text-[#0F172A] text-sm font-bold">13k+</strong> varian</span>
-              <span><strong className="text-[#0F172A] text-sm font-bold">8</strong> partner</span>
             </div>
           </div>
 
-          {/* Right: calculator — primary, prominent above the fold */}
-          <div id="kalkulator" className="lg:col-span-7 scroll-mt-20">
+          {/* Right: calculator — directly after hero, gap-6 (24px), max 500px on desktop */}
+          <div id="kalkulator" className="lg:col-span-7 scroll-mt-20 lg:max-w-[500px] lg:ml-auto lg:w-full">
             <HeroCalculator />
           </div>
         </div>

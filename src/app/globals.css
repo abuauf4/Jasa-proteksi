@@ -330,19 +330,19 @@
   .ds-card-lg { padding: 2.25rem; border-radius: 1.25rem; /* 20px */ }
 }
 
-/* ── Calculator card — most prominent (24px radius, deeper shadow) ── */
+/* ── Calculator card — most prominent (16px radius mobile, 20px desktop, thin shadow) ── */
 .ds-card-calc {
-  padding: 1rem;
-  border-radius: 1rem; /* 16px mobile — compact */
+  padding: 18px;
+  border-radius: 16px;
   border: 1px solid #E2E8F0;
   background: #FFFFFF;
-  box-shadow: 0 8px 32px -12px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 @media (min-width: 768px) {
-  .ds-card-calc { padding: 1.5rem; border-radius: 1.25rem; /* 20px */ }
+  .ds-card-calc { padding: 22px; border-radius: 20px; }
 }
 @media (min-width: 1024px) {
-  .ds-card-calc { padding: 1.75rem; border-radius: 1.5rem; /* 24px desktop */ }
+  .ds-card-calc { padding: 24px; }
 }
 
 /* ── Chips — small radius for inline elements ── */

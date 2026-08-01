@@ -40,7 +40,8 @@ export default function HomePage({ initialSettings, initialHero }: HomePageProps
           <LegalDisclaimer className="ds-container mt-8 mb-8" />
         </main>
         <SiteFooter />
-        <MobileStickyCTA />
+        {/* MobileStickyCTA disabled on homepage per spec — only one floating action allowed,
+            hide when hero + calculator visible. Drawer + hero CTA already cover it. */}
       </div>
     </ServerDataProvider>
   );

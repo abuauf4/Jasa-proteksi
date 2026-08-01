@@ -71,10 +71,10 @@ export function SiteHeader() {
       <header
         className={`
           sticky top-0 z-40 w-full bg-white transition-all
-          ${scrolled ? "border-b border-[#E2E8F0] backdrop-blur-md shadow-[0_1px_2px_rgba(15,23,42,0.04)]" : "border-b border-transparent"}
+          ${scrolled ? "border-b border-[#E2E8F0] backdrop-blur-md" : "border-b border-transparent"}
         `}
       >
-        <Container className="flex items-center justify-between h-16 sm:h-[72px]">
+        <Container className="flex items-center justify-between !px-4 h-[60px] sm:h-[72px]">
           {/* Logo */}
           <Link
             href="/"
@@ -84,7 +84,7 @@ export function SiteHeader() {
             <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#0F172A] flex items-center justify-center">
               <ShieldCheck className="h-4 w-4 text-[#5EEAD4]" aria-hidden />
             </span>
-            <span className="text-[15px] font-bold text-[#0F172A] tracking-tight">
+            <span className="text-[20px] sm:text-[22px] font-bold text-[#0F172A] tracking-tight">
               Jasa Proteksi
             </span>
           </Link>
@@ -110,31 +110,17 @@ export function SiteHeader() {
             </Button>
           </div>
 
-          {/* Mobile right cluster */}
-          <div className="flex md:hidden items-center gap-2">
-            <Button
-              as="link"
-              href="/#kalkulator"
-              variant="primary"
-              size="sm"
-              onClick={() => trackEvent("apply_click", {})}
-              className="!h-10 !min-h-[44px]"
-            >
-              <Calculator className="h-4 w-4" aria-hidden />
-              <span className="hidden xs:inline">Hitung Premi</span>
-              <span className="xs:hidden">Hitung</span>
-            </Button>
-            <button
-              type="button"
-              onClick={() => setDrawerOpen(true)}
-              className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-[#0F172A] hover:bg-[#F1F5F9]"
-              aria-label="Buka menu navigasi"
-              aria-expanded={drawerOpen}
-              aria-controls="mobile-drawer"
-            >
-              <Menu className="h-6 w-6" aria-hidden />
-            </button>
-          </div>
+          {/* Mobile hamburger only — no big Hitung button */}
+          <button
+            type="button"
+            onClick={() => setDrawerOpen(true)}
+            className="md:hidden w-10 h-10 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-lg text-[#0F172A] hover:bg-[#F1F5F9]"
+            aria-label="Buka menu navigasi"
+            aria-expanded={drawerOpen}
+            aria-controls="mobile-drawer"
+          >
+            <Menu className="h-6 w-6" aria-hidden />
+          </button>
         </Container>
       </header>
 

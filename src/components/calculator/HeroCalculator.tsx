@@ -118,13 +118,13 @@ export function HeroCalculator({
       {!hideHeader && (
         <div className="flex items-center justify-between mb-2">
           <div>
-            <h3 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">Cek Premi Mobil</h3>
-            <p className="text-xs text-[#475569] mt-0.5">
+            <h3 className="text-2xl font-bold text-[#0F172A] tracking-tight">Cek Premi Mobil</h3>
+            <p className="text-[14px] text-[#475569] mt-0.5">
               Estimasi otomatis dari data kendaraan.
             </p>
           </div>
           {!isResult && (
-            <span className="text-xs font-semibold text-[#64748B] whitespace-nowrap">
+            <span className="text-[13px] font-semibold text-[#64748B] whitespace-nowrap">
               Langkah {stepNumber} dari {totalSteps - 1}
             </span>
           )}
