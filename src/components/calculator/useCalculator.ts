@@ -575,6 +575,63 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     }
   }, [state.protection.coverageType, state.extension.addOns, state.step, state.premium, calculatePremium]);
 
+  /* ─── Persist calculator state to sessionStorage (for /hasil-simulasi page) ─── */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // Only save when we have premium (result ready) or step changed
+    if (state.step === "result" || state.premium) {
+      try {
+        sessionStorage.setItem("jp_calc_state", JSON.stringify({
+          step: state.step,
+          vehicle: state.vehicle,
+          region: state.region,
+          protection: state.protection,
+          extension: state.extension,
+          personal: state.personal,
+          premium: state.premium,
+          selectedPartnerIndex: state.selectedPartnerIndex,
+          lead: state.lead,
+          vehicleFound: state.vehicleFound,
+          showManualOtr: state.showManualOtr,
+          databaseVehicleValue: state.databaseVehicleValue,
+          manualOtrValidation: state.manualOtrValidation,
+        }));
+      } catch { /* silent */ }
+    }
+  }, [state]);
+
+  /* ─── Restore calculator state from sessionStorage (on /hasil-simulasi mount) ─── */
+  const restoredRef = useRef(false);
+  useEffect(() => {
+    if (restoredRef.current) return;
+    restoredRef.current = true;
+    if (typeof window === "undefined") return;
+    // Only restore if we don't already have premium (i.e., fresh page load on result page)
+    if (state.premium) return;
+    try {
+      const saved = sessionStorage.getItem("jp_calc_state");
+      if (!saved) return;
+      const parsed = JSON.parse(saved);
+      if (!parsed.premium) return;
+      setState((s) => ({
+        ...s,
+        step: "result",
+        vehicle: parsed.vehicle || s.vehicle,
+        region: parsed.region || s.region,
+        protection: parsed.protection || s.protection,
+        extension: parsed.extension || s.extension,
+        personal: parsed.personal || s.personal,
+        premium: parsed.premium,
+        selectedPartnerIndex: parsed.selectedPartnerIndex ?? null,
+        lead: parsed.lead || null,
+        vehicleFound: parsed.vehicleFound ?? false,
+        showManualOtr: parsed.showManualOtr ?? false,
+        databaseVehicleValue: parsed.databaseVehicleValue ?? null,
+        manualOtrValidation: parsed.manualOtrValidation ?? null,
+      }));
+    } catch { /* silent */ }
+  }, []);
+
   return {
     state,
     brands,

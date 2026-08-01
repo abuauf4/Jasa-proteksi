@@ -89,18 +89,18 @@ export function BottomSheetPicker({
 
         <div className="px-4 pt-3 pb-2 flex-shrink-0">
           <div className="relative">
-            <Search
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B]"
-              aria-hidden
-            />
             <input
               ref={searchRef}
               type="text"
-              className="ds-input pl-9"
+              className="ds-input pr-9"
               placeholder={placeholder}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               autoComplete="off"
+            />
+            <Search
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B]"
+              aria-hidden
             />
           </div>
           <p className="text-xs text-[#64748B] mt-1.5">

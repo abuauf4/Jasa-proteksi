@@ -8,7 +8,7 @@ import {
 import { UseCalculatorReturn } from "./useCalculator";
 import { type PremiumPartner, partnerLogoPath, ADDON_META, TLO_EXCLUDED_ADDONS, ALL_ADDON_KEYS } from "./types";
 import { useCountUp } from "./useCountUp";
-import { formatIDR, buildWhatsAppLink } from "@/lib/format";
+import { formatIDR, formatPercent, formatRate, buildWhatsAppLink } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-events";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import { Button } from "@/components/site/Button";
@@ -156,7 +156,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
         </div>
       </div>
 
-      {/* Partner Logo Grid — 4 cols × 2 rows = 8 logos */}
+      {/* Partner Logo Grid — 4 cols × 2 rows = 8 logos (no price, navigation only) */}
       <div>
         <p className="text-sm font-bold text-[#0F172A] mb-2">Pilih Perusahaan Asuransi</p>
         <div className="grid grid-cols-4 gap-2">
@@ -170,7 +170,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
                 type="button"
                 onClick={() => calc.selectPartner(originalIdx)}
                 className={`
-                  relative aspect-square rounded-xl border-2 flex flex-col items-center justify-center p-2 transition-all
+                  relative aspect-square rounded-xl border-2 flex items-center justify-center p-3 transition-all
                   ${selected
                     ? "border-[#0F766E] bg-[#ECFDF5] shadow-sm"
                     : isCheapest
@@ -189,20 +189,17 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
                   <img
                     src={logo}
                     alt={pt.name}
-                    className={`max-h-10 max-w-full object-contain transition-opacity ${selected ? "opacity-100" : "opacity-70"}`}
+                    className={`max-h-12 max-w-full object-contain transition-opacity ${selected ? "opacity-100" : "opacity-70"}`}
                     loading="lazy"
                   />
                 ) : (
-                  <span className="text-xs font-bold text-[#475569]">{pt.name.charAt(0)}</span>
+                  <span className="text-sm font-bold text-[#475569]">{pt.name.charAt(0)}</span>
                 )}
-                <span className="text-[10px] font-semibold text-[#0F172A] mt-1 text-center leading-tight">
-                  {formatIDR(pt.estimatedPremium)}
-                </span>
               </button>
             );
           })}
         </div>
-        <p className="text-xs text-[#64748B] mt-1.5 text-center">Diurutkan dari premi termurah</p>
+        <p className="text-xs text-[#64748B] mt-1.5 text-center">Klik logo untuk ganti partner — premi di atas otomatis update</p>
       </div>
 
       {/* Jenis Perlindungan — bagi 2 di 1 baris (TLO, All Risk) */}
@@ -268,6 +265,9 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
         )}
       </div>
 
+      {/* Rincian — di paling bawah setelah perluasan */}
+      <RincianSection calc={calc} partner={partner} displayPremium={displayPremium} />
+
       {/* CTAs */}
       <div className="flex flex-col gap-2 pt-2 border-t border-[#E2E8F0]">
         <Button as="external" href={whatsappLink} variant="primary" size="lg" onClick={handleApplyClick} className="w-full">
@@ -311,6 +311,155 @@ function PremiumLoading() {
       <Loader2 className="h-7 w-7 text-[#0F766E] animate-spin" aria-hidden />
       <p className="text-sm font-semibold text-[#0F172A]">Menghitung estimasi premi...</p>
       <p className="text-xs text-[#64748B]">Engine memproses data kendaraan & tarif</p>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════
+   Rincian Section — collapsible breakdown di paling bawah
+   ═══════════════════════════════════════════════════ */
+
+function RincianSection({
+  calc,
+  partner,
+  displayPremium,
+}: {
+  calc: UseCalculatorReturn;
+  partner: PremiumPartner | null;
+  displayPremium: number;
+}) {
+  const { state } = calc;
+  const p = state.premium;
+  const [open, setOpen] = React.useState(false);
+  const [showPartners, setShowPartners] = React.useState(false);
+
+  if (!p) return null;
+
+  // Use partner breakdown if available, else global
+  const bd = partner?.breakdown;
+  const basePremium = bd?.basePremium ?? p.basePremium;
+  const addons = bd?.addons ?? p.addOns;
+  const subtotal = bd?.totalPremiumBeforeDiscount ?? p.totalPremiumBeforeDiscount;
+  const discount = bd?.discountAmount ?? p.discountAmount;
+  const discountPercent = bd?.discountPercent ?? p.discountPercent;
+  const adminFee = bd?.adminFee ?? p.adminFee;
+  const policyFee = bd?.policyFee ?? p.policyFee;
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between text-sm font-bold text-[#0F172A] py-2"
+        aria-expanded={open}
+      >
+        <span>Rincian Premi</span>
+        {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+      </button>
+      {open && (
+        <div className="rounded-xl border border-[#E2E8F0] bg-white p-4 flex flex-col gap-2 mt-1">
+          <Row label="Premi Dasar" value={formatIDR(basePremium)} />
+          {addons.map((a) => (
+            <Row
+              key={a.key}
+              label={`Perluasan: ${a.label}`}
+              value={formatIDR(a.premium)}
+              sub={a.rate ? `Tarif ${formatRate(a.rate)}` : undefined}
+            />
+          ))}
+          <Row label="Subtotal" value={formatIDR(subtotal)} bold />
+          {discount > 0 && (
+            <Row label={`Diskon (${formatPercent(discountPercent)})`} value={`− ${formatIDR(discount)}`} negative />
+          )}
+          <Row label="Biaya Admin" value={formatIDR(adminFee)} />
+          {policyFee > 0 && <Row label="Biaya Polis" value={formatIDR(policyFee)} />}
+          <div className="border-t border-[#E2E8F0] mt-2 pt-2">
+            <Row label="Total" value={formatIDR(displayPremium)} bold large />
+          </div>
+
+          {/* Partner breakdown toggle */}
+          {p.partners.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={() => setShowPartners((v) => !v)}
+                className="w-full flex items-center justify-between text-sm font-semibold text-[#0F172A] py-2 mt-2 border-t border-[#E2E8F0]"
+                aria-expanded={showPartners}
+              >
+                <span>Estimasi dari {p.partners.length} perusahaan</span>
+                {showPartners ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </button>
+              {showPartners && (
+                <div className="flex flex-col gap-1.5 mt-1">
+                  {p.partners.map((pt, idx) => {
+                    const selected = state.selectedPartnerIndex === idx;
+                    return (
+                      <button
+                        key={pt.name}
+                        type="button"
+                        onClick={() => calc.selectPartner(idx)}
+                        className={`text-left p-2.5 rounded-lg border-2 transition-all flex items-center justify-between gap-2 ${
+                          selected ? "border-[#0F766E] bg-[#ECFDF5]" : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"
+                        }`}
+                        aria-pressed={selected}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          {partnerLogoPath(pt.name) && (
+                            <img
+                              src={partnerLogoPath(pt.name)}
+                              alt={pt.name}
+                              className="h-6 w-auto object-contain flex-shrink-0"
+                              loading="lazy"
+                            />
+                          )}
+                          <span className="text-xs font-semibold text-[#0F172A] truncate">{pt.name}</span>
+                        </div>
+                        <span className="text-sm font-bold text-[#0F172A] whitespace-nowrap">
+                          {formatIDR(pt.estimatedPremium)}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Row({
+  label,
+  value,
+  sub,
+  bold,
+  large,
+  negative,
+}: {
+  label: string;
+  value: string;
+  sub?: string;
+  bold?: boolean;
+  large?: boolean;
+  negative?: boolean;
+}) {
+  return (
+    <div className="flex items-baseline justify-between gap-3">
+      <div className="flex flex-col">
+        <span className={`text-sm ${bold ? "font-semibold text-[#0F172A]" : "text-[#475569]"}`}>
+          {label}
+        </span>
+        {sub && <span className="text-xs text-[#94A3B8]">{sub}</span>}
+      </div>
+      <span
+        className={`${large ? "text-base" : "text-sm"} ${
+          bold ? "font-bold text-[#0F172A]" : negative ? "text-[#15803D] font-semibold" : "text-[#475569]"
+        } whitespace-nowrap`}
+      >
+        {value}
+      </span>
     </div>
   );
 }

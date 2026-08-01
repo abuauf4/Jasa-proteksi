@@ -24,12 +24,6 @@ const PARTNER_NAMES = [
 
 export function HeroSection() {
   const { settings } = useSiteSettings();
-  const whatsappLink = settings.whatsapp
-    ? buildWhatsAppLink(
-        settings.whatsapp,
-        "Halo Jasa Proteksi, saya ingin konsultasi tentang premi asuransi mobil."
-      )
-    : null;
 
   // Inline benefits (compact, no circles)
   const benefits = [
@@ -43,7 +37,7 @@ export function HeroSection() {
       id="beranda"
       className="relative bg-gradient-to-b from-[#F0FDFA] via-[#F8FAFC] to-[#FFFFFF] overflow-hidden"
     >
-      {/* Car image background — desktop right side only, very subtle */}
+      {/* Car image background — desktop right side only */}
       <div
         className="absolute right-0 top-0 bottom-0 w-1/2 opacity-[0.12] pointer-events-none bg-cover bg-center bg-no-repeat hidden lg:block"
         style={{ backgroundImage: "url('/hero-car-bg.webp')" }}
@@ -52,9 +46,8 @@ export function HeroSection() {
 
       <Container className="relative !px-5 pt-5 pb-4 sm:!px-6 lg:pt-10 lg:pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-start">
-          {/* Left: copy — VERY compact, ~50% viewport on mobile */}
+          {/* Left: copy — compact, no CTA (calculator is right there) */}
           <div className="lg:col-span-5 flex flex-col lg:pt-4">
-            {/* Badge: small */}
             <span
               className="inline-flex items-center self-start px-3 h-[28px] rounded-full bg-[#CCFBF1] border border-[#5EEAD4] text-[#0F766E] font-semibold"
               style={{ fontSize: "12px", letterSpacing: "0.05em" }}
@@ -62,18 +55,16 @@ export function HeroSection() {
               Platform Asuransi Mobil
             </span>
 
-            {/* H1: 34px mobile, 56px desktop */}
             <h1 className="font-bold text-[#0F172A] tracking-tight mt-3 mb-2 text-[34px] leading-[1.1] sm:text-[36px] lg:text-[56px] lg:leading-[1.1]">
               Hitung Premi Asuransi Mobil Secara Online
             </h1>
 
-            {/* Description: 16px */}
             <p className="text-base text-[#475569] max-w-md mb-3" style={{ lineHeight: "1.55" }}>
               Cek estimasi premi All Risk atau TLO berdasarkan data kendaraan dan wilayah penggunaan Anda.
             </p>
 
             {/* Benefits: inline text */}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
               {benefits.map((b) => (
                 <span key={b} className="flex items-center gap-1.5 text-[13px] text-[#475569]">
                   <CheckCircle2 className="h-3.5 w-3.5 text-[#0F766E] flex-shrink-0" aria-hidden />
@@ -81,22 +72,9 @@ export function HeroSection() {
                 </span>
               ))}
             </div>
-
-            {/* Single CTA: 48px */}
-            <Button
-              as="link"
-              href="/#kalkulator"
-              variant="primary"
-              size="lg"
-              onClick={() => trackEvent("apply_click", {})}
-              className="!h-12 !min-h-[48px] w-full sm:w-auto"
-            >
-              <Calculator className="h-4 w-4" aria-hidden />
-              Mulai Hitung Premi
-            </Button>
           </div>
 
-          {/* Right: calculator — starts ~50% viewport on mobile */}
+          {/* Right: calculator */}
           <div id="kalkulator" className="lg:col-span-7 scroll-mt-20 lg:max-w-[500px] lg:ml-auto lg:w-full">
             <HeroCalculator />
           </div>

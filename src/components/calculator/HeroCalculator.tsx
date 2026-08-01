@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { useCalculator } from "./useCalculator";
 import { VehicleStep, CoverageStep } from "./steps";
@@ -32,6 +33,7 @@ export function HeroCalculator({
 }: HeroCalculatorProps) {
   const calc = useCalculator({ initialCoverageType });
   const { state, calculatePremium, setError } = calc;
+  const router = useRouter();
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   // Track if user has attempted to proceed — used to show red borders on empty required fields
   const [submitted, setSubmitted] = React.useState(false);
@@ -84,20 +86,20 @@ export function HeroCalculator({
   const handleNext = async () => {
     setSubmitted(true);
     if (!validateCurrentStep()) return;
-    // 3-step UI flow: vehicle → coverage → result
-    // Internally region/protection/extension are 3 steps but UI presents them as 1,
-    // so we skip directly to calculatePremium from any coverage step.
+    // 2-step flow: vehicle → coverage → navigate to /hasil-simulasi
     if (state.step === "vehicle") {
       calc.goToStep("region");
     } else if (state.step === "region" || state.step === "protection" || state.step === "extension") {
-      // Any coverage step → calculate directly (no intermediate step)
-      await calculatePremium();
+      // Calculate premium, then navigate to dedicated result page
+      const success = await calculatePremium();
+      if (success) {
+        router.push("/hasil-simulasi");
+      }
     }
   };
 
   const handleBack = () => {
     if (state.step === "result") {
-      // From result, go back to coverage step (region shows CoverageStep UI)
       calc.goToStep("region");
     } else if (state.step === "region" || state.step === "protection" || state.step === "extension") {
       calc.goToStep("vehicle");
@@ -116,22 +118,15 @@ export function HeroCalculator({
     <div ref={scrollRef} className={`ds-card-calc ${className ?? ""}`}>
       {/* Header row: title + step indicator (kaya reference) */}
       {!hideHeader && (
-        <div className="flex items-center justify-between mb-2">
-          <div>
-            <h3 className="text-2xl font-bold text-[#0F172A] tracking-tight">Cek Premi Mobil</h3>
-            <p className="text-[14px] text-[#475569] mt-0.5">
-              Estimasi otomatis dari data kendaraan.
-            </p>
-          </div>
-          {!isResult && (
-            <span className="text-[13px] font-semibold text-[#64748B] whitespace-nowrap">
-              Langkah {stepNumber} dari {totalSteps - 1}
-            </span>
-          )}
+        <div className="mb-2">
+          <h3 className="text-2xl font-bold text-[#0F172A] tracking-tight">Cek Premi Mobil</h3>
+          <p className="text-[14px] text-[#475569] mt-0.5">
+            Estimasi otomatis dari data kendaraan.
+          </p>
         </div>
       )}
 
-      {/* Progress — segmented bar (kaya reference: 4 segments) */}
+      {/* Progress — segmented bar (no text label, indicator only) */}
       {!isResult && (
         <div className="flex items-center gap-1.5 mb-4" aria-hidden>
           {[1, 2].map((n) => (
@@ -163,27 +158,28 @@ export function HeroCalculator({
         </div>
       )}
 
-      {/* Navigation buttons — hidden on result step (PremiumResult has its own CTAs) */}
+      {/* Navigation buttons — hidden on result step + step 1 (no Kembali on first step) */}
       {!isResult && !state.isLoadingPremium && (
         <div className="mt-5 flex flex-col-reverse sm:flex-row gap-2">
-          <Button
-            type="button"
-            variant="secondary"
-            size="lg"
-            onClick={handleBack}
-            disabled={isVehicleStep}
-            className="sm:flex-1"
-          >
-            <ArrowLeft className="h-4 w-4" aria-hidden />
-            Kembali
-          </Button>
+          {!isVehicleStep && (
+            <Button
+              type="button"
+              variant="secondary"
+              size="lg"
+              onClick={handleBack}
+              className="sm:flex-1"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden />
+              Kembali
+            </Button>
+          )}
           <Button
             type="button"
             variant="primary"
             size="lg"
             onClick={handleNext}
             disabled={state.isLoadingPremium}
-            className="sm:flex-[2]"
+            className={isVehicleStep ? "w-full" : "sm:flex-[2]"}
           >
             {isCoverageStep ? (
               <>
