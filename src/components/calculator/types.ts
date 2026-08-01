@@ -50,6 +50,7 @@ export interface PremiumPartner {
   addonModifier: number;
   adminFee: number;
   bengkelAuthorizedExcluded?: boolean;
+  bengkelResmiRate?: number;
   estimatedPremium: number;
   benefits: string[];
   facilities: string[];
@@ -57,7 +58,7 @@ export interface PremiumPartner {
   breakdown?: {
     basePremium: number;
     addOnPremium: number;
-    addons: Array<{ key: string; label: string; premium: number }>;
+    addons: Array<{ key: string; label: string; premium: number; rate?: number }>;
     totalPremiumBeforeDiscount: number;
     discountPercent: number;
     discountAmount: number;

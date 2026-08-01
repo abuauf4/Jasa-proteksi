@@ -9,11 +9,17 @@ export const dynamic = "force-dynamic";
 // ─── Partner Configuration (Static Fallback) ───
 // Used only when the database is unreachable.
 // When DB is available, active InsurancePartner records are queried instead.
+//
+// Per-partner bengkel resmi rules (confirmed by owner, 2026-08-01):
+//   - bengkelResmiMaxYears: max vehicle age eligible for bengkel resmi coverage
+//   - bengkelResmiRate: per-partner rate override for bengkelAuthorized addon
+//     (when undefined, falls back to global addon rate 0.001 = 0.1%)
 const PARTNERS = [
   {
     name: "Sinarmas",
     key: "partnerSinarmasModifier",
     bengkelResmiMaxYears: 10,
+    bengkelResmiRate: 0.005, // 0.5%
     benefits: ["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi 10 Tahun"],
     facilities: ["Free derek", "Layanan call 24 jam"],
     availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
@@ -22,6 +28,7 @@ const PARTNERS = [
     name: "Multi Artha Guna",
     key: "partnerMultiArthaGlobalModifier",
     bengkelResmiMaxYears: 3,
+    // bengkelResmiRate: undefined → uses global default 0.001 (0.1%)
     benefits: ["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi 3 Tahun"],
     facilities: ["Free derek", "Layanan call 24 jam"],
     availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
@@ -30,6 +37,7 @@ const PARTNERS = [
     name: "ACA",
     key: "partnerACAModifier",
     bengkelResmiMaxYears: 10,
+    // bengkelResmiRate: undefined → uses global default 0.001 (0.1%)
     benefits: ["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi 10 Tahun"],
     facilities: ["Free derek", "Layanan call 24 jam"],
     availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
@@ -38,6 +46,7 @@ const PARTNERS = [
     name: "Mega Insurance",
     key: "partnerMegaInsuranceModifier",
     bengkelResmiMaxYears: 10,
+    bengkelResmiRate: 0.001, // 0.1%
     benefits: ["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi 10 Tahun"],
     facilities: ["Free derek", "Layanan call 24 jam"],
     availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
@@ -46,6 +55,7 @@ const PARTNERS = [
     name: "Zurich Syariah",
     key: "partnerZurichsyariahModifier",
     bengkelResmiMaxYears: 10,
+    bengkelResmiRate: 0.0015, // 0.15%
     benefits: ["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi 10 Tahun", "Syariah Compliant"],
     facilities: ["Free derek", "Layanan call 24 jam"],
     availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
@@ -54,6 +64,7 @@ const PARTNERS = [
     name: "Tugu",
     key: "partnerTuguModifier",
     bengkelResmiMaxYears: 5,
+    bengkelResmiRate: 0.0015, // 0.15%
     benefits: ["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi 5 Tahun"],
     facilities: ["Free derek", "Layanan call 24 jam"],
     availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
@@ -62,6 +73,7 @@ const PARTNERS = [
     name: "Sahabat",
     key: "partnerSahabatModifier",
     bengkelResmiMaxYears: 5,
+    bengkelResmiRate: 0.001, // 0.1%
     benefits: ["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi 5 Tahun"],
     facilities: ["Free derek", "Layanan call 24 jam"],
     availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
@@ -70,6 +82,7 @@ const PARTNERS = [
     name: "Oona",
     key: "partnerOonaModifier",
     bengkelResmiMaxYears: 5,
+    bengkelResmiRate: 0.001, // 0.1%
     benefits: ["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi 5 Tahun"],
     facilities: ["Free derek", "Layanan call 24 jam"],
     availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
@@ -401,9 +414,21 @@ function calculateStaticPremium(input: {
     const modifier = defaultModifiers[partner.key] ?? 1.0;
     // Filter bengkelAuthorized if vehicle age exceeds partner's max
     const bengkelExcluded = partner.bengkelResmiMaxYears != null && vehicleAge > partner.bengkelResmiMaxYears;
-    const filteredAddonPremiums = bengkelExcluded
+
+    // Apply per-partner bengkelResmiRate override if defined.
+    // Other addons use the global addon premium as-is.
+    const filteredAddonPremiums = (bengkelExcluded
       ? addonPremiums.filter(a => a.key !== "bengkelAuthorized")
-      : addonPremiums;
+      : addonPremiums
+    ).map((a) => {
+      if (a.key === "bengkelAuthorized" && partner.bengkelResmiRate != null && !bengkelExcluded) {
+        // Recalculate bengkel premium using partner-specific rate
+        const partnerPremium = Math.round(vehicleValue * partner.bengkelResmiRate);
+        return { ...a, premium: partnerPremium, rate: partner.bengkelResmiRate };
+      }
+      return a;
+    });
+
     const addonTotal = filteredAddonPremiums.reduce((sum, a) => sum + a.premium, 0);
     const adjustedBasePremium = Math.round(basePremium * modifier);
     const adjustedTotalBeforeDiscount = adjustedBasePremium + addonTotal;
@@ -415,6 +440,7 @@ function calculateStaticPremium(input: {
       addonModifier: 1.0,
       adminFee,
       bengkelAuthorizedExcluded: bengkelExcluded,
+      bengkelResmiRate: partner.bengkelResmiRate,
       estimatedPremium,
       benefits: partner.benefits,
       facilities: partner.facilities,
@@ -607,10 +633,18 @@ export async function POST(request: NextRequest) {
             .map((addon) => {
             const override = overrideMap.get(addon.key);
             if (override && override.rate > 0) {
-              return { ...addon, premium: Math.round(result.vehicleValue * override.rate) };
+              // Partner-specific rate override — update both premium AND rate field
+              return {
+                ...addon,
+                premium: Math.round(result.vehicleValue * override.rate),
+                rate: override.rate,
+              };
             }
             return { ...addon, premium: Math.round(addon.premium * (partner.addonModifier ?? 1.0)) };
           });
+
+          // Expose bengkelResmiRate at top-level for UI (when override exists)
+          const bengkelOverride = overrideMap.get("bengkelAuthorized");
 
           return {
             name: partner.name,
@@ -618,6 +652,7 @@ export async function POST(request: NextRequest) {
             addonModifier: partner.addonModifier ?? 1.0,
             adminFee: partnerAdminFee,
             bengkelAuthorizedExcluded: bengkelExcluded,
+            bengkelResmiRate: bengkelOverride?.rate,
             estimatedPremium,
             benefits: partner.benefits,
             facilities: partner.facilities,

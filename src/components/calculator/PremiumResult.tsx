@@ -355,7 +355,7 @@ function PartnerCard({ partner, selected, vehicleAge, hasBengkelAddon, onSelect 
         ) : (
           <span className="ds-chip-teal ds-chip">
             <ShieldCheck className="h-3 w-3" aria-hidden />
-            Bengkel resmi tersedia
+            Bengkel resmi {partner.bengkelResmiRate ? `· ${(partner.bengkelResmiRate * 100).toFixed(2)}%` : "tersedia"}
           </span>
         )}
       </div>
@@ -383,9 +383,21 @@ function PartnerCard({ partner, selected, vehicleAge, hasBengkelAddon, onSelect 
           {/* Per-partner premium breakdown */}
           <div className="flex flex-col gap-1.5 mt-2">
             <Row label="Premi dasar (setelah modifier)" value={formatIDR(bd.basePremium)} sub={`Modifier ×${partner.modifier.toFixed(2)}`} />
-            {bd.addons.length > 0 && bd.addons.map((a) => (
-              <Row key={a.key} label={`Perluasan: ${a.label}`} value={formatIDR(a.premium)} />
-            ))}
+            {bd.addons.length > 0 && bd.addons.map((a) => {
+              // Show bengkelAuthorized rate explicitly when partner-specific
+              const isBengkelAddon = a.key === "bengkelAuthorized";
+              const rateLabel = isBengkelAddon && a.rate
+                ? `Tarif ${(a.rate * 100).toFixed(2)}%`
+                : undefined;
+              return (
+                <Row
+                  key={a.key}
+                  label={`Perluasan: ${a.label}`}
+                  value={formatIDR(a.premium)}
+                  sub={rateLabel}
+                />
+              );
+            })}
             <Row label="Subtotal" value={formatIDR(bd.totalPremiumBeforeDiscount)} bold />
             {bd.discountAmount > 0 && (
               <Row label={`Diskon (${bd.discountPercent}%)`} value={`− ${formatIDR(bd.discountAmount)}`} negative />
