@@ -50,7 +50,7 @@ export function HeroCarousel({ images, alt, className = "", interval = 5000, onS
       <img
         src={images[0]}
         alt={alt}
-        className={`absolute inset-0 w-full h-full object-cover ${className}`}
+        className={`w-full h-auto block ${className}`}
         priority
       />
     );
@@ -63,8 +63,8 @@ export function HeroCarousel({ images, alt, className = "", interval = 5000, onS
           key={idx}
           src={src}
           alt={alt}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-            idx === current ? "opacity-100" : "opacity-0"
+          className={`w-full h-auto block transition-opacity duration-1000 ${
+            idx === current ? "opacity-100 relative" : "opacity-0 absolute inset-0"
           } ${className}`}
           priority={idx === 0}
           loading={idx === 0 ? "eager" : "lazy"}
