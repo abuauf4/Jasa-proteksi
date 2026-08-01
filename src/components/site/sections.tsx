@@ -32,114 +32,72 @@ export function HeroSection() {
       )
     : null;
 
-  // Hero image: from admin settings (HeroContent.backgroundImage), fallback to default
   const heroImage = heroData?.backgroundImage || "/hero-car-bg.webp";
 
   return (
     <>
-      {/* ═══ VISUAL HERO — full-width image, text overlay, shield graphic ═══ */}
-      <section id="beranda" className="relative w-full overflow-hidden bg-[#F0FDFA]">
-        {/* Full-width image */}
-        <div className="relative w-full h-[320px] sm:h-[380px] lg:h-[480px]">
-          <img
-            src={heroImage}
-            alt="Mobil terlindungi dengan asuransi"
-            className="absolute inset-0 w-full h-full object-cover"
-            priority
-          />
-          {/* Light gradient overlay — bottom fade for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/30 to-transparent" />
+      {/* ═══ VISUAL HERO — rounded image card, text overlay, shield graphic ═══ */}
+      <section id="beranda" className="relative w-full overflow-hidden bg-[#F0FDFA] pt-3 sm:pt-4">
+        <Container className="!px-4 sm:!px-6">
+          {/* Rounded image card — floating effect */}
+          <div className="relative w-full h-[260px] sm:h-[320px] lg:h-[400px] rounded-3xl overflow-hidden shadow-lg">
+            <img
+              src={heroImage}
+              alt="Mobil terlindungi dengan asuransi"
+              className="absolute inset-0 w-full h-full object-cover"
+              priority
+            />
+            {/* Light gradient overlay — bottom fade for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
 
-          {/* Shield graphic overlay — semi-transparent, reinforces "protection" */}
-          <div className="absolute top-8 right-4 sm:right-8 lg:right-16 pointer-events-none opacity-20" aria-hidden>
-            <svg width="120" height="140" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M60 0L120 20V70C120 100 95 125 60 140C25 125 0 100 0 70V20L60 0Z"
-                fill="white"
-                fillOpacity="0.8"
-              />
-              <path
-                d="M60 10L110 27V70C110 95 90 117 60 130C30 117 10 95 10 70V27L60 10Z"
-                stroke="white"
-                strokeWidth="2"
-                fill="none"
-              />
-              <path
-                d="M40 70L55 85L85 50"
-                stroke="#0F766E"
-                strokeWidth="6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-        </div>
-
-        {/* Text overlay — positioned at bottom of image */}
-        <div className="absolute inset-0 flex flex-col justify-end pb-16 sm:pb-20">
-          <Container className="!px-5 sm:!px-6">
-            <div className="max-w-md">
-              {/* Badge */}
-              <span
-                className="inline-flex items-center gap-1.5 self-start px-3 h-[26px] rounded-full bg-white/90 backdrop-blur-sm text-[#0F766E] font-semibold mb-2 shadow-sm"
-                style={{ fontSize: "11px", letterSpacing: "0.05em" }}
-              >
-                <ShieldCheck className="h-3 w-3" aria-hidden />
-                Asuransi Mobil Online
-              </span>
-
-              {/* Headline — 2 lines max */}
-              <h2 className="font-extrabold text-[#0F172A] tracking-tight text-[26px] leading-[1.15] sm:text-[32px] lg:text-[40px] lg:leading-[1.1] mb-1.5">
-                Mobil Terlindungi,
-                <br />
-                Perjalanan Lebih Tenang.
-              </h2>
-
-              {/* Subheadline — 2 lines max */}
-              <p className="text-[13px] sm:text-sm text-[#475569] leading-snug mb-3 max-w-sm">
-                Cek estimasi premi All Risk atau TLO dari berbagai perusahaan asuransi.
-              </p>
-
-              {/* CTA + Link */}
-              <div className="flex items-center gap-3">
-                <Button
-                  as="link"
-                  href="/#kalkulator"
-                  variant="primary"
-                  size="lg"
-                  onClick={() => trackEvent("apply_click", {})}
-                  className="!h-12 !min-h-[48px]"
-                >
-                  Cek Premi Sekarang
-                </Button>
-                {whatsappLink && (
-                  <a
-                    href={whatsappLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-[#0F766E] hover:text-[#0B5C55] font-medium inline-flex items-center gap-1"
-                    onClick={() => trackEvent("whatsapp_click", {})}
-                  >
-                    Konsultasi Gratis
-                    <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-                  </a>
-                )}
-              </div>
+            {/* Shield graphic overlay — semi-transparent */}
+            <div className="absolute top-6 right-4 sm:right-8 lg:right-12 pointer-events-none opacity-20" aria-hidden>
+              <svg width="100" height="120" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M60 0L120 20V70C120 100 95 125 60 140C25 125 0 100 0 70V20L60 0Z" fill="white" fillOpacity="0.8" />
+                <path d="M60 10L110 27V70C110 95 90 117 60 130C30 117 10 95 10 70V27L60 10Z" stroke="white" strokeWidth="2" fill="none" />
+                <path d="M40 70L55 85L85 50" stroke="#0F766E" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </div>
-          </Container>
-        </div>
+
+            {/* Text overlay — positioned at bottom of image */}
+            <div className="absolute inset-0 flex flex-col justify-start pt-4 sm:pt-5">
+              <Container className="!px-4 sm:!px-6">
+                {/* Badge — positioned higher */}
+                <span
+                  className="inline-flex items-center gap-1.5 self-start px-3 h-[24px] rounded-full bg-white/90 backdrop-blur-sm text-[#0F766E] font-semibold shadow-sm"
+                  style={{ fontSize: "11px", letterSpacing: "0.05em" }}
+                >
+                  <ShieldCheck className="h-3 w-3" aria-hidden />
+                  Asuransi Mobil Online
+                </span>
+
+                {/* Headline — smaller, 2 lines */}
+                <h2 className="font-extrabold text-[#0F172A] tracking-tight text-[20px] leading-[1.2] sm:text-[24px] lg:text-[28px] lg:leading-[1.15] mt-2 mb-1 max-w-xs">
+                  Mobil Terlindungi,
+                  <br />
+                  Perjalanan Lebih Tenang.
+                </h2>
+
+                {/* Subheadline — 1 line */}
+                <p className="text-[12px] sm:text-[13px] text-[#475569] leading-snug max-w-xs">
+                  Estimasi premi All Risk atau TLO dari berbagai perusahaan.
+                </p>
+              </Container>
+            </div>
+          </div>
+        </Container>
       </section>
 
       {/* ═══ CALCULATOR — floating card overlapping hero ═══ */}
-      <section className="bg-white">
-        <Container className="!px-5 sm:!px-6 -mt-12 sm:-mt-16 relative z-10 pb-6 lg:pb-10">
+      <section className="bg-[#F0FDFA]">
+        <Container className="!px-4 sm:!px-6 -mt-10 sm:-mt-14 relative z-10 pb-6 lg:pb-8">
           <div id="kalkulator" className="scroll-mt-20 lg:max-w-[560px] lg:mx-auto">
             <HeroCalculator />
           </div>
         </Container>
 
         {/* ═══ BOTTOM INFO CARDS — All Risk + TLO quick links ═══ */}
-        <Container className="!px-5 sm:!px-6 pb-8 lg:pb-12">
+        <Container className="!px-4 sm:!px-6 pb-8 lg:pb-12">
           <div className="grid grid-cols-2 gap-3 lg:max-w-[560px] lg:mx-auto">
             <Link
               href="/asuransi-mobil-all-risk"

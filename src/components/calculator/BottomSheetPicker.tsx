@@ -164,6 +164,7 @@ interface PickerTriggerProps {
   disabled?: boolean;
   invalid?: boolean;
   icon?: React.ReactNode;
+  hideLabel?: boolean;
 }
 
 export function PickerTrigger({
@@ -174,13 +175,16 @@ export function PickerTrigger({
   disabled,
   invalid,
   icon,
+  hideLabel = false,
 }: PickerTriggerProps) {
   return (
     <div>
-      <div className="flex items-baseline justify-between mb-1.5">
-        <span className="text-sm font-semibold text-[#0F172A]">{label}</span>
-        {invalid && <span className="text-xs text-[#B91C1C] font-semibold">Wajib</span>}
-      </div>
+      {!hideLabel && (
+        <div className="flex items-baseline justify-between mb-1.5">
+          <span className="text-sm font-semibold text-[#0F172A]">{label}</span>
+          {invalid && <span className="text-xs text-[#B91C1C] font-semibold">Wajib</span>}
+        </div>
+      )}
       <button
         type="button"
         onClick={onClick}
@@ -198,9 +202,24 @@ export function PickerTrigger({
             {icon}
           </span>
         )}
-        <span className={`flex-1 truncate ${value ? "text-[#0F172A]" : invalid ? "text-[#B91C1C]" : "text-[#94A3B8]"}`}>
-          {value || placeholder}
-        </span>
+        <div className="flex-1 min-w-0">
+          {/* When label hidden, show label as small text + value/placeholder below */}
+          {hideLabel ? (
+            <>
+              <span className={`block text-xs ${value ? "text-[#64748B]" : invalid ? "text-[#B91C1C]" : "text-[#94A3B8]"}`}>
+                {label}
+              </span>
+              <span className={`block text-sm truncate ${value ? "text-[#0F172A] font-semibold" : invalid ? "text-[#B91C1C]" : "text-[#94A3B8]"}`}>
+                {value || placeholder}
+              </span>
+            </>
+          ) : (
+            <span className={`truncate ${value ? "text-[#0F172A]" : invalid ? "text-[#B91C1C]" : "text-[#94A3B8]"}`}>
+              {value || placeholder}
+            </span>
+          )}
+        </div>
+        {hideLabel && invalid && <span className="text-xs text-[#B91C1C] font-semibold">Wajib</span>}
         <svg
           className="h-4 w-4 text-[#64748B] flex-shrink-0"
           fill="none"
