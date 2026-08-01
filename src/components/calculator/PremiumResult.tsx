@@ -135,7 +135,6 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
 
         <p className="text-xs text-[#64748B] mt-2">
           Nilai kendaraan {formatIDR(p.vehicleValue)}
-          {p.otrRange?.display ? ` · Rentang OTR ${p.otrRange.display}` : ""}
         </p>
 
         {/* Per-partner rule chips — only when partner selected */}

@@ -50,6 +50,16 @@ interface CalculatorState {
   vehicleFound: boolean;
   /** Whether the user has chosen to enter OTR manually. */
   showManualOtr: boolean;
+  /** Database OTR value (for ±15% manual validation when vehicle was found). */
+  databaseVehicleValue: number | null;
+  /** Manual OTR validation result — null when not applicable. */
+  manualOtrValidation: {
+    isValid: boolean;
+    isBelow: boolean;
+    isAbove: boolean;
+    min: number;
+    max: number;
+  } | null;
 }
 
 export function useCalculator(options: UseCalculatorOptions = {}) {
@@ -77,6 +87,8 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     availableYears: [],
     vehicleFound: false,
     showManualOtr: false,
+    databaseVehicleValue: null,
+    manualOtrValidation: null,
   });
 
   // Vehicle data is stored in STATE (not ref) so derived memos can react to it.
@@ -134,6 +146,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
         ...s,
         vehicle: { ...s.vehicle, vehicleValue: "", vehicleValueSource: "database" },
         vehicleFound: false,
+        databaseVehicleValue: null,
       }));
       return;
     }
@@ -153,12 +166,14 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
           vehicleValueSource: "database",
         },
         vehicleFound: true,
+        databaseVehicleValue: valueIdr,
       }));
     } else {
       setState((s) => ({
         ...s,
         vehicle: { ...s.vehicle, vehicleValue: "", vehicleValueSource: "database" },
         vehicleFound: false,
+        databaseVehicleValue: null,
       }));
     }
   }, [
@@ -168,6 +183,36 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     state.showManualOtr,
     vehicleData,
   ]);
+
+  /* ─── Manual OTR validation: ±15% of database value ─── */
+  // When user enables manual OTR entry AND vehicle was found in database,
+  // validate that the manual value is within ±15% of the database value.
+  useEffect(() => {
+    if (!state.showManualOtr || state.databaseVehicleValue === null) {
+      setState((s) => ({ ...s, manualOtrValidation: null }));
+      return;
+    }
+    const baseValue = state.databaseVehicleValue;
+    const min = Math.round(baseValue * 0.85);
+    const max = Math.round(baseValue * 1.15);
+    const manualVal = parseInt(state.vehicle.vehicleValue.replace(/\D/g, ""), 10) || 0;
+    if (!manualVal) {
+      setState((s) => ({ ...s, manualOtrValidation: null }));
+      return;
+    }
+    const isBelow = manualVal < min;
+    const isAbove = manualVal > max;
+    setState((s) => ({
+      ...s,
+      manualOtrValidation: {
+        isValid: !isBelow && !isAbove,
+        isBelow,
+        isAbove,
+        min,
+        max,
+      },
+    }));
+  }, [state.showManualOtr, state.databaseVehicleValue, state.vehicle.vehicleValue]);
 
   /* ─── Fire calculator_start on first input ─── */
   const fireStartOnce = useCallback(() => {
@@ -307,6 +352,8 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       availableYears: [],
       vehicleFound: false,
       showManualOtr: false,
+      databaseVehicleValue: null,
+      manualOtrValidation: null,
     });
     startedRef.current = false;
   }, [initialCoverageType]);

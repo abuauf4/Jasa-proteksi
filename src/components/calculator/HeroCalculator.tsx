@@ -6,6 +6,7 @@ import { useCalculator } from "./useCalculator";
 import { VehicleStep, CoverageStep } from "./steps";
 import { PremiumResult } from "./PremiumResult";
 import { Button } from "@/components/site/Button";
+import { formatIDR } from "@/lib/format";
 
 interface HeroCalculatorProps {
   initialCoverageType?: "AllRisk" | "TLO";
@@ -53,6 +54,16 @@ export function HeroCalculator({
       if (!v.year) { setError("Pilih tahun kendaraan dulu."); return false; }
       if (!v.vehicleValue) {
         setError("Nilai kendaraan belum tersedia. Masukkan OTR manual.");
+        return false;
+      }
+      // Block if manual OTR is invalid (outside ±15% of database value)
+      if (state.manualOtrValidation && !state.manualOtrValidation.isValid) {
+        const v = state.manualOtrValidation;
+        if (v.isBelow) {
+          setError(`Nilai OTR terlalu rendah. Minimum: ${formatIDR(v.min)} (−15% dari database).`);
+        } else if (v.isAbove) {
+          setError(`Nilai OTR terlalu tinggi. Maksimum: ${formatIDR(v.max)} (+15% dari database).`);
+        }
         return false;
       }
     } else if (state.step === "region" || state.step === "protection" || state.step === "extension") {

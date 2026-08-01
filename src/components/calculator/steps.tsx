@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Search, ChevronDown, AlertCircle, Car, Check } from "lucide-react";
+import { Search, ChevronDown, AlertCircle, Car, Check, CheckCircle2 } from "lucide-react";
 import { UseCalculatorReturn } from "./useCalculator";
 import { PLATE_OPTIONS, ADDON_META, TLO_EXCLUDED_ADDONS, ALL_ADDON_KEYS } from "./types";
 import { formatIDR } from "@/lib/format";
@@ -99,17 +99,51 @@ export function VehicleStep({ calc }: { calc: UseCalculatorReturn }) {
           {state.vehicleFound && <span className="text-xs text-[#0F766E] font-semibold">Otomatis</span>}
         </div>
         {state.showManualOtr ? (
-          <input
-            type="text"
-            inputMode="numeric"
-            className="ds-input"
-            placeholder="Contoh: 250000000"
-            value={v.vehicleValue ? formatIDR(parseInt(v.vehicleValue, 10)) : ""}
-            onChange={(e) => {
-              const digits = e.target.value.replace(/\D/g, "");
-              updateVehicle({ vehicleValue: digits });
-            }}
-          />
+          <>
+            <input
+              type="text"
+              inputMode="numeric"
+              className={`ds-input ${
+                state.manualOtrValidation && !state.manualOtrValidation.isValid
+                  ? "!border-[#B91C1C] !focus:border-[#B91C1C]"
+                  : ""
+              }`}
+              placeholder="Contoh: 250000000"
+              value={v.vehicleValue ? formatIDR(parseInt(v.vehicleValue, 10)) : ""}
+              onChange={(e) => {
+                const digits = e.target.value.replace(/\D/g, "");
+                updateVehicle({ vehicleValue: digits });
+              }}
+              aria-invalid={state.manualOtrValidation ? !state.manualOtrValidation.isValid : undefined}
+            />
+            {/* Inline validation error */}
+            {state.manualOtrValidation && !state.manualOtrValidation.isValid && (
+              <div className="mt-1.5 rounded-lg bg-[#FEF2F2] border border-[#FCA5A5] p-2.5 flex items-start gap-1.5" role="alert">
+                <AlertCircle className="h-3.5 w-3.5 text-[#B91C1C] flex-shrink-0 mt-0.5" aria-hidden />
+                <p className="text-xs text-[#991B1B] leading-relaxed">
+                  {state.manualOtrValidation.isBelow && (
+                    <>
+                      Nilai terlalu rendah. Minimum{" "}
+                      <strong>{formatIDR(state.manualOtrValidation.min)}</strong> (−15% dari nilai database).
+                    </>
+                  )}
+                  {state.manualOtrValidation.isAbove && (
+                    <>
+                      Nilai terlalu tinggi. Maksimum{" "}
+                      <strong>{formatIDR(state.manualOtrValidation.max)}</strong> (+15% dari nilai database).
+                    </>
+                  )}
+                </p>
+              </div>
+            )}
+            {/* Helpful hint when valid */}
+            {state.manualOtrValidation && state.manualOtrValidation.isValid && (
+              <p className="mt-1.5 text-xs text-[#0F766E] flex items-center gap-1">
+                <CheckCircle2 className="h-3 w-3" aria-hidden />
+                Dalam rentang ±15% dari database
+              </p>
+            )}
+          </>
         ) : state.vehicleFound ? (
           <div className="ds-input bg-[#F8FAFC] flex items-center justify-between">
             <span className="font-bold text-[#0F172A]">
