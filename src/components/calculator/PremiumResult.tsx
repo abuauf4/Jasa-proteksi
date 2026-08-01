@@ -6,7 +6,7 @@ import {
   ShieldCheck, Car, MapPin, Send, ChevronDown, ChevronUp, ChevronRight,
 } from "lucide-react";
 import { UseCalculatorReturn } from "./useCalculator";
-import { type PremiumPartner, partnerLogoPath, ADDON_META, TLO_EXCLUDED_ADDONS, ALL_ADDON_KEYS } from "./types";
+import { type PremiumPartner, partnerLogoPath, getPartnerLogoScale, ADDON_META, TLO_EXCLUDED_ADDONS, ALL_ADDON_KEYS } from "./types";
 import { useCountUp } from "./useCountUp";
 import { formatIDR, formatPercent, formatRate, buildWhatsAppLink } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-events";
@@ -137,8 +137,16 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
 
       {/* Card 2: Estimasi Premi + Harga Kendaraan (OTR) — minimal */}
       <div className="rounded-2xl bg-gradient-to-b from-[#ECFDF5] to-[#FFFFFF] border-2 border-[#A7F3D0] p-4 text-center">
-        <p className="text-[11px] font-bold uppercase tracking-wider text-[#0F766E] mb-1">Estimasi Premi Tahunan</p>
-        <p className="ds-premium-hero">
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-[#0F766E]">Estimasi Premi Tahunan</p>
+          {state.isRecalculating && (
+            <span className="inline-flex items-center gap-1 text-[10px] text-[#64748B] font-medium">
+              <Loader2 className="h-3 w-3 animate-spin" aria-hidden />
+              Menghitung ulang...
+            </span>
+          )}
+        </div>
+        <p className={`ds-premium-hero transition-opacity duration-200 ${state.isRecalculating ? "opacity-60" : "opacity-100"}`}>
           {formatIDR(animatedPremium)}
         </p>
         {partner && (
@@ -160,7 +168,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
         </div>
       </div>
 
-      {/* Partner Logo Grid — 4 cols × 2 rows = 8 logos (no price, navigation only) */}
+      {/* Partner Logo Grid — 4 cols × 2 rows, normalized logo sizes */}
       <div>
         <p className="text-sm font-bold text-[#0F172A] mb-2">Pilih Perusahaan Asuransi</p>
         <div className="grid grid-cols-4 gap-2">
@@ -168,13 +176,14 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
             const selected = state.selectedPartnerIndex === originalIdx;
             const logo = partnerLogoPath(pt.name);
             const isCheapest = rankIdx === 0;
+            const scale = getPartnerLogoScale(pt.name);
             return (
               <button
                 key={pt.name}
                 type="button"
                 onClick={() => calc.selectPartner(originalIdx)}
                 className={`
-                  relative aspect-square rounded-xl border-2 flex items-center justify-center p-3 transition-all
+                  relative aspect-square rounded-2xl border-2 flex items-center justify-center p-3 transition-all
                   ${selected
                     ? "border-[#0F766E] bg-[#ECFDF5] shadow-sm"
                     : isCheapest
@@ -185,17 +194,26 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
                 aria-label={`Pilih ${pt.name}`}
               >
                 {isCheapest && (
-                  <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-full bg-[#F59E0B] text-white text-[9px] font-bold uppercase tracking-wider whitespace-nowrap">
+                  <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-full bg-[#F59E0B] text-white text-[9px] font-bold uppercase tracking-wider whitespace-nowrap z-10">
                     Termurah
                   </span>
                 )}
                 {logo ? (
-                  <img
-                    src={logo}
-                    alt={pt.name}
-                    className={`max-h-12 max-w-full object-contain transition-opacity ${selected ? "opacity-100" : "opacity-70"}`}
-                    loading="lazy"
-                  />
+                  <div className="absolute inset-3 flex items-center justify-center">
+                    <img
+                      src={logo}
+                      alt={pt.name}
+                      className="object-contain"
+                      style={{
+                        maxHeight: `${32 * scale}px`,
+                        maxWidth: `${78 * scale}%`,
+                        width: 'auto',
+                        height: 'auto',
+                        opacity: selected ? 1 : 0.7,
+                      }}
+                      loading="lazy"
+                    />
+                  </div>
                 ) : (
                   <span className="text-sm font-bold text-[#475569]">{pt.name.charAt(0)}</span>
                 )}

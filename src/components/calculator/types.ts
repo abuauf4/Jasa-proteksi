@@ -226,6 +226,30 @@ export function partnerLogoPath(partnerName: string): string | null {
   return slug ? `/partners/${slug}.webp` : null;
 }
 
+/**
+ * Per-partner visual scale to normalize logo sizes.
+ * Different logo files have different amounts of internal whitespace.
+ * This scale is applied to the IMG element only, not the card.
+ * Value 1.0 = use default max-h/max-w constraints.
+ * Lower value = smaller logo (for logos with little whitespace).
+ */
+export const partnerLogoScale: Record<string, number> = {
+  sinarmas: 0.82,
+  mag: 0.72,
+  aca: 0.72,
+  "mega-insurance": 0.78,
+  "zurich-syariah": 0.78,
+  tugu: 0.72,
+  sahabat: 0.76,
+  oona: 0.82,
+};
+
+/** Get scale factor for a partner name (returns 1.0 if not configured). */
+export function getPartnerLogoScale(partnerName: string): number {
+  const slug = partnerLogoSlug(partnerName);
+  return slug ? (partnerLogoScale[slug] ?? 1.0) : 1.0;
+}
+
 /** The 4 input steps shown to the user as "Langkah X dari 4".
  *  Result is the 5th state but not counted as a user input step. */
 export const STEP_FLOW: CalculatorStep[] = ["vehicle", "region", "protection", "extension"];

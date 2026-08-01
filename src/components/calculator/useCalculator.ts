@@ -60,6 +60,8 @@ interface CalculatorState {
     min: number;
     max: number;
   } | null;
+  /** Subtle "recalculating" indicator — doesn't clear previous result */
+  isRecalculating: boolean;
 }
 
 export function useCalculator(options: UseCalculatorOptions = {}) {
@@ -89,6 +91,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     showManualOtr: false,
     databaseVehicleValue: null,
     manualOtrValidation: null,
+    isRecalculating: false,
   });
 
   // Vehicle data is stored in STATE (not ref) so derived memos can react to it.
@@ -354,15 +357,30 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       showManualOtr: false,
       databaseVehicleValue: null,
       manualOtrValidation: null,
+      isRecalculating: false,
     });
     startedRef.current = false;
   }, [initialCoverageType]);
 
   /* ─── Premium calculation ─── */
+  // AbortController for cancelling stale requests
+  const abortRef = useRef<AbortController | null>(null);
+  // Debounce timer for addon/coverage changes
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const calculatePremium = useCallback(async (silent = false): Promise<boolean> => {
-    // If silent (recalculation from coverage/addon change), don't show full loading
+    // Cancel any in-flight request
+    if (abortRef.current) {
+      abortRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     if (!silent) {
       setState((s) => ({ ...s, isLoadingPremium: true, error: null }));
+    } else {
+      // Show subtle "recalculating" indicator without clearing previous result
+      setState((s) => ({ ...s, isRecalculating: true }));
     }
 
     try {
@@ -378,7 +396,6 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
         addOns: state.extension.addOns,
       };
 
-      // Manual OTR override
       const otrNum = parseInt(v.vehicleValue.replace(/\D/g, ""), 10) || 0;
       if (state.showManualOtr && otrNum > 0) {
         body.vehicleValueOverride = otrNum;
@@ -390,48 +407,59 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
+        signal: controller.signal,
       });
 
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
-        const msg =
-          (errData as { error?: string }).error ||
-          "Gagal menghitung premi. Silakan coba lagi.";
-        setState((s) => ({ ...s, isLoadingPremium: false, error: msg }));
+        const msg = (errData as { error?: string }).error || "Gagal menghitung premi.";
+        setState((s) => ({ ...s, isLoadingPremium: false, isRecalculating: false, error: msg }));
         trackEvent("calculator_error", { error_message: msg });
         return false;
       }
 
       const data: PremiumResponse = await res.json();
 
-      // Auto-select first partner if any
-      const firstPartnerIdx =
-        data.partners && data.partners.length > 0 ? 0 : null;
+      // Don't update if this request was superseded
+      if (controller.signal.aborted) return false;
+
+      // Preserve selected partner if still valid, else auto-select cheapest
+      const prevPartnerIdx = state.selectedPartnerIndex;
+      const newPartnerIdx = prevPartnerIdx !== null && data.partners[prevPartnerIdx]
+        ? prevPartnerIdx
+        : data.partners.length > 0 ? 0 : null;
 
       setState((s) => ({
         ...s,
         premium: data,
-        selectedPartnerIndex: firstPartnerIdx,
+        selectedPartnerIndex: newPartnerIdx,
         isLoadingPremium: false,
+        isRecalculating: false,
         step: "result",
         error: null,
       }));
 
-      trackEvent("calculation_complete", {
-        coverage_type: state.protection.coverageType,
-        vehicle_brand: v.brand,
-        vehicle_year: parseInt(v.year, 10),
-        estimated_premium: data.totalPremium,
-      });
-      trackEvent("view_result", {
-        coverage_type: state.protection.coverageType,
-        estimated_premium: data.totalPremium,
-      });
+      if (!silent) {
+        trackEvent("calculation_complete", {
+          coverage_type: state.protection.coverageType,
+          vehicle_brand: v.brand,
+          vehicle_year: parseInt(v.year, 10),
+          estimated_premium: data.totalPremium,
+        });
+        trackEvent("view_result", {
+          coverage_type: state.protection.coverageType,
+          estimated_premium: data.totalPremium,
+        });
+      }
       return true;
     } catch (err) {
+      // Ignore abort errors
+      if (err instanceof DOMException && err.name === "AbortError") return false;
       const msg = err instanceof Error ? err.message : "Terjadi kesalahan jaringan.";
       if (!silent) {
-        setState((s) => ({ ...s, isLoadingPremium: false, error: msg }));
+        setState((s) => ({ ...s, isLoadingPremium: false, isRecalculating: false, error: msg }));
+      } else {
+        setState((s) => ({ ...s, isRecalculating: false }));
       }
       trackEvent("calculator_error", { error_message: msg });
       return false;
@@ -443,6 +471,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     state.extension.addOns,
     state.showManualOtr,
     state.vehicleFound,
+    state.selectedPartnerIndex,
   ]);
 
   /* ─── Lead submission (after result shown) ─── */
@@ -566,6 +595,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   }, [state.lead]);
 
   /* ─── Auto re-calculate when coverage type or addons change on result step ─── */
+  // Debounced: 200ms delay for addon toggles, instant for coverage type change
   const prevCoverageRef = useRef<string>(state.protection.coverageType);
   const prevAddonsRef = useRef<string>(state.extension.addOns.join(","));
 
@@ -575,9 +605,28 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     prevCoverageRef.current = state.protection.coverageType;
     prevAddonsRef.current = state.extension.addOns.join(",");
 
-    if (state.step === "result" && state.premium && (coverageChanged || addonsChanged)) {
-      calculatePremium(true); // silent = true, no full loading screen
+    if (state.step !== "result" || !state.premium || (!coverageChanged && !addonsChanged)) {
+      return;
     }
+
+    // Clear any pending debounce
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    // Coverage change: immediate (no debounce needed, user expects instant feedback)
+    // Addon change: debounce 200ms (user may toggle multiple quickly)
+    const delay = coverageChanged ? 0 : 200;
+
+    debounceRef.current = setTimeout(() => {
+      calculatePremium(true);
+    }, delay);
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
   }, [state.protection.coverageType, state.extension.addOns, state.step, state.premium, calculatePremium]);
 
   /* ─── Persist calculator state to sessionStorage (for /hasil-simulasi page) ─── */
