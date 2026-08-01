@@ -50,74 +50,57 @@ export function HeroSection() {
 
   return (
     <>
-      {/* ═══ VISUAL HERO — rounded image card, calc overlays deeper ═══ */}
-      <section id="beranda" className="relative w-full bg-white pt-2 sm:pt-3 pb-16 sm:pb-20">
-        <Container className="!px-3 sm:!px-5">
-          {/* Rounded image card — all 4 corners rounded */}
-          <div className="relative w-full rounded-3xl overflow-hidden shadow-md" style={{ aspectRatio: "4 / 3" }}>
-            <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" onSlideChange={setCurrentSlide} />
+      {/* ═══ HERO IMAGE — full bleed, rounded bottom only ═══ */}
+      <section id="beranda" className="relative w-full bg-white">
+        <div className="relative w-full" style={{ aspectRatio: "4 / 3", maxHeight: "420px" }}>
+          <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" onSlideChange={setCurrentSlide} />
 
-            {/* Shield graphic overlay — semi-transparent */}
-            <div className="absolute top-5 right-4 sm:right-8 lg:right-12 pointer-events-none opacity-20 z-10" aria-hidden>
-              <svg width="90" height="105" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M60 0L120 20V70C120 100 95 125 60 140C25 125 0 100 0 70V20L60 0Z" fill="white" fillOpacity="0.8" />
-                <path d="M60 10L110 27V70C110 95 90 117 60 130C30 117 10 95 10 70V27L60 10Z" stroke="white" strokeWidth="2" fill="none" />
-                <path d="M40 70L55 85L85 50" stroke="#0F766E" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
+          {/* Shield graphic */}
+          <div className="absolute top-5 right-4 sm:right-8 lg:right-12 pointer-events-none opacity-20 z-10" aria-hidden>
+            <svg width="90" height="105" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M60 0L120 20V70C120 100 95 125 60 140C25 125 0 100 0 70V20L60 0Z" fill="white" fillOpacity="0.8" />
+              <path d="M40 70L55 85L85 50" stroke="#0F766E" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
 
-            {/* Text overlay — with text outline for readability */}
-            <div className={`absolute inset-0 flex flex-col justify-start pt-4 sm:pt-5 z-10 ${currentSlide === 2 ? "items-end text-right" : "items-start text-left"}`}>
-              <div className="!px-4 sm:!px-6 max-w-[75%]">
-                {/* Badge */}
-                <span
-                  className="inline-flex items-center gap-1.5 self-start px-3 h-[24px] rounded-full bg-white/90 backdrop-blur-sm text-[#0F766E] font-semibold shadow-sm"
-                  style={{ fontSize: "11px", letterSpacing: "0.05em" }}
-                >
-                  <ShieldCheck className="h-3 w-3" aria-hidden />
-                  Asuransi Mobil Online
-                </span>
-
-                {/* Headline — with text-shadow outline */}
-                <h2
-                  className="font-extrabold tracking-tight text-[16px] leading-[1.2] sm:text-[18px] lg:text-[22px] lg:leading-[1.15] mt-2 text-white"
-                  style={{ textShadow: "0 1px 3px rgba(0,0,0,0.5), 0 0 1px rgba(0,0,0,0.3)" }}
-                >
-                  Mobil Terlindungi,
-                  <br />
-                  Perjalanan Lebih Tenang.
-                </h2>
-
-                {/* Subheadline — 3 lines with text-shadow */}
-                <p
-                  className="text-[11px] sm:text-[12px] leading-snug mt-1 text-white"
-                  style={{ textShadow: "0 1px 3px rgba(0,0,0,0.5), 0 0 1px rgba(0,0,0,0.3)" }}
-                >
-                  Estimasi Premi<br />
-                  All Risk atau TLO<br />
-                  dari berbagai perusahaan
-                </p>
-              </div>
+          {/* Text overlay */}
+          <div className={`absolute inset-0 flex flex-col justify-start pt-4 sm:pt-5 z-10 ${currentSlide === 2 ? "items-end text-right" : "items-start text-left"}`}>
+            <div className="px-4 sm:px-6 max-w-[75%]">
+              <span
+                className="inline-flex items-center gap-1.5 px-3 h-[24px] rounded-full bg-white/90 backdrop-blur-sm text-[#0F766E] font-semibold shadow-sm"
+                style={{ fontSize: "11px", letterSpacing: "0.05em" }}
+              >
+                <ShieldCheck className="h-3 w-3" aria-hidden />
+                Asuransi Mobil Online
+              </span>
+              <h2
+                className="font-extrabold tracking-tight text-[16px] leading-[1.2] sm:text-[18px] lg:text-[22px] mt-2 text-white"
+                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
+              >
+                Mobil Terlindungi,<br />Perjalanan Lebih Tenang.
+              </h2>
+              <p
+                className="text-[11px] sm:text-[12px] leading-snug mt-1 text-white"
+                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
+              >
+                Estimasi Premi<br />All Risk atau TLO<br />dari berbagai perusahaan
+              </p>
             </div>
           </div>
-        </Container>
+        </div>
       </section>
 
-      {/* ═══ CALCULATOR — deeper overlay ke gambar hero ═══ */}
-      <section className="bg-white relative z-10 -mt-20 sm:-mt-24">
-        <Container className="!px-5 sm:!px-6 relative z-10 pb-6 lg:pb-8">
+      {/* ═══ CALCULATOR — overlay, bottom of image behind calc ═══ */}
+      <section className="bg-white relative z-10 -mt-24 sm:-mt-28">
+        <Container className="!px-5 sm:!px-6 pb-6 lg:pb-8">
           <div id="kalkulator" className="scroll-mt-20 lg:max-w-[500px] lg:mx-auto">
             <HeroCalculator />
           </div>
         </Container>
 
-        {/* ═══ BOTTOM INFO CARDS — All Risk + TLO quick links ═══ */}
         <Container className="!px-5 sm:!px-6 pb-8 lg:pb-12">
           <div className="grid grid-cols-2 gap-3 lg:max-w-[500px] lg:mx-auto">
-            <Link
-              href="/asuransi-mobil-all-risk"
-              className="group flex items-center gap-3 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all"
-            >
+            <Link href="/asuransi-mobil-all-risk" className="group flex items-center gap-3 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all">
               <span className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-center text-[#0F766E]">
                 <ShieldCheck className="h-5 w-5" aria-hidden />
               </span>
@@ -127,10 +110,7 @@ export function HeroSection() {
               </div>
               <ArrowRight className="h-4 w-4 text-[#64748B] group-hover:text-[#0F766E] flex-shrink-0" aria-hidden />
             </Link>
-            <Link
-              href="/asuransi-mobil-tlo"
-              className="group flex items-center gap-3 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all"
-            >
+            <Link href="/asuransi-mobil-tlo" className="group flex items-center gap-3 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all">
               <span className="flex-shrink-0 w-10 h-10 rounded-xl bg-[#F1F5F9] border border-[#E2E8F0] flex items-center justify-center text-[#475569]">
                 <ShieldCheck className="h-5 w-5" aria-hidden />
               </span>
