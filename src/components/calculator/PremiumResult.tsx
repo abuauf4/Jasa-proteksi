@@ -173,32 +173,26 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
             {showPartners ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
           </button>
           {showPartners && (
-            <div className="flex flex-col gap-1.5 -mt-2">
+            <div className="flex flex-col gap-2 -mt-2">
               {p.partners.map((partner, idx) => {
                 const selected = state.selectedPartnerIndex === idx;
+                const vehicleAge = p.vehicleAge ?? 0;
+                const hasBengkelExcluded = partner.bengkelAuthorizedExcluded === true;
                 return (
-                  <button
+                  <PartnerCard
                     key={partner.name}
-                    type="button"
-                    onClick={() => calc.selectPartner(idx)}
-                    className={`
-                      text-left p-3 rounded-xl border-2 transition-all flex items-center justify-between gap-2
-                      ${selected ? "border-[#0F766E] bg-[#ECFDF5]" : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"}
-                    `}
-                    aria-pressed={selected}
-                  >
-                    <div className="flex flex-col gap-0.5 min-w-0">
-                      <span className="font-semibold text-[#0F172A] text-sm truncate">{partner.name}</span>
-                      {partner.bengkelAuthorizedExcluded && (
-                        <span className="text-xs text-[#92400E]">Tanpa bengkel authorized</span>
-                      )}
-                    </div>
-                    <span className="font-bold text-[#0F172A] text-sm whitespace-nowrap">
-                      {formatIDR(partner.estimatedPremium)}
-                    </span>
-                  </button>
+                    partner={partner}
+                    selected={selected}
+                    vehicleAge={vehicleAge}
+                    hasBengkelAddon={state.extension.addOns.includes("bengkelAuthorized")}
+                    onSelect={() => calc.selectPartner(idx)}
+                  />
                 );
               })}
+              <p className="text-xs text-[#64748B] mt-1 px-1 leading-relaxed">
+                Setiap perusahaan asuransi menerapkan tarif, biaya admin, dan aturan bengkel resmi yang berbeda.
+                Pilih partner untuk melanjutkan pengajuan ke perusahaan tersebut.
+              </p>
             </div>
           )}
         </>
@@ -288,6 +282,152 @@ function Row({
       >
         {value}
       </span>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════
+   Partner Card — exposes per-partner rules (adminFee, bengkel restriction, breakdown)
+   ═══════════════════════════════════════════════════ */
+
+interface PartnerCardProps {
+  partner: PremiumPartner;
+  selected: boolean;
+  vehicleAge: number;
+  hasBengkelAddon: boolean;
+  onSelect: () => void;
+}
+
+function PartnerCard({ partner, selected, vehicleAge, hasBengkelAddon, onSelect }: PartnerCardProps) {
+  const [expanded, setExpanded] = React.useState(false);
+  const bd = partner.breakdown;
+  const hasBengkelExcluded = partner.bengkelAuthorizedExcluded === true;
+
+  return (
+    <div
+      className={`
+        rounded-xl border-2 transition-all overflow-hidden
+        ${selected ? "border-[#0F766E] bg-[#ECFDF5]" : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"}
+      `}
+    >
+      {/* Header row — clickable to select + expand */}
+      <div className="flex items-stretch">
+        <button
+          type="button"
+          onClick={onSelect}
+          className="flex-1 flex items-center justify-between gap-2 p-3 text-left min-h-[56px]"
+          aria-pressed={selected}
+          aria-label={`Pilih ${partner.name}`}
+        >
+          <div className="flex flex-col gap-0.5 min-w-0">
+            <span className="font-semibold text-[#0F172A] text-sm truncate">{partner.name}</span>
+            {selected && (
+              <span className="text-xs text-[#0F766E] font-semibold flex items-center gap-1">
+                <CheckCircle2 className="h-3 w-3" aria-hidden /> Dipilih
+              </span>
+            )}
+          </div>
+          <span className="font-bold text-[#0F172A] text-sm whitespace-nowrap">
+            {formatIDR(partner.estimatedPremium)}
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          className="px-3 border-l border-[#E2E8F0] text-[#64748B] hover:bg-[#F1F5F9] flex items-center"
+          aria-label={expanded ? "Tutup detail" : "Buka detail"}
+          aria-expanded={expanded}
+        >
+          {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+        </button>
+      </div>
+
+      {/* Rule chips — always visible */}
+      <div className="px-3 pb-2 flex flex-wrap gap-1.5">
+        <span className="ds-chip">
+          Admin <strong className="text-[#0F172A] ml-0.5">{formatIDR(partner.adminFee)}</strong>
+        </span>
+        {hasBengkelExcluded ? (
+          <span className="ds-chip" style={{ background: "#FEF2F2", color: "#991B1B", borderColor: "#FCA5A5" }}>
+            <AlertCircle className="h-3 w-3" aria-hidden />
+            Bengkel resmi tidak tersedia
+          </span>
+        ) : (
+          <span className="ds-chip-teal ds-chip">
+            <ShieldCheck className="h-3 w-3" aria-hidden />
+            Bengkel resmi tersedia
+          </span>
+        )}
+      </div>
+
+      {/* Expanded detail — per-partner breakdown */}
+      {expanded && bd && (
+        <div className="px-3 pb-3 pt-1 border-t border-[#E2E8F0] bg-[#F8FAFC]">
+          {/* Bengkel restriction reason */}
+          {hasBengkelExcluded && (
+            <div className="rounded-lg bg-[#FFFBEB] border border-[#FDE68A] p-2.5 mb-2 mt-2">
+              <p className="text-xs text-[#92400E] leading-relaxed">
+                <strong>Bengkel Authorised tidak tersedia</strong> untuk {partner.name} karena
+                usia kendaraan ({vehicleAge} tahun) melebihi batas maksimal yang ditetapkan
+                partner ini.
+                {hasBengkelAddon && (
+                  <span className="block mt-1">
+                    Perluasan bengkel authorized yang lu pilih akan otomatis dihapus dari
+                    estimasi partner ini.
+                  </span>
+                )}
+              </p>
+            </div>
+          )}
+
+          {/* Per-partner premium breakdown */}
+          <div className="flex flex-col gap-1.5 mt-2">
+            <Row label="Premi dasar (setelah modifier)" value={formatIDR(bd.basePremium)} sub={`Modifier ×${partner.modifier.toFixed(2)}`} />
+            {bd.addons.length > 0 && bd.addons.map((a) => (
+              <Row key={a.key} label={`Perluasan: ${a.label}`} value={formatIDR(a.premium)} />
+            ))}
+            <Row label="Subtotal" value={formatIDR(bd.totalPremiumBeforeDiscount)} bold />
+            {bd.discountAmount > 0 && (
+              <Row label={`Diskon (${bd.discountPercent}%)`} value={`− ${formatIDR(bd.discountAmount)}`} negative />
+            )}
+            <Row label="Biaya admin" value={formatIDR(bd.adminFee)} />
+            {bd.policyFee !== undefined && bd.policyFee > 0 && (
+              <Row label="Biaya polis" value={formatIDR(bd.policyFee)} />
+            )}
+            <div className="border-t border-[#E2E8F0] mt-1 pt-1.5">
+              <Row label="Total" value={formatIDR(partner.estimatedPremium)} bold large />
+            </div>
+          </div>
+
+          {/* Benefits & facilities */}
+          {partner.benefits.length > 0 && (
+            <div className="mt-3">
+              <p className="text-xs font-semibold text-[#0F172A] mb-1">Manfaat</p>
+              <ul className="flex flex-col gap-0.5">
+                {partner.benefits.map((b) => (
+                  <li key={b} className="text-xs text-[#475569] flex items-start gap-1.5">
+                    <CheckCircle2 className="h-3 w-3 text-[#0F766E] mt-0.5 flex-shrink-0" aria-hidden />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {partner.facilities.length > 0 && (
+            <div className="mt-2">
+              <p className="text-xs font-semibold text-[#0F172A] mb-1">Fasilitas</p>
+              <ul className="flex flex-col gap-0.5">
+                {partner.facilities.map((f) => (
+                  <li key={f} className="text-xs text-[#475569] flex items-start gap-1.5">
+                    <span className="text-[#0F766E] mt-0.5">•</span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
