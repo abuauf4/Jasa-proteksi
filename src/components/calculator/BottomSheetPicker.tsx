@@ -196,14 +196,12 @@ export function PickerTrigger({
           ${invalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}
         `}
       >
-        {/* Left icon circle */}
         {icon && (
           <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${invalid ? "bg-[#FEE2E2] text-[#B91C1C]" : "bg-[#ECFDF5] text-[#0F766E]"}`}>
             {icon}
           </span>
         )}
         <div className="flex-1 min-w-0">
-          {/* When label hidden, show label as small text + value/placeholder below */}
           {hideLabel ? (
             <>
               <span className={`block text-xs ${value ? "text-[#64748B]" : invalid ? "text-[#B91C1C]" : "text-[#94A3B8]"}`}>
@@ -220,15 +218,6 @@ export function PickerTrigger({
           )}
         </div>
         {hideLabel && invalid && <span className="text-xs text-[#B91C1C] font-semibold">Wajib</span>}
-        <svg
-          className="h-4 w-4 text-[#64748B] flex-shrink-0"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          aria-hidden
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
       </button>
     </div>
   );

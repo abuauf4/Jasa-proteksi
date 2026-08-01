@@ -69,11 +69,11 @@ export function VehicleStep({ calc, submitted = false }: { calc: UseCalculatorRe
 
       {/* Year — native select with icon, label inside field */}
       <div>
-        <div className={`ds-input flex items-center gap-2.5 pr-10 ${yearInvalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}`}>
+        <div className={`ds-input flex items-center gap-2.5 ${yearInvalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}`}>
           <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${yearInvalid ? "bg-[#FEE2E2] text-[#B91C1C]" : "bg-[#ECFDF5] text-[#0F766E]"}`}>
             <Calendar className="h-4 w-4" aria-hidden />
           </span>
-          <div className="flex-1 min-w-0 relative">
+          <div className="flex-1 min-w-0">
             <span className={`block text-xs ${v.year ? "text-[#64748B]" : "text-[#94A3B8]"}`}>
               Tahun keluaran{yearInvalid && " · Wajib"}
             </span>
@@ -91,10 +91,6 @@ export function VehicleStep({ calc, submitted = false }: { calc: UseCalculatorRe
               ))}
             </select>
           </div>
-          <ChevronDown
-            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#64748B]"
-            aria-hidden
-          />
         </div>
       </div>
     </div>
@@ -116,11 +112,11 @@ export function CoverageStep({ calc, submitted = false }: { calc: UseCalculatorR
     <div className="flex flex-col gap-3">
       {/* Region — native select with icon, label inside field */}
       <div>
-        <div className={`ds-input flex items-center gap-2.5 pr-10 ${plateInvalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}`}>
+        <div className={`ds-input flex items-center gap-2.5 ${plateInvalid ? "!border-[#B91C1C] !bg-[#FEF2F2]" : ""}`}>
           <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${plateInvalid ? "bg-[#FEE2E2] text-[#B91C1C]" : "bg-[#ECFDF5] text-[#0F766E]"}`}>
             <MapPin className="h-4 w-4" aria-hidden />
           </span>
-          <div className="flex-1 min-w-0 relative">
+          <div className="flex-1 min-w-0">
             <span className={`block text-xs ${state.region.plate ? "text-[#64748B]" : "text-[#94A3B8]"}`}>
               Wilayah (Plat){plateInvalid && " · Wajib"}
             </span>
@@ -137,10 +133,6 @@ export function CoverageStep({ calc, submitted = false }: { calc: UseCalculatorR
               ))}
             </select>
           </div>
-          <ChevronDown
-            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-[#64748B]"
-            aria-hidden
-          />
         </div>
       </div>
 
