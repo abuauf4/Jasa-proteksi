@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, X, Calculator, ShieldCheck } from "lucide-react";
+import { Menu, X, Calculator } from "lucide-react";
 import { Button } from "./Button";
 import { Container } from "./primitives";
 import { trackEvent } from "@/lib/analytics-events";
@@ -75,18 +75,32 @@ export function SiteHeader() {
         `}
       >
         <Container className="flex items-center justify-between !px-4 h-[60px] sm:h-[72px]">
-          {/* Logo */}
+          {/* Wordmark — flat SVG text, no icon */}
           <Link
             href="/"
-            className="flex items-center gap-2 group"
+            className="flex items-center"
             aria-label="Jasa Proteksi — Beranda"
           >
-            <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#0F172A] flex items-center justify-center">
-              <ShieldCheck className="h-4 w-4 text-[#5EEAD4]" aria-hidden />
-            </span>
-            <span className="text-[20px] sm:text-[22px] font-bold text-[#0F172A] tracking-tight">
-              Jasa Proteksi
-            </span>
+            <svg
+              width="auto"
+              height="32"
+              viewBox="0 0 240 40"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 sm:h-9 w-auto max-w-[220px] object-contain"
+            >
+              <text
+                x="0"
+                y="30"
+                fontFamily="'Plus Jakarta Sans', system-ui, sans-serif"
+                fontWeight="800"
+                fontSize="30"
+                letterSpacing="-0.5"
+              >
+                <tspan fill="#0F766E">jasa</tspan>
+                <tspan fill="#0F172A">proteksi</tspan>
+              </text>
+            </svg>
           </Link>
 
           {/* Desktop nav */}
