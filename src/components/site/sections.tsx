@@ -256,21 +256,23 @@ export function ArticleCards() {
           <p className="text-xs font-bold uppercase tracking-wider text-[#0F766E]">Artikel</p>
           <Link href="/blog" className="text-xs font-semibold text-[#64748B] hover:text-[#0F766E]">Lihat semua</Link>
         </div>
-        <div className="flex flex-col gap-2.5">
-          {articles.map((a) => (
-            <Link key={a.id} href={`/blog/${a.slug}`} className="group flex gap-3 p-2.5 rounded-2xl bg-white border border-[#E2E8F0] hover:shadow-md transition-all">
-              {a.coverImage ? (
-                <div className="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden bg-[#F1F5F9]">
-                  <img src={a.coverImage} alt={a.title} className="w-full h-full object-cover" loading="lazy" />
-                </div>
-              ) : (
-                <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-[#F1F5F9] flex items-center justify-center">
-                  <Calculator className="h-6 w-6 text-[#94A3B8]" aria-hidden />
-                </div>
-              )}
-              <div className="flex-1 min-w-0 flex flex-col justify-center">
+        <div className="flex flex-col gap-3">
+          {articles.map((a, idx) => (
+            <Link key={a.id} href={`/blog/${a.slug}`} className="group rounded-2xl bg-white border border-[#E2E8F0] overflow-hidden hover:shadow-lg transition-all">
+              {/* Thumbnail — full width, 16:9 */}
+              <div className="relative w-full aspect-[16/9] bg-[#F1F5F9] overflow-hidden">
+                {a.coverImage ? (
+                  <img src={a.coverImage} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#ECFDF5] to-[#F1F5F9]">
+                    <Calculator className="h-8 w-8 text-[#94A3B8]" aria-hidden />
+                  </div>
+                )}
+              </div>
+              {/* Content */}
+              <div className="p-3.5">
                 <h3 className="font-semibold text-[#0F172A] text-sm line-clamp-2 group-hover:text-[#0F766E] transition-colors leading-snug">{a.title}</h3>
-                {a.excerpt && <p className="text-xs text-[#64748B] line-clamp-1 mt-1">{a.excerpt}</p>}
+                {a.excerpt && <p className="text-xs text-[#64748B] line-clamp-2 mt-1 leading-relaxed">{a.excerpt}</p>}
               </div>
             </Link>
           ))}
@@ -281,7 +283,131 @@ export function ArticleCards() {
 }
 
 /* ═══════════════════════════════════════════════════
-   6. INFO MODULE — service info + disclaimer
+   6. TESTIMONIAL CARDS — user reviews as app-style cards
+   ═══════════════════════════════════════════════════ */
+
+export function TestimonialCards() {
+  const testimonials = [
+    {
+      name: "Andi P.",
+      role: "Pengguna All Risk",
+      text: "Simulasinya cepat banget, tinggal pilih mobil langsung keluar estimasi preminya.",
+      rating: 5,
+      initials: "AP",
+      color: "#0F766E",
+      bg: "#ECFDF5",
+    },
+    {
+      name: "Rina S.",
+      role: "Pengguna TLO",
+      text: "Bandingin premi dari 8 perusahaan sekaligus. Hemat waktu dan jelas.",
+      rating: 5,
+      initials: "RS",
+      color: "#475569",
+      bg: "#F1F5F9",
+    },
+    {
+      name: "Budi H.",
+      role: "Pengguna All Risk",
+      text: "Prosesnya gampang, ga perlu isi form panjang. Langsung konsultasi via WA.",
+      rating: 4,
+      initials: "BH",
+      color: "#0F766E",
+      bg: "#ECFDF5",
+    },
+  ];
+
+  return (
+    <section className="px-4 sm:px-6 py-6">
+      <div className="max-w-[500px] mx-auto">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#0F766E] mb-3">Testimoni</p>
+        <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: "none" }}>
+          {testimonials.map((t) => (
+            <div key={t.name} className="flex-shrink-0 w-[280px] p-3.5 rounded-2xl bg-white border border-[#E2E8F0]">
+              <div className="flex items-center gap-2.5 mb-2">
+                <span
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold"
+                  style={{ background: t.bg, color: t.color }}
+                >
+                  {t.initials}
+                </span>
+                <div className="min-w-0">
+                  <p className="font-semibold text-[#0F172A] text-sm">{t.name}</p>
+                  <p className="text-[10px] text-[#64748B]">{t.role}</p>
+                </div>
+                <div className="ml-auto flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span key={i} className={i < t.rating ? "text-[#F59E0B]" : "text-[#E2E8F0]"}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <p className="text-xs text-[#475569] leading-relaxed">{t.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════
+   7. FAQ CARDS — expandable app-style cards
+   ═══════════════════════════════════════════════════ */
+
+export function FAQCards() {
+  const faqs = [
+    { q: "Apa beda All Risk dan TLO?", a: "All Risk melindungi dari kerusakan sebagian hingga total. TLO hanya untuk kehilangan atau rusak total sesuai ketentuan polis." },
+    { q: "Apakah hasil simulasi = harga final?", a: "Tidak. Hasil simulasi adalah estimasi awal. Premi final mengikuti quotation dari perusahaan asuransi penerbit polis." },
+    { q: "Berapa lama simulasi?", a: "Kurang dari 1 menit. Pilih merek, tipe, tahun, wilayah, dan jenis perlindungan. Hasil otomatis." },
+    { q: "Apakah saya wajib beli setelah simulasi?", a: "Tidak. Simulasi gratis dan tidak mengikat. Lanjut pengajuan hanya kalau kamu sudah yakin." },
+    { q: "Siapa yang terbitkan polis?", a: "Polis diterbitkan oleh perusahaan asuransi terkait. Jasa Proteksi bantu proses simulasi dan pengajuan, bukan penerbit polis." },
+    { q: "Dokumen apa yang dibutuhkan?", a: "Untuk simulasi: tidak ada. Untuk pengajuan resmi: KTP, STNK, dan dokumen lain via alur aman setelah konsultasi." },
+  ];
+
+  const [openIdx, setOpenIdx] = React.useState<number | null>(0);
+
+  return (
+    <section id="faq" className="px-4 sm:px-6 py-6">
+      <div className="max-w-[500px] mx-auto">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#0F766E] mb-3">FAQ</p>
+        <div className="flex flex-col gap-2">
+          {faqs.map((faq, idx) => {
+            const isOpen = openIdx === idx;
+            return (
+              <div key={idx} className="rounded-2xl bg-white border border-[#E2E8F0] overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setOpenIdx(isOpen ? null : idx)}
+                  className="w-full flex items-center justify-between gap-2 p-3.5 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <span className="font-semibold text-[#0F172A] text-sm flex-1">{faq.q}</span>
+                  <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-colors ${isOpen ? "bg-[#0F766E] text-white" : "bg-[#F1F5F9] text-[#64748B]"}`}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                      {isOpen ? <path d="M5 12h14" /> : <><path d="M12 5v14" /><path d="M5 12h14" /></>}
+                    </svg>
+                  </span>
+                </button>
+                {isOpen && (
+                  <div className="px-3.5 pb-3.5 pt-0">
+                    <p className="text-xs text-[#475569] leading-relaxed">{faq.a}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════
+   8. INFO MODULE — service info + disclaimer
    ═══════════════════════════════════════════════════ */
 
 export function InfoModule() {

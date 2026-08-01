@@ -10,6 +10,8 @@ import {
   CoverageCards,
   AppSteps,
   ArticleCards,
+  TestimonialCards,
+  FAQCards,
   InfoModule,
 } from "@/components/site/sections";
 import { ServerDataProvider, type SiteSettings, type HeroData } from "@/lib/ServerDataContext";
@@ -36,6 +38,8 @@ export default function HomePage({ initialSettings, initialHero }: HomePageProps
           <CoverageCards />
           <AppSteps />
           <ArticleCards />
+          <TestimonialCards />
+          <FAQCards />
           <InfoModule />
         </main>
         <SiteFooter />
