@@ -96,8 +96,8 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
         </div>
       )}
 
-      {/* Premium number — BIG, immediately visible. Updates when partner selected. */}
-      <div className="text-center">
+      {/* Premium number — BIG, in a contrasting card, immediately visible */}
+      <div className="rounded-2xl bg-gradient-to-b from-[#ECFDF5] to-[#FFFFFF] border-2 border-[#A7F3D0] p-4 sm:p-5 text-center">
         <p className="ds-eyebrow mb-1.5">Estimasi Premi Tahunan</p>
         <p key={pulseKey} className="ds-premium-hero ds-premium-pulse">
           {formatIDR(displayPremium)}
@@ -120,14 +120,14 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
           </div>
         )}
 
-        <p className="text-xs text-[#64748B] mt-1.5">
+        <p className="text-xs text-[#64748B] mt-2">
           Nilai kendaraan {formatIDR(p.vehicleValue)}
           {p.otrRange?.display ? ` · Rentang OTR ${p.otrRange.display}` : ""}
         </p>
 
         {/* Per-partner rule chips — only when partner selected */}
         {partner && (
-          <div className="flex flex-wrap justify-center gap-1.5 mt-2.5">
+          <div className="flex flex-wrap justify-center gap-1.5 mt-3">
             <span className="ds-chip">
               Admin <strong className="text-[#0F172A] ml-0.5">{formatIDR(partner.adminFee)}</strong>
             </span>

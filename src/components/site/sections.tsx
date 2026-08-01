@@ -41,15 +41,15 @@ export function HeroSection() {
         aria-hidden
       />
 
-      <Container className="relative pt-8 sm:pt-12 lg:pt-16 pb-10 sm:pb-14 lg:pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-          {/* Left: copy (5 cols) */}
-          <div className="lg:col-span-5 flex flex-col gap-5 lg:pt-4">
+      <Container className="relative pt-6 sm:pt-10 lg:pt-14 pb-8 sm:pb-12 lg:pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+          {/* Left: copy — compact on mobile */}
+          <div className="lg:col-span-5 flex flex-col gap-3 lg:gap-4 lg:pt-4">
             <span className="ds-eyebrow !text-[#5EEAD4]">
               Simulasi Premi · All Risk &amp; TLO
             </span>
 
-            <h1 className="ds-h1 !text-white">
+            <h1 className="text-[1.75rem] leading-[1.1] sm:text-4xl lg:text-5xl font-extrabold tracking-tight !text-white">
               Hitung premi mobil
               <br />
               <span className="!text-[#5EEAD4]">dari 8 perusahaan</span>
@@ -57,9 +57,9 @@ export function HeroSection() {
               dalam 30 detik.
             </h1>
 
-            <p className="ds-body-lg !text-[#CBD5E1] max-w-md">
-              Bandingkan estimasi premi dari Sinarmas, ACA, Mega, Zurich, Tugu,
-              Sahabat, MAG &amp; Oona — otomatis dari data kendaraan &amp; wilayah kamu.
+            <p className="text-sm sm:text-base !text-[#CBD5E1] max-w-md leading-relaxed">
+              Bandingkan estimasi dari Sinarmas, ACA, Mega, Zurich, Tugu, Sahabat,
+              MAG &amp; Oona — otomatis dari data kendaraan &amp; wilayah kamu.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-2 mt-1">
@@ -88,24 +88,15 @@ export function HeroSection() {
               )}
             </div>
 
-            {/* Dense trust strip with real metrics — not bullet list */}
-            <dl className="mt-6 pt-5 border-t border-white/10 grid grid-cols-3 gap-3 sm:gap-4">
-              <div>
-                <dt className="text-2xl sm:text-3xl font-bold !text-white tracking-tight">49</dt>
-                <dd className="text-[11px] sm:text-xs text-[#94A3B8] leading-tight mt-0.5">merek mobil</dd>
-              </div>
-              <div>
-                <dt className="text-2xl sm:text-3xl font-bold !text-white tracking-tight">13k+</dt>
-                <dd className="text-[11px] sm:text-xs text-[#94A3B8] leading-tight mt-0.5">varian tipe &amp; tahun</dd>
-              </div>
-              <div>
-                <dt className="text-2xl sm:text-3xl font-bold !text-white tracking-tight">8</dt>
-                <dd className="text-[11px] sm:text-xs text-[#94A3B8] leading-tight mt-0.5">perusahaan asuransi</dd>
-              </div>
-            </dl>
+            {/* Compact trust strip inline — single row */}
+            <div className="mt-3 pt-3 border-t border-white/10 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-xs text-[#94A3B8]">
+              <span><strong className="!text-white text-sm font-bold">49</strong> merek</span>
+              <span><strong className="!text-white text-sm font-bold">13k+</strong> varian</span>
+              <span><strong className="!text-white text-sm font-bold">8</strong> partner</span>
+            </div>
           </div>
 
-          {/* Right: calculator (7 cols) */}
+          {/* Right: calculator — prominent */}
           <div id="kalkulator" className="lg:col-span-7 scroll-mt-20">
             <HeroCalculator />
           </div>

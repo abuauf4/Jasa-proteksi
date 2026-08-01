@@ -98,17 +98,17 @@ export function HeroCalculator({
     <div ref={scrollRef} className={`ds-card-calc ${className ?? ""}`}>
       {/* Header */}
       {!hideHeader && (
-        <div className="mb-4">
-          <h3 className="text-xl sm:text-2xl font-bold text-[#0F172A]">Cek Premi Mobil</h3>
-          <p className="text-sm text-[#475569] mt-0.5">
-            Estimasi otomatis berdasarkan data kendaraan.
+        <div className="mb-3">
+          <h3 className="text-lg sm:text-xl font-bold text-[#0F172A] tracking-tight">Cek Premi Mobil</h3>
+          <p className="text-xs sm:text-sm text-[#475569] mt-0.5">
+            Estimasi otomatis dari data kendaraan.
           </p>
         </div>
       )}
 
       {/* Progress — 3 dots only */}
       {!isResult && (
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-3">
           {[1, 2].map((n) => (
             <span
               key={n}
