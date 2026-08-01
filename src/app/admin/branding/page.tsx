@@ -11,6 +11,7 @@ import {
   MousePointerClick,
   Link2,
   Palette,
+  Upload,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ export default function BrandingPage() {
   const [ctaText, setCtaText] = useState("");
   const [ctaLink, setCtaLink] = useState("");
   const [backgroundImage, setBackgroundImage] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   // ─── Fetch hero content ───
   const fetchHero = useCallback(async () => {
@@ -187,39 +189,98 @@ export default function BrandingPage() {
             </div>
           </div>
 
-          {/* Background Image */}
-          <div className="space-y-2">
-            <Label htmlFor="bgImage" className="flex items-center gap-2 text-sm">
-              <ImageIcon className="h-3 w-3" /> Gambar Hero Utama (URL)
+          {/* Hero Images — upload + manage multiple images */}
+          <div className="space-y-3">
+            <Label className="flex items-center gap-2 text-sm">
+              <ImageIcon className="h-3 w-3" /> Gambar Hero (Multiple — Slider)
             </Label>
+            <p className="text-xs text-slate-400">
+              Upload gambar untuk hero slider. Bisa multiple gambar, akan auto-rotate.
+              Pisahkan URL dengan koma untuk multiple gambar manual.
+            </p>
+
+            {/* File upload button */}
+            <div className="flex items-center gap-2">
+              <label className="inline-flex items-center gap-2 px-4 py-2 bg-[#0F766E] text-white text-sm font-semibold rounded-lg cursor-pointer hover:bg-[#0B5C55] transition-colors">
+                <Upload className="h-4 w-4" />
+                Upload Gambar
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  className="hidden"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    setUploading(true);
+                    try {
+                      const formData = new FormData();
+                      formData.append("file", file);
+                      const res = await fetch("/api/upload", { method: "POST", body: formData });
+                      if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.error || "Upload failed");
+                      }
+                      const data = await res.json();
+                      // Append to existing images
+                      const current = backgroundImage ? backgroundImage.split(",").map(s => s.trim()).filter(Boolean) : [];
+                      const updated = [...current, data.url].join(", ");
+                      setBackgroundImage(updated);
+                    } catch (err) {
+                      alert(err instanceof Error ? err.message : "Upload gagal");
+                    } finally {
+                      setUploading(false);
+                      e.target.value = "";
+                    }
+                  }}
+                />
+              </label>
+              {uploading && <span className="text-sm text-slate-400">Uploading...</span>}
+            </div>
+
+            {/* URL input — comma separated for multiple */}
             <Input
               id="bgImage"
-              placeholder="https://jasaproteksi.com/hero-car-bg.webp"
+              placeholder="/hero-car-bg.webp atau /uploads/hero-1.webp, /uploads/hero-2.webp"
               value={backgroundImage}
               onChange={(e) => setBackgroundImage(e.target.value)}
             />
-            <p className="text-xs text-slate-400">
-              URL gambar hero yang tampil di homepage. Upload gambar via menu Media,
-              lalu paste URL-nya di sini. Kosongkan untuk menggunakan gambar default.
-            </p>
-          </div>
 
-          {/* Preview */}
-          {backgroundImage && (
-            <div className="space-y-2">
-              <Label className="text-sm text-slate-500">Preview Gambar</Label>
-              <div className="relative w-full h-40 rounded-lg overflow-hidden border border-slate-200">
-                <img
-                  src={backgroundImage}
-                  alt="Preview gambar background hero"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
-                />
+            {/* Image previews + remove buttons */}
+            {backgroundImage && (
+              <div className="grid grid-cols-3 gap-2">
+                {backgroundImage.split(",").map((url, idx) => {
+                  const trimmed = url.trim();
+                  if (!trimmed) return null;
+                  return (
+                    <div key={idx} className="relative group">
+                      <div className="relative w-full h-24 rounded-lg overflow-hidden border border-slate-200">
+                        <img
+                          src={trimmed}
+                          alt={`Hero ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                          onError={(e) => { (e.target as HTMLImageElement).style.opacity = "0.3"; }}
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const urls = backgroundImage.split(",").map(s => s.trim()).filter(Boolean);
+                          urls.splice(idx, 1);
+                          setBackgroundImage(urls.join(", "));
+                        }}
+                        className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        ×
+                      </button>
+                      <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/50 text-white text-[10px]">
+                        {idx + 1}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Hero Preview Card */}
           <div className="space-y-2">

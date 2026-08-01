@@ -8,6 +8,7 @@ import {
 import { Container, Section, SectionHeader, Card, Badge } from "./primitives";
 import { Button } from "./Button";
 import { HeroCalculator } from "@/components/calculator/HeroCalculator";
+import { HeroCarousel } from "./HeroCarousel";
 import { useSiteSettings, useHeroData } from "@/lib/ServerDataContext";
 import { buildWhatsAppLink } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-events";
@@ -34,6 +35,16 @@ export function HeroSection() {
 
   const heroImage = heroData?.backgroundImage || "/hero-car-bg.webp";
 
+  // Build hero images array: multiple from settings, fallback to single backgroundImage
+  const heroImages = React.useMemo(() => {
+    const bg = heroData?.backgroundImage;
+    if (bg) {
+      const urls = bg.split(",").map(s => s.trim()).filter(Boolean);
+      if (urls.length > 0) return urls;
+    }
+    return ["/hero-car-bg.webp"];
+  }, [heroData?.backgroundImage]);
+
   return (
     <>
       {/* ═══ VISUAL HERO — rounded image card flush to navbar, calc overlays ═══ */}
@@ -41,14 +52,9 @@ export function HeroSection() {
         <Container className="!px-3 sm:!px-5">
           {/* Rounded image card — wider than calculator, flush to navbar */}
           <div className="relative w-full h-[240px] sm:h-[300px] lg:h-[380px] rounded-3xl overflow-hidden shadow-md">
-            <img
-              src={heroImage}
-              alt="Mobil terlindungi dengan asuransi"
-              className="absolute inset-0 w-full h-full object-cover"
-              priority
-            />
+            <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" />
             {/* Light gradient overlay — bottom fade for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/10 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/10 to-transparent pointer-events-none" />
 
             {/* Shield graphic overlay — semi-transparent */}
             <div className="absolute top-5 right-4 sm:right-8 lg:right-12 pointer-events-none opacity-20" aria-hidden>

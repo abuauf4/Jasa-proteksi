@@ -60,3 +60,6 @@ server.log
 # sandbox artifacts
 upload/
 download/
+
+# uploaded files (managed via admin)
+public/uploads/
