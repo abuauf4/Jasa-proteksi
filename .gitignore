@@ -56,3 +56,7 @@ server.log
 .env
 .env.local
 .env.*.local
+
+# sandbox artifacts
+upload/
+download/
