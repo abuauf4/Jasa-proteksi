@@ -49,17 +49,13 @@ export function HeroSection() {
               Simulasi Premi · All Risk &amp; TLO
             </span>
 
-            <h1 className="text-[1.75rem] leading-[1.1] sm:text-4xl lg:text-5xl font-extrabold tracking-tight !text-white">
-              Hitung premi mobil
-              <br />
-              <span className="!text-[#5EEAD4]">dari 8 perusahaan</span>
-              <br />
-              dalam 30 detik.
+            <h1 className="text-[1.75rem] leading-[1.15] sm:text-4xl lg:text-5xl font-extrabold tracking-tight !text-white">
+              Hitung premi mobil dari <span className="!text-[#5EEAD4]">8 perusahaan</span> dalam 30 detik.
             </h1>
 
             <p className="text-sm sm:text-base !text-[#CBD5E1] max-w-md leading-relaxed">
-              Bandingkan estimasi dari Sinarmas, ACA, Mega, Zurich, Tugu, Sahabat,
-              MAG &amp; Oona — otomatis dari data kendaraan &amp; wilayah kamu.
+              Estimasi otomatis dari Sinarmas, ACA, Mega, Zurich, Tugu, Sahabat,
+              MAG &amp; Oona — berdasarkan data kendaraan &amp; wilayah kamu.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-2 mt-1">
@@ -148,17 +144,17 @@ export function HowItWorks() {
     {
       n: "01",
       title: "Isi data kendaraan",
-      desc: "Merek, tipe, tahun, dan wilayah plat nomor. Nilai OTR terisi otomatis dari database.",
+      desc: "Merek, tipe, tahun, dan wilayah. Nilai OTR terisi otomatis.",
     },
     {
       n: "02",
       title: "Lihat estimasi",
-      desc: "Engine hitung premi dari 8 perusahaan asuransi. Bandingkan tarif, biaya admin, dan aturan bengkel resmi.",
+      desc: "Engine hitung premi dari 8 perusahaan. Bandingkan tarif, admin, dan bengkel resmi.",
     },
     {
       n: "03",
       title: "Lanjut pengajuan",
-      desc: "Pilih partner, konsultasi via WhatsApp. Dokumen sensitif hanya diminta saat pengajuan resmi.",
+      desc: "Pilih partner, konsultasi via WhatsApp. Dokumen hanya diminta saat pengajuan resmi.",
     },
   ];
 
@@ -207,11 +203,11 @@ export function CoverageComparison() {
   return (
     <Section tone="soft" id="jenis-proteksi">
       <Container>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6">
           <div>
             <span className="ds-eyebrow">Pilih Proteksi</span>
             <h2 className="ds-h2 mt-2">All Risk atau TLO?</h2>
-            <p className="ds-body-lg mt-2 max-w-xl">
+            <p className="text-sm sm:text-base text-[#475569] mt-2 max-w-xl">
               Pilih sesuai kebutuhan &amp; budget. Hitung estimasi keduanya di kalkulator.
             </p>
           </div>
@@ -304,10 +300,10 @@ export function FAQSection() {
   return (
     <Section tone="white" id="faq">
       <Container className="max-w-3xl">
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6">
           <div>
             <span className="ds-eyebrow">FAQ</span>
-            <h2 className="ds-h2 mt-2">Pertanyaan yang sering ditanya.</h2>
+            <h2 className="ds-h2 mt-2">Pertanyaan umum.</h2>
           </div>
 
           <dl className="flex flex-col divide-y divide-[#E2E8F0] border-y border-[#E2E8F0]">

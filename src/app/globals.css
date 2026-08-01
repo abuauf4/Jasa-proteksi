@@ -240,14 +240,14 @@
 @media (min-width: 1280px) { .ds-h1 { font-size: 4rem; } }       /* 64px */
 
 .ds-h2 {
-  font-size: 1.875rem; /* 30px mobile */
-  line-height: 1.1;
+  font-size: 1.625rem; /* 26px mobile */
+  line-height: 1.15;
   font-weight: 800;
   letter-spacing: -0.025em;
   color: #0F172A;
 }
-@media (min-width: 640px) { .ds-h2 { font-size: 2.125rem; } }    /* 34px */
-@media (min-width: 1024px) { .ds-h2 { font-size: 2.5rem; } }     /* 40px */
+@media (min-width: 640px) { .ds-h2 { font-size: 2rem; } }        /* 32px */
+@media (min-width: 1024px) { .ds-h2 { font-size: 2.375rem; } }   /* 38px */
 
 .ds-h3 {
   font-size: 1.25rem; /* 20px mobile */
