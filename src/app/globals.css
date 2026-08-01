@@ -404,17 +404,20 @@
   background: #FFFFFF;
   border: 1px solid #E2E8F0;
   border-radius: 0.75rem; /* 12px */
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
 }
 .ds-input::placeholder { color: #94A3B8; }
 .ds-input:focus {
   outline: none;
   border-color: #0F766E;
-  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+  box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
+}
+.ds-input:hover:not(:disabled):not(:focus) {
+  border-color: #CBD5E1;
 }
 .ds-input[aria-invalid="true"] {
   border-color: #B91C1C;
-  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+  box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.12);
 }
 
 /* ── Smooth scrollbar for modals/dropdowns ── */
@@ -463,6 +466,24 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .ds-fade-up { animation: none; }
+}
+
+/* ── Stagger animation for partner cards (results reveal) ── */
+@keyframes ds-slide-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.ds-stagger-1 { animation: ds-slide-in 300ms ease-out 50ms both; }
+.ds-stagger-2 { animation: ds-slide-in 300ms ease-out 100ms both; }
+.ds-stagger-3 { animation: ds-slide-in 300ms ease-out 150ms both; }
+.ds-stagger-4 { animation: ds-slide-in 300ms ease-out 200ms both; }
+.ds-stagger-5 { animation: ds-slide-in 300ms ease-out 250ms both; }
+.ds-stagger-6 { animation: ds-slide-in 300ms ease-out 300ms both; }
+.ds-stagger-7 { animation: ds-slide-in 300ms ease-out 350ms both; }
+.ds-stagger-8 { animation: ds-slide-in 300ms ease-out 400ms both; }
+@media (prefers-reduced-motion: reduce) {
+  .ds-stagger-1, .ds-stagger-2, .ds-stagger-3, .ds-stagger-4,
+  .ds-stagger-5, .ds-stagger-6, .ds-stagger-7, .ds-stagger-8 { animation: none; }
 }
 
 /* ── Marquee (legacy compat, kept for any existing usage) ── */

@@ -4,10 +4,11 @@ import * as React from "react";
 import {
   ArrowLeft, CheckCircle2, AlertCircle, Loader2,
   RotateCcw, Pencil, ShieldCheck, Car, MapPin, FileText, Calculator,
-  MessageCircle, Send, ChevronDown, ChevronUp,
+  MessageCircle, Send, ChevronDown, ChevronUp, Medal, Crown,
 } from "lucide-react";
 import { UseCalculatorReturn } from "./useCalculator";
 import { type PremiumPartner, partnerLogoPath } from "./types";
+import { useCountUp } from "./useCountUp";
 import { formatIDR, formatPercent, formatRate, buildWhatsAppLink } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-events";
 import { useSiteSettings } from "@/lib/ServerDataContext";
@@ -41,6 +42,18 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
       ? p.partners[state.selectedPartnerIndex]
       : null;
   const displayPremium = partner?.estimatedPremium ?? p?.totalPremium ?? 0;
+
+  // Count-up animation for premium reveal (more memorable than static)
+  const animatedPremium = useCountUp(displayPremium, 900);
+
+  // Sort partners by cheapest — top 1 gets "Termurah" badge
+  const sortedPartners = React.useMemo(() => {
+    if (!p?.partners) return [];
+    const partners = p.partners;
+    return [...partners]
+      .map((partner, originalIdx) => ({ partner, originalIdx }))
+      .sort((a, b) => a.partner.estimatedPremium - b.partner.estimatedPremium);
+  }, [p?.partners]);
 
   // Pulse animation when premium value changes (partner selected/changed)
   React.useEffect(() => {
@@ -96,11 +109,11 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
         </div>
       )}
 
-      {/* Premium number — BIG, in a contrasting card, immediately visible */}
+      {/* Premium number — BIG, in a contrasting card, with count-up animation */}
       <div className="rounded-2xl bg-gradient-to-b from-[#ECFDF5] to-[#FFFFFF] border-2 border-[#A7F3D0] p-4 sm:p-5 text-center">
         <p className="ds-eyebrow mb-1.5">Estimasi Premi Tahunan</p>
         <p key={pulseKey} className="ds-premium-hero ds-premium-pulse">
-          {formatIDR(displayPremium)}
+          {formatIDR(animatedPremium)}
         </p>
 
         {/* Partner logo + name (when selected) */}
@@ -218,24 +231,26 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
           </button>
           {showPartners && (
             <div className="flex flex-col gap-2 -mt-2">
-              {p.partners.map((partner, idx) => {
-                const selected = state.selectedPartnerIndex === idx;
+              {sortedPartners.map(({ partner, originalIdx }, rankIdx) => {
+                const selected = state.selectedPartnerIndex === originalIdx;
                 const vehicleAge = p.vehicleAge ?? 0;
-                const hasBengkelExcluded = partner.bengkelAuthorizedExcluded === true;
+                const isCheapest = rankIdx === 0;
                 return (
-                  <PartnerCard
-                    key={partner.name}
-                    partner={partner}
-                    selected={selected}
-                    vehicleAge={vehicleAge}
-                    hasBengkelAddon={state.extension.addOns.includes("bengkelAuthorized")}
-                    onSelect={() => calc.selectPartner(idx)}
-                  />
+                  <div key={partner.name} className={`ds-stagger-${Math.min(rankIdx + 1, 8)}`}>
+                    <PartnerCard
+                      partner={partner}
+                      selected={selected}
+                      vehicleAge={vehicleAge}
+                      hasBengkelAddon={state.extension.addOns.includes("bengkelAuthorized")}
+                      isCheapest={isCheapest}
+                      rank={rankIdx + 1}
+                      onSelect={() => calc.selectPartner(originalIdx)}
+                    />
+                  </div>
                 );
               })}
               <p className="text-xs text-[#64748B] mt-1 px-1 leading-relaxed">
-                Setiap perusahaan asuransi menerapkan tarif, biaya admin, dan aturan bengkel resmi yang berbeda.
-                Pilih partner untuk melanjutkan pengajuan ke perusahaan tersebut.
+                Diurutkan dari premi termurah. Setiap perusahaan asuransi menerapkan tarif, biaya admin, dan aturan bengkel resmi yang berbeda.
               </p>
             </div>
           )}
@@ -339,10 +354,12 @@ interface PartnerCardProps {
   selected: boolean;
   vehicleAge: number;
   hasBengkelAddon: boolean;
+  isCheapest?: boolean;
+  rank?: number;
   onSelect: () => void;
 }
 
-function PartnerCard({ partner, selected, vehicleAge, hasBengkelAddon, onSelect }: PartnerCardProps) {
+function PartnerCard({ partner, selected, vehicleAge, hasBengkelAddon, isCheapest, rank, onSelect }: PartnerCardProps) {
   const [expanded, setExpanded] = React.useState(false);
   const bd = partner.breakdown;
   const hasBengkelExcluded = partner.bengkelAuthorizedExcluded === true;
@@ -362,19 +379,40 @@ function PartnerCard({ partner, selected, vehicleAge, hasBengkelAddon, onSelect 
   return (
     <div
       className={`
-        rounded-xl border-2 transition-all overflow-hidden
-        ${selected ? "border-[#0F766E] bg-[#ECFDF5] shadow-sm" : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"}
+        rounded-xl border-2 transition-all overflow-hidden relative
+        ${selected
+          ? "border-[#0F766E] bg-[#ECFDF5] shadow-md"
+          : isCheapest
+          ? "border-[#FCD34D] bg-white hover:shadow-md"
+          : "border-[#E2E8F0] bg-white hover:border-[#CBD5E1]"}
       `}
     >
+      {/* "Termurah" badge for cheapest partner */}
+      {isCheapest && (
+        <div className="absolute -top-2 left-3 z-10">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#F59E0B] text-white text-[10px] font-bold uppercase tracking-wider shadow-sm">
+            <Medal className="h-3 w-3" aria-hidden />
+            Termurah
+          </span>
+        </div>
+      )}
+
       {/* Header row — clickable to select + expand */}
       <div className="flex items-stretch">
         <button
           type="button"
           onClick={handleCardClick}
-          className="flex-1 flex items-center gap-3 p-3 text-left min-h-[64px]"
+          className="flex-1 flex items-center gap-3 p-3 text-left min-h-[64px] pt-4"
           aria-pressed={selected}
           aria-label={`Pilih ${partner.name}`}
         >
+          {/* Rank number (small, left of logo) */}
+          {rank && (
+            <span className={`flex-shrink-0 text-xs font-bold tabular-nums w-4 text-center ${isCheapest ? "text-[#F59E0B]" : "text-[#94A3B8]"}`}>
+              {rank}
+            </span>
+          )}
+
           {/* Partner logo */}
           {logoPath ? (
             <img

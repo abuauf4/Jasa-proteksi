@@ -25,7 +25,7 @@ export function VehicleStep({ calc }: { calc: UseCalculatorReturn }) {
       <PickerTrigger
         label="Merek"
         value={v.brand}
-        placeholder="Pilih merek"
+        placeholder="Contoh: Toyota, Honda, BMW"
         onClick={() => setBrandSheet(true)}
         icon={<Car className="h-4 w-4 text-[#64748B]" aria-hidden />}
       />
@@ -43,7 +43,7 @@ export function VehicleStep({ calc }: { calc: UseCalculatorReturn }) {
       <PickerTrigger
         label="Tipe"
         value={v.model}
-        placeholder={v.brand ? "Pilih tipe" : "Pilih merek dulu"}
+        placeholder={v.brand ? "Contoh: Toyota 86 A/T" : "Pilih merek dulu"}
         onClick={() => v.brand && setModelSheet(true)}
         disabled={!v.brand}
       />
@@ -79,6 +79,18 @@ export function VehicleStep({ calc }: { calc: UseCalculatorReturn }) {
           />
         </div>
       </div>
+
+      {/* Hint for first-time users */}
+      {!v.brand && (
+        <div className="rounded-lg bg-[#F0FDFA] border border-[#A7F3D0] p-2.5 flex items-start gap-2">
+          <svg className="h-3.5 w-3.5 text-[#0F766E] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden>
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clipRule="evenodd" />
+          </svg>
+          <p className="text-xs text-[#115E59] leading-relaxed">
+            <strong>Coba:</strong> Toyota → Toyota 86 A/T → 2024
+          </p>
+        </div>
+      )}
 
       {/* Vehicle value — auto-populated, with manual override */}
       <div>
