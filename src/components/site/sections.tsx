@@ -42,44 +42,52 @@ export function HeroSection() {
       id="beranda"
       className="relative bg-gradient-to-b from-[#F0FDFA] via-[#F8FAFC] to-[#FFFFFF] overflow-hidden"
     >
-      {/* Subtle dot texture */}
-      <div className="absolute inset-0 ds-dot-texture opacity-60 pointer-events-none" aria-hidden />
+      {/* Subtle car image background — desktop right side, mobile hidden (kept clean) */}
+      <div
+        className="absolute right-0 top-0 bottom-0 w-1/2 opacity-10 lg:opacity-[0.18] pointer-events-none bg-cover bg-center bg-no-repeat hidden sm:block"
+        style={{ backgroundImage: "url('/hero-car-bg.webp')" }}
+        aria-hidden
+      />
+      {/* Subtle dot texture overlay */}
+      <div className="absolute inset-0 ds-dot-texture opacity-40 pointer-events-none" aria-hidden />
 
-      <Container className="relative pt-8 sm:pt-12 lg:pt-16 pb-8 sm:pb-12 lg:pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
-          {/* Left: copy */}
-          <div className="lg:col-span-5 flex flex-col gap-4 lg:pt-4">
-            <span className="inline-flex items-center gap-2 self-start px-3 py-1 rounded-full bg-[#CCFBF1] border border-[#5EEAD4] text-[#0F766E] text-[11px] font-bold uppercase tracking-wider">
+      <Container className="relative pt-5 sm:pt-8 lg:pt-12 pb-6 sm:pb-10 lg:pb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-start">
+          {/* Left: copy — VERY compact on mobile so calculator shows above the fold */}
+          <div className="lg:col-span-5 flex flex-col gap-2.5 lg:gap-4 lg:pt-4">
+            <span className="inline-flex items-center gap-2 self-start px-2.5 py-1 rounded-full bg-[#CCFBF1] border border-[#5EEAD4] text-[#0F766E] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
               Platform Asuransi Mobil
             </span>
 
-            <h1 className="text-[1.875rem] leading-[1.15] sm:text-4xl lg:text-[2.75rem] font-extrabold tracking-tight text-[#0F172A]">
-              Hitung Premi Asuransi Mobil Secara Online
+            {/* H1: moderate size, not too big — fits 2 lines on mobile */}
+            <h1 className="text-[1.5rem] leading-[1.2] sm:text-3xl lg:text-[2.5rem] font-extrabold tracking-tight text-[#0F172A]">
+              Hitung Premi Asuransi Mobil Online
             </h1>
 
-            <p className="text-sm sm:text-base text-[#475569] max-w-md leading-relaxed">
-              Dapatkan estimasi premi All Risk atau TLO berdasarkan data kendaraan
-              dan wilayah penggunaan Anda.
+            {/* Subtitle: 1-2 lines max on mobile */}
+            <p className="text-xs sm:text-sm text-[#475569] max-w-md leading-relaxed">
+              Estimasi All Risk atau TLO otomatis dari data kendaraan &amp; wilayah.
             </p>
 
-            {/* 3 feature icons row */}
-            <div className="flex flex-wrap items-center gap-4 sm:gap-5 mt-1">
+            {/* 3 feature icons row — desktop only (mobile hidden to save space) */}
+            <div className="hidden lg:flex flex-wrap items-center gap-5 mt-1">
               {features.map((f) => (
                 <div key={f.label} className="flex items-center gap-2">
-                  <span className="flex-shrink-0 w-9 h-9 rounded-full bg-[#CCFBF1] border border-[#5EEAD4] flex items-center justify-center text-[#0F766E]">
+                  <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#CCFBF1] border border-[#5EEAD4] flex items-center justify-center text-[#0F766E]">
                     <f.icon className="h-4 w-4" aria-hidden />
                   </span>
-                  <span className="text-xs sm:text-sm font-semibold text-[#0F172A]">{f.label}</span>
+                  <span className="text-sm font-semibold text-[#0F172A]">{f.label}</span>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-2 mt-2">
+            {/* CTA buttons — desktop shows 2, mobile shows only primary */}
+            <div className="flex flex-col sm:flex-row gap-2 mt-1">
               <Button
                 as="link"
                 href="/#kalkulator"
                 variant="primary"
-                size="lg"
+                size="md"
                 onClick={() => trackEvent("apply_click", {})}
               >
                 <Calculator className="h-4 w-4" aria-hidden />
@@ -90,7 +98,8 @@ export function HeroSection() {
                   as="external"
                   href={whatsappLink}
                   variant="secondary"
-                  size="lg"
+                  size="md"
+                  className="hidden sm:inline-flex"
                   onClick={() => trackEvent("whatsapp_click", {})}
                 >
                   <MessageCircle className="h-4 w-4" aria-hidden />
@@ -99,15 +108,15 @@ export function HeroSection() {
               )}
             </div>
 
-            {/* Trust strip */}
-            <div className="mt-3 pt-3 border-t border-[#E2E8F0] flex flex-wrap items-baseline gap-x-4 gap-y-1 text-xs text-[#64748B]">
+            {/* Trust strip — desktop only */}
+            <div className="hidden lg:flex mt-2 pt-3 border-t border-[#E2E8F0] items-baseline gap-x-4 gap-y-1 text-xs text-[#64748B]">
               <span><strong className="text-[#0F172A] text-sm font-bold">49</strong> merek</span>
               <span><strong className="text-[#0F172A] text-sm font-bold">13k+</strong> varian</span>
               <span><strong className="text-[#0F172A] text-sm font-bold">8</strong> partner</span>
             </div>
           </div>
 
-          {/* Right: calculator */}
+          {/* Right: calculator — primary, prominent above the fold */}
           <div id="kalkulator" className="lg:col-span-7 scroll-mt-20">
             <HeroCalculator />
           </div>
