@@ -1,14 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { MobileStickyCTA } from "@/components/site/MobileStickyCTA";
 import {
   HeroSection,
-  HowItWorks,
+  SimulationDisclaimer,
   CoverageComparison,
+  HowItWorks,
+  PremiumFactors,
+  PlatformBenefits,
+  ServiceIdentity,
+  ArticlesSection,
   FAQSection,
   FinalCTA,
   LegalDisclaimer,
@@ -33,8 +37,13 @@ export default function HomePage({ initialSettings, initialHero }: HomePageProps
         <SiteHeader />
         <main className="flex-1">
           <HeroSection />
-          <HowItWorks />
+          <SimulationDisclaimer />
           <CoverageComparison />
+          <HowItWorks />
+          <PremiumFactors />
+          <PlatformBenefits />
+          <ServiceIdentity />
+          <ArticlesSection />
           <FAQSection />
           <FinalCTA />
           <LegalDisclaimer className="ds-container mt-12 mb-12" />

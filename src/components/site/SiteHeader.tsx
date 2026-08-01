@@ -3,20 +3,12 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, X, Calculator, ShieldCheck } from "lucide-react";
+import { Menu, X, Calculator } from "lucide-react";
 import { Button } from "./Button";
 import { Container } from "./primitives";
 import { trackEvent } from "@/lib/analytics-events";
 
 const NAV_LINKS = [
-  { label: "Cek Premi", href: "/#kalkulator" },
-  { label: "Jenis Proteksi", href: "/#jenis-proteksi" },
-  { label: "Cara Kerja", href: "/#cara-kerja" },
-  { label: "Artikel", href: "/blog" },
-  { label: "Tentang Kami", href: "/tentang-kami" },
-];
-
-const MOBILE_MENU_LINKS = [
   { label: "Beranda", href: "/" },
   { label: "Cek Premi", href: "/#kalkulator" },
   { label: "All Risk", href: "/asuransi-mobil-all-risk" },
@@ -24,7 +16,7 @@ const MOBILE_MENU_LINKS = [
   { label: "Cara Kerja", href: "/#cara-kerja" },
   { label: "Artikel", href: "/blog" },
   { label: "Tentang Kami", href: "/tentang-kami" },
-  { label: "Bantuan", href: "/#faq" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 export function SiteHeader() {
@@ -70,27 +62,27 @@ export function SiteHeader() {
     <>
       <header
         className={`
-          sticky top-0 z-40 w-full bg-white transition-all
-          ${scrolled ? "border-b border-[#E2E8F0] backdrop-blur-md shadow-[0_1px_2px_rgba(15,23,42,0.04)]" : "border-b border-transparent"}
+          sticky top-0 z-40 w-full bg-white transition-all duration-200
+          ${scrolled ? "border-b border-[#E2E8F0] backdrop-blur-md" : "border-b border-transparent"}
         `}
       >
-        <Container className="flex items-center justify-between h-16 sm:h-[72px]">
-          {/* Logo */}
+        <Container className="flex items-center justify-between h-16">
+          {/* Logo — "Jasa" navy + "Proteksi" teal */}
           <Link
             href="/"
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-1 group"
             aria-label="Jasa Proteksi — Beranda"
           >
-            <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#0F172A] flex items-center justify-center">
-              <ShieldCheck className="h-4 w-4 text-[#5EEAD4]" aria-hidden />
+            <span className="text-[17px] font-bold tracking-tight text-[#0F172A]">
+              Jasa
             </span>
-            <span className="text-[15px] font-bold text-[#0F172A] tracking-tight">
-              Jasa Proteksi
+            <span className="text-[17px] font-bold tracking-tight text-[#0F766E]">
+              Proteksi
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1" aria-label="Navigasi utama">
+          {/* Desktop nav — center */}
+          <nav className="hidden lg:flex items-center gap-1" aria-label="Navigasi utama">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -102,46 +94,32 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
+          {/* Desktop CTA — right */}
+          <div className="hidden lg:block">
             <Button as="link" href="/#kalkulator" variant="primary" size="md" onClick={() => trackEvent("apply_click", {})}>
               <Calculator className="h-4 w-4" aria-hidden />
-              Hitung Premi
+              Hitung Premi Mobil
             </Button>
           </div>
 
-          {/* Mobile right cluster */}
-          <div className="flex md:hidden items-center gap-2">
-            <Button
-              as="link"
-              href="/#kalkulator"
-              variant="primary"
-              size="sm"
-              onClick={() => trackEvent("apply_click", {})}
-              className="!h-10 !min-h-[44px]"
-            >
-              <Calculator className="h-4 w-4" aria-hidden />
-              <span className="hidden xs:inline">Hitung Premi</span>
-              <span className="xs:hidden">Hitung</span>
-            </Button>
-            <button
-              type="button"
-              onClick={() => setDrawerOpen(true)}
-              className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-[#0F172A] hover:bg-[#F1F5F9]"
-              aria-label="Buka menu navigasi"
-              aria-expanded={drawerOpen}
-              aria-controls="mobile-drawer"
-            >
-              <Menu className="h-6 w-6" aria-hidden />
-            </button>
-          </div>
+          {/* Mobile: hamburger only */}
+          <button
+            type="button"
+            onClick={() => setDrawerOpen(true)}
+            className="lg:hidden w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-[#0F172A] hover:bg-[#F1F5F9] transition-colors"
+            aria-label="Buka menu navigasi"
+            aria-expanded={drawerOpen}
+            aria-controls="mobile-drawer"
+          >
+            <Menu className="h-6 w-6" aria-hidden />
+          </button>
         </Container>
       </header>
 
       {/* Mobile drawer */}
       {drawerOpen && (
         <div
-          className="fixed inset-0 z-50 md:hidden"
+          className="fixed inset-0 z-50 lg:hidden"
           role="dialog"
           aria-modal="true"
           aria-labelledby="mobile-drawer-title"
@@ -169,7 +147,7 @@ export function SiteHeader() {
 
             <nav className="flex-1 overflow-y-auto p-4" aria-label="Navigasi mobile">
               <ul className="flex flex-col gap-1">
-                {MOBILE_MENU_LINKS.map((link) => (
+                {NAV_LINKS.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
@@ -186,7 +164,7 @@ export function SiteHeader() {
             <div className="p-4 border-t border-[#E2E8F0] safe-bottom">
               <Button onClick={handleCtaClick} variant="primary" size="lg" className="w-full">
                 <Calculator className="h-4 w-4" aria-hidden />
-                Hitung Premi Sekarang
+                Hitung Premi Mobil
               </Button>
             </div>
           </div>

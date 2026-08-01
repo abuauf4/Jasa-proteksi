@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ShieldCheck, Phone, Mail, MessageCircle } from "lucide-react";
+import { MessageCircle, Mail, Phone } from "lucide-react";
 import { Container } from "./primitives";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import { buildWhatsAppLink } from "@/lib/format";
@@ -28,7 +28,7 @@ const LINK_GROUPS: FooterLinkGroup[] = [
       { label: "Tentang Kami", href: "/tentang-kami" },
       { label: "Artikel", href: "/blog" },
       { label: "FAQ", href: "/#faq" },
-      { label: "Hubungi Kami", href: "/#kalkulator" },
+      { label: "Faktor Premi", href: "/#faktor-premi" },
     ],
   },
   {
@@ -54,15 +54,12 @@ export function SiteFooter() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10">
           {/* Brand column */}
           <div className="lg:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-2 mb-4">
-              <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#0F766E] flex items-center justify-center">
-                <ShieldCheck className="h-5 w-5 text-white" aria-hidden />
-              </span>
-              <span className="text-base font-bold text-white">Jasa Proteksi</span>
+            <Link href="/" className="inline-flex items-center gap-1 mb-4">
+              <span className="text-lg font-bold text-white">Jasa</span>
+              <span className="text-lg font-bold text-[#5EEAD4]">Proteksi</span>
             </Link>
             <p className="text-sm leading-relaxed text-[#94A3B8] max-w-sm">
-              Platform simulasi premi dan pengajuan asuransi mobil All Risk atau TLO secara online.
-              Dapatkan estimasi otomatis berdasarkan data kendaraan dan wilayah penggunaan.
+              Jasa Proteksi menyediakan simulasi premi awal dan membantu proses konsultasi serta pengajuan asuransi mobil.
             </p>
 
             {/* Contact info */}
