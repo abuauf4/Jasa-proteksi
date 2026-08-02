@@ -42,8 +42,9 @@ export function VehicleStep({ calc, submitted = false }: { calc: UseCalculatorRe
         options={brands}
         value={v.brand}
         onChange={(val) => updateVehicle({ brand: val, model: "", year: "", vehicleValue: "" })}
-        title="Pilih Merek Kendaraan"
+        title="Pilih Merek"
         placeholder="Cari merek..."
+        presentation="fullscreen"
       />
 
       {/* Model — bottom sheet picker, label inside field */}

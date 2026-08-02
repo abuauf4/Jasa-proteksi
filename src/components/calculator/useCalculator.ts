@@ -364,6 +364,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       isCalculatingInitial: false,
     });
     startedRef.current = false;
+    hasHydratedRef.current = false;
   }, [initialCoverageType]);
 
   /* ─── Premium calculation ─── */
@@ -371,8 +372,14 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   const abortRef = useRef<AbortController | null>(null);
   // Debounce timer for addon/coverage changes
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // In-flight guard: prevents concurrent premium requests
+  const calculationInFlightRef = useRef(false);
 
   const calculatePremium = useCallback(async (silent = false): Promise<boolean> => {
+    // In-flight guard: prevent concurrent requests
+    if (calculationInFlightRef.current) return false;
+    calculationInFlightRef.current = true;
+
     // Cancel any in-flight request
     if (abortRef.current) {
       abortRef.current.abort();
@@ -467,6 +474,8 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       }
       trackEvent("calculator_error", { error_message: msg });
       return false;
+    } finally {
+      calculationInFlightRef.current = false;
     }
   }, [
     state.vehicle,
@@ -599,7 +608,10 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   }, [state.lead]);
 
   /* ─── Auto re-calculate when coverage type or addons change on result step ─── */
-  // Debounced: 200ms delay for addon toggles, instant for coverage type change
+  // Hydration guard: prevents spurious recalculation when state is restored
+  // from sessionStorage on the result page. Without this, the refs are
+  // initialized to default values and the hydration is seen as a "change".
+  const hasHydratedRef = useRef(false);
   const prevCoverageRef = useRef<string>(state.protection.coverageType);
   const prevAddonsRef = useRef<string>(state.extension.addOns.join(","));
 
@@ -609,9 +621,31 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     prevCoverageRef.current = state.protection.coverageType;
     prevAddonsRef.current = state.extension.addOns.join(",");
 
+    // ── Hydration guard ──
+    // After hydration (state restored from sessionStorage), the coverage/addons
+    // may differ from the initial ref values. We must NOT treat this as a user
+    // change. On the first effect run where we have a premium AND step is result,
+    // we sync the refs and mark hydration as complete without recalculating.
+    if (!hasHydratedRef.current) {
+      if (state.step === "result" && state.premium) {
+        // State has been hydrated from sessionStorage — sync refs to current values
+        // and mark hydration complete. Do NOT recalculate.
+        hasHydratedRef.current = true;
+        return;
+      }
+      // If we're not yet on result with premium, just update refs and skip.
+      // This handles the normal flow (step 1 → step 2 → calculate → result)
+      // where the effect runs on intermediate steps before premium exists.
+      return;
+    }
+
+    // ── Only recalculate after hydration is complete ──
     if (state.step !== "result" || !state.premium || (!coverageChanged && !addonsChanged)) {
       return;
     }
+
+    // ── In-flight guard ──
+    if (calculationInFlightRef.current) return;
 
     // Clear any pending debounce
     if (debounceRef.current) {
@@ -623,7 +657,9 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     const delay = coverageChanged ? 0 : 200;
 
     debounceRef.current = setTimeout(() => {
-      calculatePremium(true);
+      if (!calculationInFlightRef.current) {
+        calculatePremium(true);
+      }
     }, delay);
 
     return () => {
