@@ -97,7 +97,7 @@ export default function HasilSimulasiClient({ initialSettings, initialHero }: Ha
         <SiteHeader />
         <main className="flex-1">
           <Section tone="soft" className="!pt-6 !pb-10">
-            <Container className="max-w-2xl">
+            <Container className="max-w-2xl lg:max-w-3xl">
               {/* Action buttons: Ubah Data + Mulai Ulang */}
               <div className="flex items-center gap-2 mb-4">
                 <button

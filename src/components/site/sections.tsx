@@ -53,9 +53,9 @@ export function HeroSection() {
   return (
     <>
       {/* ═══ HERO — image card + calculator overlap (separate DOM, overflow visible) ═══ */}
-      <section id="beranda" className="relative w-full bg-white overflow-visible px-3 sm:px-4 pt-2">
+      <section id="beranda" className="relative w-full bg-white overflow-visible px-3 sm:px-4 lg:px-8 pt-2">
         {/* Image wrapper — overflow-hidden HANYA untuk border radius */}
-        <div className="relative w-full overflow-hidden shadow-md" style={{ borderRadius: "28px", aspectRatio: "4 / 3" }}>
+        <div className="relative w-full lg:max-w-[1200px] lg:mx-auto overflow-hidden shadow-md" style={{ borderRadius: "28px", aspectRatio: "4 / 3" }}>
           <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" onSlideChange={setCurrentSlide} className="w-full h-full object-cover" />
 
           {/* Shield graphic */}
@@ -107,8 +107,8 @@ export function HeroSection() {
         </div>
 
         {/* Calculator — separate card, overlap ke depan gambar */}
-        <div id="kalkulator" className="relative z-20 scroll-mt-20 mx-auto lg:max-w-[500px]" style={{ marginTop: "-64px" }}>
-          <div className="px-2 sm:px-4">
+        <div id="kalkulator" className="relative z-20 scroll-mt-20 mx-auto lg:max-w-[520px]" style={{ marginTop: "-64px" }}>
+          <div className="px-2 sm:px-4 lg:px-0">
             <HeroCalculator />
           </div>
         </div>
@@ -140,8 +140,8 @@ export function ShortcutMenu() {
   ];
 
   return (
-    <section className="px-4 sm:px-6 py-4">
-      <div className="grid grid-cols-4 gap-2.5 max-w-[500px] mx-auto">
+    <section className="px-4 sm:px-6 lg:px-8 py-4">
+      <div className="grid grid-cols-4 gap-2.5 sm:gap-3 max-w-[500px] lg:max-w-[680px] mx-auto">
         {shortcuts.map((s) =>
           s.external ? (
             <a
@@ -189,10 +189,10 @@ export function CoverageCards() {
   ];
 
   return (
-    <section className="px-4 sm:px-6 py-4">
-      <div className="max-w-[500px] mx-auto">
+    <section className="px-4 sm:px-6 lg:px-8 py-4">
+      <div className="max-w-[500px] lg:max-w-[680px] mx-auto">
         <p className="text-xs font-bold uppercase tracking-wider text-[#0F766E] mb-3">Kenali Jenis Perlindungan</p>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 lg:gap-5">
           {cards.map((c) => (
             <div key={c.title} className={`relative rounded-2xl border ${c.border} bg-gradient-to-b ${c.gradient} p-4 overflow-hidden`}>
               <div className="mb-3">
@@ -224,12 +224,12 @@ export function AppSteps() {
   ];
 
   return (
-    <section id="cara-kerja" className="px-4 sm:px-6 py-6">
-      <div className="max-w-[500px] mx-auto">
+    <section id="cara-kerja" className="px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-[500px] lg:max-w-[900px] mx-auto">
         <p className="text-xs font-bold uppercase tracking-wider text-[#0F766E] mb-3">Cara Kerja</p>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-2 lg:gap-4">
           {steps.map((s) => (
-            <div key={s.n} className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-[#E2E8F0]">
+            <div key={s.n} className="flex items-center gap-3 p-3 lg:flex-col lg:items-center lg:text-center lg:p-5 rounded-2xl bg-white border border-[#E2E8F0]">
               <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#0F766E] text-white flex items-center justify-center font-bold text-sm">{s.n}</span>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-[#0F172A] text-sm">{s.title}</p>
@@ -274,13 +274,13 @@ export function ArticleCards() {
   if (articles.length === 0) return null;
 
   return (
-    <section className="px-4 sm:px-6 py-6">
-      <div className="max-w-[500px] mx-auto">
+    <section className="px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-[500px] lg:max-w-[1200px] mx-auto">
         <div className="flex items-center justify-between mb-3">
           <p className="text-xs font-bold uppercase tracking-wider text-[#0F766E]">Artikel</p>
           <Link href="/artikel" className="text-xs font-semibold text-[#64748B] hover:text-[#0F766E]">Lihat semua</Link>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col lg:grid lg:grid-cols-3 gap-3 lg:gap-5">
           {articles.map((a, idx) => (
             <Link key={a.id} href={a.href ?? `/artikel/${a.slug}`} className="group rounded-2xl bg-white border border-[#E2E8F0] overflow-hidden hover:shadow-lg transition-all">
               {/* Thumbnail — full width, 16:9 */}
@@ -342,12 +342,12 @@ export function TestimonialCards() {
   ];
 
   return (
-    <section className="px-4 sm:px-6 py-6">
-      <div className="max-w-[500px] mx-auto">
+    <section className="px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-[500px] lg:max-w-[1200px] mx-auto">
         <p className="text-xs font-bold uppercase tracking-wider text-[#0F766E] mb-3">Testimoni</p>
-        <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: "none" }}>
+        <div className="flex gap-2.5 overflow-x-auto lg:overflow-visible lg:grid lg:grid-cols-3 lg:gap-5 pb-2 -mx-1 px-1 lg:mx-0 lg:px-0" style={{ scrollbarWidth: "none" }}>
           {testimonials.map((t) => (
-            <div key={t.name} className="flex-shrink-0 w-[280px] p-3.5 rounded-2xl bg-white border border-[#E2E8F0]">
+            <div key={t.name} className="flex-shrink-0 w-[280px] lg:w-auto p-3.5 lg:p-5 rounded-2xl bg-white border border-[#E2E8F0]">
               <div className="flex items-center gap-2.5 mb-2">
                 <span
                   className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold"
@@ -395,8 +395,8 @@ export function FAQCards() {
   const [openIdx, setOpenIdx] = React.useState<number | null>(0);
 
   return (
-    <section id="faq" className="px-4 sm:px-6 py-6">
-      <div className="max-w-[500px] mx-auto">
+    <section id="faq" className="px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-[500px] lg:max-w-[680px] mx-auto">
         <p className="text-xs font-bold uppercase tracking-wider text-[#0F766E] mb-3">FAQ</p>
         <div className="flex flex-col gap-2">
           {faqs.map((faq, idx) => {
@@ -443,9 +443,9 @@ export function InfoModule() {
   ];
 
   return (
-    <section className="px-4 sm:px-6 py-6">
-      <div className="max-w-[500px] mx-auto flex flex-col gap-3">
-        <div className="grid grid-cols-3 gap-2">
+    <section className="px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-[500px] lg:max-w-[680px] mx-auto flex flex-col gap-3">
+        <div className="grid grid-cols-3 gap-2 lg:gap-4">
           {items.map((item) => (
             <div key={item.label} className="flex flex-col items-center gap-1.5 p-3 rounded-2xl bg-white border border-[#E2E8F0]">
               <span className="w-8 h-8 rounded-lg bg-[#ECFDF5] flex items-center justify-center text-[#0F766E]">

@@ -177,7 +177,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
       {/* Partner Logo Grid — 4 cols × 2 rows, normalized logo sizes */}
       <div>
         <p className="text-sm font-bold text-[#0F172A] mb-2">Pilih Perusahaan Asuransi</p>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-4 lg:grid-cols-4 gap-2">
           {sortedPartners.map(({ partner: pt, originalIdx }, rankIdx) => {
             const selected = state.selectedPartnerIndex === originalIdx;
             const logo = partnerLogoPath(pt.name);
@@ -261,7 +261,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
           <p className="text-sm font-bold text-[#0F172A]">Perluasan</p>
           <span className="text-xs text-[#64748B]">Opsional</span>
         </div>
-        <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: "thin" }}>
+        <div className="flex gap-2 overflow-x-auto lg:flex-wrap lg:overflow-visible pb-2 -mx-1 px-1 lg:mx-0 lg:px-0" style={{ scrollbarWidth: "thin" }}>
           {availableAddons.map((key) => {
             const meta = ADDON_META[key];
             if (!meta) return null;
