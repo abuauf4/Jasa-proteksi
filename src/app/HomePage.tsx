@@ -6,7 +6,6 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import {
   HeroSection,
   ShortcutMenu,
-  PromoBanner,
   CoverageCards,
   AppSteps,
   ArticleCards,
@@ -34,7 +33,6 @@ export default function HomePage({ initialSettings, initialHero }: HomePageProps
         <main className="flex-1">
           <HeroSection />
           <ShortcutMenu />
-          <PromoBanner />
           <CoverageCards />
           <AppSteps />
           <ArticleCards />

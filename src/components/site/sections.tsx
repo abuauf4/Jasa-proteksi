@@ -14,7 +14,7 @@ import { useSiteSettings, useHeroData } from "@/lib/ServerDataContext";
 import { buildWhatsAppLink } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-events";
 import { partnerLogoPath } from "@/components/calculator/types";
-import { buildCalculatorUrl, type CoverageParam } from "@/lib/calculator-urls";
+
 
 const PARTNER_NAMES = [
   "Sinarmas", "Multi Artha Guna", "ACA", "Mega Insurance",
@@ -114,26 +114,9 @@ export function HeroSection() {
         </div>
       </section>
 
-      {/* Bottom info cards */}
+      {/* Bottom spacer — removed duplicate All Risk/TLO shortcut cards */}
       <section className="bg-white">
-        <Container className="!px-5 sm:!px-6 pt-4 pb-8 lg:pb-12">
-          <div className="grid grid-cols-2 gap-3 lg:max-w-[500px] lg:mx-auto">
-            <Link href={buildCalculatorUrl("all-risk")} className="group flex items-center gap-2.5 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all">
-              <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-center text-[#0F766E]">
-                <ShieldCheck className="h-4 w-4" aria-hidden />
-              </span>
-              <span className="flex-1 font-bold text-[#0F172A] text-sm">All Risk</span>
-              <ArrowRight className="h-4 w-4 text-[#64748B] group-hover:text-[#0F766E] flex-shrink-0" aria-hidden />
-            </Link>
-            <Link href={buildCalculatorUrl("tlo")} className="group flex items-center gap-2.5 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all">
-              <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#F1F5F9] border border-[#E2E8F0] flex items-center justify-center text-[#475569]">
-                <ShieldCheck className="h-4 w-4" aria-hidden />
-              </span>
-              <span className="flex-1 font-bold text-[#0F172A] text-sm">TLO</span>
-              <ArrowRight className="h-4 w-4 text-[#64748B] group-hover:text-[#0F766E] flex-shrink-0" aria-hidden />
-            </Link>
-          </div>
-        </Container>
+        <Container className="!px-5 sm:!px-6 pt-4 pb-8 lg:pb-12" />
       </section>
     </>
   );
@@ -145,76 +128,84 @@ export function HeroSection() {
    ═══════════════════════════════════════════════════ */
 
 export function ShortcutMenu() {
+  const { settings } = useSiteSettings();
+  const whatsappHref = settings.whatsapp
+    ? buildWhatsAppLink(settings.whatsapp, "Halo Jasa Proteksi, saya ingin bertanya.")
+    : "#";
   const shortcuts = [
-    { icon: ShieldCheck, label: "All Risk", href: buildCalculatorUrl("all-risk"), color: "#0F766E", bg: "#ECFDF5" },
-    { icon: ShieldCheck, label: "TLO", href: buildCalculatorUrl("tlo"), color: "#475569", bg: "#F1F5F9" },
-    { icon: Calculator, label: "Cek Premi", href: "/#kalkulator", color: "#0F766E", bg: "#ECFDF5" },
-    { icon: ArrowRight, label: "Cara Kerja", href: "/#cara-kerja", color: "#475569", bg: "#F1F5F9" },
+    { icon: ArrowRight, label: "Cara Kerja", href: "/#cara-kerja", color: "#475569", bg: "#F1F5F9", external: false },
+    { icon: FileText, label: "Artikel", href: "/artikel", color: "#0F766E", bg: "#ECFDF5", external: false },
+    { icon: ShieldCheck, label: "FAQ", href: "/#faq", color: "#475569", bg: "#F1F5F9", external: false },
+    { icon: MessageCircle, label: "Konsultasi", href: whatsappHref, color: "#0F766E", bg: "#ECFDF5", external: true },
   ];
 
   return (
     <section className="px-4 sm:px-6 py-4">
       <div className="grid grid-cols-4 gap-2.5 max-w-[500px] mx-auto">
-        {shortcuts.map((s) => (
-          <Link key={s.label} href={s.href} className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl bg-white border border-[#E2E8F0] hover:shadow-md transition-all">
-            <span className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.bg, color: s.color }}>
-              <s.icon className="h-5 w-5" aria-hidden />
-            </span>
-            <span className="text-[11px] font-semibold text-[#0F172A] text-center leading-tight">{s.label}</span>
-          </Link>
-        ))}
+        {shortcuts.map((s) =>
+          s.external ? (
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl bg-white border border-[#E2E8F0] hover:shadow-md transition-all"
+            >
+              <span className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.bg, color: s.color }}>
+                <s.icon className="h-5 w-5" aria-hidden />
+              </span>
+              <span className="text-[11px] font-semibold text-[#0F172A] text-center leading-tight">{s.label}</span>
+            </a>
+          ) : (
+            <Link key={s.label} href={s.href} className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl bg-white border border-[#E2E8F0] hover:shadow-md transition-all">
+              <span className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.bg, color: s.color }}>
+                <s.icon className="h-5 w-5" aria-hidden />
+              </span>
+              <span className="text-[11px] font-semibold text-[#0F172A] text-center leading-tight">{s.label}</span>
+            </Link>
+          )
+        )}
       </div>
     </section>
   );
 }
 
 /* ═══════════════════════════════════════════════════
-   2. PROMO BANNER — visual horizontal banner
+   2. PROMO BANNER — removed (duplicate CTA)
    ═══════════════════════════════════════════════════ */
 
-export function PromoBanner() {
-  return (
-    <section className="px-4 sm:px-6 py-3">
-      <Link href="/#kalkulator" className="block relative w-full max-w-[500px] mx-auto rounded-2xl overflow-hidden bg-gradient-to-r from-[#0F766E] to-[#0B5C55] p-4 hover:shadow-lg transition-shadow">
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex-1">
-            <p className="text-white font-bold text-sm">Pilih Perlindungan Mobil</p>
-            <p className="text-[#A7F3D0] text-xs mt-0.5">Simulasi All Risk & TLO gratis</p>
-          </div>
-          <span className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-            <ArrowRight className="h-4 w-4 text-white" aria-hidden />
-          </span>
-        </div>
-      </Link>
-    </section>
-  );
-}
+// PromoBanner removed — the calculator in Hero is the single primary CTA.
+// The banner ("Pilih Perlindungan Mobil / Simulasi All Risk & TLO gratis")
+// was a duplicate entry point to the same calculator.
 
 /* ═══════════════════════════════════════════════════
-   3. COVERAGE CARDS — All Risk + TLO visual cards
+   3. COVERAGE CARDS — All Risk + TLO informational (non-interactive)
    ═══════════════════════════════════════════════════ */
 
 export function CoverageCards() {
   const cards = [
-    { title: "All Risk", desc: "Kerusakan sebagian hingga total", href: buildCalculatorUrl("all-risk"), gradient: "from-[#ECFDF5] to-[#FFFFFF]", border: "border-[#A7F3D0]", iconColor: "#0F766E", iconBg: "#CCFBF1" },
-    { title: "TLO", desc: "Kehilangan atau rusak total", href: buildCalculatorUrl("tlo"), gradient: "from-[#F1F5F9] to-[#FFFFFF]", border: "border-[#E2E8F0]", iconColor: "#475569", iconBg: "#F1F5F9" },
+    { title: "All Risk", desc1: "Kerusakan sebagian hingga total", desc2: "Cakupan perlindungan lebih luas", gradient: "from-[#ECFDF5] to-[#FFFFFF]", border: "border-[#A7F3D0]", iconColor: "#0F766E", iconBg: "#CCFBF1" },
+    { title: "TLO", desc1: "Kehilangan atau kerusakan total", desc2: "Premi relatif lebih terjangkau", gradient: "from-[#F1F5F9] to-[#FFFFFF]", border: "border-[#E2E8F0]", iconColor: "#475569", iconBg: "#F1F5F9" },
   ];
 
   return (
     <section className="px-4 sm:px-6 py-4">
-      <div className="grid grid-cols-2 gap-3 max-w-[500px] mx-auto">
-        {cards.map((c) => (
-          <Link key={c.title} href={c.href} className={`group relative rounded-2xl border ${c.border} bg-gradient-to-b ${c.gradient} p-4 hover:shadow-lg transition-all overflow-hidden`}>
-            <div className="flex items-start justify-between mb-3">
-              <span className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: c.iconBg, color: c.iconColor }}>
-                <ShieldCheck className="h-5 w-5" aria-hidden />
-              </span>
-              <ArrowRight className="h-4 w-4 text-[#64748B] group-hover:text-[#0F766E] transition-colors" aria-hidden />
+      <div className="max-w-[500px] mx-auto">
+        <p className="text-xs font-bold uppercase tracking-wider text-[#0F766E] mb-3">Kenali Jenis Perlindungan</p>
+        <div className="grid grid-cols-2 gap-3">
+          {cards.map((c) => (
+            <div key={c.title} className={`relative rounded-2xl border ${c.border} bg-gradient-to-b ${c.gradient} p-4 overflow-hidden`}>
+              <div className="mb-3">
+                <span className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: c.iconBg, color: c.iconColor }}>
+                  <ShieldCheck className="h-5 w-5" aria-hidden />
+                </span>
+              </div>
+              <h3 className="font-bold text-[#0F172A] text-base">{c.title}</h3>
+              <p className="text-xs text-[#64748B] mt-1 leading-snug">{c.desc1}</p>
+              <p className="text-xs text-[#64748B] leading-snug">{c.desc2}</p>
             </div>
-            <h3 className="font-bold text-[#0F172A] text-base">{c.title}</h3>
-            <p className="text-xs text-[#64748B] mt-0.5 leading-snug">{c.desc}</p>
-          </Link>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
