@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -87,6 +87,8 @@ export default function LeadDetailPage() {
   const [loading, setLoading] = useState(true);
   const [salesUsers, setSalesUsers] = useState<{ id: string; name: string }[]>([]);
   const [showFollowupDialog, setShowFollowupDialog] = useState(false);
+  const [isSubmittingFollowup, setIsSubmittingFollowup] = useState(false);
+  const submissionInFlightRef = useRef(false);
   const [followupForm, setFollowupForm] = useState({
     notes: "",
     nextFollowupDate: "",
@@ -157,6 +159,9 @@ export default function LeadDetailPage() {
   };
 
   const handleAddFollowup = async () => {
+    if (submissionInFlightRef.current) return;
+    submissionInFlightRef.current = true;
+    setIsSubmittingFollowup(true);
     try {
       const res = await fetch(`/api/admin/leads/${params.id}/followup`, {
         method: "POST",
@@ -170,6 +175,9 @@ export default function LeadDetailPage() {
       }
     } catch (error) {
       console.error("Add followup error:", error);
+    } finally {
+      submissionInFlightRef.current = false;
+      setIsSubmittingFollowup(false);
     }
   };
 
@@ -224,7 +232,7 @@ export default function LeadDetailPage() {
               ))}
             </SelectContent>
           </Select>
-          <Dialog open={showFollowupDialog} onOpenChange={setShowFollowupDialog}>
+          <Dialog open={showFollowupDialog} onOpenChange={(open) => { if (!open && isSubmittingFollowup) return; if (open) submissionInFlightRef.current = false; setShowFollowupDialog(open); }}>
             <DialogTrigger asChild>
               <Button className="bg-orange-500 hover:bg-orange-600 text-white">
                 <Plus className="h-4 w-4 mr-2" />
@@ -268,13 +276,20 @@ export default function LeadDetailPage() {
                 </div>
               </div>
               <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={() => setShowFollowupDialog(false)}>Batal</Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowFollowupDialog(false)}
+                  disabled={isSubmittingFollowup}
+                >
+                  Batal
+                </Button>
                 <Button
                   className="bg-orange-500 hover:bg-orange-600 text-white"
                   onClick={handleAddFollowup}
-                  disabled={!followupForm.notes}
+                  disabled={!followupForm.notes || isSubmittingFollowup}
+                  type="button"
                 >
-                  Simpan
+                  {isSubmittingFollowup ? "Menyimpan..." : "Simpan"}
                 </Button>
               </div>
             </DialogContent>
