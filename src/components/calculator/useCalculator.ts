@@ -375,7 +375,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   // In-flight guard: prevents concurrent premium requests
   const calculationInFlightRef = useRef(false);
 
-  const calculatePremium = useCallback(async (silent = false): Promise<boolean> => {
+  const calculatePremium = useCallback(async (silent = false, options?: { skipStepTransition?: boolean }): Promise<boolean> => {
     // In-flight guard: prevent concurrent requests
     if (calculationInFlightRef.current) return false;
     calculationInFlightRef.current = true;
@@ -446,7 +446,10 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
         isLoadingPremium: false,
         isCalculatingInitial: false,
         isRecalculating: false,
-        step: "result",
+        // When skipStepTransition is true (e.g. HeroCalculator navigating to result page),
+        // don't change step to "result" — the result page will set it via hydration.
+        // This prevents PremiumResult from mounting in HeroCalculator before navigation.
+        step: options?.skipStepTransition ? s.step : "result",
         error: null,
       }));
 
@@ -670,6 +673,31 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   }, [state.protection.coverageType, state.extension.addOns, state.step, state.premium, calculatePremium]);
 
   /* ─── Persist calculator state to sessionStorage (for /hasil-simulasi page) ─── */
+
+  /** Explicitly save state to sessionStorage before navigation.
+   *  This is synchronous and guaranteed to complete before router.replace.
+   *  The useEffect-based persistence may run too late (after next render). */
+  const persistToSessionStorage = useCallback(() => {
+    if (typeof window === "undefined") return;
+    try {
+      sessionStorage.setItem("jp_calc_state", JSON.stringify({
+        step: "result",
+        vehicle: state.vehicle,
+        region: state.region,
+        protection: state.protection,
+        extension: state.extension,
+        personal: state.personal,
+        premium: state.premium,
+        selectedPartnerIndex: state.selectedPartnerIndex,
+        lead: state.lead,
+        vehicleFound: state.vehicleFound,
+        showManualOtr: state.showManualOtr,
+        databaseVehicleValue: state.databaseVehicleValue,
+        manualOtrValidation: state.manualOtrValidation,
+      }));
+    } catch { /* silent */ }
+  }, [state]);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     // Only save when we have premium (result ready) or step changed
@@ -747,6 +775,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     selectPartner,
     reset,
     calculatePremium,
+    persistToSessionStorage,
     submitLead,
     markWhatsappClicked,
   };

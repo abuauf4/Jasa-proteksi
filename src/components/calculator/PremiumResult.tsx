@@ -39,8 +39,14 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
       : null;
   const displayPremium = partner?.estimatedPremium ?? p?.totalPremium ?? 0;
 
-  // Count-up animation for premium reveal
-  const animatedPremium = useCountUp(displayPremium, 900);
+  // Count-up animation for premium reveal.
+  // On initial result mount (from navigation), show final value directly — no animation.
+  // Animation only for subsequent changes (partner switch, addon toggle).
+  const [hasShownInitial] = React.useState(() => {
+    // If premium already exists on mount, this is a hydration — skip animation
+    return !!state.premium;
+  });
+  const animatedPremium = useCountUp(displayPremium, 900, !hasShownInitial);
 
   // Sort partners by cheapest
   const sortedPartners = React.useMemo(() => {

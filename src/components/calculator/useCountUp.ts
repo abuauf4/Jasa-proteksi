@@ -3,17 +3,34 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Animate a number from 0 (or previous value) to target with ease-out.
+ * Animate a number from previous value to target with ease-out.
  * Used for premium reveal animation — more memorable than static number.
+ *
+ * When `animate` is false (initial result mount), returns target instantly
+ * without animation — prevents the "counting up from small number" flash.
  *
  * Respects prefers-reduced-motion: returns target instantly.
  */
-export function useCountUp(target: number, durationMs: number = 800): number {
+export function useCountUp(target: number, durationMs: number = 800, animate: boolean = true): number {
   const [display, setDisplay] = useState(0);
   const prevRef = useRef(0);
   const rafRef = useRef<number | null>(null);
+  // Track if this is the first call with a real target (initial mount)
+  const hasInitializedRef = useRef(false);
 
   useEffect(() => {
+    // On initial mount with a target, skip animation if `animate` is false
+    // or if this is the first time we see a non-zero target.
+    if (!hasInitializedRef.current) {
+      hasInitializedRef.current = true;
+      if (!animate) {
+        // Show final value directly, no animation
+        setDisplay(target);
+        prevRef.current = target;
+        return;
+      }
+    }
+
     // Respect reduced motion
     if (typeof window !== "undefined") {
       const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -34,7 +51,7 @@ export function useCountUp(target: number, durationMs: number = 800): number {
 
     const startTime = performance.now();
 
-    const animate = (now: number) => {
+    const tick = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / durationMs, 1);
       // Ease-out cubic
@@ -43,16 +60,16 @@ export function useCountUp(target: number, durationMs: number = 800): number {
       setDisplay(current);
 
       if (progress < 1) {
-        rafRef.current = requestAnimationFrame(animate);
+        rafRef.current = requestAnimationFrame(tick);
       }
     };
 
-    rafRef.current = requestAnimationFrame(animate);
+    rafRef.current = requestAnimationFrame(tick);
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [target, durationMs]);
+  }, [target, durationMs, animate]);
 
   return display;
 }

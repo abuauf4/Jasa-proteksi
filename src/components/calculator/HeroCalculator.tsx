@@ -33,13 +33,15 @@ export function HeroCalculator({
   hideHeader = false,
 }: HeroCalculatorProps) {
   const calc = useCalculator({ initialCoverageType });
-  const { state, calculatePremium, setError } = calc;
+  const { state, calculatePremium, persistToSessionStorage, setError } = calc;
   const router = useRouter();
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   // Track if user has attempted to proceed — used to show red borders on empty required fields
   const [submitted, setSubmitted] = React.useState(false);
   // Track whether the component has completed its first render — prevents scrollIntoView on mount
   const hasMountedRef = React.useRef(false);
+  // Track navigation to result page — keeps button disabled during transition
+  const [isNavigatingToResult, setIsNavigatingToResult] = React.useState(false);
 
   // Reset "submitted" flag when step changes (so fields don't show red until next attempt)
   React.useEffect(() => {
@@ -98,10 +100,17 @@ export function HeroCalculator({
     if (state.step === "vehicle") {
       calc.goToStep("region");
     } else if (state.step === "region" || state.step === "protection" || state.step === "extension") {
-      // Calculate premium, then navigate to dedicated result page
-      const success = await calculatePremium();
+      // Calculate premium with skipStepTransition: don't change step to "result"
+      // so PremiumResult doesn't mount in HeroCalculator before navigation.
+      const success = await calculatePremium(false, { skipStepTransition: true });
       if (success) {
-        router.push("/hasil-simulasi");
+        // Explicitly save state to sessionStorage before navigation.
+        // This is synchronous and guaranteed to complete before router.replace.
+        // The useEffect-based persistence may run too late (after next render).
+        persistToSessionStorage();
+        // Mark as navigating so button stays disabled during transition
+        setIsNavigatingToResult(true);
+        router.replace("/hasil-simulasi");
       }
     }
   };
@@ -186,7 +195,7 @@ export function HeroCalculator({
               variant="secondary"
               size="lg"
               onClick={handleBack}
-              disabled={state.isLoadingPremium || state.isCalculatingInitial}
+              disabled={state.isLoadingPremium || state.isCalculatingInitial || isNavigatingToResult}
               className="sm:flex-1"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden />
@@ -198,12 +207,12 @@ export function HeroCalculator({
             variant="primary"
             size="lg"
             onClick={handleNext}
-            disabled={state.isLoadingPremium || state.isCalculatingInitial}
+            disabled={state.isLoadingPremium || state.isCalculatingInitial || isNavigatingToResult}
             className={isVehicleStep ? "w-full" : "sm:flex-[2]"}
           >
             {isCoverageStep ? (
               <>
-                {state.isLoadingPremium || state.isCalculatingInitial ? (
+                {state.isLoadingPremium || state.isCalculatingInitial || isNavigatingToResult ? (
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
                 ) : (
                   <ArrowRight className="h-4 w-4" aria-hidden />
