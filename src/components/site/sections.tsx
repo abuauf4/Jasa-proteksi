@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import {
   Calculator, MessageCircle, ArrowRight, ShieldCheck, CheckCircle2,
+  Car, FileText, Wallet, Calendar, Globe, ListChecks, Sliders, ShieldAlert,
 } from "lucide-react";
 import { Container, Section, SectionHeader, Card, Badge } from "./primitives";
 import { Button } from "./Button";
@@ -446,5 +447,229 @@ export function InfoModule() {
         )}
       </div>
     </section>
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════
+   LEGAL DISCLAIMER — small inline disclaimer card
+   ═══════════════════════════════════════════════════ */
+
+export function LegalDisclaimer({ className }: { className?: string }) {
+  return (
+    <div
+      id="disclaimer"
+      className={`rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 ${className ?? ""}`}
+    >
+      <div className="flex items-start gap-2.5">
+        <ShieldAlert className="h-4 w-4 text-[#64748B] flex-shrink-0 mt-0.5" aria-hidden />
+        <p className="text-xs text-[#64748B] leading-relaxed">
+          <strong className="text-[#475569]">Disclaimer Simulasi:</strong> Hasil simulasi
+          merupakan estimasi awal. Premi, manfaat, syarat, dan ketentuan akhir mengikuti
+          proses verifikasi serta quotation dari perusahaan asuransi penerbit polis.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════
+   HOW IT WORKS — 4-step process timeline
+   ═══════════════════════════════════════════════════ */
+
+export function HowItWorks() {
+  const steps: Array<{
+    icon: React.ComponentType<{ className?: string }>;
+    title: string;
+    description: string;
+  }> = [
+    {
+      icon: Car,
+      title: "Isi Data Kendaraan",
+      description: "Pilih merek, tipe, tahun, wilayah, dan kebutuhan perlindungan.",
+    },
+    {
+      icon: Calculator,
+      title: "Dapatkan Estimasi Otomatis",
+      description: "Engine menghitung estimasi premi berdasarkan data yang Anda masukkan.",
+    },
+    {
+      icon: MessageCircle,
+      title: "Konsultasikan Pilihan",
+      description: "Pelajari hasil simulasi dan tanyakan detail perlindungan kepada tim kami.",
+    },
+    {
+      icon: FileText,
+      title: "Lanjutkan Pengajuan",
+      description: "Lengkapi proses verifikasi hingga polis diterbitkan oleh perusahaan asuransi terkait.",
+    },
+  ];
+
+  return (
+    <Section tone="soft" id="cara-kerja">
+      <Container>
+        <SectionHeader
+          eyebrow="Alur Layanan"
+          title="Dari Simulasi hingga Polis"
+          description="Empat langkah mudah untuk memahami estimasi premi dan melanjutkan pengajuan."
+        />
+
+        <ol className="mt-10 flex flex-col gap-5 lg:grid lg:grid-cols-4 lg:gap-4 relative">
+          {steps.map((step, idx) => (
+            <li
+              key={step.title}
+              className="relative flex gap-4 lg:flex-col lg:gap-3 lg:items-start"
+            >
+              {idx < steps.length - 1 && (
+                <span
+                  className="absolute left-[22px] top-12 bottom-[-20px] w-px bg-[#CBD5E1] lg:hidden"
+                  aria-hidden
+                />
+              )}
+              <span className="flex-shrink-0 w-11 h-11 rounded-xl bg-[#0F766E] text-white flex items-center justify-center font-bold text-sm z-10 lg:w-12 lg:h-12">
+                {idx + 1}
+              </span>
+              <div className="flex flex-col gap-1 lg:gap-2 min-w-0 pt-1 lg:pt-0">
+                <div className="flex items-center gap-2 lg:gap-0 lg:flex-col lg:items-start">
+                  <step.icon className="h-4 w-4 text-[#0F766E] lg:h-5 lg:w-5 lg:mb-1" aria-hidden />
+                  <h3 className="font-semibold text-[#0F172A] text-sm sm:text-base">
+                    {step.title}
+                  </h3>
+                </div>
+                <p className="text-sm text-[#475569] leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </Container>
+    </Section>
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════
+   PREMIUM FACTORS — accordion list of factors affecting premium
+   ═══════════════════════════════════════════════════ */
+
+export function PremiumFactors() {
+  const factors: Array<{
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    description: string;
+  }> = [
+    {
+      icon: Wallet,
+      label: "Nilai Kendaraan",
+      description: "Nilai OTR (On The Road) kendaraan menentukan basis perhitungan premi. Semakin tinggi nilai kendaraan, semakin tinggi premi dasar.",
+    },
+    {
+      icon: Calendar,
+      label: "Tahun Kendaraan",
+      description: "Usia kendaraan memengaruhi tarif premi. Kendaraan yang lebih tua dapat dikenai loading rate dan memiliki batas kelayakan untuk jenis perlindungan tertentu.",
+    },
+    {
+      icon: Globe,
+      label: "Wilayah Penggunaan",
+      description: "Tarif premi dibedakan berdasarkan wilayah penggunaan kendaraan (Wilayah 1, 2, atau 3) yang ditentukan dari kode plat nomor.",
+    },
+    {
+      icon: ShieldCheck,
+      label: "Jenis Perlindungan",
+      description: "All Risk (Comprehensive) memiliki tarif berbeda dengan TLO (Total Loss Only). Cakupan manfaat yang lebih luas umumnya memiliki premi lebih tinggi.",
+    },
+    {
+      icon: ListChecks,
+      label: "Perluasan Jaminan",
+      description: "Perluasan seperti banjir, gempa bumi, kerusuhan, tanggung jawab pihak ketiga, dan kecelakaan diri menambah komponen premi sesuai tarif masing-masing.",
+    },
+    {
+      icon: Sliders,
+      label: "Jenis Penggunaan",
+      description: "Kategori kendaraan (mobil penumpang, truk, bus, atau motor) memengaruhi klasifikasi tarif dan ketersediaan jenis perlindungan tertentu.",
+    },
+  ];
+
+  return (
+    <Section tone="white" id="faktor-premi">
+      <Container>
+        <SectionHeader
+          eyebrow="Faktor Premi"
+          title="Apa yang Memengaruhi Premi Asuransi Mobil?"
+          description="Beberapa faktor utama digunakan oleh engine untuk menghitung estimasi premi Anda."
+        />
+
+        <div className="mt-10 max-w-3xl mx-auto flex flex-col gap-2">
+          {factors.map((factor, idx) => (
+            <FactorAccordion key={factor.label} {...factor} defaultOpen={idx === 0} />
+          ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <Button as="link" href="/#kalkulator" variant="primary" size="lg">
+            <Calculator className="h-4 w-4" aria-hidden />
+            Coba Hitung Premi Mobil
+          </Button>
+        </div>
+      </Container>
+    </Section>
+  );
+}
+
+function FactorAccordion({
+  icon: Icon,
+  label,
+  description,
+  defaultOpen = false,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  description: string;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = React.useState(defaultOpen);
+  const btnId = React.useId();
+  const panelId = React.useId();
+
+  return (
+    <div className="rounded-xl border border-[#E2E8F0] bg-white overflow-hidden">
+      <button
+        id={btnId}
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-controls={panelId}
+        className="flex w-full items-center gap-3 p-4 text-left hover:bg-[#F8FAFC] transition-colors"
+      >
+        <span className="flex-shrink-0 w-9 h-9 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-center text-[#0F766E]">
+          <Icon className="h-4 w-4" aria-hidden />
+        </span>
+        <span className="flex-1 font-semibold text-[#0F172A] text-sm sm:text-base">
+          {label}
+        </span>
+        <span
+          className={`flex-shrink-0 text-[#64748B] transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+          aria-hidden
+        >
+          ▾
+        </span>
+      </button>
+      {open && (
+        <div
+          id={panelId}
+          role="region"
+          aria-labelledby={btnId}
+          className="px-4 pb-4 pt-0"
+        >
+          <p className="text-sm text-[#475569] leading-relaxed pl-12">
+            {description}
+          </p>
+        </div>
+      )}
+    </div>
   );
 }
