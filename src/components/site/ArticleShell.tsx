@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowRight, Calculator, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -31,6 +32,16 @@ export function ArticleShell({
   relatedArticles,
   children,
 }: ArticleShellProps) {
+  const pathname = usePathname();
+
+  // Ensure article pages always start at the top — prevents scroll-to-calculator
+  // on navigation and compensates for App Router scroll restoration quirks.
+  React.useEffect(() => {
+    if (!window.location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
+  }, [pathname]);
+
   return (
     <ServerDataProvider initialSettings={initialSettings} initialHero={initialHero}>
       <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
