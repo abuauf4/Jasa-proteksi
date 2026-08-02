@@ -82,7 +82,7 @@ export default function BlogPageClient({
                 {articles.map((article) => (
                   <Link
                     key={article.id}
-                    href={`/blog/${article.slug}`}
+                    href={`/artikel/${article.slug}`}
                     className="group rounded-xl border border-slate-200 bg-white overflow-hidden hover:border-teal-300 hover:shadow-lg transition-all duration-300"
                   >
                     {/* Cover Image */}
@@ -140,7 +140,7 @@ export default function BlogPageClient({
               {totalPages > 1 && (
                 <div className="flex items-center justify-center gap-3 mt-4">
                   {currentPage > 1 ? (
-                    <Link href={`/blog?page=${currentPage - 1}`}>
+                    <Link href={`/artikel?page=${currentPage - 1}`}>
                       <Button variant="outline" className="min-h-[44px]">
                         <ArrowLeft className="h-4 w-4 mr-2" />
                         Sebelumnya
@@ -153,7 +153,7 @@ export default function BlogPageClient({
                     </Button>
                   )}
                   {currentPage < totalPages ? (
-                    <Link href={`/blog?page=${currentPage + 1}`}>
+                    <Link href={`/artikel?page=${currentPage + 1}`}>
                       <Button className="bg-teal-500 hover:bg-teal-600 text-white min-h-[44px]">
                         Selanjutnya
                         <ArrowRight className="h-4 w-4 ml-2" />

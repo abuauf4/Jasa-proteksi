@@ -59,7 +59,7 @@ export default function BlogDetailClient({
       {/* Back bar */}
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <Link href="/blog">
+          <Link href="/artikel">
             <Button variant="ghost" size="sm" className="text-slate-600 hover:text-teal-600 min-h-[44px]">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Kembali ke Blog
@@ -164,7 +164,7 @@ export default function BlogDetailClient({
                       {relatedArticles.map((related) => (
                         <Link
                           key={related.id}
-                          href={`/blog/${related.slug}`}
+                          href={`/artikel/${related.slug}`}
                           className="group block"
                         >
                           <div className="flex gap-3">

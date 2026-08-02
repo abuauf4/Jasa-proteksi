@@ -13,6 +13,7 @@ import { useSiteSettings, useHeroData } from "@/lib/ServerDataContext";
 import { buildWhatsAppLink } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-events";
 import { partnerLogoPath } from "@/components/calculator/types";
+import { buildCalculatorUrl, type CoverageParam } from "@/lib/calculator-urls";
 
 const PARTNER_NAMES = [
   "Sinarmas", "Multi Artha Guna", "ACA", "Mega Insurance",
@@ -130,8 +131,8 @@ export function HeroSection() {
 
 export function ShortcutMenu() {
   const shortcuts = [
-    { icon: ShieldCheck, label: "All Risk", href: "/asuransi-mobil-all-risk", color: "#0F766E", bg: "#ECFDF5" },
-    { icon: ShieldCheck, label: "TLO", href: "/asuransi-mobil-tlo", color: "#475569", bg: "#F1F5F9" },
+    { icon: ShieldCheck, label: "All Risk", href: buildCalculatorUrl("all-risk"), color: "#0F766E", bg: "#ECFDF5" },
+    { icon: ShieldCheck, label: "TLO", href: buildCalculatorUrl("tlo"), color: "#475569", bg: "#F1F5F9" },
     { icon: Calculator, label: "Cek Premi", href: "/#kalkulator", color: "#0F766E", bg: "#ECFDF5" },
     { icon: ArrowRight, label: "Cara Kerja", href: "/#cara-kerja", color: "#475569", bg: "#F1F5F9" },
   ];
@@ -180,8 +181,8 @@ export function PromoBanner() {
 
 export function CoverageCards() {
   const cards = [
-    { title: "All Risk", desc: "Kerusakan sebagian hingga total", href: "/asuransi-mobil-all-risk", gradient: "from-[#ECFDF5] to-[#FFFFFF]", border: "border-[#A7F3D0]", iconColor: "#0F766E", iconBg: "#CCFBF1" },
-    { title: "TLO", desc: "Kehilangan atau rusak total", href: "/asuransi-mobil-tlo", gradient: "from-[#F1F5F9] to-[#FFFFFF]", border: "border-[#E2E8F0]", iconColor: "#475569", iconBg: "#F1F5F9" },
+    { title: "All Risk", desc: "Kerusakan sebagian hingga total", href: buildCalculatorUrl("all-risk"), gradient: "from-[#ECFDF5] to-[#FFFFFF]", border: "border-[#A7F3D0]", iconColor: "#0F766E", iconBg: "#CCFBF1" },
+    { title: "TLO", desc: "Kehilangan atau rusak total", href: buildCalculatorUrl("tlo"), gradient: "from-[#F1F5F9] to-[#FFFFFF]", border: "border-[#E2E8F0]", iconColor: "#475569", iconBg: "#F1F5F9" },
   ];
 
   return (
@@ -254,11 +255,11 @@ export function ArticleCards() {
       <div className="max-w-[500px] mx-auto">
         <div className="flex items-center justify-between mb-3">
           <p className="text-xs font-bold uppercase tracking-wider text-[#0F766E]">Artikel</p>
-          <Link href="/blog" className="text-xs font-semibold text-[#64748B] hover:text-[#0F766E]">Lihat semua</Link>
+          <Link href="/artikel" className="text-xs font-semibold text-[#64748B] hover:text-[#0F766E]">Lihat semua</Link>
         </div>
         <div className="flex flex-col gap-3">
           {articles.map((a, idx) => (
-            <Link key={a.id} href={`/blog/${a.slug}`} className="group rounded-2xl bg-white border border-[#E2E8F0] overflow-hidden hover:shadow-lg transition-all">
+            <Link key={a.id} href={`/artikel/${a.slug}`} className="group rounded-2xl bg-white border border-[#E2E8F0] overflow-hidden hover:shadow-lg transition-all">
               {/* Thumbnail — full width, 16:9 */}
               <div className="relative w-full aspect-[16/9] bg-[#F1F5F9] overflow-hidden">
                 {a.coverImage ? (

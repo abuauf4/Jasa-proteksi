@@ -8,6 +8,8 @@ import { HeroCalculator } from "@/components/calculator/HeroCalculator";
 import { LegalDisclaimer } from "@/components/site/sections";
 import { Container, Section, SectionHeader, Card, Badge } from "@/components/site/primitives";
 import { ShieldCheck, Calculator, Sparkles } from "lucide-react";
+import { parseCoverageParam } from "@/lib/calculator-urls";
+import type { CoverageType } from "@/components/calculator/types";
 
 export const revalidate = 300;
 
@@ -30,7 +32,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function CekPremiPage() {
+export default async function CekPremiPage({
+  searchParams,
+}: {
+  searchParams: { coverage?: string };
+}) {
+  const initialCoverage: CoverageType | undefined = parseCoverageParam(searchParams?.coverage) ?? undefined;
+
   let initialSettings: SiteSettings = {
     whatsapp: "", whatsapp2: "", phone: "", email: "", address: "",
     googleAnalyticsId: "", metaPixelId: "", gtmId: "", maintenanceMode: false,
@@ -78,7 +86,7 @@ export default async function CekPremiPage() {
                   secara otomatis.
                 </p>
               </div>
-              <HeroCalculator hideHeader />
+              <HeroCalculator hideHeader initialCoverageType={initialCoverage} />
               <LegalDisclaimer className="mt-6" />
             </Container>
           </Section>

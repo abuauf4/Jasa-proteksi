@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { label: "Cek Premi", href: "/#kalkulator" },
   { label: "Jenis Proteksi", href: "/#jenis-proteksi" },
   { label: "Cara Kerja", href: "/#cara-kerja" },
-  { label: "Artikel", href: "/blog" },
+  { label: "Artikel", href: "/artikel" },
   { label: "Tentang Kami", href: "/tentang-kami" },
 ];
 
@@ -22,7 +22,7 @@ const MOBILE_MENU_LINKS = [
   { label: "All Risk", href: "/asuransi-mobil-all-risk" },
   { label: "TLO", href: "/asuransi-mobil-tlo" },
   { label: "Cara Kerja", href: "/#cara-kerja" },
-  { label: "Artikel", href: "/blog" },
+  { label: "Artikel", href: "/artikel" },
   { label: "Tentang Kami", href: "/tentang-kami" },
   { label: "Bantuan", href: "/#faq" },
 ];

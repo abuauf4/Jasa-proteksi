@@ -26,7 +26,7 @@ const LINK_GROUPS: FooterLinkGroup[] = [
     title: "Informasi",
     links: [
       { label: "Tentang Kami", href: "/tentang-kami" },
-      { label: "Artikel", href: "/blog" },
+      { label: "Artikel", href: "/artikel" },
       { label: "FAQ", href: "/#faq" },
       { label: "Hubungi Kami", href: "/#kalkulator" },
     ],

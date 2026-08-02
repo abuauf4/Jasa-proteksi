@@ -42,7 +42,7 @@ export function ArticleShell({
             <nav className="flex items-center gap-1.5 text-xs text-[#64748B] mb-4" aria-label="Breadcrumb">
               <Link href="/" className="hover:text-[#0F766E]">Beranda</Link>
               <span>/</span>
-              <Link href="/blog" className="hover:text-[#0F766E]">Artikel</Link>
+              <Link href="/artikel" className="hover:text-[#0F766E]">Artikel</Link>
               <span>/</span>
               <span className="text-[#0F172A] font-medium truncate">{title}</span>
             </nav>
