@@ -7,26 +7,39 @@
  * 1. Lookup vehicle value from static JSON (vehicleData.json)
  * 2. Calculate vehicle age (currentYear - vehicleYear)
  * 3. Determine wilayah from plate region
- * 4. Lookup base rate from MotorRate (category + wilayah + coverage type)
- * 5. Calculate loading rate if vehicle age > threshold
- * 6. Apply addon rates
- * 7. Calculate TPL premium if selected
- * 8. Sum all premiums
- * 9. Apply discount
- * 10. Add admin/policy fee
+ * 4. Load all rate data in parallel (batch RateSettings, MotorRate, LoadingRate, AddonRate, TplRate)
+ * 5. Lookup base rate from MotorRate (category + wilayah + coverage type)
+ * 6. Calculate loading rate if vehicle age > threshold
+ * 7. Apply addon rates
+ * 8. Calculate TPL premium if selected
+ * 9. Sum all premiums
+ * 10. Apply discount
+ * 11. Add admin/policy fee
+ *
+ * Performance optimization (v1):
+ * - All RateSettings keys are fetched in a single findMany() → Map lookup
+ * - All independent DB queries run in parallel via Promise.all()
+ * - InsurancePartner query runs in parallel with calculatePremium in the API route
+ * - Map is request-scoped (created per request, never shared across requests)
  */
 
 import { db } from "./db";
 import vehiclePriceData from "./vehicleData.json";
 import vehicleCodeMap from "./vehicleCodeMap.json";
 
-async function getRateSetting(key: string): Promise<number | undefined> {
-  // Read directly from database every time — no in-memory cache.
-  // Vercel runs multiple serverless instances, so an in-process cache
-  // would only be valid on one instance and cause stale reads on others.
-  const setting = await db.rateSettings.findUnique({ where: { key } });
-  return setting ? Number(setting.value) : undefined;
-}
+// ─── All RateSettings keys used by the premium engine ───
+// Fetched in a single findMany() and stored in a request-scoped Map.
+const REQUIRED_SETTING_KEYS = [
+  "maxAgeAllRisk",
+  "maxAgeTLO",
+  "loadingThreshold",
+  "loadingPercentPerYear",
+  "paDriverRate",
+  "paPassengerRate",
+  "discountPercent",
+  "adminFee",
+  "policyFee",
+] as const;
 
 // ─── Types ───
 
@@ -201,31 +214,15 @@ function determineCategory(vehicleType: string, vehicleValue: number): number {
 }
 
 /**
- * Calculate TPL premium using tiered rates from database
+ * Calculate TPL premium using pre-loaded tiered rates.
+ * Accepts pre-fetched tiers instead of querying the DB.
  */
-async function calculateTplPremium(
+function calculateTplPremiumFromTiers(
   tplCoverageAmount: number,
-  vehicleType: string
-): Promise<number> {
-  // Determine vehicle category string for DB lookup
-  const isBusOrTruck = vehicleType === "Bus" || vehicleType === "Truk dan Pick Up";
-  const vehicleCategory = isBusOrTruck ? "Bus / Truck" : "Passenger & Motorcycle";
+  tiers: Array<{ coverageMin: number; coverageMax: number; rate: number }>
+): number {
+  if (tiers.length === 0) return 0;
 
-  // Query tiered TPL rates from database
-  const tiers = await db.tplRate.findMany({
-    where: {
-      vehicleCategory,
-      isActive: true,
-    },
-    orderBy: { coverageMin: "asc" },
-  });
-
-  if (tiers.length === 0) {
-    // Fallback: no tiers found in DB, return 0
-    return 0;
-  }
-
-  // Apply tiered calculation
   let totalPremium = 0;
   let remainingCoverage = tplCoverageAmount;
 
@@ -235,7 +232,6 @@ async function calculateTplPremium(
 
     if (remainingCoverage <= 0) break;
 
-    // Calculate coverage in this tier
     const tierCoverage = Math.min(
       remainingCoverage,
       tierMax - tierMin + 1
@@ -249,6 +245,115 @@ async function calculateTplPremium(
   }
 
   return totalPremium;
+}
+
+/**
+ * Static fallback addon rates — used only when DB query returns 0 results or fails.
+ * Identical to the previous inline definitions.
+ */
+const STATIC_ADDON_RATES: Record<string, { label: string; rate: number; appliesTo: string[] }> = {
+  flood: { label: "Banjir & Angin Kencang", rate: 0.001, appliesTo: ["Comprehensive", "All"] },
+  earthquake: { label: "Gempa Bumi & Tsunami", rate: 0.0015, appliesTo: ["Comprehensive", "All"] },
+  srcc: { label: "Kerusuhan & Huru-Hara", rate: 0.0005, appliesTo: ["Comprehensive", "All"] },
+  terrorism: { label: "Terorisme & Sabotase", rate: 0.0005, appliesTo: ["Comprehensive", "All"] },
+  bengkelAuthorized: { label: "Bengkel Resmi", rate: 0.001, appliesTo: ["Comprehensive", "All"] },
+};
+
+/**
+ * Build addon rate map from DB results, with static fallback.
+ * Pure function — no DB access.
+ */
+function buildAddonRateMap(
+  allAddonRates: Array<{ addonKey: string; addonLabel: string; rate: number; wilayah: number }>,
+  standardAddonKeys: string[],
+  wilayah: number,
+  coverageType: string,
+): Map<string, { rate: number; label: string }> {
+  const addonRateMap = new Map<string, { rate: number; label: string }>();
+
+  // Build lookup map: prefer region-specific (wilayah match) over wilayah=0 (all-region)
+  // Results are ordered by wilayah DESC, so the first match for each addonKey
+  // is the same row that findFirst (with the same orderBy) would return.
+  for (const ar of allAddonRates) {
+    if (ar.wilayah !== wilayah && ar.wilayah !== 0) continue;
+    if (!addonRateMap.has(ar.addonKey)) {
+      addonRateMap.set(ar.addonKey, { rate: ar.rate, label: ar.addonLabel });
+    }
+  }
+
+  // Fallback: if DB returned no rates, use static fallback rates
+  if (addonRateMap.size === 0 && standardAddonKeys.length > 0) {
+    console.warn("[premium-engine] AddonRate DB query returned 0 results, using static fallback");
+    for (const key of standardAddonKeys) {
+      const staticRate = STATIC_ADDON_RATES[key];
+      if (staticRate && (staticRate.appliesTo.includes(coverageType) || staticRate.appliesTo.includes("All"))) {
+        addonRateMap.set(key, { rate: staticRate.rate, label: staticRate.label });
+      }
+    }
+  }
+
+  return addonRateMap;
+}
+
+/**
+ * Apply static fallback addon rates when DB query fails.
+ * Pure function — no DB access.
+ */
+function applyStaticAddonFallback(
+  standardAddonKeys: string[],
+  coverageType: string,
+): Map<string, { rate: number; label: string }> {
+  const addonRateMap = new Map<string, { rate: number; label: string }>();
+  for (const key of standardAddonKeys) {
+    const staticRate = STATIC_ADDON_RATES[key];
+    if (staticRate && (staticRate.appliesTo.includes(coverageType) || staticRate.appliesTo.includes("All"))) {
+      addonRateMap.set(key, { rate: staticRate.rate, label: staticRate.label });
+    }
+  }
+  return addonRateMap;
+}
+
+/**
+ * Build the "not found" error result — used for early returns.
+ */
+function notFoundResult(
+  error: string,
+  ineligibilityReason: string,
+  vehicleValue: number = 0,
+  vehicleAge: number = 0,
+  vehicleTypeCategory: string = "",
+  wilayah: number = 0,
+  plateCity: string = "",
+): QuotationResult {
+  const otrRange = vehicleValue > 0 ? {
+    min: Math.round(vehicleValue * (1 - OTR_RANGE_PERCENT)),
+    max: Math.round(vehicleValue * (1 + OTR_RANGE_PERCENT)),
+    display: `${formatRupiah(Math.round(vehicleValue * (1 - OTR_RANGE_PERCENT)))} – ${formatRupiah(Math.round(vehicleValue * (1 + OTR_RANGE_PERCENT)))}`,
+  } : { min: 0, max: 0, display: "-" };
+
+  return {
+    success: false,
+    error,
+    vehicleValue,
+    vehicleAge,
+    vehicleTypeCategory,
+    wilayah,
+    plateCity,
+    isEligible: false,
+    ineligibilityReason,
+    baseRate: 0,
+    loadingRate: 0,
+    effectiveRate: 0,
+    basePremium: 0,
+    addons: [],
+    totalPremiumBeforeDiscount: 0,
+    discountPercent: 0,
+    discountAmount: 0,
+    adminFee: 0,
+    policyFee: 0,
+    totalPremium: 0,
+    otrRange,
+  };
 }
 
 // ─── Main Calculation Engine ───
@@ -269,86 +374,134 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
     paPassengerAmount = 10_000_000,
   } = input;
 
-  // ─── Step 1: Get vehicle value (parallel with region mapping) ───
+  // ─── Phase 1: Vehicle lookup + Region mapping ───
+  // Region mapping is the only DB query in this phase.
+  // Vehicle value lookup is synchronous (JSON), so it runs after the DB query starts.
   let vehicleValue = input.vehicleValue || 0;
-  
-  const regionResult = await db.regionMapping.findFirst({ where: { plateCode: plateCode.toUpperCase().trim(), isActive: true } });
 
+  // Start region query immediately (async)
+  const regionPromise = db.regionMapping.findFirst({
+    where: { plateCode: plateCode.toUpperCase().trim(), isActive: true },
+  });
+
+  // Vehicle lookup is synchronous — can run while DB query is in flight
   if (!vehicleValue) {
-    // Lookup from static JSON (vehicleData.json)
     const vehicleInfo = getVehicleValueFromJson(vehicleBrand, vehicleModel, vehicleYear);
-    
     if (vehicleInfo) {
       vehicleValue = vehicleInfo.vehicleValue;
     } else {
-      return {
-        success: false,
-        error: "Harga kendaraan tidak ditemukan. Silakan masukkan harga OTR manual.",
-        vehicleValue: 0,
-        vehicleAge: 0,
-        vehicleTypeCategory: "",
-        wilayah: 0,
-        plateCity: "",
-        isEligible: false,
-        ineligibilityReason: "Kendaraan tidak ditemukan",
-        baseRate: 0,
-        loadingRate: 0,
-        effectiveRate: 0,
-        basePremium: 0,
-        addons: [],
-        totalPremiumBeforeDiscount: 0,
-        discountPercent: 0,
-        discountAmount: 0,
-        adminFee: 0,
-        policyFee: 0,
-        totalPremium: 0,
-        otrRange: { min: 0, max: 0, display: "-" },
-      };
+      // Must await the region promise even on early return to avoid unhandled promise
+      await regionPromise;
+      return notFoundResult(
+        "Harga kendaraan tidak ditemukan. Silakan masukkan harga OTR manual.",
+        "Kendaraan tidak ditemukan",
+      );
     }
   }
 
-  // ─── Step 2: Calculate vehicle age ───
-  const vehicleAge = CURRENT_YEAR - vehicleYear;
-
-  // ─── Step 3: Use prefetched region mapping ───
-  const regionMapping = regionResult;
+  // Await region mapping result
+  const regionMapping = await regionPromise;
 
   if (!regionMapping) {
-    return {
-      success: false,
-      error: `Plat kendaraan "${plateCode}" tidak ditemukan. Silakan pilih plat yang valid.`,
+    return notFoundResult(
+      `Plat kendaraan "${plateCode}" tidak ditemukan. Silakan pilih plat yang valid.`,
+      "Plat tidak ditemukan",
       vehicleValue,
-      vehicleAge,
-      vehicleTypeCategory: "",
-      wilayah: 0,
-      plateCity: "",
-      isEligible: false,
-      ineligibilityReason: "Plat tidak ditemukan",
-      baseRate: 0,
-      loadingRate: 0,
-      effectiveRate: 0,
-      basePremium: 0,
-      addons: [],
-      totalPremiumBeforeDiscount: 0,
-      discountPercent: 0,
-      discountAmount: 0,
-      adminFee: 0,
-      policyFee: 0,
-      totalPremium: 0,
-      otrRange: {
-        min: Math.round(vehicleValue * (1 - OTR_RANGE_PERCENT)),
-        max: Math.round(vehicleValue * (1 + OTR_RANGE_PERCENT)),
-        display: `${formatRupiah(Math.round(vehicleValue * (1 - OTR_RANGE_PERCENT)))} – ${formatRupiah(Math.round(vehicleValue * (1 + OTR_RANGE_PERCENT)))}`,
-      },
-    };
+    );
   }
 
+  // ─── Phase 2: Determine derived values ───
+  const vehicleAge = CURRENT_YEAR - vehicleYear;
   const wilayah = regionMapping.wilayah;
   const plateCity = regionMapping.city;
+  const vehicleTypeCategory = inferVehicleTypeCategory(vehicleBrand, vehicleModel, explicitCategory);
+  const category = determineCategory(vehicleTypeCategory, vehicleValue);
 
-  // ─── Step 4: Check coverage eligibility (using cached rate settings) ───
-  const maxAllRisk = (await getRateSetting("maxAgeAllRisk")) ?? 12;
-  const maxTLO = (await getRateSetting("maxAgeTLO")) ?? 15;
+  // ─── Phase 3: Run ALL independent DB queries in parallel ───
+  // After vehicle value/category/wilayah are determined, every remaining query
+  // is independent. Batch them into a single Promise.all().
+
+  // 3a. Batch RateSettings — single findMany instead of N individual findUnique
+  const settingsPromise = db.rateSettings.findMany({
+    where: { key: { in: [...REQUIRED_SETTING_KEYS] } },
+  });
+
+  // 3b. MotorRate lookup
+  const motorRatePromise = db.motorRate.findFirst({
+    where: {
+      coverageType,
+      category,
+      vehicleType: vehicleTypeCategory,
+      isActive: true,
+    },
+  });
+
+  // 3c. LoadingRate lookup
+  const loadingRatePromise = db.loadingRate.findFirst({
+    where: {
+      minAge: { lte: vehicleAge },
+      maxAge: { gte: vehicleAge },
+      isActive: true,
+      coverageType: "Comprehensive",
+    },
+  });
+
+  // 3d. AddonRate batch lookup (only if there are standard addons)
+  const standardAddonKeys = addOns.filter(
+    (k) => !["tpl", "paDriver", "paPassenger"].includes(k)
+  );
+  const addonRatePromise = standardAddonKeys.length > 0
+    ? db.addonRate.findMany({
+        where: {
+          addonKey: { in: standardAddonKeys },
+          isActive: true,
+          OR: [
+            { coverageType: coverageType },
+            { coverageType: "All" },
+          ],
+        },
+        orderBy: { wilayah: "desc" }, // prefer region-specific (higher wilayah number)
+      })
+    : Promise.resolve([]);
+
+  // 3e. TplRate lookup (only if TPL is in addons)
+  const hasTpl = addOns.includes("tpl");
+  const isBusOrTruck = vehicleTypeCategory === "Bus" || vehicleTypeCategory === "Truk dan Pick Up";
+  const tplVehicleCategory = isBusOrTruck ? "Bus / Truck" : "Passenger & Motorcycle";
+  const tplPromise = hasTpl
+    ? db.tplRate.findMany({
+        where: {
+          vehicleCategory: tplVehicleCategory,
+          isActive: true,
+        },
+        orderBy: { coverageMin: "asc" },
+      })
+    : Promise.resolve([]);
+
+  // Execute all queries in parallel
+  const [settingsRows, motorRate, loadingRow, addonRateRows, tplTiers] = await Promise.all([
+    settingsPromise,
+    motorRatePromise,
+    loadingRatePromise,
+    addonRatePromise,
+    tplPromise,
+  ]);
+
+  // ─── Phase 4: Calculate using loaded data ───
+
+  // Build settings Map from batch result
+  const settingsMap = new Map<string, number>();
+  for (const row of settingsRows) {
+    settingsMap.set(row.key, Number(row.value));
+  }
+  // Helper: get setting from Map with fallback (same defaults as before)
+  const getSetting = (key: string, fallback: number): number => {
+    return settingsMap.get(key) ?? fallback;
+  };
+
+  // Check coverage eligibility
+  const maxAllRisk = getSetting("maxAgeAllRisk", 12);
+  const maxTLO = getSetting("maxAgeTLO", 15);
 
   let isEligible = true;
   let ineligibilityReason: string | undefined;
@@ -361,58 +514,25 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
     ineligibilityReason = `Kendaraan berusia ${vehicleAge} tahun. TLO maksimal ${maxTLO} tahun.`;
   }
 
-  // ─── Step 5: Determine vehicle type category ───
-  const vehicleTypeCategory = inferVehicleTypeCategory(vehicleBrand, vehicleModel, explicitCategory);
-  const category = determineCategory(vehicleTypeCategory, vehicleValue);
-
-  // ─── Step 6: Lookup base rate from MotorRate ───
-  const motorRate = await db.motorRate.findFirst({
-    where: {
-      coverageType,
-      category,
-      vehicleType: vehicleTypeCategory,
-      isActive: true,
-    },
-  });
-
+  // Check MotorRate result
   if (!motorRate) {
-    return {
-      success: false,
-      error: "Rate tidak ditemukan untuk kombinasi jenis kendaraan dan coverage ini.",
+    return notFoundResult(
+      "Rate tidak ditemukan untuk kombinasi jenis kendaraan dan coverage ini.",
+      "Rate tidak tersedia",
       vehicleValue,
       vehicleAge,
       vehicleTypeCategory,
       wilayah,
       plateCity,
-      isEligible: false,
-      ineligibilityReason: "Rate tidak tersedia",
-      baseRate: 0,
-      loadingRate: 0,
-      effectiveRate: 0,
-      basePremium: 0,
-      addons: [],
-      totalPremiumBeforeDiscount: 0,
-      discountPercent: 0,
-      discountAmount: 0,
-      adminFee: 0,
-      policyFee: 0,
-      totalPremium: 0,
-      otrRange: {
-        min: Math.round(vehicleValue * (1 - OTR_RANGE_PERCENT)),
-        max: Math.round(vehicleValue * (1 + OTR_RANGE_PERCENT)),
-        display: `${formatRupiah(Math.round(vehicleValue * (1 - OTR_RANGE_PERCENT)))} – ${formatRupiah(Math.round(vehicleValue * (1 + OTR_RANGE_PERCENT)))}`,
-      },
-    };
+    );
   }
 
   // Get base rate for the wilayah
-  // Check if vehicle value exceeds coverage max → use Rate Atas (overlimit)
   let baseRate: number;
   const coverageMax = Number(motorRate.coverageMax);
   const useRateAtas = vehicleValue > coverageMax;
 
   if (useRateAtas) {
-    // Use Rate Atas (overlimit rate) when vehicle value exceeds coverage max
     const rateAtasW1 = motorRate.rateAtasWilayah1;
     const rateAtasW2 = motorRate.rateAtasWilayah2;
     const rateAtasW3 = motorRate.rateAtasWilayah3;
@@ -421,7 +541,6 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
     else if (wilayah === 2 && rateAtasW2) baseRate = rateAtasW2;
     else if (wilayah === 3 && rateAtasW3) baseRate = rateAtasW3;
     else {
-      // Fallback to regular rate if Rate Atas not available
       if (wilayah === 1) baseRate = motorRate.rateWilayah1;
       else if (wilayah === 2) baseRate = motorRate.rateWilayah2;
       else baseRate = motorRate.rateWilayah3;
@@ -432,31 +551,19 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
     else baseRate = motorRate.rateWilayah3;
   }
 
-  // ─── Step 7: Calculate loading rate ───
+  // Calculate loading rate
   let loadingRate = 0;
 
-  // Try LoadingRate DB table first
-  const loadingRow = await db.loadingRate.findFirst({
-    where: {
-      minAge: { lte: vehicleAge },
-      maxAge: { gte: vehicleAge },
-      isActive: true,
-      coverageType: "Comprehensive",
-    },
-  });
-
   if (loadingRow && coverageType === "Comprehensive") {
-    // Loading starts at minAge, meaning 1 year above (minAge - 1) threshold
     const yearsAboveThreshold = vehicleAge - (loadingRow.minAge - 1);
     if (yearsAboveThreshold > 0) {
       loadingRate = baseRate * (yearsAboveThreshold * loadingRow.loadingPercent);
     }
   } else if (coverageType === "Comprehensive") {
-    // Fallback to cached RateSettings if no LoadingRate row found
-    const threshold = (await getRateSetting("loadingThreshold")) ?? 5;
-
+    // Fallback to RateSettings if no LoadingRate row found
+    const threshold = getSetting("loadingThreshold", 5);
     if (vehicleAge > threshold) {
-      const loadingPercentPerYear = ((await getRateSetting("loadingPercentPerYear")) ?? 5) / 100;
+      const loadingPercentPerYear = getSetting("loadingPercentPerYear", 5) / 100;
       loadingRate = baseRate * ((vehicleAge - threshold) * loadingPercentPerYear);
     }
   }
@@ -464,83 +571,22 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
   const effectiveRate = baseRate + loadingRate;
   const basePremium = Math.round(vehicleValue * effectiveRate);
 
-  // ─── Step 8: Calculate addon premiums ───
+  // Calculate addon premiums
   const addonPremiums: AddonPremium[] = [];
 
-  // Separate special addons from standard DB-lookup addons
-  const standardAddonKeys = addOns.filter(
-    (k) => !["tpl", "paDriver", "paPassenger"].includes(k)
-  );
-
-  // Batch-fetch all standard addon rates in ONE query (replaces N+1 loop)
-  let addonRateMap = new Map<string, { rate: number; label: string }>();
-  if (standardAddonKeys.length > 0) {
-    try {
-      const allAddonRates = await db.addonRate.findMany({
-        where: {
-          addonKey: { in: standardAddonKeys },
-          isActive: true,
-          OR: [
-            { coverageType: coverageType },
-            { coverageType: "All" },
-          ],
-        },
-        orderBy: { wilayah: "desc" }, // prefer region-specific (higher wilayah number)
-      });
-
-      // Build lookup map: prefer region-specific (wilayah match) over wilayah=0 (all-region)
-      // Since results are ordered by wilayah DESC, the first match for each addonKey
-      // is the same row that findFirst (with the same orderBy) would return.
-      for (const ar of allAddonRates) {
-        if (ar.wilayah !== wilayah && ar.wilayah !== 0) continue;
-        if (!addonRateMap.has(ar.addonKey)) {
-          addonRateMap.set(ar.addonKey, { rate: ar.rate, label: ar.addonLabel });
-        }
-      }
-
-      // Fallback: if DB returned no rates, use static fallback rates
-      if (addonRateMap.size === 0 && standardAddonKeys.length > 0) {
-        console.warn("[premium-engine] AddonRate DB query returned 0 results, using static fallback");
-        const STATIC_ADDON_RATES: Record<string, { label: string; rate: number; appliesTo: string[] }> = {
-          flood: { label: "Banjir & Angin Kencang", rate: 0.001, appliesTo: ["Comprehensive", "All"] },
-          earthquake: { label: "Gempa Bumi & Tsunami", rate: 0.0015, appliesTo: ["Comprehensive", "All"] },
-          srcc: { label: "Kerusuhan & Huru-Hara", rate: 0.0005, appliesTo: ["Comprehensive", "All"] },
-          terrorism: { label: "Terorisme & Sabotase", rate: 0.0005, appliesTo: ["Comprehensive", "All"] },
-          bengkelAuthorized: { label: "Bengkel Resmi", rate: 0.001, appliesTo: ["Comprehensive", "All"] },
-        };
-        for (const key of standardAddonKeys) {
-          const staticRate = STATIC_ADDON_RATES[key];
-          if (staticRate && (staticRate.appliesTo.includes(coverageType) || staticRate.appliesTo.includes("All"))) {
-            addonRateMap.set(key, { rate: staticRate.rate, label: staticRate.label });
-          }
-        }
-      }
-    } catch (addonDbError) {
-      // DB query failed — use static fallback
-      console.error("[premium-engine] AddonRate DB query failed:", addonDbError instanceof Error ? addonDbError.message : String(addonDbError));
-      const STATIC_ADDON_RATES: Record<string, { label: string; rate: number; appliesTo: string[] }> = {
-        flood: { label: "Banjir & Angin Kencang", rate: 0.001, appliesTo: ["Comprehensive", "All"] },
-        earthquake: { label: "Gempa Bumi & Tsunami", rate: 0.0015, appliesTo: ["Comprehensive", "All"] },
-        srcc: { label: "Kerusuhan & Huru-Hara", rate: 0.0005, appliesTo: ["Comprehensive", "All"] },
-        terrorism: { label: "Terorisme & Sabotase", rate: 0.0005, appliesTo: ["Comprehensive", "All"] },
-        bengkelAuthorized: { label: "Bengkel Resmi", rate: 0.001, appliesTo: ["Comprehensive", "All"] },
-      };
-      for (const key of standardAddonKeys) {
-        const staticRate = STATIC_ADDON_RATES[key];
-        if (staticRate && (staticRate.appliesTo.includes(coverageType) || staticRate.appliesTo.includes("All"))) {
-          addonRateMap.set(key, { rate: staticRate.rate, label: staticRate.label });
-        }
-      }
-    }
+  // Build addon rate map from batch-fetched results
+  let addonRateMap: Map<string, { rate: number; label: string }>;
+  try {
+    addonRateMap = buildAddonRateMap(addonRateRows, standardAddonKeys, wilayah, coverageType);
+  } catch {
+    addonRateMap = applyStaticAddonFallback(standardAddonKeys, coverageType);
   }
 
   for (const addonKey of addOns) {
     if (addonKey === "tpl") {
-      // TPL uses special tiered calculation
-      const tplPremium = await calculateTplPremium(tplCoverageAmount, vehicleTypeCategory);
-      // TPL not available for category 8 (Kendaraan Roda 2) if category <= 5
+      // TPL uses pre-loaded tiered rates (no additional DB query)
+      const tplPremium = calculateTplPremiumFromTiers(tplCoverageAmount, tplTiers as Array<{ coverageMin: number; coverageMax: number; rate: number }>);
       if (category <= 5 || category === 8) {
-        // For category 8 (motorcycle): TPL = 0
         if (category === 8) continue;
       }
       addonPremiums.push({
@@ -554,8 +600,7 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
     }
 
     if (addonKey === "paDriver") {
-      // PA Driver rate: 0.5% from Excel DELA (also stored in RateSettings)
-      const paDriverRate = (await getRateSetting("paDriverRate")) ?? 0.005;
+      const paDriverRate = getSetting("paDriverRate", 0.005);
       const paDriverPremium = Math.round(paDriverAmount * paDriverRate);
       addonPremiums.push({
         key: "paDriver",
@@ -568,10 +613,7 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
     }
 
     if (addonKey === "paPassenger") {
-      // PA Passenger rate: 0.4% from Excel DELA (also stored in RateSettings)
-      // DELA formula: premium = coverage_amount * rate (NOT multiplied by passenger count)
-      // The "4 orang" in DELA label is descriptive of coverage scope, not a calculation factor
-      const paPassengerRate = (await getRateSetting("paPassengerRate")) ?? 0.004;
+      const paPassengerRate = getSetting("paPassengerRate", 0.004);
       const paPassengerPremium = Math.round(paPassengerAmount * paPassengerRate);
       addonPremiums.push({
         key: "paPassenger",
@@ -598,19 +640,18 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
     }
   }
 
-  // ─── Step 9: Calculate totals ───
+  // Calculate totals
   const totalAddonPremium = addonPremiums.reduce((sum, a) => sum + a.premium, 0);
   const totalPremiumBeforeDiscount = basePremium + totalAddonPremium;
 
-  // Get discount and fees from cached settings
-  const discountFraction = (await getRateSetting("discountPercent")) ?? 0;
-  const adminFee = (await getRateSetting("adminFee")) ?? 0;
-  const policyFee = (await getRateSetting("policyFee")) ?? 0;
+  const discountFraction = getSetting("discountPercent", 0);
+  const adminFee = getSetting("adminFee", 0);
+  const policyFee = getSetting("policyFee", 0);
 
   const discountAmount = Math.round(totalPremiumBeforeDiscount * discountFraction);
   const totalPremium = totalPremiumBeforeDiscount - discountAmount + adminFee + policyFee;
 
-  // ─── Step 10: Build OTR range ───
+  // Build OTR range
   const otrMin = Math.round(vehicleValue * (1 - OTR_RANGE_PERCENT));
   const otrMax = Math.round(vehicleValue * (1 + OTR_RANGE_PERCENT));
 

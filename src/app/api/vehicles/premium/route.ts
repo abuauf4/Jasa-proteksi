@@ -562,10 +562,15 @@ export async function POST(request: NextRequest) {
         paPassengerAmount: paPassengerAmount || 10_000_000,
       };
 
-      const result = await calculatePremium(input);
+      // Run premium calculation and partner loading in parallel
+      // (previously these were sequential — partner DB query waited for full calculation)
+      const [result, dbPartners] = await Promise.all([
+        calculatePremium(input),
+        getActivePartnersFromDB(),
+      ]);
 
       const calcElapsed = Date.now() - start;
-      console.log(`[PERF] POST /api/vehicles/premium calculatePremium: ${calcElapsed}ms (${brand} ${modelDescription} ${vehicleYear} ${normalizedCoverage})`);
+      console.log(`[PERF] POST /api/vehicles/premium calculatePremium+partners: ${calcElapsed}ms (${brand} ${modelDescription} ${vehicleYear} ${normalizedCoverage})`);
 
       if (!result.success) {
         return NextResponse.json(
@@ -584,8 +589,7 @@ export async function POST(request: NextRequest) {
       }
 
       // ─── Partner Comparison Calculation ───
-      // Try to fetch active partners from the database first
-      const dbPartners = await getActivePartnersFromDB();
+      // dbPartners was loaded in parallel with calculatePremium above
 
       // If DB partners are available, use them; otherwise fall back to hardcoded + rateSettings
       let partners: Array<{
