@@ -55,7 +55,7 @@ export default function Blog() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {articles.map((article, i) => (
             <AnimatedSection key={article.id} delay={i * 0.08}>
-              <a href={`/blog/${article.slug}`} className="block group cursor-pointer h-full bg-white rounded-xl border border-gray-100 overflow-hidden transition-all duration-800 hover:border-[#2E7D6F]/15 hover:shadow-sm">
+              <a href={`/artikel/${article.slug}`} className="block group cursor-pointer h-full bg-white rounded-xl border border-gray-100 overflow-hidden transition-all duration-800 hover:border-[#2E7D6F]/15 hover:shadow-sm">
                 {/* Image or placeholder header */}
                 <div className="relative h-48 sm:h-52 overflow-hidden bg-gradient-to-br from-[#0A0F1E] to-[#141B30] flex items-center justify-center border-b border-gray-100">
                   {article.coverImage ? (

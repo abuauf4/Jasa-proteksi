@@ -63,3 +63,4 @@ download/
 
 # uploaded files (managed via admin)
 public/uploads/
+tool-results/
