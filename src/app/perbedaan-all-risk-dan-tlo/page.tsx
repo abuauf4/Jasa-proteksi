@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     description: "Pahami perbedaan All Risk dan TLO, cakupan, premi, dan cara memilih.",
     url: `${SITE_URL}/perbedaan-all-risk-dan-tlo`,
     type: "article",
+    images: [{ url: "/allrisk-vs-tlo.webp", width: 1200, height: 630 }],
   },
 };
 
@@ -40,6 +41,7 @@ export default async function Page() {
       initialHero={initialHero}
       title="All Risk vs TLO"
       updatedAt="Agustus 2026"
+      coverImage="/allrisk-vs-tlo.webp"
       faqs={faqs}
       relatedArticles={related}
     >

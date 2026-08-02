@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     description: "Batas usia All Risk per partner, opsi TLO, bengkel resmi, dan tips asuransi mobil bekas.",
     url: `${SITE_URL}/asuransi-mobil-bekas`,
     type: "article",
+    images: [{ url: "/asuransi-mobil-bekas.webp", width: 1200, height: 630 }],
   },
 };
 
@@ -40,6 +41,7 @@ export default async function Page() {
       initialHero={initialHero}
       title="Asuransi Mobil Bekas"
       updatedAt="Agustus 2026"
+      coverImage="/asuransi-mobil-bekas.webp"
       faqs={faqs}
       relatedArticles={related}
     >

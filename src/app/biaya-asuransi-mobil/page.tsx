@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     description: "Tabel estimasi biaya asuransi mobil berdasarkan harga kendaraan, dengan rentang All Risk dan TLO.",
     url: `${SITE_URL}/biaya-asuransi-mobil`,
     type: "article",
+    images: [{ url: "/biaya-asuransi-mobil.webp", width: 1200, height: 630 }],
   },
 };
 
@@ -40,6 +41,7 @@ export default async function Page() {
       initialHero={initialHero}
       title="Biaya Asuransi Mobil"
       updatedAt="Agustus 2026"
+      coverImage="/biaya-asuransi-mobil.webp"
       faqs={faqs}
       relatedArticles={related}
     >

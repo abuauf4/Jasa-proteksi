@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     description: "Faktor utama yang menentukan premi asuransi mobil beserta ringkasan tabel.",
     url: `${SITE_URL}/faktor-premi-asuransi-mobil`,
     type: "article",
+    images: [{ url: "/faktor-premi.webp", width: 1200, height: 630 }],
   },
 };
 
@@ -48,6 +49,7 @@ export default async function Page() {
       initialHero={initialHero}
       title="Faktor Premi Asuransi Mobil"
       updatedAt="Agustus 2026"
+      coverImage="/faktor-premi.webp"
       faqs={faqs}
       relatedArticles={related}
     >

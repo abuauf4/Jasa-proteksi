@@ -28,7 +28,7 @@ export const PILLAR_ARTICLES: PillarArticle[] = [
     href: "/perbedaan-all-risk-dan-tlo",
     category: "Panduan",
     publishedAt: "2025-01-15",
-    coverImage: null,
+    coverImage: "/allrisk-vs-tlo.webp",
   },
   {
     id: "pillar-cara-menghitung-premi-asuransi-mobil",
@@ -39,7 +39,7 @@ export const PILLAR_ARTICLES: PillarArticle[] = [
     href: "/cara-menghitung-premi-asuransi-mobil",
     category: "Panduan",
     publishedAt: "2025-01-20",
-    coverImage: null,
+    coverImage: "/cara-menghitung-premi-asuransi-mobil.webp",
   },
   {
     id: "pillar-biaya-asuransi-mobil",
@@ -50,7 +50,7 @@ export const PILLAR_ARTICLES: PillarArticle[] = [
     href: "/biaya-asuransi-mobil",
     category: "Panduan",
     publishedAt: "2025-02-01",
-    coverImage: null,
+    coverImage: "/biaya-asuransi-mobil.webp",
   },
   {
     id: "pillar-faktor-premi-asuransi-mobil",
@@ -61,7 +61,7 @@ export const PILLAR_ARTICLES: PillarArticle[] = [
     href: "/faktor-premi-asuransi-mobil",
     category: "Panduan",
     publishedAt: "2025-02-10",
-    coverImage: null,
+    coverImage: "/faktor-premi.webp",
   },
   {
     id: "pillar-asuransi-mobil-bekas",
@@ -72,7 +72,7 @@ export const PILLAR_ARTICLES: PillarArticle[] = [
     href: "/asuransi-mobil-bekas",
     category: "Panduan",
     publishedAt: "2025-02-20",
-    coverImage: null,
+    coverImage: "/asuransi-mobil-bekas.webp",
   },
   {
     id: "pillar-perluasan-asuransi-mobil",
@@ -83,6 +83,6 @@ export const PILLAR_ARTICLES: PillarArticle[] = [
     href: "/perluasan-asuransi-mobil",
     category: "Panduan",
     publishedAt: "2025-03-01",
-    coverImage: null,
+    coverImage: "/perluasan-asuransi-mobil.webp",
   },
 ];

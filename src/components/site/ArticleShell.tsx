@@ -17,6 +17,7 @@ interface ArticleShellProps {
   title: string;
   description: string;
   updatedAt: string;
+  coverImage?: string | null;
   faqs: Array<{ q: string; a: string }>;
   relatedArticles: Array<{ slug: string; title: string }>;
   children: React.ReactNode;
@@ -28,6 +29,7 @@ export function ArticleShell({
   title,
   description,
   updatedAt,
+  coverImage,
   faqs,
   relatedArticles,
   children,
@@ -57,6 +59,18 @@ export function ArticleShell({
               <span>/</span>
               <span className="text-[#0F172A] font-medium truncate">{title}</span>
             </nav>
+
+            {/* Cover image */}
+            {coverImage && (
+              <div className="relative rounded-xl overflow-hidden mb-6 aspect-video">
+                <img
+                  src={coverImage}
+                  alt={title}
+                  className="w-full h-full object-cover"
+                  loading="eager"
+                />
+              </div>
+            )}
 
             {/* Article body */}
             <div className="prose-content">

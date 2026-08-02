@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     description: "Faktor, rumus engine, kategori harga, rate wilayah, dan contoh simulasi premi mobil.",
     url: `${SITE_URL}/cara-menghitung-premi-asuransi-mobil`,
     type: "article",
+    images: [{ url: "/cara-menghitung-premi-asuransi-mobil.webp", width: 1200, height: 630 }],
   },
 };
 
@@ -40,6 +41,7 @@ export default async function Page() {
       initialHero={initialHero}
       title="Cara Menghitung Premi"
       updatedAt="Agustus 2026"
+      coverImage="/cara-menghitung-premi-asuransi-mobil.webp"
       faqs={faqs}
       relatedArticles={related}
     >

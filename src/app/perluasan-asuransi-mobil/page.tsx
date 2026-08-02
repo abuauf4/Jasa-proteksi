@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     description: "Daftar perluasan, rate, dan deskripsi manfaat untuk All Risk maupun TLO.",
     url: `${SITE_URL}/perluasan-asuransi-mobil`,
     type: "article",
+    images: [{ url: "/perluasan-asuransi-mobil.webp", width: 1200, height: 630 }],
   },
 };
 
@@ -40,6 +41,7 @@ export default async function Page() {
       initialHero={initialHero}
       title="Perluasan Asuransi Mobil"
       updatedAt="Agustus 2026"
+      coverImage="/perluasan-asuransi-mobil.webp"
       faqs={faqs}
       relatedArticles={related}
     >
