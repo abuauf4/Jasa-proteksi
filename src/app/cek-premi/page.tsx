@@ -65,8 +65,8 @@ export default async function CekPremiPage() {
       <div className="flex min-h-screen flex-col bg-white">
         <SiteHeader />
         <main className="flex-1">
-          <Section tone="soft" id="kalkulator" className="!pt-8 !pb-12 sm:!pt-10 sm:!pb-16">
-            <Container className="max-w-3xl">
+          <Section tone="soft" id="kalkulator" className="!pt-8 !pb-12 sm:!pt-10 sm:!pb-16 lg:!pt-16 lg:!pb-20">
+            <Container className="max-w-3xl lg:max-w-4xl">
               <div className="text-center mb-6">
                 <Badge>
                   <Sparkles className="h-3.5 w-3.5" aria-hidden />

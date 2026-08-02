@@ -73,9 +73,9 @@ export default async function AsuransiMobilPage() {
         <SiteHeader />
         <main className="flex-1">
           {/* Hero with calculator */}
-          <Section tone="soft" id="beranda" className="!pt-10 !pb-12 sm:!pt-14 sm:!pb-16">
+          <Section tone="soft" id="beranda" className="!pt-10 !pb-12 sm:!pt-14 sm:!pb-16 lg:!pt-20 lg:!pb-20">
             <Container>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 xl:gap-14 items-start">
                 <div className="flex flex-col gap-5 lg:pt-4 max-w-xl">
                   <Badge>
                     <Sparkles className="h-3.5 w-3.5" aria-hidden />
