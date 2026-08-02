@@ -35,9 +35,10 @@ export const metadata: Metadata = {
 export default async function CekPremiPage({
   searchParams,
 }: {
-  searchParams: { coverage?: string };
+  searchParams: Promise<{ coverage?: string }>;
 }) {
-  const initialCoverage: CoverageType | undefined = parseCoverageParam(searchParams?.coverage) ?? undefined;
+  const params = await searchParams;
+  const initialCoverage: CoverageType | undefined = parseCoverageParam(params?.coverage) ?? undefined;
 
   let initialSettings: SiteSettings = {
     whatsapp: "", whatsapp2: "", phone: "", email: "", address: "",

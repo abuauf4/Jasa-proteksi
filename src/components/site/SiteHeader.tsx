@@ -7,6 +7,7 @@ import { Menu, X, Calculator } from "lucide-react";
 import { Button } from "./Button";
 import { Container } from "./primitives";
 import { trackEvent } from "@/lib/analytics-events";
+import { buildCalculatorUrl } from "@/lib/calculator-urls";
 
 const NAV_LINKS = [
   { label: "Cek Premi", href: "/#kalkulator" },
@@ -19,8 +20,8 @@ const NAV_LINKS = [
 const MOBILE_MENU_LINKS = [
   { label: "Beranda", href: "/" },
   { label: "Cek Premi", href: "/#kalkulator" },
-  { label: "All Risk", href: "/asuransi-mobil-all-risk" },
-  { label: "TLO", href: "/asuransi-mobil-tlo" },
+  { label: "All Risk", href: buildCalculatorUrl("all-risk") },
+  { label: "TLO", href: buildCalculatorUrl("tlo") },
   { label: "Cara Kerja", href: "/#cara-kerja" },
   { label: "Artikel", href: "/artikel" },
   { label: "Tentang Kami", href: "/tentang-kami" },

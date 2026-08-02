@@ -13,7 +13,7 @@ const navLinkKeys = [
   { key: "whyBroker", href: "#why-broker" },
   { key: "advisor", href: "#advisor" },
   { key: "trust", href: "#trust-legal" },
-  { key: "artikel", href: "/blog" },
+  { key: "artikel", href: "/artikel" },
   { key: "kontak", href: "#kontak" },
 ];
 

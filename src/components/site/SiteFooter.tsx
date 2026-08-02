@@ -6,6 +6,7 @@ import { ShieldCheck, Phone, Mail, MessageCircle } from "lucide-react";
 import { Container } from "./primitives";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import { buildWhatsAppLink } from "@/lib/format";
+import { buildCalculatorUrl } from "@/lib/calculator-urls";
 
 interface FooterLinkGroup {
   title: string;
@@ -17,8 +18,8 @@ const LINK_GROUPS: FooterLinkGroup[] = [
     title: "Layanan",
     links: [
       { label: "Cek Premi", href: "/#kalkulator" },
-      { label: "All Risk", href: "/asuransi-mobil-all-risk" },
-      { label: "TLO", href: "/asuransi-mobil-tlo" },
+      { label: "All Risk", href: buildCalculatorUrl("all-risk") },
+      { label: "TLO", href: buildCalculatorUrl("tlo") },
       { label: "Cara Kerja", href: "/#cara-kerja" },
     ],
   },

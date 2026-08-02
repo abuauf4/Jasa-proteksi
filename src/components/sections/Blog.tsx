@@ -106,7 +106,7 @@ export default function Blog() {
         {/* CTA */}
         <AnimatedSection delay={0.4} className="mt-12 sm:mt-16 text-center">
           <a
-            href="/blog"
+            href="/artikel"
             className="inline-flex items-center gap-2 px-8 py-3.5 border border-[#2E7D6F]/30 text-[#2E7D6F] font-semibold tracking-wider text-sm hover:bg-[#2E7D6F] hover:text-[#0D0D0D] transition-all duration-800 rounded-md min-h-[48px] sm:min-h-0"
           >
             {t("blog.viewAll")}

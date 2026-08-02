@@ -103,14 +103,14 @@ export function HeroSection() {
       <section className="bg-white">
         <Container className="!px-5 sm:!px-6 pt-4 pb-8 lg:pb-12">
           <div className="grid grid-cols-2 gap-3 lg:max-w-[500px] lg:mx-auto">
-            <Link href="/asuransi-mobil-all-risk" className="group flex items-center gap-2.5 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all">
+            <Link href={buildCalculatorUrl("all-risk")} className="group flex items-center gap-2.5 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all">
               <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-center text-[#0F766E]">
                 <ShieldCheck className="h-4 w-4" aria-hidden />
               </span>
               <span className="flex-1 font-bold text-[#0F172A] text-sm">All Risk</span>
               <ArrowRight className="h-4 w-4 text-[#64748B] group-hover:text-[#0F766E] flex-shrink-0" aria-hidden />
             </Link>
-            <Link href="/asuransi-mobil-tlo" className="group flex items-center gap-2.5 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all">
+            <Link href={buildCalculatorUrl("tlo")} className="group flex items-center gap-2.5 p-3 rounded-2xl border border-[#E2E8F0] bg-white hover:border-[#0F766E] hover:shadow-md transition-all">
               <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#F1F5F9] border border-[#E2E8F0] flex items-center justify-center text-[#475569]">
                 <ShieldCheck className="h-4 w-4" aria-hidden />
               </span>
