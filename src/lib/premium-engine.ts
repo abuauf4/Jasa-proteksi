@@ -20,35 +20,12 @@ import { db } from "./db";
 import vehiclePriceData from "./vehicleData.json";
 import vehicleCodeMap from "./vehicleCodeMap.json";
 
-// ─── Module-level RateSettings cache (5-min TTL) ───
-let rateSettingsCache: { data: Record<string, number>; ts: number } | null = null;
-const RATE_SETTINGS_TTL = 5 * 60 * 1000;
-
-/** Invalidate the in-memory rateSettings cache so next calculation reads fresh data. */
-export function invalidateRateSettingsCache(): void {
-  rateSettingsCache = null;
-}
-
 async function getRateSetting(key: string): Promise<number | undefined> {
-  if (!rateSettingsCache || Date.now() - rateSettingsCache.ts > RATE_SETTINGS_TTL) {
-    const allSettings = await db.rateSettings.findMany();
-    const map: Record<string, number> = {};
-    for (const s of allSettings) {
-      map[s.key] = Number(s.value);
-    }
-    rateSettingsCache = { data: map, ts: Date.now() };
-  }
-  return rateSettingsCache.data[key];
-}
-
-async function refreshRateSettings(): Promise<void> {
-  if (rateSettingsCache && Date.now() - rateSettingsCache.ts < RATE_SETTINGS_TTL) return;
-  const allSettings = await db.rateSettings.findMany();
-  const map: Record<string, number> = {};
-  for (const s of allSettings) {
-    map[s.key] = Number(s.value);
-  }
-  rateSettingsCache = { data: map, ts: Date.now() };
+  // Read directly from database every time — no in-memory cache.
+  // Vercel runs multiple serverless instances, so an in-process cache
+  // would only be valid on one instance and cause stale reads on others.
+  const setting = await db.rateSettings.findUnique({ where: { key } });
+  return setting ? Number(setting.value) : undefined;
 }
 
 // ─── Types ───
@@ -292,14 +269,10 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
     paPassengerAmount = 10_000_000,
   } = input;
 
-  // ─── Step 1: Get vehicle value (parallel with region mapping & rate settings refresh) ───
+  // ─── Step 1: Get vehicle value (parallel with region mapping) ───
   let vehicleValue = input.vehicleValue || 0;
   
-  // Prefetch rate settings cache + region mapping in parallel
-  const [regionResult] = await Promise.all([
-    db.regionMapping.findFirst({ where: { plateCode: plateCode.toUpperCase().trim(), isActive: true } }),
-    refreshRateSettings(),
-  ]);
+  const regionResult = await db.regionMapping.findFirst({ where: { plateCode: plateCode.toUpperCase().trim(), isActive: true } });
 
   if (!vehicleValue) {
     // Lookup from static JSON (vehicleData.json)

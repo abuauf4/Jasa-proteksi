@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth-helpers";
-import { invalidateRateSettingsCache } from "@/lib/premium-engine";
 
 // GET /api/rate-settings — List all rate settings
 export async function GET() {
@@ -54,7 +53,6 @@ export async function PUT(request: NextRequest) {
       data: { value: Number(value) },
     });
 
-    invalidateRateSettingsCache();
     return NextResponse.json({ setting: updated });
   } catch (error) {
     console.error("PUT /api/rate-settings error:", error);
