@@ -231,7 +231,7 @@
     "emailPlaceholder": "Your Email",
     "contactLabel": "Contact",
     "copyright": "\u00a9 2025 PT. Jasa Global Proteksi. All rights reserved.",
-    "madeBy": "Made by Nauka Motion - Small Movement, Real Impact"
+    "madeByPrefix": "Designed & Developed by"
   },
   "protectionChoices": {
     "label": "Protection Options",

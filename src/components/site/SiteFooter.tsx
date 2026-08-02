@@ -186,8 +186,15 @@ export function SiteFooter() {
                 © {new Date().getFullYear()} Jasa Proteksi — Smart People. Smart Proteksi
               </p>
               <p className="text-[11px] text-[#475569]">
-                Design &amp; Developed by{" "}
-                <span className="text-[#0F766E] font-medium">Nauka Motion</span>
+                Designed &amp; Developed by{" "}
+                <a
+                  href="https://motion.nauka.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#0F766E] font-medium hover:underline"
+                >
+                  Nauka Motion
+                </a>
               </p>
             </div>
           </div>

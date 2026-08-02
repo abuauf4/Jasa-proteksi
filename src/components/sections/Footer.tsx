@@ -148,7 +148,15 @@ export default function Footer() {
             {t("footer.copyright")}
           </p>
           <p className="text-[#475569] text-xs text-center sm:text-right">
-            {t("footer.madeBy")}
+            {t("footer.madeByPrefix")}{" "}
+            <a
+              href="https://motion.nauka.id"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#14B8A6] font-medium hover:underline"
+            >
+              Nauka Motion
+            </a>
           </p>
         </div>
       </div>
