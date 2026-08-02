@@ -23,6 +23,8 @@ export type AnalyticsEventName =
   | "view_result"
   | "lead_form_start"
   | "lead_submit"
+  | "lead_created"
+  | "whatsapp_lead_created"
   | "whatsapp_click"
   | "phone_click"
   | "apply_click";
@@ -37,6 +39,7 @@ export interface AnalyticsParams {
   estimated_premium?: number;
   error_message?: string;
   lead_id?: string;
+  lead_code?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;

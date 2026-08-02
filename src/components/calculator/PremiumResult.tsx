@@ -8,10 +8,11 @@ import {
 import { UseCalculatorReturn } from "./useCalculator";
 import { type PremiumPartner, partnerLogoPath, getPartnerLogoScale, ADDON_META, TLO_EXCLUDED_ADDONS, ALL_ADDON_KEYS } from "./types";
 import { useCountUp } from "./useCountUp";
-import { formatIDR, formatPercent, formatRate, buildWhatsAppLink } from "@/lib/format";
+import { formatIDR, formatPercent, formatRate } from "@/lib/format";
 import { trackEvent } from "@/lib/analytics-events";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import { Button } from "@/components/site/Button";
+import { WhatsAppContactSheet, type CalculatorSnapshot } from "./WhatsAppContactSheet";
 
 const ADDON_LABELS: Record<string, string> = {
   flood: "Banjir",
@@ -57,10 +58,60 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
       .sort((a, b) => a.partner.estimatedPremium - b.partner.estimatedPremium);
   }, [p?.partners]);
 
+  // ─── WhatsApp Contact Sheet state (must be before early return) ───
+  const [contactSheetOpen, setContactSheetOpen] = React.useState(false);
+
+  // Build calculator snapshot for the lead endpoint
+  const v = state.vehicle;
+  const calculatorSnapshot: CalculatorSnapshot = React.useMemo(() => ({
+    brand: v.brand,
+    model: v.model,
+    year: v.year,
+    plate: state.region.plate,
+    coverageType: state.protection.coverageType,
+    addOns: state.extension.addOns,
+    vehicleValue: p?.vehicleValue ?? 0,
+    estimatedPremium: displayPremium,
+    partnerName: partner?.name,
+    basePremium: partner?.breakdown?.basePremium ?? p?.basePremium ?? 0,
+    discountAmount: partner?.breakdown?.discountAmount ?? p?.discountAmount ?? 0,
+    adminFee: partner?.breakdown?.adminFee ?? p?.adminFee ?? 0,
+    policyFee: partner?.breakdown?.policyFee ?? p?.policyFee ?? 0,
+    originalPremium: partner?.breakdown?.totalPremiumBeforeDiscount ?? p?.totalPremiumBeforeDiscount ?? 0,
+  }), [v.brand, v.model, v.year, state.region.plate, state.protection.coverageType,
+    state.extension.addOns, p, displayPremium, partner]);
+
+  const handleWhatsAppClick = () => {
+    trackEvent("whatsapp_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
+    setContactSheetOpen(true);
+  };
+
+  const handleApplyClick = () => {
+    trackEvent("apply_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
+    setContactSheetOpen(true);
+  };
+
+  const handleLeadCreated = (leadCode: string, _leadId: string) => {
+    trackEvent("lead_created", {
+      coverage_type: state.protection.coverageType,
+      estimated_premium: displayPremium,
+      vehicle_brand: v.brand,
+    });
+    trackEvent("whatsapp_lead_created", {
+      lead_code: leadCode,
+      coverage_type: state.protection.coverageType,
+      estimated_premium: displayPremium,
+      vehicle_brand: v.brand,
+    });
+    markWhatsappClicked();
+  };
+
+  const handleWhatsAppOpened = () => {
+    trackEvent("whatsapp_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
+  };
+
   if (state.isLoadingPremium) return <PremiumLoading />;
   if (!p) return null;
-
-  const v = state.vehicle;
 
   const vehicleName = v.model.toLowerCase().startsWith(v.brand.toLowerCase())
     ? v.model
@@ -79,27 +130,6 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
     if (key === "bengkelAuthorized" && !partner && p.vehicleAge && p.vehicleAge > 10) return false;
     return true;
   });
-
-  const whatsappMessage = buildWhatsAppMessage({
-    brand: v.brand,
-    model: v.model,
-    year: v.year,
-    plate: state.region.plate,
-    coverageType: state.protection.coverageType,
-    addOns: state.extension.addOns,
-    estimatedPremium: displayPremium,
-    partnerName: partner?.name,
-  });
-  const whatsappLink = buildWhatsAppLink(settings.whatsapp, whatsappMessage);
-
-  const handleWhatsApp = () => {
-    trackEvent("whatsapp_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
-    markWhatsappClicked();
-  };
-
-  const handleApplyClick = () => {
-    trackEvent("apply_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
-  };
 
   // Re-calculate when coverage type or addons change — handled by useEffect in useCalculator
   const handleCoverageChange = (newCoverage: "AllRisk" | "TLO") => {
@@ -298,12 +328,12 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
 
       {/* CTAs */}
       <div className="flex flex-col gap-2 pt-2 border-t border-[#E2E8F0]">
-        <Button as="external" href={whatsappLink} variant="primary" size="lg" onClick={handleApplyClick} className="w-full">
+        <Button type="button" variant="primary" size="lg" onClick={handleApplyClick} className="w-full">
           <Send className="h-4 w-4" aria-hidden />
-          Lanjutkan Pengajuan
+          Lanjutkan via WhatsApp
         </Button>
         <div className="grid grid-cols-2 gap-2">
-          <Button as="external" href={whatsappLink} variant="secondary" size="md" onClick={handleWhatsApp}>
+          <Button type="button" variant="secondary" size="md" onClick={handleWhatsAppClick}>
             Konsultasi
           </Button>
           <Button type="button" variant="secondary" size="md" onClick={prevStep}>
@@ -319,6 +349,16 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
           Mulai simulasi baru
         </button>
       </div>
+
+      {/* WhatsApp Contact Sheet — creates lead before opening WhatsApp */}
+      <WhatsAppContactSheet
+        open={contactSheetOpen}
+        onClose={() => setContactSheetOpen(false)}
+        onLeadCreated={handleLeadCreated}
+        onWhatsAppOpened={handleWhatsAppOpened}
+        calculatorSnapshot={calculatorSnapshot}
+        whatsappTarget={settings.whatsapp}
+      />
 
       {/* Disclaimer */}
       <p className="text-xs text-[#64748B] leading-relaxed text-center">
