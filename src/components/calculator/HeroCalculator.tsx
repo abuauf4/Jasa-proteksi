@@ -38,6 +38,8 @@ export function HeroCalculator({
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   // Track if user has attempted to proceed — used to show red borders on empty required fields
   const [submitted, setSubmitted] = React.useState(false);
+  // Track whether the component has completed its first render — prevents scrollIntoView on mount
+  const hasMountedRef = React.useRef(false);
 
   // Reset "submitted" flag when step changes (so fields don't show red until next attempt)
   React.useEffect(() => {
@@ -45,7 +47,12 @@ export function HeroCalculator({
   }, [state.step]);
 
   // Scroll to top of calculator on step change (only on mobile where space is tight)
+  // Skip on initial mount to avoid auto-scrolling to calculator when the page loads
   React.useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
     if (scrollRef.current && window.innerWidth < 768) {
       const rect = scrollRef.current.getBoundingClientRect();
       // Only scroll if calculator top is above viewport mid

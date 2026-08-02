@@ -23,6 +23,8 @@ interface Article {
   createdAt: string;
   category: ArticleCategory | null;
   categoryId: string | null;
+  /** Explicit href override — used by pillar articles that live at root routes. */
+  href?: string;
 }
 
 interface BlogPageClientProps {
@@ -82,7 +84,7 @@ export default function BlogPageClient({
                 {articles.map((article) => (
                   <Link
                     key={article.id}
-                    href={`/artikel/${article.slug}`}
+                    href={article.href ?? `/artikel/${article.slug}`}
                     className="group rounded-xl border border-slate-200 bg-white overflow-hidden hover:border-teal-300 hover:shadow-lg transition-all duration-300"
                   >
                     {/* Cover Image */}

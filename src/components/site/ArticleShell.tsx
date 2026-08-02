@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowRight, Calculator, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -31,6 +32,16 @@ export function ArticleShell({
   relatedArticles,
   children,
 }: ArticleShellProps) {
+  const pathname = usePathname();
+
+  // Ensure article pages always start at the top — prevents scroll-to-calculator
+  // on navigation and compensates for App Router scroll restoration quirks.
+  React.useEffect(() => {
+    if (!window.location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
+  }, [pathname]);
+
   return (
     <ServerDataProvider initialSettings={initialSettings} initialHero={initialHero}>
       <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
@@ -77,7 +88,7 @@ export function ArticleShell({
                   {relatedArticles.map((art) => (
                     <Link
                       key={art.slug}
-                      href={`/${art.slug}`}
+                      href={`/artikel/${art.slug}`}
                       className="group flex items-center gap-2 p-3 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#0F766E] hover:shadow-md transition-all"
                     >
                       <span className="flex-1 font-semibold text-[#0F172A] text-sm group-hover:text-[#0F766E]">{art.title}</span>

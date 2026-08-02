@@ -15,6 +15,7 @@ interface Article {
   coverImage: string | null;
   publishedAt: string | null;
   category: { name: string } | null;
+  href?: string;
 }
 
 export default function Blog() {
@@ -24,8 +25,21 @@ export default function Blog() {
   useEffect(() => {
     fetch("/api/articles?status=published&limit=3")
       .then((res) => res.json())
-      .then((data) => setArticles(data.articles || []))
-      .catch(() => setArticles([]));
+      .then((data) => {
+        if (data.articles && data.articles.length > 0) {
+          setArticles(data.articles);
+        } else {
+          // Fallback: show pillar articles when DB returns empty
+          import("@/lib/pillar-articles").then(({ PILLAR_ARTICLES }) => {
+            setArticles(PILLAR_ARTICLES.slice(0, 3));
+          });
+        }
+      })
+      .catch(() => {
+        import("@/lib/pillar-articles").then(({ PILLAR_ARTICLES }) => {
+          setArticles(PILLAR_ARTICLES.slice(0, 3));
+        });
+      });
   }, []);
 
   // Don't render section at all while loading or when no articles exist
@@ -55,7 +69,7 @@ export default function Blog() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {articles.map((article, i) => (
             <AnimatedSection key={article.id} delay={i * 0.08}>
-              <a href={`/artikel/${article.slug}`} className="block group cursor-pointer h-full bg-white rounded-xl border border-gray-100 overflow-hidden transition-all duration-800 hover:border-[#2E7D6F]/15 hover:shadow-sm">
+              <a href={article.href ?? `/artikel/${article.slug}`} className="block group cursor-pointer h-full bg-white rounded-xl border border-gray-100 overflow-hidden transition-all duration-800 hover:border-[#2E7D6F]/15 hover:shadow-sm">
                 {/* Image or placeholder header */}
                 <div className="relative h-48 sm:h-52 overflow-hidden bg-gradient-to-br from-[#0A0F1E] to-[#141B30] flex items-center justify-center border-b border-gray-100">
                   {article.coverImage ? (
