@@ -26,9 +26,13 @@ const LINK_GROUPS: FooterLinkGroup[] = [
     title: "Informasi",
     links: [
       { label: "Tentang Kami", href: "/tentang-kami" },
-      { label: "Artikel", href: "/blog" },
+      { label: "All Risk vs TLO", href: "/perbedaan-all-risk-dan-tlo" },
+      { label: "Cara Hitung Premi", href: "/cara-menghitung-premi-asuransi-mobil" },
+      { label: "Biaya Asuransi", href: "/biaya-asuransi-mobil" },
+      { label: "Faktor Premi", href: "/faktor-premi-asuransi-mobil" },
+      { label: "Perluasan", href: "/perluasan-asuransi-mobil" },
+      { label: "Asuransi Bekas", href: "/asuransi-mobil-bekas" },
       { label: "FAQ", href: "/#faq" },
-      { label: "Hubungi Kami", href: "/#kalkulator" },
     ],
   },
   {

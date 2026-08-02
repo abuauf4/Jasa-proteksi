@@ -10,9 +10,9 @@ import { trackEvent } from "@/lib/analytics-events";
 
 const NAV_LINKS = [
   { label: "Cek Premi", href: "/#kalkulator" },
-  { label: "Jenis Proteksi", href: "/#jenis-proteksi" },
-  { label: "Cara Kerja", href: "/#cara-kerja" },
-  { label: "Artikel", href: "/blog" },
+  { label: "All Risk", href: "/asuransi-mobil-all-risk" },
+  { label: "TLO", href: "/asuransi-mobil-tlo" },
+  { label: "Artikel", href: "/perbedaan-all-risk-dan-tlo" },
   { label: "Tentang Kami", href: "/tentang-kami" },
 ];
 
@@ -21,8 +21,12 @@ const MOBILE_MENU_LINKS = [
   { label: "Cek Premi", href: "/#kalkulator" },
   { label: "All Risk", href: "/asuransi-mobil-all-risk" },
   { label: "TLO", href: "/asuransi-mobil-tlo" },
-  { label: "Cara Kerja", href: "/#cara-kerja" },
-  { label: "Artikel", href: "/blog" },
+  { label: "All Risk vs TLO", href: "/perbedaan-all-risk-dan-tlo" },
+  { label: "Cara Hitung Premi", href: "/cara-menghitung-premi-asuransi-mobil" },
+  { label: "Biaya Asuransi", href: "/biaya-asuransi-mobil" },
+  { label: "Faktor Premi", href: "/faktor-premi-asuransi-mobil" },
+  { label: "Asuransi Bekas", href: "/asuransi-mobil-bekas" },
+  { label: "Perluasan", href: "/perluasan-asuransi-mobil" },
   { label: "Tentang Kami", href: "/tentang-kami" },
   { label: "Bantuan", href: "/#faq" },
 ];
