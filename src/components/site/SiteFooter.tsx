@@ -37,7 +37,7 @@ const LINK_GROUPS: FooterLinkGroup[] = [
     links: [
       { label: "Kebijakan Privasi", href: "/kebijakan-privasi" },
       { label: "Syarat dan Ketentuan", href: "/syarat-ketentuan" },
-      { label: "Disclaimer Simulasi", href: "/#disclaimer" },
+      { label: "Simulasi", href: "/#disclaimer" },
     ],
   },
 ];
@@ -136,7 +136,7 @@ export function SiteFooter() {
         {/* Disclaimer */}
         <div className="mt-10 pt-8 border-t border-[#1E293B]">
           <p className="text-xs text-[#94A3B8] leading-relaxed max-w-3xl">
-            <strong className="text-white">Disclaimer:</strong> Jasa Proteksi menyediakan
+            <strong className="text-white">Catatan:</strong> Jasa Proteksi menyediakan
             simulasi awal dan bantuan proses pengajuan. Premi, manfaat, pengecualian, serta
             ketentuan akhir mengikuti quotation dan polis dari perusahaan asuransi terkait.
           </p>

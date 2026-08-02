@@ -149,7 +149,7 @@ export default async function Page() {
       </p>
 
       <div className="rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] p-4 mb-4">
-        <p className="text-sm font-semibold text-[#115E59] mb-1">Disclaimer</p>
+        <p className="text-sm font-semibold text-[#115E59] mb-1">Catatan</p>
         <p className="text-xs text-[#475569]">
           Seluruh angka di kalkulator adalah estimasi berdasarkan tabel rate internal. Hasil akhir tetap mengikuti
           quotation resmi dari partner asuransi yang diterbitkan bersamaan dengan polis.

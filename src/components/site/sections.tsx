@@ -486,7 +486,7 @@ export function LegalDisclaimer({ className }: { className?: string }) {
       <div className="flex items-start gap-2.5">
         <ShieldAlert className="h-4 w-4 text-[#64748B] flex-shrink-0 mt-0.5" aria-hidden />
         <p className="text-xs text-[#64748B] leading-relaxed">
-          <strong className="text-[#475569]">Disclaimer Simulasi:</strong> Hasil simulasi
+          <strong className="text-[#475569]">Simulasi:</strong> Hasil simulasi
           merupakan estimasi awal. Premi, manfaat, syarat, dan ketentuan akhir mengikuti
           proses verifikasi serta quotation dari perusahaan asuransi penerbit polis.
         </p>
