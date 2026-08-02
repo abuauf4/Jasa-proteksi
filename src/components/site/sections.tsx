@@ -257,10 +257,27 @@ export function AppSteps() {
    ═══════════════════════════════════════════════════ */
 
 export function ArticleCards() {
-  const [articles, setArticles] = React.useState<Array<{ id: string; slug: string; title: string; excerpt: string | null; coverImage: string | null; publishedAt: string | null }>>([]);
+  const [articles, setArticles] = React.useState<Array<{ id: string; slug: string; title: string; excerpt: string | null; coverImage: string | null; publishedAt: string | null; href?: string }>>([]);
 
   React.useEffect(() => {
-    fetch("/api/articles?status=published&limit=3").then((r) => r.ok ? r.json() : null).then((d) => { if (d?.articles) setArticles(d.articles); }).catch(() => {});
+    fetch("/api/articles?status=published&limit=3")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d?.articles && d.articles.length > 0) {
+          setArticles(d.articles);
+        } else {
+          // Fallback: show pillar articles when DB returns empty
+          import("@/lib/pillar-articles").then(({ PILLAR_ARTICLES }) => {
+            setArticles(PILLAR_ARTICLES.slice(0, 3));
+          });
+        }
+      })
+      .catch(() => {
+        // DB unavailable — show pillar articles
+        import("@/lib/pillar-articles").then(({ PILLAR_ARTICLES }) => {
+          setArticles(PILLAR_ARTICLES.slice(0, 3));
+        });
+      });
   }, []);
 
   if (articles.length === 0) return null;
@@ -274,7 +291,7 @@ export function ArticleCards() {
         </div>
         <div className="flex flex-col gap-3">
           {articles.map((a, idx) => (
-            <Link key={a.id} href={`/artikel/${a.slug}`} className="group rounded-2xl bg-white border border-[#E2E8F0] overflow-hidden hover:shadow-lg transition-all">
+            <Link key={a.id} href={a.href ?? `/artikel/${a.slug}`} className="group rounded-2xl bg-white border border-[#E2E8F0] overflow-hidden hover:shadow-lg transition-all">
               {/* Thumbnail — full width, 16:9 */}
               <div className="relative w-full aspect-[16/9] bg-[#F1F5F9] overflow-hidden">
                 {a.coverImage ? (
