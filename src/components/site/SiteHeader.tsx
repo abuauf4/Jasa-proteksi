@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Menu, X, Calculator } from "lucide-react";
 import { Button } from "./Button";
@@ -76,32 +77,20 @@ export function SiteHeader() {
         `}
       >
         <Container className="flex items-center justify-between !px-4 h-[60px] sm:h-[72px]">
-          {/* Wordmark — flat SVG text, no icon */}
+          {/* Brand logo — full logo image */}
           <Link
             href="/"
             className="flex items-center"
             aria-label="Jasa Proteksi — Beranda"
           >
-            <svg
-              width="auto"
-              height="32"
-              viewBox="0 0 240 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 sm:h-9 w-auto max-w-[220px] object-contain"
-            >
-              <text
-                x="0"
-                y="30"
-                fontFamily="'Plus Jakarta Sans', system-ui, sans-serif"
-                fontWeight="800"
-                fontSize="30"
-                letterSpacing="-0.5"
-              >
-                <tspan fill="#0F766E">jasa</tspan>
-                <tspan fill="#0F172A">proteksi</tspan>
-              </text>
-            </svg>
+            <Image
+              src="/brand/jasa-proteksi-logo.png"
+              alt="Jasa Proteksi"
+              width={140}
+              height={36}
+              className="h-7 sm:h-9 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop nav */}

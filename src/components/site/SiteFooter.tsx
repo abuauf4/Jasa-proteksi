@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, Phone, Mail, MessageCircle, ArrowUp } from "lucide-react";
+import { Phone, Mail, MessageCircle, ArrowUp } from "lucide-react";
 import { Container } from "./primitives";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import { buildWhatsAppLink } from "@/lib/format";
@@ -62,11 +62,14 @@ export function SiteFooter() {
           {/* Brand column — spans 5 cols */}
           <div className="lg:col-span-5">
             {/* Logo + brand */}
-            <Link href="/" className="inline-flex items-center gap-2.5 group">
-              <span className="relative flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-[#0F766E] to-[#0B5C55] flex items-center justify-center shadow-lg shadow-[#0F766E]/20 group-hover:shadow-[#0F766E]/40 transition-shadow">
-                <ShieldCheck className="h-5 w-5 text-white" aria-hidden />
-              </span>
-              <span className="text-lg font-bold text-white tracking-tight">Jasa Proteksi</span>
+            <Link href="/" className="inline-flex items-center group" aria-label="Jasa Proteksi — Beranda">
+              <Image
+                src="/brand/jasa-proteksi-logo.png"
+                alt="Jasa Proteksi"
+                width={160}
+                height={42}
+                className="h-9 sm:h-10 w-auto object-contain"
+              />
             </Link>
 
             {/* Tagline */}

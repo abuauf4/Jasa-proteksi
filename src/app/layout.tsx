@@ -77,10 +77,6 @@ export const metadata: Metadata = {
       "Platform simulasi premi asuransi mobil All Risk dan TLO online. Estimasi otomatis berdasarkan data kendaraan.",
     images: ["/og-image.webp"],
   },
-  icons: {
-    icon: "/logo-jasa-proteksi.webp",
-    apple: "/logo-jasa-proteksi.webp",
-  },
   category: "insurance",
   manifest: "/manifest.webmanifest",
 };
