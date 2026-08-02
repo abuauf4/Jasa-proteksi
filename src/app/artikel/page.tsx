@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { db } from "@/lib/db";
-import BlogPageClient from "@/app/blog/BlogPageClient";
+import BlogPageClient from "@/app/artikel/BlogPageClient";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 

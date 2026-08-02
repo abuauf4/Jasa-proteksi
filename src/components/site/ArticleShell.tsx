@@ -77,7 +77,7 @@ export function ArticleShell({
                   {relatedArticles.map((art) => (
                     <Link
                       key={art.slug}
-                      href={`/${art.slug}`}
+                      href={`/artikel/${art.slug}`}
                       className="group flex items-center gap-2 p-3 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#0F766E] hover:shadow-md transition-all"
                     >
                       <span className="flex-1 font-semibold text-[#0F172A] text-sm group-hover:text-[#0F766E]">{art.title}</span>
