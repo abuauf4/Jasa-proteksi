@@ -21,6 +21,7 @@ interface BottomSheetPickerProps {
  * - Escape key + backdrop click to close.
  * - Locks body scroll while open.
  * - Respects safe-area-inset-bottom.
+ * - Keyboard-aware: adjusts height when Android soft keyboard opens.
  */
 export function BottomSheetPicker({
   open,
@@ -33,8 +34,11 @@ export function BottomSheetPicker({
 }: BottomSheetPickerProps) {
   const [query, setQuery] = React.useState("");
   const searchRef = React.useRef<HTMLInputElement | null>(null);
+  const sheetRef = React.useRef<HTMLDivElement | null>(null);
+  // Track the max-height override driven by the visual viewport (Android keyboard)
+  const [sheetMaxHeight, setSheetMaxHeight] = React.useState<string | null>(null);
 
-  // Lock body scroll + escape-to-close
+  // Lock body scroll + escape-to-close + keyboard-aware resize
   React.useEffect(() => {
     if (!open) return;
     const original = document.body.style.overflow;
@@ -45,10 +49,35 @@ export function BottomSheetPicker({
     window.addEventListener("keydown", onKey);
     // Focus search after slide-up starts
     const t = setTimeout(() => searchRef.current?.focus(), 100);
+
+    // ── Keyboard-aware resize using visualViewport API ──
+    // On Android, when the soft keyboard opens, window.innerHeight stays the same
+    // but visualViewport.height shrinks. We use this to adjust the sheet height
+    // so the search results remain visible above the keyboard.
+    const vv = window.visualViewport;
+    const onResize = () => {
+      if (!vv) return;
+      // visualViewport.height = visible area above keyboard
+      // We set sheet max-height to ~90% of the visible viewport
+      const visibleHeight = vv.height;
+      setSheetMaxHeight(`${Math.round(visibleHeight * 0.9)}px`);
+    };
+    if (vv) {
+      vv.addEventListener("resize", onResize);
+      vv.addEventListener("scroll", onResize);
+      // Set initial height
+      onResize();
+    }
+
     return () => {
       document.body.style.overflow = original;
       window.removeEventListener("keydown", onKey);
       clearTimeout(t);
+      if (vv) {
+        vv.removeEventListener("resize", onResize);
+        vv.removeEventListener("scroll", onResize);
+      }
+      setSheetMaxHeight(null);
     };
   }, [open, onClose]);
 
@@ -69,10 +98,12 @@ export function BottomSheetPicker({
     <>
       <div className="ds-sheet-backdrop" onClick={onClose} aria-hidden />
       <div
+        ref={sheetRef}
         className="ds-sheet"
         role="dialog"
         aria-modal="true"
         aria-label={title}
+        style={sheetMaxHeight ? { maxHeight: sheetMaxHeight } : undefined}
       >
         <div className="ds-sheet-handle" aria-hidden />
         <div className="ds-sheet-header">

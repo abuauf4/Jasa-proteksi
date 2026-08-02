@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight, Loader2, AlertCircle } from "lucide-react";
 import { useCalculator } from "./useCalculator";
 import { VehicleStep, CoverageStep } from "./steps";
 import { PremiumResult } from "./PremiumResult";
-import { CalculationLoadingScreen } from "./CalculationLoadingScreen";
+// CalculationLoadingScreen removed — no longer used here to avoid double loading
 import { Button } from "@/components/site/Button";
 import { formatIDR } from "@/lib/format";
 
@@ -124,8 +124,9 @@ export function HeroCalculator({
 
   return (
     <div ref={scrollRef} className={`ds-card-calc ${className ?? ""}`}>
-      {/* Initial calculation loading — full screen overlay */}
-      {state.isCalculatingInitial && <CalculationLoadingScreen />}
+      {/* No full-screen overlay here — the hasil-simulasi/loading.tsx handles
+          the transition loading, avoiding a "double loading" flash on mobile.
+          The button spinner below is the only indicator during calculation. */}
 
       {/* Header row: title + step indicator in 1 line */}
       {!hideHeader && (
@@ -176,8 +177,8 @@ export function HeroCalculator({
         </div>
       )}
 
-      {/* Navigation buttons — hidden on result step + step 1 (no Kembali on first step) */}
-      {!isResult && !state.isCalculatingInitial && (
+      {/* Navigation buttons — hidden on result step; buttons stay visible but disabled during calculation */}
+      {!isResult && (
         <div className="mt-5 flex flex-col-reverse sm:flex-row gap-2">
           {!isVehicleStep && (
             <Button
@@ -185,6 +186,7 @@ export function HeroCalculator({
               variant="secondary"
               size="lg"
               onClick={handleBack}
+              disabled={state.isLoadingPremium || state.isCalculatingInitial}
               className="sm:flex-1"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden />
