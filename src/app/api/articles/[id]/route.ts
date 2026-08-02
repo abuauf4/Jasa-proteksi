@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth-helpers";
+import { revalidatePath } from "next/cache";
 
 // GET /api/articles/[id] — single article
 export async function GET(
@@ -105,6 +106,13 @@ export async function PUT(
       },
     });
 
+    // Invalidate cache for article list and detail pages
+    revalidatePath("/artikel");
+    revalidatePath("/", "layout");
+    revalidatePath(`/artikel/${existing.slug}`);
+    if (slug && slug !== existing.slug) {
+      revalidatePath(`/artikel/${slug}`);
+    }
     return NextResponse.json({ article });
   } catch (error) {
     console.error("Error updating article:", error);
@@ -135,6 +143,9 @@ export async function DELETE(
 
     await db.article.delete({ where: { id } });
 
+    revalidatePath("/artikel");
+    revalidatePath("/", "layout");
+    revalidatePath(`/artikel/${existing.slug}`);
     return NextResponse.json({ message: "Artikel berhasil dihapus" });
   } catch (error) {
     console.error("Error deleting article:", error);

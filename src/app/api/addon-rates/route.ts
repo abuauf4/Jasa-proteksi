@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireAdmin } from "@/lib/auth-helpers";
 
 // GET /api/addon-rates — List all addon rates with optional filters
 export async function GET(request: NextRequest) {
@@ -35,6 +36,8 @@ export async function GET(request: NextRequest) {
 
 // POST /api/addon-rates — Create a new addon rate
 export async function POST(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const body = await request.json();
     const { addonKey, addonLabel, coverageType, wilayah, rate, fixedAmount } = body;
@@ -69,6 +72,8 @@ export async function POST(request: NextRequest) {
 
 // PUT /api/addon-rates — Update an addon rate by id
 export async function PUT(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const body = await request.json();
     const { id, rate, isActive } = body;
@@ -109,6 +114,8 @@ export async function PUT(request: NextRequest) {
 
 // DELETE /api/addon-rates — Soft delete
 export async function DELETE(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");

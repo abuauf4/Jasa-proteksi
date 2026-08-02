@@ -246,7 +246,11 @@ async function sendNotificationEmail(
     minimumOfferPrice?: number;
   }
 ) {
-  const adminEmail = "jasaglobalproteksi@gmail.com";
+  let adminEmail = "jasaglobalproteksi@gmail.com"; // fallback
+  try {
+    const emailSetting = await db.siteSetting.findUnique({ where: { key: "email" } });
+    if (emailSetting?.value) adminEmail = emailSetting.value;
+  } catch {}
 
   if (type === "estimation_viewed") {
     console.log(`

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth-helpers";
+import { revalidatePath } from "next/cache";
 
 const DEFAULT_HERO = {
   tagline: "Proteksi Terbaik untuk Kendaraan Anda",
@@ -79,6 +80,7 @@ export async function PUT(request: NextRequest) {
       });
     }
 
+    revalidatePath("/");
     return NextResponse.json(hero);
   } catch (error) {
     console.error("Hero PUT error:", error);

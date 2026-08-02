@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckCircle2, MessageCircle, ArrowRight } from "lucide-react";
+import { db } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Terima Kasih - Jasa Proteksi",
@@ -8,7 +9,13 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false }, // Don't index thank-you pages
 };
 
-export default function TerimaKasihPage() {
+export default async function TerimaKasihPage() {
+  let whatsappNumber = "6285282297399"; // fallback
+  try {
+    const setting = await db.siteSetting.findUnique({ where: { key: "whatsapp" } });
+    if (setting?.value) whatsappNumber = setting.value;
+  } catch {}
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#042F2E] via-[#0F172A] to-[#0C4A6E] px-4">
       <div className="max-w-lg w-full text-center">
@@ -35,7 +42,7 @@ export default function TerimaKasihPage() {
           </Link>
 
           <a
-            href="https://wa.me/6285282297399"
+            href={`https://wa.me/${whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-[#25D366] text-[#25D366] font-semibold tracking-wider text-sm rounded-full hover:bg-[#25D366] hover:text-white transition-all duration-300"

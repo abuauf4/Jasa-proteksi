@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireAdmin } from "@/lib/auth-helpers";
 
 // GET /api/loading-rates — List all loading rates
 export async function GET() {
@@ -26,6 +27,8 @@ export async function GET() {
 
 // POST /api/loading-rates — Create a new loading rate
 export async function POST(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const body = await request.json();
     const { minAge, maxAge, loadingPercent, coverageType, description } = body;
@@ -59,6 +62,8 @@ export async function POST(request: NextRequest) {
 
 // PUT /api/loading-rates — Update a loading rate by id
 export async function PUT(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const body = await request.json();
     const { id, loadingPercent, minAge, maxAge, isActive } = body;
@@ -101,6 +106,8 @@ export async function PUT(request: NextRequest) {
 
 // DELETE /api/loading-rates — Soft delete
 export async function DELETE(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");

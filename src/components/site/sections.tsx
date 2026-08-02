@@ -80,13 +80,27 @@ export function HeroSection() {
                 className="font-extrabold tracking-tight text-[16px] leading-[1.2] sm:text-[18px] lg:text-[22px] mt-2 text-white"
                 style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
               >
-                Mobil Terlindungi,<br />Perjalanan Lebih Tenang.
+                {heroData?.tagline
+                  ? heroData.tagline.split("\\n").map((line, i, arr) => (
+                      <React.Fragment key={i}>
+                        {line}{i < arr.length - 1 && <br />}
+                      </React.Fragment>
+                    ))
+                  : <>Mobil Terlindungi,<br />Perjalanan Lebih Tenang.</>
+                }
               </h2>
               <p
                 className="text-[11px] sm:text-[12px] leading-snug mt-1 text-white"
                 style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
               >
-                Estimasi Premi<br />All Risk atau TLO<br />dari berbagai perusahaan
+                {heroData?.subtext
+                  ? heroData.subtext.split("\\n").map((line, i, arr) => (
+                      <React.Fragment key={i}>
+                        {line}{i < arr.length - 1 && <br />}
+                      </React.Fragment>
+                    ))
+                  : <>Estimasi Premi<br />All Risk atau TLO<br />dari berbagai perusahaan</>
+                }
               </p>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireAdmin } from "@/lib/auth-helpers";
 
 // GET /api/motor-rates — List all motor rates with optional filters
 export async function GET(request: NextRequest) {
@@ -41,6 +42,8 @@ export async function GET(request: NextRequest) {
 
 // POST /api/motor-rates — Create a new motor rate
 export async function POST(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const body = await request.json();
     const {
@@ -86,6 +89,8 @@ export async function POST(request: NextRequest) {
 
 // PUT /api/motor-rates — Update a motor rate by id
 export async function PUT(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const body = await request.json();
     const { id, rateWilayah1, rateWilayah2, rateWilayah3, isActive } = body;
@@ -128,6 +133,8 @@ export async function PUT(request: NextRequest) {
 
 // DELETE /api/motor-rates — Soft delete (set isActive=false)
 export async function DELETE(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");

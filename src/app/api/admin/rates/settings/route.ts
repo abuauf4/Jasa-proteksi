@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth-helpers";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { invalidateRateSettingsCache } from "@/lib/premium-engine";
 
 // GET /api/admin/rates/settings — List all RateSettings (admin only)
 export async function GET() {
@@ -50,6 +51,7 @@ export async function PATCH(request: NextRequest) {
     });
 
     revalidatePath("/", "layout");
+    invalidateRateSettingsCache();
     return NextResponse.json({ setting });
   } catch (error) {
     console.error("PATCH /api/admin/rates/settings error:", error);

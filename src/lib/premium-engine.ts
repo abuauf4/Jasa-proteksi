@@ -24,6 +24,11 @@ import vehicleCodeMap from "./vehicleCodeMap.json";
 let rateSettingsCache: { data: Record<string, number>; ts: number } | null = null;
 const RATE_SETTINGS_TTL = 5 * 60 * 1000;
 
+/** Invalidate the in-memory rateSettings cache so next calculation reads fresh data. */
+export function invalidateRateSettingsCache(): void {
+  rateSettingsCache = null;
+}
+
 async function getRateSetting(key: string): Promise<number | undefined> {
   if (!rateSettingsCache || Date.now() - rateSettingsCache.ts > RATE_SETTINGS_TTL) {
     const allSettings = await db.rateSettings.findMany();

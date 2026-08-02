@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth-helpers";
 
 // GET /api/products/[id] — Get single product
 export async function GET(
@@ -27,6 +28,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const { id } = await params;
     const body = await request.json();
@@ -69,6 +72,8 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const { id } = await params;
 

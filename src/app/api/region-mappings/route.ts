@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireAdmin } from "@/lib/auth-helpers";
 
 // GET /api/region-mappings — List all region mappings
 export async function GET(request: NextRequest) {
@@ -33,6 +34,8 @@ export async function GET(request: NextRequest) {
 
 // POST /api/region-mappings — Create a new region mapping
 export async function POST(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const body = await request.json();
     const { plateCode, platePrefix, city, wilayah } = body;
@@ -71,6 +74,8 @@ export async function POST(request: NextRequest) {
 
 // PUT /api/region-mappings — Update a region mapping by id
 export async function PUT(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const body = await request.json();
     const { id, wilayah, city, isActive } = body;
@@ -112,6 +117,8 @@ export async function PUT(request: NextRequest) {
 
 // DELETE /api/region-mappings — Soft delete
 export async function DELETE(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");

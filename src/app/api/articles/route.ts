@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth-helpers";
+import { revalidatePath } from "next/cache";
 
 // GET /api/articles — list articles with pagination, search, status filter
 // Public homepage requests (status=published, no search) cached at edge for
@@ -141,6 +142,8 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    revalidatePath("/artikel");
+    revalidatePath("/", "layout");
     return NextResponse.json({ article }, { status: 201 });
   } catch (error) {
     console.error("Error creating article:", error);

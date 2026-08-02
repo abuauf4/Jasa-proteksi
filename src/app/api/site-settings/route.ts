@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth-helpers";
+import { revalidatePath } from "next/cache";
 
 // Default settings to seed on first load
 const DEFAULT_SETTINGS = [
@@ -67,6 +68,7 @@ export async function PUT(request: NextRequest) {
       )
     );
 
+    revalidatePath("/", "layout");
     return NextResponse.json({ success: true, updated: results.length });
   } catch (error) {
     console.error("SiteSettings PUT error:", error);

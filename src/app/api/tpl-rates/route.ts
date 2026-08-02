@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { requireAdmin } from "@/lib/auth-helpers";
 
 // GET /api/tpl-rates — List all TPL rates
 export async function GET() {
@@ -26,6 +27,8 @@ export async function GET() {
 
 // POST /api/tpl-rates — Create a new TPL rate
 export async function POST(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const body = await request.json();
     const { vehicleCategory, coverageMin, coverageMax, rate } = body;
@@ -58,6 +61,8 @@ export async function POST(request: NextRequest) {
 
 // PUT /api/tpl-rates — Update a TPL rate by id
 export async function PUT(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const body = await request.json();
     const { id, rate, isActive } = body;
@@ -98,6 +103,8 @@ export async function PUT(request: NextRequest) {
 
 // DELETE /api/tpl-rates — Soft delete
 export async function DELETE(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
