@@ -1,17 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-import { MobileStickyCTA } from "@/components/site/MobileStickyCTA";
 import {
   HeroSection,
-  HowItWorks,
-  CoverageComparison,
-  FAQSection,
-  FinalCTA,
-  LegalDisclaimer,
+  ShortcutMenu,
+  PromoBanner,
+  CoverageCards,
+  AppSteps,
+  ArticleCards,
+  TestimonialCards,
+  FAQCards,
+  InfoModule,
 } from "@/components/site/sections";
 import { ServerDataProvider, type SiteSettings, type HeroData } from "@/lib/ServerDataContext";
 import { captureAttribution } from "@/lib/analytics-events";
@@ -22,25 +23,26 @@ interface HomePageProps {
 }
 
 export default function HomePage({ initialSettings, initialHero }: HomePageProps) {
-  // Capture UTM/gclid on first mount.
   React.useEffect(() => {
     captureAttribution();
   }, []);
 
   return (
     <ServerDataProvider initialSettings={initialSettings} initialHero={initialHero}>
-      <div className="flex min-h-screen flex-col bg-white">
+      <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
         <SiteHeader />
         <main className="flex-1">
           <HeroSection />
-          <HowItWorks />
-          <CoverageComparison />
-          <FAQSection />
-          <FinalCTA />
-          <LegalDisclaimer className="ds-container mt-12 mb-12" />
+          <ShortcutMenu />
+          <PromoBanner />
+          <CoverageCards />
+          <AppSteps />
+          <ArticleCards />
+          <TestimonialCards />
+          <FAQCards />
+          <InfoModule />
         </main>
         <SiteFooter />
-        <MobileStickyCTA />
       </div>
     </ServerDataProvider>
   );
