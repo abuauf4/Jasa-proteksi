@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ShieldCheck, Phone, Mail, MessageCircle } from "lucide-react";
+import Image from "next/image";
+import { ShieldCheck, Phone, Mail, MessageCircle, ArrowUp } from "lucide-react";
 import { Container } from "./primitives";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import { buildWhatsAppLink } from "@/lib/format";
@@ -49,66 +50,85 @@ export function SiteFooter() {
     ? buildWhatsAppLink(settings.whatsapp, "Halo Jasa Proteksi, saya ingin bertanya tentang asuransi mobil.")
     : null;
 
+  const scrollToTop = React.useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
-    <footer className="bg-[#0F172A] text-[#E2E8F0] mt-auto">
-      <Container className="py-12 sm:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10">
-          {/* Brand column */}
-          <div className="lg:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-2 mb-4">
-              <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-[#0F766E] flex items-center justify-center">
+    <footer className="bg-[#0B1120] text-[#CBD5E1] mt-auto">
+      {/* ── Main footer content ── */}
+      <Container className="pt-12 pb-8 sm:pt-16 sm:pb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 sm:gap-10">
+          {/* Brand column — spans 5 cols */}
+          <div className="lg:col-span-5">
+            {/* Logo + brand */}
+            <Link href="/" className="inline-flex items-center gap-2.5 group">
+              <span className="relative flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-[#0F766E] to-[#0B5C55] flex items-center justify-center shadow-lg shadow-[#0F766E]/20 group-hover:shadow-[#0F766E]/40 transition-shadow">
                 <ShieldCheck className="h-5 w-5 text-white" aria-hidden />
               </span>
-              <span className="text-base font-bold text-white">Jasa Proteksi</span>
+              <span className="text-lg font-bold text-white tracking-tight">Jasa Proteksi</span>
             </Link>
-            <p className="text-sm leading-relaxed text-[#94A3B8] max-w-sm">
+
+            {/* Tagline */}
+            <p className="mt-3 text-sm font-medium text-[#0F766E] italic tracking-wide">
+              Smart people. Smart proteksi.
+            </p>
+
+            {/* Description */}
+            <p className="mt-3 text-sm leading-relaxed text-[#94A3B8] max-w-sm">
               Platform simulasi premi dan pengajuan asuransi mobil All Risk atau TLO secara online.
               Dapatkan estimasi otomatis berdasarkan data kendaraan dan wilayah penggunaan.
             </p>
 
             {/* Contact info */}
-            <div className="mt-5 flex flex-col gap-2">
+            <div className="mt-5 flex flex-col gap-2.5">
               {whatsappLink && (
                 <a
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-[#94A3B8] hover:text-white"
+                  className="inline-flex items-center gap-2.5 text-sm text-[#94A3B8] hover:text-white transition-colors"
                 >
-                  <MessageCircle className="h-4 w-4" aria-hidden />
-                  <span>WhatsApp: {settings.whatsapp}</span>
+                  <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#1E293B] flex items-center justify-center">
+                    <MessageCircle className="h-4 w-4 text-[#0F766E]" aria-hidden />
+                  </span>
+                  <span>{settings.whatsapp}</span>
                 </a>
               )}
               {settings.email && (
                 <a
                   href={`mailto:${settings.email}`}
-                  className="inline-flex items-center gap-2 text-sm text-[#94A3B8] hover:text-white"
+                  className="inline-flex items-center gap-2.5 text-sm text-[#94A3B8] hover:text-white transition-colors"
                 >
-                  <Mail className="h-4 w-4" aria-hidden />
+                  <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#1E293B] flex items-center justify-center">
+                    <Mail className="h-4 w-4 text-[#0F766E]" aria-hidden />
+                  </span>
                   <span>{settings.email}</span>
                 </a>
               )}
               {settings.phone && (
                 <a
                   href={`tel:${settings.phone}`}
-                  className="inline-flex items-center gap-2 text-sm text-[#94A3B8] hover:text-white"
+                  className="inline-flex items-center gap-2.5 text-sm text-[#94A3B8] hover:text-white transition-colors"
                 >
-                  <Phone className="h-4 w-4" aria-hidden />
+                  <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-[#1E293B] flex items-center justify-center">
+                    <Phone className="h-4 w-4 text-[#0F766E]" aria-hidden />
+                  </span>
                   <span>{settings.phone}</span>
                 </a>
               )}
               {settings.address && (
-                <p className="text-sm text-[#94A3B8] leading-relaxed">
+                <p className="text-sm text-[#94A3B8] leading-relaxed mt-1">
                   {settings.address}
                 </p>
               )}
             </div>
           </div>
 
-          {/* Link groups */}
+          {/* Link groups — each spans ~2 cols */}
           {LINK_GROUPS.map((group) => (
-            <div key={group.title}>
-              <h3 className="text-sm font-semibold text-white mb-3">{group.title}</h3>
+            <div key={group.title} className="lg:col-span-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#0F766E] mb-4">{group.title}</h3>
               <ul className="flex flex-col gap-2.5">
                 {group.links.map((link) => (
                   <li key={link.label}>
@@ -117,12 +137,12 @@ export function SiteFooter() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-[#94A3B8] hover:text-white"
+                        className="text-sm text-[#94A3B8] hover:text-white transition-colors"
                       >
                         {link.label}
                       </a>
                     ) : (
-                      <Link href={link.href} className="text-sm text-[#94A3B8] hover:text-white">
+                      <Link href={link.href} className="text-sm text-[#94A3B8] hover:text-white transition-colors">
                         {link.label}
                       </Link>
                     )}
@@ -131,20 +151,45 @@ export function SiteFooter() {
               </ul>
             </div>
           ))}
-        </div>
 
-        {/* Disclaimer */}
-        <div className="mt-10 pt-8 border-t border-[#1E293B]">
-          <p className="text-xs text-[#94A3B8] leading-relaxed max-w-3xl">
-            <strong className="text-white">Catatan:</strong> Jasa Proteksi menyediakan
-            simulasi awal dan bantuan proses pengajuan. Premi, manfaat, pengecualian, serta
-            ketentuan akhir mengikuti quotation dan polis dari perusahaan asuransi terkait.
-          </p>
-          <p className="mt-4 text-xs text-[#64748B]">
-            © {new Date().getFullYear()} Jasa Proteksi. Semua hak dilindungi.
-          </p>
+          {/* Back to top — spans 1 col */}
+          <div className="lg:col-span-1 flex items-start justify-end">
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="w-10 h-10 rounded-xl bg-[#1E293B] hover:bg-[#0F766E] text-[#94A3B8] hover:text-white flex items-center justify-center transition-all shadow-lg hover:shadow-[#0F766E]/20"
+              aria-label="Kembali ke atas"
+            >
+              <ArrowUp className="h-4 w-4" aria-hidden />
+            </button>
+          </div>
         </div>
       </Container>
+
+      {/* ── Bottom bar ── */}
+      <div className="border-t border-[#1E293B]">
+        <Container className="py-5">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            {/* Catatan */}
+            <p className="text-xs text-[#64748B] leading-relaxed max-w-xl text-center sm:text-left">
+              <strong className="text-[#94A3B8]">Catatan:</strong> Jasa Proteksi menyediakan
+              simulasi awal dan bantuan proses pengajuan. Premi, manfaat, pengecualian, serta
+              ketentuan akhir mengikuti quotation dan polis dari perusahaan asuransi terkait.
+            </p>
+
+            {/* Copyright + credit */}
+            <div className="flex flex-col items-center sm:items-end gap-0.5 shrink-0">
+              <p className="text-xs text-[#64748B]">
+                © {new Date().getFullYear()} Jasa Proteksi — Smart People. Smart Proteksi
+              </p>
+              <p className="text-[11px] text-[#475569]">
+                Design &amp; Developed by{" "}
+                <span className="text-[#0F766E] font-medium">Nauka Motion</span>
+              </p>
+            </div>
+          </div>
+        </Container>
+      </div>
     </footer>
   );
 }
