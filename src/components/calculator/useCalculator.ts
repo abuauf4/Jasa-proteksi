@@ -364,6 +364,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       isCalculatingInitial: false,
     });
     startedRef.current = false;
+    hasHydratedRef.current = false;
   }, [initialCoverageType]);
 
   /* ─── Premium calculation ─── */
@@ -371,8 +372,14 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   const abortRef = useRef<AbortController | null>(null);
   // Debounce timer for addon/coverage changes
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // In-flight guard: prevents concurrent premium requests
+  const calculationInFlightRef = useRef(false);
 
-  const calculatePremium = useCallback(async (silent = false): Promise<boolean> => {
+  const calculatePremium = useCallback(async (silent = false, options?: { skipStepTransition?: boolean }): Promise<boolean> => {
+    // In-flight guard: prevent concurrent requests
+    if (calculationInFlightRef.current) return false;
+    calculationInFlightRef.current = true;
+
     // Cancel any in-flight request
     if (abortRef.current) {
       abortRef.current.abort();
@@ -439,7 +446,10 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
         isLoadingPremium: false,
         isCalculatingInitial: false,
         isRecalculating: false,
-        step: "result",
+        // When skipStepTransition is true (e.g. HeroCalculator navigating to result page),
+        // don't change step to "result" — the result page will set it via hydration.
+        // This prevents PremiumResult from mounting in HeroCalculator before navigation.
+        step: options?.skipStepTransition ? s.step : "result",
         error: null,
       }));
 
@@ -467,6 +477,8 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       }
       trackEvent("calculator_error", { error_message: msg });
       return false;
+    } finally {
+      calculationInFlightRef.current = false;
     }
   }, [
     state.vehicle,
@@ -599,7 +611,10 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   }, [state.lead]);
 
   /* ─── Auto re-calculate when coverage type or addons change on result step ─── */
-  // Debounced: 200ms delay for addon toggles, instant for coverage type change
+  // Hydration guard: prevents spurious recalculation when state is restored
+  // from sessionStorage on the result page. Without this, the refs are
+  // initialized to default values and the hydration is seen as a "change".
+  const hasHydratedRef = useRef(false);
   const prevCoverageRef = useRef<string>(state.protection.coverageType);
   const prevAddonsRef = useRef<string>(state.extension.addOns.join(","));
 
@@ -609,9 +624,31 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     prevCoverageRef.current = state.protection.coverageType;
     prevAddonsRef.current = state.extension.addOns.join(",");
 
+    // ── Hydration guard ──
+    // After hydration (state restored from sessionStorage), the coverage/addons
+    // may differ from the initial ref values. We must NOT treat this as a user
+    // change. On the first effect run where we have a premium AND step is result,
+    // we sync the refs and mark hydration as complete without recalculating.
+    if (!hasHydratedRef.current) {
+      if (state.step === "result" && state.premium) {
+        // State has been hydrated from sessionStorage — sync refs to current values
+        // and mark hydration complete. Do NOT recalculate.
+        hasHydratedRef.current = true;
+        return;
+      }
+      // If we're not yet on result with premium, just update refs and skip.
+      // This handles the normal flow (step 1 → step 2 → calculate → result)
+      // where the effect runs on intermediate steps before premium exists.
+      return;
+    }
+
+    // ── Only recalculate after hydration is complete ──
     if (state.step !== "result" || !state.premium || (!coverageChanged && !addonsChanged)) {
       return;
     }
+
+    // ── In-flight guard ──
+    if (calculationInFlightRef.current) return;
 
     // Clear any pending debounce
     if (debounceRef.current) {
@@ -623,7 +660,9 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     const delay = coverageChanged ? 0 : 200;
 
     debounceRef.current = setTimeout(() => {
-      calculatePremium(true);
+      if (!calculationInFlightRef.current) {
+        calculatePremium(true);
+      }
     }, delay);
 
     return () => {
@@ -634,6 +673,31 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   }, [state.protection.coverageType, state.extension.addOns, state.step, state.premium, calculatePremium]);
 
   /* ─── Persist calculator state to sessionStorage (for /hasil-simulasi page) ─── */
+
+  /** Explicitly save state to sessionStorage before navigation.
+   *  This is synchronous and guaranteed to complete before router.replace.
+   *  The useEffect-based persistence may run too late (after next render). */
+  const persistToSessionStorage = useCallback(() => {
+    if (typeof window === "undefined") return;
+    try {
+      sessionStorage.setItem("jp_calc_state", JSON.stringify({
+        step: "result",
+        vehicle: state.vehicle,
+        region: state.region,
+        protection: state.protection,
+        extension: state.extension,
+        personal: state.personal,
+        premium: state.premium,
+        selectedPartnerIndex: state.selectedPartnerIndex,
+        lead: state.lead,
+        vehicleFound: state.vehicleFound,
+        showManualOtr: state.showManualOtr,
+        databaseVehicleValue: state.databaseVehicleValue,
+        manualOtrValidation: state.manualOtrValidation,
+      }));
+    } catch { /* silent */ }
+  }, [state]);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     // Only save when we have premium (result ready) or step changed
@@ -711,6 +775,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     selectPartner,
     reset,
     calculatePremium,
+    persistToSessionStorage,
     submitLead,
     markWhatsappClicked,
   };
