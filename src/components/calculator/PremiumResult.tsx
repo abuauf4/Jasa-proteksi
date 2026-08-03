@@ -320,9 +320,10 @@ export function PremiumResult({ calc, onUbahData, onMulaiUlang }: {
         <button
           type="button"
           onClick={onMulaiUlang ?? reset}
-          className="text-xs text-[#64748B] hover:text-[#0F172A] mt-1 self-center"
+          className="inline-flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] text-sm font-medium text-[#475569] hover:bg-[#E2E8F0] hover:text-[#0F172A] active:bg-[#CBD5E1] transition-colors self-center"
         >
-          Mulai simulasi baru
+          <RotateCcw className="h-3.5 w-3.5" aria-hidden />
+          Muat Ulang
         </button>
       </div>
 

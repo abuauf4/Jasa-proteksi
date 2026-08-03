@@ -41,7 +41,7 @@ export default function HasilSimulasiClient({ initialSettings, initialHero }: Ha
     }
   }, [router]);
 
-  // Clear sessionStorage when leaving the result page (browser back, sidebar nav, etc.)
+  // Clear sessionStorage when leaving the result page (browser tab close, etc.)
   // so the homepage HeroCalculator doesn't restore a stale "result" state.
   // NOTE: We intentionally do NOT clear on unmount, because handleUbahData/handleMulaiUlang
   // write their own sessionStorage before navigating — if we cleared on unmount, those
@@ -91,6 +91,26 @@ export default function HasilSimulasiClient({ initialSettings, initialHero }: Ha
     router.replace("/#kalkulator");
   }, [calc, router]);
 
+  // Intercept hardware back button (mobile) to navigate to calculator
+  // instead of exiting the app. Since HeroCalculator uses router.replace,
+  // the homepage is not in browser history, so pressing back would exit.
+  // We push a history entry and capture popstate to redirect gracefully.
+  React.useEffect(() => {
+    // Push an extra history entry so we can intercept the back button
+    window.history.pushState(null, "", window.location.href);
+
+    const handlePopState = () => {
+      // When user presses back, navigate to calculator with data preserved
+      // (same behavior as the "Ubah Data" button)
+      handleUbahData();
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [handleUbahData]);
+
   // Check if premium loaded
   if (!calc.state.premium) {
     return (
@@ -121,19 +141,18 @@ export default function HasilSimulasiClient({ initialSettings, initialHero }: Ha
                 <button
                   type="button"
                   onClick={handleUbahData}
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0F766E] hover:text-[#0B5C55] transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold text-[#0F766E] hover:bg-[#ECFDF5] transition-colors"
                 >
                   <Pencil className="h-4 w-4" aria-hidden />
                   Ubah Data
                 </button>
-                <span className="text-[#CBD5E1]" aria-hidden>|</span>
                 <button
                   type="button"
                   onClick={handleMulaiUlang}
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#64748B] hover:text-[#0F172A] transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] text-sm font-semibold text-[#475569] hover:bg-[#E2E8F0] hover:text-[#0F172A] active:bg-[#CBD5E1] transition-colors"
                 >
                   <RotateCcw className="h-4 w-4" aria-hidden />
-                  Mulai Ulang
+                  Muat Ulang
                 </button>
               </div>
 
