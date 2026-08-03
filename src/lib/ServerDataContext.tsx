@@ -14,6 +14,7 @@ interface SiteSettings {
   metaPixelId: string;
   gtmId: string;
   adsenseId: string;
+  googleAdsId: string;
   maintenanceMode: boolean;
 }
 
@@ -108,6 +109,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   metaPixelId: "",
   gtmId: "",
   adsenseId: "",
+  googleAdsId: "",
   maintenanceMode: false,
 };
 
@@ -122,6 +124,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   metaPixelId: "",
   gtmId: "",
   adsenseId: "",
+  googleAdsId: "",
   maintenanceMode: false,
 };
 
@@ -147,6 +150,7 @@ async function fetchSettings(): Promise<SiteSettings> {
         metaPixelId: map.metaPixelId || "",
         gtmId: map.gtmId || "",
         adsenseId: map.adsenseId || "",
+        googleAdsId: map.googleAdsId || "",
         maintenanceMode: map.maintenanceMode === "true",
       };
       return cachedSettings;

@@ -40,6 +40,7 @@ export default function ProductFlowClient({ product }: ProductFlowClientProps) {
     metaPixelId: "",
     gtmId: "",
     adsenseId: "",
+    googleAdsId: "",
     maintenanceMode: false,
   };
 

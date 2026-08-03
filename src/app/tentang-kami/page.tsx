@@ -31,7 +31,8 @@ export const metadata: Metadata = {
 async function getSettings() {
   let initialSettings: SiteSettings = {
     whatsapp: "", whatsapp2: "", phone: "", email: "", address: "",
-    googleAnalyticsId: "", metaPixelId: "", gtmId: "", adsenseId: "", maintenanceMode: false,
+    googleAnalyticsId: "", metaPixelId: "", gtmId: "", adsenseId: "",
+    googleAdsId: "", maintenanceMode: false,
   };
   let initialHero: HeroData | null = null;
   try {

@@ -108,6 +108,7 @@ export default async function Page() {
     metaPixelId: "",
     gtmId: "",
     adsenseId: "",
+    googleAdsId: "",
     maintenanceMode: false,
   };
   let initialHero: {
