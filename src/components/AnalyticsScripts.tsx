@@ -7,6 +7,8 @@ interface SiteSettings {
   googleAnalyticsId?: string;
   metaPixelId?: string;
   gtmId?: string;
+  googleAdsId?: string;
+  googleAdsLabel?: string;
 }
 
 export default function AnalyticsScripts() {
@@ -23,6 +25,8 @@ export default function AnalyticsScripts() {
             googleAnalyticsId: map.googleAnalyticsId || "",
             metaPixelId: map.metaPixelId || "",
             gtmId: map.gtmId || "",
+            googleAdsId: map.googleAdsId || "",
+            googleAdsLabel: map.googleAdsLabel || "",
           });
         }
       } catch {
@@ -34,7 +38,7 @@ export default function AnalyticsScripts() {
 
   if (!settings) return null;
 
-  const { googleAnalyticsId, metaPixelId, gtmId } = settings;
+  const { googleAnalyticsId, metaPixelId, gtmId, googleAdsId, googleAdsLabel } = settings;
 
   return (
     <>
@@ -85,6 +89,31 @@ export default function AnalyticsScripts() {
             });
           `}
         </Script>
+      )}
+
+      {/* Google Ads Conversion — load gtag.js with AW-XXXXX config */}
+      {googleAdsId && (
+        <>
+          {!googleAnalyticsId && !gtmId && (
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${googleAdsId}`}
+              strategy="afterInteractive"
+            />
+          )}
+          <Script id="google-ads-conversion" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${googleAdsId}');
+              // Expose conversion config for trackWhatsAppClick helper
+              window.__googleAdsConversion = {
+                id: '${googleAdsId}',
+                label: '${googleAdsLabel || ''}'
+              };
+            `}
+          </Script>
+        </>
       )}
 
       {/* Meta Pixel */}

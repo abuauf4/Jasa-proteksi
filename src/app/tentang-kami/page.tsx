@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 async function getSettings() {
   let initialSettings: SiteSettings = {
     whatsapp: "", whatsapp2: "", phone: "", email: "", address: "",
-    googleAnalyticsId: "", metaPixelId: "", gtmId: "", maintenanceMode: false,
+    googleAnalyticsId: "", metaPixelId: "", gtmId: "", googleAdsId: "", googleAdsLabel: "", maintenanceMode: false,
   };
   let initialHero: HeroData | null = null;
   try {
@@ -45,7 +45,7 @@ async function getSettings() {
       whatsapp: map.whatsapp || "", whatsapp2: map.whatsapp2 || "",
       phone: map.phone || "", email: map.email || "", address: map.address || "",
       googleAnalyticsId: map.googleAnalyticsId || "", metaPixelId: map.metaPixelId || "",
-      gtmId: map.gtmId || "", maintenanceMode: map.maintenanceMode === "true",
+      gtmId: map.gtmId || "", googleAdsId: map.googleAdsId || "", googleAdsLabel: map.googleAdsLabel || "", maintenanceMode: map.maintenanceMode === "true",
     };
     if (heroRow) {
       initialHero = {

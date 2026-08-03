@@ -39,6 +39,8 @@ export default function ProductFlowClient({ product }: ProductFlowClientProps) {
     googleAnalyticsId: "",
     metaPixelId: "",
     gtmId: "",
+    googleAdsId: "",
+    googleAdsLabel: "",
     maintenanceMode: false,
   };
 

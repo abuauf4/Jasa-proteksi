@@ -107,6 +107,8 @@ export default async function Page() {
     googleAnalyticsId: "",
     metaPixelId: "",
     gtmId: "",
+    googleAdsId: "",
+    googleAdsLabel: "",
     maintenanceMode: false,
   };
   let initialHero: {
@@ -137,6 +139,8 @@ export default async function Page() {
       googleAnalyticsId: map.googleAnalyticsId || "",
       metaPixelId: map.metaPixelId || "",
       gtmId: map.gtmId || "",
+      googleAdsId: map.googleAdsId || "",
+      googleAdsLabel: map.googleAdsLabel || "",
       maintenanceMode: map.maintenanceMode === "true",
     };
 

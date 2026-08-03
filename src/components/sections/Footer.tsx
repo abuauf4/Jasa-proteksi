@@ -4,6 +4,7 @@ import { Diamond, MessageCircle, Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings } from "@/lib/ServerDataContext";
+import { trackWhatsAppClick } from "@/lib/analytics-events";
 
 const quickLinks = [
   { labelKey: "nav.beranda", href: "#beranda" },
@@ -27,11 +28,11 @@ export default function Footer() {
   const { settings, loading, ctaWhatsApp } = useSiteSettings();
 
   // Build dynamic contact items from site settings (only after loaded)
-  const contactItems: { icon: typeof MapPin; text: string; href?: string }[] = [];
+  const contactItems: { icon: typeof MapPin; text: string; href?: string; trackMethod?: string }[] = [];
   if (!loading) {
     if (settings.address) contactItems.push({ icon: MapPin, text: settings.address });
     if (settings.phone) contactItems.push({ icon: Phone, text: `+${settings.phone}` });
-    if (ctaWhatsApp) contactItems.push({ icon: MessageCircle, text: `+${ctaWhatsApp}`, href: `https://wa.me/${ctaWhatsApp}` });
+    if (ctaWhatsApp) contactItems.push({ icon: MessageCircle, text: `+${ctaWhatsApp}`, href: `https://wa.me/${ctaWhatsApp}`, trackMethod: "footer_wa" });
     if (settings.email) contactItems.push({ icon: Mail, text: settings.email, href: `mailto:${settings.email}` });
   }
 
@@ -93,7 +94,7 @@ export default function Footer() {
                   return (
                     <li key={idx}>
                       {item.href ? (
-                        <a href={item.href} target={item.href.startsWith("https") ? "_blank" : undefined} rel={item.href.startsWith("https") ? "noopener noreferrer" : undefined}>
+                        <a href={item.href} target={item.href.startsWith("https") ? "_blank" : undefined} rel={item.href.startsWith("https") ? "noopener noreferrer" : undefined} onClick={item.trackMethod ? () => trackWhatsAppClick({ method: item.trackMethod }) : undefined}>
                           {content}
                         </a>
                       ) : (

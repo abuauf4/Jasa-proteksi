@@ -6,7 +6,7 @@ import Image from "next/image";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings, useHeroData } from "@/lib/ServerDataContext";
-import { trackEvent } from "@/lib/conversion";
+import { trackWhatsAppClick } from "@/lib/analytics-events";
 
 export default function Hero() {
   const { t } = useLanguage();
@@ -106,7 +106,7 @@ export default function Hero() {
                   href={whatsappLink}
                   target={ctaWhatsApp ? "_blank" : undefined}
                   rel={ctaWhatsApp ? "noopener noreferrer" : undefined}
-                  onClick={() => trackEvent("whatsapp_click", { method: "hero_cta" })}
+                  onClick={() => trackWhatsAppClick({ method: "hero_cta" })}
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#0F766E] px-6 py-3.5 text-[16px] font-semibold text-[#0F766E] transition-colors hover:bg-[#F0FDFA] sm:w-auto"
                 >
                   {t("hero.secondaryCta")}

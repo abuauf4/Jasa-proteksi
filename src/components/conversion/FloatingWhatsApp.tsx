@@ -5,7 +5,7 @@ import { MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackEvent } from "@/lib/conversion";
+import { trackWhatsAppClick } from "@/lib/analytics-events";
 
 export default function FloatingWhatsApp() {
   const { t } = useLanguage();
@@ -34,7 +34,7 @@ export default function FloatingWhatsApp() {
 
   const handleWhatsAppClick = () => {
     // 🔔 Track conversion
-    trackEvent("whatsapp_click", { method: "floating_button" });
+    trackWhatsAppClick({ method: "floating_button" });
     setShowTooltip(false);
   };
 

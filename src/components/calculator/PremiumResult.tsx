@@ -9,7 +9,7 @@ import { UseCalculatorReturn } from "./useCalculator";
 import { type PremiumPartner, partnerLogoPath, getPartnerLogoScale, ADDON_META, TLO_EXCLUDED_ADDONS, ALL_ADDON_KEYS } from "./types";
 import { useCountUp } from "./useCountUp";
 import { formatIDR, formatPercent, formatRate, buildWhatsAppLink } from "@/lib/format";
-import { trackEvent } from "@/lib/analytics-events";
+import { trackEvent, trackWhatsAppClick } from "@/lib/analytics-events";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import { Button } from "@/components/site/Button";
 
@@ -93,11 +93,13 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
   const whatsappLink = buildWhatsAppLink(settings.whatsapp, whatsappMessage);
 
   const handleWhatsApp = () => {
-    trackEvent("whatsapp_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
+    trackWhatsAppClick({ coverage_type: state.protection.coverageType, estimated_premium: displayPremium, method: "premium_konsultasi" });
     markWhatsappClicked();
   };
 
   const handleApplyClick = () => {
+    // "Lanjutkan Pengajuan" is also a WhatsApp link — fire whatsapp_click + Google Ads conversion
+    trackWhatsAppClick({ coverage_type: state.protection.coverageType, estimated_premium: displayPremium, method: "premium_pengajuan" });
     trackEvent("apply_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
   };
 

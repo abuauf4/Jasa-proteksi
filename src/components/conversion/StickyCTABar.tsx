@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackEvent } from "@/lib/conversion";
+import { trackWhatsAppClick } from "@/lib/analytics-events";
 
 const DISMISS_KEY = "jp_sticky_cta_dismissed_at";
 const DISMISS_COOLDOWN_MS = 1000 * 60 * 60 * 6;
@@ -60,7 +60,7 @@ export default function StickyCTABar() {
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackEvent("whatsapp_click", { method: "sticky_bar" })}
+            onClick={() => trackWhatsAppClick({ method: "sticky_bar" })}
             className="inline-flex items-center gap-2 px-6 py-3 min-h-[48px] bg-[#0F766E] hover:bg-[#0B5F59] text-white font-semibold tracking-wide text-xs rounded-xl shadow-lg transition-colors duration-300"
           >
             <MessageCircle className="w-3.5 h-3.5" />
@@ -82,7 +82,7 @@ export default function StickyCTABar() {
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackEvent("whatsapp_click", { method: "sticky_bar" })}
+            onClick={() => trackWhatsAppClick({ method: "sticky_bar" })}
             className="flex-1 inline-flex items-center justify-center gap-2 py-3 min-h-[52px] bg-[#0F766E] text-white font-semibold text-sm rounded-xl hover:bg-[#0B5F59] transition-colors duration-300"
           >
             <MessageCircle className="w-4 h-4" />

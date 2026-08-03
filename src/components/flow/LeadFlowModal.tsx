@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { trackWhatsAppClick } from "@/lib/analytics-events";
 import { trackEvent } from "@/lib/conversion";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -726,6 +727,13 @@ export default function LeadFlowModal({
       ? premiumData.partners[selectedPartner].name : undefined;
     const estimatedPremi = selectedPartner !== null && premiumData?.partners[selectedPartner]
       ? premiumData.partners[selectedPartner].estimatedPremium : 0;
+
+    // Fire unified WhatsApp click tracking (dataLayer + GA4 + Meta Pixel + Google Ads conversion)
+    trackWhatsAppClick({
+      method: "lead_flow_result",
+      coverage_type: vehicleData.coverageType as "AllRisk" | "TLO",
+      estimated_premium: estimatedPremi,
+    });
 
     trackEvent("lead", {
       method: "whatsapp",

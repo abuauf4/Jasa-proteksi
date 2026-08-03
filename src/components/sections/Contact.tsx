@@ -9,13 +9,14 @@ import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackEvent } from "@/lib/conversion";
+import { trackWhatsAppClick } from "@/lib/analytics-events";
 
 interface ContactInfo {
   icon: React.ComponentType<{ className?: string }>;
   labelKey: string;
   value: string;
   href?: string;
+  isWhatsApp?: boolean;
 }
 
 export default function Contact() {
@@ -46,6 +47,7 @@ export default function Contact() {
         labelKey: "whatsapp",
         value: `+${settings.whatsapp}`,
         href: `https://wa.me/${settings.whatsapp}`,
+        isWhatsApp: true,
       });
     }
     if (settings.whatsapp2) {
@@ -54,6 +56,7 @@ export default function Contact() {
         labelKey: "whatsapp2",
         value: `+${settings.whatsapp2}`,
         href: `https://wa.me/${settings.whatsapp2}`,
+        isWhatsApp: true,
       });
     }
     if (settings.email) {
@@ -208,6 +211,7 @@ export default function Contact() {
                       href={info.href}
                       target={info.href.startsWith("http") ? "_blank" : undefined}
                       rel={info.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      onClick={info.isWhatsApp ? () => trackWhatsAppClick({ method: "contact_info" }) : undefined}
                       className="block"
                       style={{
                         opacity: 0,

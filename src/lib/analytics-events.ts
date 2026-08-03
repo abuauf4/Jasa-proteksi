@@ -51,6 +51,7 @@ declare global {
     dataLayer?: Record<string, unknown>[];
     gtag?: (...args: unknown[]) => void;
     fbq?: (...args: unknown[]) => void;
+    __googleAdsConversion?: { id: string; label: string };
   }
 }
 
@@ -83,6 +84,52 @@ export function trackEvent(name: AnalyticsEventName, params: AnalyticsParams = {
   // 4. Debug in dev
   if (process.env.NODE_ENV === "development") {
     console.debug("[analytics]", name, merged);
+  }
+}
+
+/* ───────────────────────────────────────────────────────
+   Unified WhatsApp Click Tracking + Google Ads Conversion
+   ─────────────────────────────────────────────────────── */
+
+export interface WhatsAppClickParams extends AnalyticsParams {
+  /** Where the click originated — e.g. "floating_button", "premium_result", "hero_cta" */
+  method?: string;
+}
+
+/**
+ * Unified helper for ALL WhatsApp click tracking.
+ *
+ * This function:
+ *  1. Fires `trackEvent("whatsapp_click", params)` → dataLayer + GA4 + Meta Pixel
+ *  2. Fires `gtag('event', 'conversion', { send_to: 'AW-XXXXX/LABEL' })` for Google Ads
+ *
+ * The Google Ads conversion fires ONLY when both `googleAdsId` and `googleAdsLabel`
+ * are configured in site settings (exposed via `window.__googleAdsConversion`).
+ *
+ * IMPORTANT: This function is synchronous. When used as an `onClick` handler on
+ * `<a href="...">` links, the browser fires onClick synchronously BEFORE navigating,
+ * so the tracking events are guaranteed to fire before the WhatsApp tab opens.
+ * No `event_callback` delay is needed for `<a href target="_blank">`.
+ *
+ * For programmatic navigation (window.open / location.href), call this function
+ * BEFORE the navigation call, or use the returned callback pattern.
+ */
+export function trackWhatsAppClick(params: WhatsAppClickParams = {}): void {
+  if (typeof window === "undefined") return;
+
+  // 1. Fire standard analytics event
+  trackEvent("whatsapp_click", params);
+
+  // 2. Fire Google Ads conversion if configured
+  const conv = window.__googleAdsConversion;
+  if (conv?.id && conv?.label && typeof window.gtag === "function") {
+    window.gtag("event", "conversion", {
+      send_to: `${conv.id}/${conv.label}`,
+    });
+
+    if (process.env.NODE_ENV === "development") {
+      console.debug("[analytics] google_ads_conversion", `${conv.id}/${conv.label}`);
+    }
   }
 }
 

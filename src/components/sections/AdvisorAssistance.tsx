@@ -8,7 +8,7 @@ import GradientMesh from "@/components/shared/GradientMesh";
 import CTAButton from "@/components/shared/CTAButton";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackEvent } from "@/lib/conversion";
+import { trackWhatsAppClick } from "@/lib/analytics-events";
 
 const stepKeys = ["step1", "step2", "step3", "step4"];
 
@@ -108,7 +108,7 @@ export default function AdvisorAssistance() {
                       href={ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "#"}
                       target={ctaWhatsApp ? "_blank" : undefined}
                       rel={ctaWhatsApp ? "noopener noreferrer" : undefined}
-                      onClick={() => trackEvent("whatsapp_click", { method: "advisor_cta" })}
+                      onClick={() => trackWhatsAppClick({ method: "advisor_cta" })}
                       icon={<MessageCircle className="w-4 h-4" />}
                       trailingIcon={<ArrowRight className="w-4 h-4" />}
                     >

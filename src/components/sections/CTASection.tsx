@@ -7,7 +7,7 @@ import TextReveal from "@/components/shared/TextReveal";
 import CTAButton from "@/components/shared/CTAButton";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackEvent } from "@/lib/conversion";
+import { trackWhatsAppClick } from "@/lib/analytics-events";
 
 const trustBadgeConfig = [
   { icon: UserCheck, key: "advisor" },
@@ -72,7 +72,7 @@ export default function CTASection() {
               href={ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "/produk/asuransi-mobil"}
               target={ctaWhatsApp ? "_blank" : undefined}
               rel={ctaWhatsApp ? "noopener noreferrer" : undefined}
-              onClick={() => trackEvent("whatsapp_click", { method: "cta_section" })}
+              onClick={() => trackWhatsAppClick({ method: "cta_section" })}
               icon={<Phone className="w-4 h-4" />}
             >
               {t("cta.chatWhatsApp")}
