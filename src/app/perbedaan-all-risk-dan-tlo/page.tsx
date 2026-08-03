@@ -116,10 +116,10 @@ export default async function Page() {
             <tr><td className="p-2.5 border-b border-[#E2E8F0]">ACA</td><td className="p-2.5 border-b border-[#E2E8F0] border-l">10 tahun</td></tr>
             <tr><td className="p-2.5 border-b border-[#E2E8F0]">Mega Insurance</td><td className="p-2.5 border-b border-[#E2E8F0] border-l">10 tahun</td></tr>
             <tr><td className="p-2.5 border-b border-[#E2E8F0]">Zurich Syariah</td><td className="p-2.5 border-b border-[#E2E8F0] border-l">10 tahun</td></tr>
-            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Tugu</td><td className="p-2.5 border-b border-[#E2E8F0] border-l">5 tahun</td></tr>
-            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Sahabat</td><td className="p-2.5 border-b border-[#E2E8F0] border-l">5 tahun</td></tr>
-            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Oona</td><td className="p-2.5 border-b border-[#E2E8F0] border-l">5 tahun</td></tr>
-            <tr><td className="p-2.5">MAG (Multi Artha Guna)</td><td className="p-2.5 border-l">3 tahun</td></tr>
+            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Tugu</td><td className="p-2.5 border-b border-[#E2E8F0] border-l">8 tahun</td></tr>
+            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Sahabat</td><td className="p-2.5 border-b border-[#E2E8F0] border-l">10 tahun</td></tr>
+            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Oona</td><td className="p-2.5 border-b border-[#E2E8F0] border-l">10 tahun</td></tr>
+            <tr><td className="p-2.5">MAG (Multi Artha Guna)</td><td className="p-2.5 border-l">10 tahun</td></tr>
           </tbody>
         </table>
       </div>

@@ -29,6 +29,11 @@ interface UseCalculatorOptions {
   initialCoverageType?: CoverageType;
   /** Auto-fire view_calculator event on mount. */
   trackViewOnMount?: boolean;
+  /** Restore premium result from sessionStorage on mount.
+   *  Only set true on /hasil-simulasi — homepage should NOT auto-restore
+   *  to result step (causes "nyangkut" bug where calculator shows result
+   *  instead of input steps after navigating back from hasil-simulasi). */
+  restoreResultOnMount?: boolean;
 }
 
 interface CalculatorState {
@@ -67,7 +72,7 @@ interface CalculatorState {
 }
 
 export function useCalculator(options: UseCalculatorOptions = {}) {
-  const { initialCoverageType, trackViewOnMount = true } = options;
+  const { initialCoverageType, trackViewOnMount = true, restoreResultOnMount = false } = options;
 
   const [state, setState] = useState<CalculatorState>({
     step: "vehicle",
@@ -248,7 +253,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   const prevStep = useCallback(() => {
     setState((s) => {
       if (s.step === "result") {
-        return { ...s, step: "extension", error: null };
+        return { ...s, step: "region", error: null };
       }
       const idx = STEP_FLOW.indexOf(s.step);
       if (idx <= 0) return s;
@@ -681,7 +686,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     if (typeof window === "undefined") return;
     try {
       sessionStorage.setItem("jp_calc_state", JSON.stringify({
-        step: "result",
+        step: state.step,
         vehicle: state.vehicle,
         region: state.region,
         protection: state.protection,
@@ -700,8 +705,9 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    // Only save when we have premium (result ready) or step changed
-    if (state.step === "result" || state.premium) {
+    // Only persist when on result step AND premium exists
+    // This prevents overwriting sessionStorage after user clicks "Ubah Data"
+    if (state.step === "result" && state.premium) {
       try {
         sessionStorage.setItem("jp_calc_state", JSON.stringify({
           step: state.step,
@@ -728,7 +734,9 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
     if (restoredRef.current) return;
     restoredRef.current = true;
     if (typeof window === "undefined") return;
-    // Only restore if we don't already have premium (i.e., fresh page load on result page)
+    // Only restore when explicitly on result page (restoreResultOnMount=true)
+    // AND we don't already have premium (i.e., fresh page load)
+    if (!restoreResultOnMount) return;
     if (state.premium) return;
     try {
       const saved = sessionStorage.getItem("jp_calc_state");
@@ -737,7 +745,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       if (!parsed.premium) return;
       setState((s) => ({
         ...s,
-        step: "result",
+        step: parsed.step || "result",
         vehicle: parsed.vehicle || s.vehicle,
         region: parsed.region || s.region,
         protection: parsed.protection || s.protection,

@@ -18,7 +18,7 @@ interface HasilSimulasiPageProps {
 
 export default function HasilSimulasiClient({ initialSettings, initialHero }: HasilSimulasiPageProps) {
   const router = useRouter();
-  const calc = useCalculator({ trackViewOnMount: false });
+  const calc = useCalculator({ trackViewOnMount: false, restoreResultOnMount: true });
 
   // Load calculator state from sessionStorage on mount
   React.useEffect(() => {

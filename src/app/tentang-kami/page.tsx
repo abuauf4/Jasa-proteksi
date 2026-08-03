@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { MobileStickyCTA } from "@/components/site/MobileStickyCTA";
 import { Container, Section, SectionHeader, Card } from "@/components/site/primitives";
 import { Button } from "@/components/site/Button";
-import { ShieldAlert, Mail, MessageCircle, Phone, MapPin, Calculator } from "lucide-react";
+import { Mail, MessageCircle, Phone, MapPin, Calculator } from "lucide-react";
 import { buildWhatsAppLink } from "@/lib/format";
 
 export const revalidate = 300;
@@ -88,22 +88,12 @@ export default async function TentangKamiPage() {
                 description="Posisi dan ruang lingkup layanan Jasa Proteksi dijelaskan secara transparan."
               />
 
-              <Card variant="lg" className="mt-8 flex flex-col gap-5">
+              <Card variant="lg" className="mt-8">
                 <p className="ds-body-lg leading-relaxed">
                   Jasa Proteksi menyediakan layanan simulasi premi dan membantu pengguna
                   memahami serta melanjutkan proses pengajuan asuransi mobil. Polis, manfaat,
                   dan ketentuan pertanggungan diterbitkan oleh perusahaan asuransi terkait.
                 </p>
-
-                <div className="rounded-xl bg-[#FFFBEB] border border-[#FDE68A] p-4 flex items-start gap-3">
-                  <ShieldAlert className="h-5 w-5 text-[#92400E] flex-shrink-0 mt-0.5" aria-hidden />
-                  <p className="text-sm text-[#92400E] leading-relaxed">
-                    <strong>Catatan:</strong> Informasi status badan usaha, nomor izin, dan
-                    mitra resmi akan ditambahkan setelah tersedia dan terverifikasi. Logo
-                    perusahaan asuransi hanya ditampilkan jika hubungan kerja sama telah
-                    dikonfirmasi.
-                  </p>
-                </div>
               </Card>
 
               {contactItems.length > 0 && (
