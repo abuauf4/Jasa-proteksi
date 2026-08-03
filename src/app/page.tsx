@@ -32,14 +32,14 @@ const FALLBACK_METADATA: Metadata = {
     siteName: "Jasa Proteksi",
     locale: "id_ID",
     type: "website",
-    images: [{ url: "/og-image.webp", width: 1200, height: 630 }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Hitung Premi Asuransi Mobil Secara Online | Jasa Proteksi",
     description:
       "Platform simulasi premi asuransi mobil All Risk dan TLO online. Estimasi otomatis berdasarkan data kendaraan.",
-    images: ["/og-image.webp"],
+    images: ["/og-image.png"],
   },
 };
 
@@ -70,13 +70,13 @@ export async function generateMetadata(): Promise<Metadata> {
           type: "website",
           images: seo.ogImage
             ? [{ url: seo.ogImage, width: 1200, height: 630 }]
-            : [{ url: "/og-image.webp", width: 1200, height: 630 }],
+            : [{ url: "/og-image.png", width: 1200, height: 630 }],
         },
         twitter: {
           card: "summary_large_image",
           title: seo.metaTitle || fallbackTitle,
           description: seo.metaDescription || fallbackDescription,
-          images: seo.ogImage ? [seo.ogImage] : ["/og-image.webp"],
+          images: seo.ogImage ? [seo.ogImage] : ["/og-image.png"],
         },
       };
     }
@@ -107,6 +107,7 @@ export default async function Page() {
     googleAnalyticsId: "",
     metaPixelId: "",
     gtmId: "",
+    adsenseId: "",
     maintenanceMode: false,
   };
   let initialHero: {
@@ -137,6 +138,7 @@ export default async function Page() {
       googleAnalyticsId: map.googleAnalyticsId || "",
       metaPixelId: map.metaPixelId || "",
       gtmId: map.gtmId || "",
+      adsenseId: map.adsenseId || "",
       maintenanceMode: map.maintenanceMode === "true",
     };
 

@@ -7,6 +7,7 @@ interface SiteSettings {
   googleAnalyticsId?: string;
   metaPixelId?: string;
   gtmId?: string;
+  adsenseId?: string;
 }
 
 export default function AnalyticsScripts() {
@@ -23,6 +24,7 @@ export default function AnalyticsScripts() {
             googleAnalyticsId: map.googleAnalyticsId || "",
             metaPixelId: map.metaPixelId || "",
             gtmId: map.gtmId || "",
+            adsenseId: map.adsenseId || "",
           });
         }
       } catch {
@@ -34,7 +36,7 @@ export default function AnalyticsScripts() {
 
   if (!settings) return null;
 
-  const { googleAnalyticsId, metaPixelId, gtmId } = settings;
+  const { googleAnalyticsId, metaPixelId, gtmId, adsenseId } = settings;
 
   return (
     <>
@@ -103,6 +105,16 @@ export default function AnalyticsScripts() {
             fbq('track', 'PageView');
           `}
         </Script>
+      )}
+
+      {/* Google AdSense */}
+      {adsenseId && (
+        <Script
+          id="adsense"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
+          strategy="lazyOnload"
+          crossOrigin="anonymous"
+        />
       )}
     </>
   );
