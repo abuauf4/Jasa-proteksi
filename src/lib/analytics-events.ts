@@ -96,6 +96,20 @@ export interface WhatsAppClickParams extends AnalyticsParams {
   method?: string;
 }
 
+/* ───────────────────────────────────────────────────────
+   Google Ads Conversion — hardcoded configuration
+   Works without admin panel / database.
+   ─────────────────────────────────────────────────────── */
+
+/** Google Ads conversion ID — hardcoded so it always works. */
+const GOOGLE_ADS_CONVERSION_ID = "AW-16916570758";
+/** Google Ads conversion label. */
+const GOOGLE_ADS_CONVERSION_LABEL = "gibwCN7d_9ocEIbFuYI_";
+/** Full send_to string for gtag conversion event. */
+const GOOGLE_ADS_SEND_TO = `${GOOGLE_ADS_CONVERSION_ID}/${GOOGLE_ADS_CONVERSION_LABEL}`;
+/** Fallback timeout (ms) — opens WhatsApp if gtag event_callback never fires. */
+const CONVERSION_FALLBACK_MS = 1000;
+
 /**
  * Unified helper for ALL WhatsApp click tracking.
  *
@@ -103,16 +117,12 @@ export interface WhatsAppClickParams extends AnalyticsParams {
  *  1. Fires `trackEvent("whatsapp_click", params)` → dataLayer + GA4 + Meta Pixel
  *  2. Fires `gtag('event', 'conversion', { send_to: 'AW-XXXXX/LABEL' })` for Google Ads
  *
- * The Google Ads conversion fires ONLY when both `googleAdsId` and `googleAdsLabel`
- * are configured in site settings (exposed via `window.__googleAdsConversion`).
+ * The Google Ads conversion uses hardcoded ID/label — it does NOT depend on
+ * site settings or the database. It fires on EVERY WhatsApp click.
  *
- * IMPORTANT: This function is synchronous. When used as an `onClick` handler on
- * `<a href="...">` links, the browser fires onClick synchronously BEFORE navigating,
- * so the tracking events are guaranteed to fire before the WhatsApp tab opens.
- * No `event_callback` delay is needed for `<a href target="_blank">`.
- *
- * For programmatic navigation (window.open / location.href), call this function
- * BEFORE the navigation call, or use the returned callback pattern.
+ * IMPORTANT: This function is synchronous and does NOT handle navigation.
+ * Use `openWhatsAppWithConversion()` instead for the full pattern that
+ * fires conversion with event_callback before opening WhatsApp.
  */
 export function trackWhatsAppClick(params: WhatsAppClickParams = {}): void {
   if (typeof window === "undefined") return;
@@ -120,16 +130,75 @@ export function trackWhatsAppClick(params: WhatsAppClickParams = {}): void {
   // 1. Fire standard analytics event
   trackEvent("whatsapp_click", params);
 
-  // 2. Fire Google Ads conversion if configured
-  const conv = window.__googleAdsConversion;
-  if (conv?.id && conv?.label && typeof window.gtag === "function") {
+  // 2. Fire Google Ads conversion (hardcoded — always active)
+  if (typeof window.gtag === "function") {
     window.gtag("event", "conversion", {
-      send_to: `${conv.id}/${conv.label}`,
+      send_to: GOOGLE_ADS_SEND_TO,
     });
 
     if (process.env.NODE_ENV === "development") {
-      console.debug("[analytics] google_ads_conversion", `${conv.id}/${conv.label}`);
+      console.debug("[analytics] google_ads_conversion", GOOGLE_ADS_SEND_TO);
     }
+  }
+}
+
+/**
+ * Open WhatsApp URL with Google Ads conversion tracking.
+ *
+ * Fires `gtag('event', 'conversion', { send_to, event_callback })` where the
+ * callback opens WhatsApp. A fallback timeout (1 s) ensures WhatsApp still
+ * opens if gtag never calls back (ad blocker, network error).
+ *
+ * Guarantees:
+ * - Conversion request is queued BEFORE WhatsApp navigation.
+ * - Exactly one navigation per call (one-shot guard).
+ * - No PII sent to Google — only the conversion ID + label.
+ * - Does NOT fire on page load — only on explicit user click.
+ *
+ * Callers MUST call `e.preventDefault()` on the click event to prevent
+ * the `<a href>` from navigating directly.
+ */
+export function openWhatsAppWithConversion(
+  url: string,
+  params: WhatsAppClickParams = {},
+): void {
+  if (typeof window === "undefined") return;
+
+  // 1. Fire standard analytics event (dataLayer + GA4 + Meta Pixel)
+  trackEvent("whatsapp_click", params);
+
+  // 2. One-shot navigation guard — prevents double open
+  let navigated = false;
+  const navigate = (): void => {
+    if (navigated) return;
+    navigated = true;
+    const w = window.open(url, "_blank", "noopener,noreferrer");
+    // If popup blocked, fall back to location.href
+    if (!w || w.closed) {
+      window.location.href = url;
+    }
+  };
+
+  // 3. Fire Google Ads conversion with event_callback
+  if (typeof window.gtag === "function") {
+    const fallbackTimer = setTimeout(navigate, CONVERSION_FALLBACK_MS);
+    window.gtag("event", "conversion", {
+      send_to: GOOGLE_ADS_SEND_TO,
+      event_callback: () => {
+        clearTimeout(fallbackTimer);
+        navigate();
+      },
+    });
+
+    if (process.env.NODE_ENV === "development") {
+      console.debug(
+        "[analytics] google_ads_conversion → event_callback set",
+        GOOGLE_ADS_SEND_TO,
+      );
+    }
+  } else {
+    // gtag not loaded (ad blocker, script error) — navigate directly
+    navigate();
   }
 }
 

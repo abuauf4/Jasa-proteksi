@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackWhatsAppClick } from "@/lib/analytics-events";
+import { openWhatsAppWithConversion } from "@/lib/analytics-events";
 
 const DISMISS_KEY = "jp_sticky_cta_dismissed_at";
 const DISMISS_COOLDOWN_MS = 1000 * 60 * 60 * 6;
@@ -47,6 +47,11 @@ export default function StickyCTABar() {
 
   const waHref = ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "#";
 
+  const handleWA = (e: React.MouseEvent) => {
+    e.preventDefault();
+    openWhatsAppWithConversion(waHref, { method: "sticky_bar" });
+  };
+
   if (!visible || dismissed) return null;
 
   return (
@@ -60,7 +65,7 @@ export default function StickyCTABar() {
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackWhatsAppClick({ method: "sticky_bar" })}
+            onClick={handleWA}
             className="inline-flex items-center gap-2 px-6 py-3 min-h-[48px] bg-[#0F766E] hover:bg-[#0B5F59] text-white font-semibold tracking-wide text-xs rounded-xl shadow-lg transition-colors duration-300"
           >
             <MessageCircle className="w-3.5 h-3.5" />
@@ -82,7 +87,7 @@ export default function StickyCTABar() {
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackWhatsAppClick({ method: "sticky_bar" })}
+            onClick={handleWA}
             className="flex-1 inline-flex items-center justify-center gap-2 py-3 min-h-[52px] bg-[#0F766E] text-white font-semibold text-sm rounded-xl hover:bg-[#0B5F59] transition-colors duration-300"
           >
             <MessageCircle className="w-4 h-4" />

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Plus, Minus, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackWhatsAppClick } from "@/lib/analytics-events";
+import { openWhatsAppWithConversion } from "@/lib/analytics-events";
 
 const faqKeys = ["q1", "q2", "q3", "q4", "q5", "q6"];
 
@@ -75,7 +75,7 @@ export default function FAQ() {
             href={ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "#"}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackWhatsAppClick({ method: "faq_cta" })}
+            onClick={(e: React.MouseEvent) => { e.preventDefault(); openWhatsAppWithConversion(ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "#", { method: "faq_cta" }); }}
             className="inline-flex items-center gap-2 text-[#0F766E] font-medium text-sm tracking-wider hover:gap-3 transition-all duration-300 min-h-[40px]"
           >
             <MessageCircle className="w-4 h-4" />

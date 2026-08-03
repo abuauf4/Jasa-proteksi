@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { trackWhatsAppClick } from "@/lib/analytics-events";
+import { openWhatsAppWithConversion } from "@/lib/analytics-events";
 import { trackEvent } from "@/lib/conversion";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -721,15 +721,16 @@ export default function LeadFlowModal({
   };
 
   // WhatsApp click → update lead status
-  const handleWhatsAppClick = async () => {
-    // Track conversion event for GA4 + Meta Pixel
+  const handleWhatsAppClick = async (e: React.MouseEvent, url: string) => {
+    e.preventDefault();
+    // Track conversion event for GA4 + Meta Pixel + Google Ads
     const partnerName = selectedPartner !== null && premiumData?.partners[selectedPartner]
       ? premiumData.partners[selectedPartner].name : undefined;
     const estimatedPremi = selectedPartner !== null && premiumData?.partners[selectedPartner]
       ? premiumData.partners[selectedPartner].estimatedPremium : 0;
 
-    // Fire unified WhatsApp click tracking (dataLayer + GA4 + Meta Pixel + Google Ads conversion)
-    trackWhatsAppClick({
+    // Fire conversion with event_callback, then open WhatsApp
+    openWhatsAppWithConversion(url, {
       method: "lead_flow_result",
       coverage_type: vehicleData.coverageType as "AllRisk" | "TLO",
       estimated_premium: estimatedPremi,
@@ -744,14 +745,13 @@ export default function LeadFlowModal({
       vehicle: `${vehicleData.merk} ${vehicleData.tipe} ${vehicleData.tahun}`,
     });
 
+    // Update lead status (fire-and-forget — don't block navigation)
     if (leadData && !leadData.id.startsWith("local-")) {
-      try {
-        await fetch(`/api/leads/${leadData.id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status: "whatsapp_clicked" }),
-        });
-      } catch { /* silent */ }
+      fetch(`/api/leads/${leadData.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "whatsapp_clicked" }),
+      }).catch(() => {});
     }
   };
 
@@ -2014,7 +2014,12 @@ export default function LeadFlowModal({
                         )}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={handleWhatsAppClick}
+                        onClick={(e: React.MouseEvent) => handleWhatsAppClick(e, buildWhatsAppUrl(
+                          selectedPartner !== null && premiumData?.partners[selectedPartner]
+                            ? premiumData.partners[selectedPartner].name
+                            : undefined,
+                          false
+                        ))}
                         className="w-full flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#F97316] text-white font-semibold tracking-wider text-sm hover:bg-[#EA580C] transition-all duration-600 rounded-md"
                       >
                         <MessageCircle className="w-5 h-5" />
@@ -2127,7 +2132,12 @@ export default function LeadFlowModal({
                             )}
                             target="_blank"
                             rel="noopener noreferrer"
-                            onClick={handleWhatsAppClick}
+                            onClick={(e: React.MouseEvent) => handleWhatsAppClick(e, buildWhatsAppUrl(
+                              selectedPartner !== null && premiumData?.partners[selectedPartner]
+                                ? premiumData.partners[selectedPartner].name
+                                : undefined,
+                              true
+                            ))}
                             className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#0EA5E9] text-white text-sm font-semibold tracking-wider hover:bg-[#0284C7] transition-all duration-500 rounded-md"
                           >
                             <MessageCircle className="w-4 h-4" />
@@ -2172,7 +2182,11 @@ export default function LeadFlowModal({
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={handleWhatsAppClick}
+                      onClick={(e: React.MouseEvent) => handleWhatsAppClick(e, buildWhatsAppUrl(
+                        selectedPartner !== null && premiumData?.partners[selectedPartner]
+                          ? premiumData.partners[selectedPartner].name
+                          : undefined
+                      ))}
                       className="w-full flex items-center justify-center gap-2.5 px-6 py-3.5 bg-[#F97316] text-white font-semibold tracking-wider text-sm hover:bg-[#EA580C] transition-all duration-600 rounded-md"
                     >
                       <MessageCircle className="w-4 h-4" />

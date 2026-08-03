@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, ArrowLeft, BookOpen, User } from "lucide-react";
 import { useSiteSettings } from "@/lib/ServerDataContext";
+import { openWhatsAppWithConversion } from "@/lib/analytics-events";
 
 interface ArticleCategory {
   id: string;
@@ -208,6 +209,7 @@ export default function BlogDetailClient({
                     href={settings.whatsapp ? `https://wa.me/${settings.whatsapp}` : "#"}
                     target={settings.whatsapp ? "_blank" : undefined}
                     rel={settings.whatsapp ? "noopener noreferrer" : undefined}
+                    onClick={(e: React.MouseEvent) => { e.preventDefault(); openWhatsAppWithConversion(settings.whatsapp ? `https://wa.me/${settings.whatsapp}` : "#", { method: "blog_cta" }); }}
                     className="inline-flex items-center justify-center w-full px-4 py-2.5 bg-white text-teal-600 rounded-lg font-semibold text-sm hover:bg-teal-50 transition-colors"
                   >
                     Hubungi via WhatsApp

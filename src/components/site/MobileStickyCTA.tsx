@@ -7,7 +7,7 @@ import { Calculator, MessageCircle } from "lucide-react";
 import { Button } from "./Button";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import { buildWhatsAppLink } from "@/lib/format";
-import { trackEvent, trackWhatsAppClick } from "@/lib/analytics-events";
+import { trackEvent, openWhatsAppWithConversion } from "@/lib/analytics-events";
 
 /**
  * Mobile sticky bottom CTA — only shows on info pages (not on calculator section).
@@ -69,7 +69,10 @@ export function MobileStickyCTA() {
             href={whatsappLink}
             variant="secondary"
             size="md"
-            onClick={() => trackWhatsAppClick({ method: "mobile_sticky_cta" })}
+            onClick={(e: React.MouseEvent) => {
+              e.preventDefault();
+              openWhatsAppWithConversion(whatsappLink, { method: "mobile_sticky_cta" });
+            }}
             className="!h-12"
           >
             <MessageCircle className="h-4 w-4" aria-hidden />

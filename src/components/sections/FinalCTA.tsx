@@ -2,7 +2,7 @@
 
 import { MessageCircle } from "lucide-react";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackWhatsAppClick } from "@/lib/analytics-events";
+import { openWhatsAppWithConversion } from "@/lib/analytics-events";
 
 export default function FinalCTA() {
   const { ctaWhatsApp } = useSiteSettings();
@@ -21,9 +21,10 @@ export default function FinalCTA() {
           href={ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "#"}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() =>
-            trackWhatsAppClick({ method: "final_cta" })
-          }
+          onClick={(e: React.MouseEvent) => {
+            e.preventDefault();
+            openWhatsAppWithConversion(ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "#", { method: "final_cta" });
+          }}
           className="inline-flex items-center justify-center gap-2.5 px-8 py-4 min-h-[52px] bg-[#0F766E] hover:bg-[#0B5F59] text-white font-semibold text-[15px] rounded-xl transition-colors duration-300"
         >
           <MessageCircle className="w-5 h-5" />

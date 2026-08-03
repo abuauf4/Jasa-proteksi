@@ -5,7 +5,7 @@ import { MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackWhatsAppClick } from "@/lib/analytics-events";
+import { openWhatsAppWithConversion } from "@/lib/analytics-events";
 
 export default function FloatingWhatsApp() {
   const { t } = useLanguage();
@@ -32,9 +32,12 @@ export default function FloatingWhatsApp() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleWhatsAppClick = () => {
-    // 🔔 Track conversion
-    trackWhatsAppClick({ method: "floating_button" });
+  const waHref = ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "#";
+
+  const handleWhatsAppClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // 🔔 Track conversion with event_callback, then open WhatsApp
+    openWhatsAppWithConversion(waHref, { method: "floating_button" });
     setShowTooltip(false);
   };
 
@@ -57,7 +60,7 @@ export default function FloatingWhatsApp() {
       </AnimatePresence>
 
       <a
-        href={`https://wa.me/${ctaWhatsApp}`}
+        href={waHref}
         target="_blank"
         rel="noopener noreferrer"
         onClick={handleWhatsAppClick}

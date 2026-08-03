@@ -9,7 +9,7 @@ import AnimatedSection from "@/components/shared/AnimatedSection";
 import TextReveal from "@/components/shared/TextReveal";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackWhatsAppClick } from "@/lib/analytics-events";
+import { openWhatsAppWithConversion } from "@/lib/analytics-events";
 
 interface ContactInfo {
   icon: React.ComponentType<{ className?: string }>;
@@ -211,7 +211,7 @@ export default function Contact() {
                       href={info.href}
                       target={info.href.startsWith("http") ? "_blank" : undefined}
                       rel={info.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      onClick={info.isWhatsApp ? () => trackWhatsAppClick({ method: "contact_info" }) : undefined}
+                      onClick={info.isWhatsApp ? (e: React.MouseEvent) => { e.preventDefault(); openWhatsAppWithConversion(info.href!, { method: "contact_info" }); } : undefined}
                       className="block"
                       style={{
                         opacity: 0,

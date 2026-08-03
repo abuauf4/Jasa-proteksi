@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Phone, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackWhatsAppClick } from "@/lib/analytics-events";
+import { openWhatsAppWithConversion } from "@/lib/analytics-events";
 
 const navLinkKeys = [
   { key: "beranda", href: "#beranda" },
@@ -114,7 +114,7 @@ export default function Navigation() {
                   href={`https://wa.me/${ctaWhatsApp}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => trackWhatsAppClick({ method: "nav_desktop" })}
+                  onClick={(e: React.MouseEvent) => { e.preventDefault(); openWhatsAppWithConversion(`https://wa.me/${ctaWhatsApp}`, { method: "nav_desktop" }); }}
                   className="flex items-center gap-1.5 text-[12px] text-[#64748B] transition-colors hover:text-[#0F766E]"
                 >
                   <Phone className="w-3.5 h-3.5" />
@@ -211,7 +211,7 @@ export default function Navigation() {
                       href={`https://wa.me/${ctaWhatsApp}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={() => { trackWhatsAppClick({ method: "nav_mobile_drawer" }); setMobileOpen(false); }}
+                      onClick={(e: React.MouseEvent) => { e.preventDefault(); openWhatsAppWithConversion(`https://wa.me/${ctaWhatsApp}`, { method: "nav_mobile_drawer" }); setMobileOpen(false); }}
                       className="mb-3 flex items-center gap-2 text-[13px] text-[#64748B]"
                     >
                       <Phone className="h-3.5 w-3.5" />

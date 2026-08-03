@@ -3,12 +3,17 @@
 import { useEffect, useState } from "react";
 import Script from "next/script";
 
+/**
+ * Google Ads conversion — hardcoded so it works without admin panel / DB.
+ * The conversion fires via openWhatsAppWithConversion() in analytics-events.ts.
+ */
+const GOOGLE_ADS_ID = "AW-16916570758";
+const GOOGLE_ADS_LABEL = "gibwCN7d_9ocEIbFuYI_";
+
 interface SiteSettings {
   googleAnalyticsId?: string;
   metaPixelId?: string;
   gtmId?: string;
-  googleAdsId?: string;
-  googleAdsLabel?: string;
 }
 
 export default function AnalyticsScripts() {
@@ -25,8 +30,6 @@ export default function AnalyticsScripts() {
             googleAnalyticsId: map.googleAnalyticsId || "",
             metaPixelId: map.metaPixelId || "",
             gtmId: map.gtmId || "",
-            googleAdsId: map.googleAdsId || "",
-            googleAdsLabel: map.googleAdsLabel || "",
           });
         }
       } catch {
@@ -36,13 +39,14 @@ export default function AnalyticsScripts() {
     fetchSettings();
   }, []);
 
-  if (!settings) return null;
-
-  const { googleAnalyticsId, metaPixelId, gtmId, googleAdsId, googleAdsLabel } = settings;
+  // API-based settings (may not be loaded yet)
+  const googleAnalyticsId = settings?.googleAnalyticsId || "";
+  const metaPixelId = settings?.metaPixelId || "";
+  const gtmId = settings?.gtmId || "";
 
   return (
     <>
-      {/* Google Tag Manager */}
+      {/* ─── Google Tag Manager (from API) ─── */}
       {gtmId && (
         <>
           <Script id="gtm" strategy="afterInteractive">
@@ -57,7 +61,7 @@ export default function AnalyticsScripts() {
         </>
       )}
 
-      {/* Google Analytics 4 */}
+      {/* ─── Google Analytics 4 standalone (from API) ─── */}
       {googleAnalyticsId && !gtmId && (
         <>
           <Script
@@ -77,7 +81,7 @@ export default function AnalyticsScripts() {
         </>
       )}
 
-      {/* Google Analytics 4 (via GTM — only config) */}
+      {/* ─── Google Analytics 4 via GTM (config only) ─── */}
       {googleAnalyticsId && gtmId && (
         <Script id="ga4-config" strategy="afterInteractive">
           {`
@@ -91,32 +95,30 @@ export default function AnalyticsScripts() {
         </Script>
       )}
 
-      {/* Google Ads Conversion — load gtag.js with AW-XXXXX config */}
-      {googleAdsId && (
-        <>
-          {!googleAnalyticsId && !gtmId && (
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${googleAdsId}`}
-              strategy="afterInteractive"
-            />
-          )}
-          <Script id="google-ads-conversion" strategy="afterInteractive">
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${googleAdsId}');
-              // Expose conversion config for trackWhatsAppClick helper
-              window.__googleAdsConversion = {
-                id: '${googleAdsId}',
-                label: '${googleAdsLabel || ''}'
-              };
-            `}
-          </Script>
-        </>
+      {/* ─── Google Ads Conversion — ALWAYS load (hardcoded) ─── */}
+      {/* Load gtag.js library if no other provider already loads it */}
+      {!googleAnalyticsId && !gtmId && (
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`}
+          strategy="afterInteractive"
+        />
       )}
+      <Script id="google-ads-conversion" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          if (typeof window.gtag !== 'function') {
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          }
+          gtag('config', '${GOOGLE_ADS_ID}');
+          window.__googleAdsConversion = {
+            id: '${GOOGLE_ADS_ID}',
+            label: '${GOOGLE_ADS_LABEL}'
+          };
+        `}
+      </Script>
 
-      {/* Meta Pixel */}
+      {/* ─── Meta Pixel (from API) ─── */}
       {metaPixelId && (
         <Script id="meta-pixel" strategy="lazyOnload">
           {`

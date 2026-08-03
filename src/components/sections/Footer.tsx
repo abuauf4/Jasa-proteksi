@@ -4,7 +4,7 @@ import { Diamond, MessageCircle, Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useSiteSettings } from "@/lib/ServerDataContext";
-import { trackWhatsAppClick } from "@/lib/analytics-events";
+import { openWhatsAppWithConversion } from "@/lib/analytics-events";
 
 const quickLinks = [
   { labelKey: "nav.beranda", href: "#beranda" },
@@ -94,7 +94,7 @@ export default function Footer() {
                   return (
                     <li key={idx}>
                       {item.href ? (
-                        <a href={item.href} target={item.href.startsWith("https") ? "_blank" : undefined} rel={item.href.startsWith("https") ? "noopener noreferrer" : undefined} onClick={item.trackMethod ? () => trackWhatsAppClick({ method: item.trackMethod }) : undefined}>
+                        <a href={item.href} target={item.href.startsWith("https") ? "_blank" : undefined} rel={item.href.startsWith("https") ? "noopener noreferrer" : undefined} onClick={item.trackMethod ? (e: React.MouseEvent) => { e.preventDefault(); openWhatsAppWithConversion(item.href!, { method: item.trackMethod! }); } : undefined}>
                           {content}
                         </a>
                       ) : (
