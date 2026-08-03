@@ -101,10 +101,43 @@ export function PremiumResult({ calc, onUbahData, onMulaiUlang }: {
   const handleWhatsApp = () => {
     trackEvent("whatsapp_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
     markWhatsappClicked();
+    pushWhatsappLeadClick();
   };
 
   const handleApplyClick = () => {
     trackEvent("apply_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
+    pushWhatsappLeadClick();
+  };
+
+  // ── GTM: whatsapp_lead_click ──
+  // Fires only when the customer actually clicks a WhatsApp button on the result page.
+  // Dedup guard prevents double-fire from rapid taps.
+  const whatsappLeadClickFiredRef = React.useRef(false);
+
+  const pushWhatsappLeadClick = () => {
+    if (whatsappLeadClickFiredRef.current) return;
+    whatsappLeadClickFiredRef.current = true;
+    // Re-enable after 2s in case the WhatsApp link was blocked and user retries
+    setTimeout(() => { whatsappLeadClickFiredRef.current = false; }, 2000);
+
+    // transaction_id: use lead ID if available, otherwise derive a stable ID from
+    // vehicle + coverage + partner so the same calculation always produces the same ID
+    const transactionId = state.lead?.id
+      ?? `sim-${state.vehicle.brand}-${state.vehicle.model}-${state.vehicle.year}-${state.protection.coverageType}-${partner?.name ?? 'default'}`;
+
+    const payload = {
+      event: "whatsapp_lead_click",
+      lead_source: "premium_calculator",
+      coverage_type: state.protection.coverageType,
+      partner_name: partner?.name ?? "",
+      vehicle_brand: state.vehicle.brand,
+      premium_value: displayPremium, // number, not formatted string
+      transaction_id: transactionId,
+    };
+
+    // Ensure dataLayer array exists
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(payload);
   };
 
   // Re-calculate when coverage type or addons change — handled by useEffect in useCalculator
