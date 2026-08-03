@@ -41,6 +41,24 @@ export default function HasilSimulasiClient({ initialSettings, initialHero }: Ha
     }
   }, [router]);
 
+  // Clear sessionStorage when leaving the result page (browser back, sidebar nav, etc.)
+  // so the homepage HeroCalculator doesn't restore a stale "result" state.
+  // NOTE: We intentionally do NOT clear on unmount, because handleUbahData/handleMulaiUlang
+  // write their own sessionStorage before navigating — if we cleared on unmount, those
+  // writes would be erased. The useCalculator hook already guards against restoring
+  // step="result" on non-hasil-simulasi pages.
+  React.useEffect(() => {
+    const cleanup = () => {
+      try {
+        sessionStorage.removeItem("jp_calc_state");
+      } catch { /* silent */ }
+    };
+    window.addEventListener("beforeunload", cleanup);
+    return () => {
+      window.removeEventListener("beforeunload", cleanup);
+    };
+  }, []);
+
   // "Ubah Data" — go back to calculator with existing data preserved
   const handleUbahData = React.useCallback(() => {
     // Update sessionStorage step to "vehicle" so the homepage calculator
@@ -120,7 +138,7 @@ export default function HasilSimulasiClient({ initialSettings, initialHero }: Ha
               </div>
 
               {/* Result */}
-              <PremiumResult calc={calc} />
+              <PremiumResult calc={calc} onUbahData={handleUbahData} onMulaiUlang={handleMulaiUlang} />
             </Container>
           </Section>
         </main>

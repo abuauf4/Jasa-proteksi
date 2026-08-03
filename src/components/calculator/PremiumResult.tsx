@@ -28,7 +28,13 @@ const ADDON_LABELS: Record<string, string> = {
    Premium Result — canggih dengan partner grid + coverage toggle + perluasan scroll
    ═══════════════════════════════════════════════════ */
 
-export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
+export function PremiumResult({ calc, onUbahData, onMulaiUlang }: {
+  calc: UseCalculatorReturn;
+  /** Optional: override "Ubah Data" to navigate back to calculator with data preserved */
+  onUbahData?: () => void;
+  /** Optional: override "Mulai simulasi baru" to reset and navigate back to calculator */
+  onMulaiUlang?: () => void;
+}) {
   const { state, prevStep, reset, markWhatsappClicked, updateProtection, toggleAddon } = calc;
   const { settings } = useSiteSettings();
 
@@ -306,14 +312,14 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
           <Button as="external" href={whatsappLink} variant="secondary" size="md" onClick={handleWhatsApp}>
             Konsultasi
           </Button>
-          <Button type="button" variant="secondary" size="md" onClick={prevStep}>
+          <Button type="button" variant="secondary" size="md" onClick={onUbahData ?? prevStep}>
             <Pencil className="h-4 w-4" aria-hidden />
             Ubah Data
           </Button>
         </div>
         <button
           type="button"
-          onClick={reset}
+          onClick={onMulaiUlang ?? reset}
           className="text-xs text-[#64748B] hover:text-[#0F172A] mt-1 self-center"
         >
           Mulai simulasi baru
