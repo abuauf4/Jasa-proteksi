@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -78,6 +78,9 @@ export default function AdminLeadsPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [showAddDialog, setShowAddDialog] = useState(false);
 
+  // In-flight guard for all admin actions — prevents duplicate submissions
+  const actionInFlightRef = useRef(false);
+
   // Add lead form state
   const [form, setForm] = useState({
     customerName: "",
@@ -144,6 +147,8 @@ export default function AdminLeadsPage() {
   };
 
   const handleStatusChange = async (leadId: string, newStatus: string) => {
+    if (actionInFlightRef.current) return;
+    actionInFlightRef.current = true;
     try {
       const res = await fetch(`/api/admin/leads/${leadId}`, {
         method: "PATCH",
@@ -155,10 +160,14 @@ export default function AdminLeadsPage() {
       }
     } catch (error) {
       console.error("Status change error:", error);
+    } finally {
+      actionInFlightRef.current = false;
     }
   };
 
   const handleAssignSales = async (leadId: string, salesId: string) => {
+    if (actionInFlightRef.current) return;
+    actionInFlightRef.current = true;
     try {
       const res = await fetch(`/api/admin/leads/${leadId}`, {
         method: "PATCH",
@@ -170,10 +179,14 @@ export default function AdminLeadsPage() {
       }
     } catch (error) {
       console.error("Assign sales error:", error);
+    } finally {
+      actionInFlightRef.current = false;
     }
   };
 
   const handleClaimLead = async (leadId: string) => {
+    if (actionInFlightRef.current) return;
+    actionInFlightRef.current = true;
     try {
       const res = await fetch(`/api/admin/leads/${leadId}`, {
         method: "PATCH",
@@ -185,10 +198,14 @@ export default function AdminLeadsPage() {
       }
     } catch (error) {
       console.error("Claim lead error:", error);
+    } finally {
+      actionInFlightRef.current = false;
     }
   };
 
   const handleAddLead = async () => {
+    if (actionInFlightRef.current) return;
+    actionInFlightRef.current = true;
     try {
       const res = await fetch("/api/admin/leads", {
         method: "POST",
@@ -230,6 +247,8 @@ export default function AdminLeadsPage() {
       }
     } catch (error) {
       console.error("Add lead error:", error);
+    } finally {
+      actionInFlightRef.current = false;
     }
   };
 

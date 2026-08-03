@@ -89,6 +89,7 @@ export default function LeadDetailPage() {
   const [showFollowupDialog, setShowFollowupDialog] = useState(false);
   const [isSubmittingFollowup, setIsSubmittingFollowup] = useState(false);
   const submissionInFlightRef = useRef(false);
+  const actionInFlightRef = useRef(false);
   const [followupForm, setFollowupForm] = useState({
     notes: "",
     nextFollowupDate: "",
@@ -129,6 +130,8 @@ export default function LeadDetailPage() {
   };
 
   const handleStatusChange = async (newStatus: string) => {
+    if (actionInFlightRef.current) return;
+    actionInFlightRef.current = true;
     try {
       const res = await fetch(`/api/admin/leads/${params.id}`, {
         method: "PATCH",
@@ -140,10 +143,14 @@ export default function LeadDetailPage() {
       }
     } catch (error) {
       console.error("Status change error:", error);
+    } finally {
+      actionInFlightRef.current = false;
     }
   };
 
   const handleAssignSales = async (salesId: string) => {
+    if (actionInFlightRef.current) return;
+    actionInFlightRef.current = true;
     try {
       const res = await fetch(`/api/admin/leads/${params.id}`, {
         method: "PATCH",
@@ -155,6 +162,8 @@ export default function LeadDetailPage() {
       }
     } catch (error) {
       console.error("Assign sales error:", error);
+    } finally {
+      actionInFlightRef.current = false;
     }
   };
 

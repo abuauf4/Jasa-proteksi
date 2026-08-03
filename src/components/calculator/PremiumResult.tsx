@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   CheckCircle2, AlertCircle, Loader2, RotateCcw, Pencil,
   ShieldCheck, Car, MapPin, Send, ChevronDown, ChevronUp, ChevronRight,
+  User, Phone,
 } from "lucide-react";
 import { UseCalculatorReturn } from "./useCalculator";
 import { type PremiumPartner, partnerLogoPath, getPartnerLogoScale, ADDON_META, TLO_EXCLUDED_ADDONS, ALL_ADDON_KEYS } from "./types";
@@ -12,6 +13,13 @@ import { formatIDR, formatPercent, formatRate, buildWhatsAppLink } from "@/lib/f
 import { trackEvent } from "@/lib/analytics-events";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import { Button } from "@/components/site/Button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 const ADDON_LABELS: Record<string, string> = {
   flood: "Banjir",
@@ -97,8 +105,56 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
     markWhatsappClicked();
   };
 
+  // Lead form dialog state
+  const [showLeadDialog, setShowLeadDialog] = React.useState(false);
+  const [leadForm, setLeadForm] = React.useState({ customerName: "", whatsappNumber: "" });
+  const [isSubmittingLead, setIsSubmittingLead] = React.useState(false);
+  const [leadFormError, setLeadFormError] = React.useState<string | null>(null);
+
   const handleApplyClick = () => {
     trackEvent("apply_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
+    // Show the lead form dialog instead of going directly to WhatsApp
+    setShowLeadDialog(true);
+    setLeadFormError(null);
+  };
+
+  const handleLeadSubmit = async () => {
+    // Validate name
+    if (!leadForm.customerName.trim()) {
+      setLeadFormError("Nama wajib diisi.");
+      return;
+    }
+    // Validate WhatsApp number
+    const cleanPhone = leadForm.whatsappNumber.replace(/[\s\-+]/g, "");
+    if (!/^\d{10,15}$/.test(cleanPhone)) {
+      setLeadFormError("Nomor WhatsApp tidak valid. Gunakan format 08xxxxxxxxxx atau 628xxxxxxxxxx.");
+      return;
+    }
+    setLeadFormError(null);
+    setIsSubmittingLead(true);
+
+    try {
+      // Update calculator state with personal data so submitLead can use it
+      calc.updatePersonal({ customerName: leadForm.customerName.trim(), whatsappNumber: cleanPhone });
+
+      // Submit lead to admin (creates InsuranceLead + Lead records)
+      const success = await calc.submitLead();
+      if (!success) {
+        setLeadFormError("Gagal mengirim data. Silakan coba lagi.");
+        setIsSubmittingLead(false);
+        return;
+      }
+
+      // Close dialog and open WhatsApp
+      setShowLeadDialog(false);
+      trackEvent("lead_submit_whatsapp", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
+      markWhatsappClicked();
+      window.open(whatsappLink, "_blank", "noopener");
+    } catch {
+      setLeadFormError("Terjadi kesalahan. Silakan coba lagi.");
+    } finally {
+      setIsSubmittingLead(false);
+    }
   };
 
   // Re-calculate when coverage type or addons change — handled by useEffect in useCalculator
@@ -298,7 +354,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
 
       {/* CTAs */}
       <div className="flex flex-col gap-2 pt-2 border-t border-[#E2E8F0]">
-        <Button as="external" href={whatsappLink} variant="primary" size="lg" onClick={handleApplyClick} className="w-full">
+        <Button type="button" variant="primary" size="lg" onClick={handleApplyClick} className="w-full">
           <Send className="h-4 w-4" aria-hidden />
           Lanjutkan Pengajuan
         </Button>
@@ -319,6 +375,80 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
           Mulai simulasi baru
         </button>
       </div>
+
+      {/* Lead Form Dialog */}
+      <Dialog open={showLeadDialog} onOpenChange={(open) => { if (!isSubmittingLead) setShowLeadDialog(open); }}>
+        <DialogContent showCloseButton={!isSubmittingLead} className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-left">Lanjutkan Pengajuan</DialogTitle>
+            <DialogDescription className="text-left">
+              Isi data Anda untuk melanjutkan pengajuan ke WhatsApp. Data akan tersimpan di sistem kami.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3">
+            {/* Nama */}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="lead-name" className="text-sm font-semibold text-[#0F172A]">
+                Nama Lengkap
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B]" aria-hidden />
+                <input
+                  id="lead-name"
+                  type="text"
+                  placeholder="Masukkan nama Anda"
+                  value={leadForm.customerName}
+                  onChange={(e) => setLeadForm((f) => ({ ...f, customerName: e.target.value }))}
+                  disabled={isSubmittingLead}
+                  className="w-full rounded-lg border border-[#E2E8F0] bg-white py-2.5 pl-9 pr-3 text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:border-[#0F766E] focus:outline-none focus:ring-1 focus:ring-[#0F766E] disabled:opacity-50"
+                  autoFocus
+                />
+              </div>
+            </div>
+            {/* WhatsApp */}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="lead-wa" className="text-sm font-semibold text-[#0F172A]">
+                Nomor WhatsApp
+              </label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#64748B]" aria-hidden />
+                <input
+                  id="lead-wa"
+                  type="tel"
+                  placeholder="08xxxxxxxxxx"
+                  value={leadForm.whatsappNumber}
+                  onChange={(e) => setLeadForm((f) => ({ ...f, whatsappNumber: e.target.value }))}
+                  disabled={isSubmittingLead}
+                  className="w-full rounded-lg border border-[#E2E8F0] bg-white py-2.5 pl-9 pr-3 text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:border-[#0F766E] focus:outline-none focus:ring-1 focus:ring-[#0F766E] disabled:opacity-50"
+                />
+              </div>
+            </div>
+            {/* Error */}
+            {leadFormError && (
+              <div className="flex items-start gap-2 rounded-lg border border-[#FCA5A5] bg-[#FEF2F2] p-2.5">
+                <AlertCircle className="h-4 w-4 text-[#B91C1C] flex-shrink-0 mt-0.5" aria-hidden />
+                <p className="text-sm text-[#991B1B]">{leadFormError}</p>
+              </div>
+            )}
+            {/* Submit */}
+            <Button
+              type="button"
+              variant="primary"
+              size="lg"
+              onClick={handleLeadSubmit}
+              disabled={isSubmittingLead}
+              className="w-full mt-1"
+            >
+              {isSubmittingLead ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+              ) : (
+                <Send className="h-4 w-4" aria-hidden />
+              )}
+              {isSubmittingLead ? "Mengirim..." : "Kirim & Buka WhatsApp"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Disclaimer */}
       <p className="text-xs text-[#64748B] leading-relaxed text-center">
