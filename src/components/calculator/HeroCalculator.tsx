@@ -126,7 +126,7 @@ export function HeroCalculator({
         } catch { /* silent */ }
         // Mark as navigating so button stays disabled during transition
         setIsNavigatingToResult(true);
-        router.replace("/hasil-simulasi");
+        router.push("/hasil-simulasi");
       }
     }
   };
