@@ -78,7 +78,7 @@ export default async function Page() {
         <h2 className="text-base font-bold text-[#0F172A] mb-1">2. Tahun Kendaraan (Usia)</h2>
         <p className="text-sm text-[#475569] leading-relaxed">
           Usia kendaraan berdampak dua hal: kelayakan All Risk dan loading rate. Sebagian partner hanya menerima
-          All Risk hingga usia tertentu (mis. MAG 3 tahun, Tugu/Sahabat/Oona 5 tahun, Sinarmas/ACA/Mega/Zurich 10
+          All Risk hingga usia tertentu (mis. Tugu 8 tahun, Sinarmas/ACA/Mega/Zurich/Sahabat/Oona/MAG 10
           tahun). Kendaraan yang lebih tua juga dapat dikenakan loading rate tambahan karena risiko kerusakan
           dianggap meningkat.
         </p>
