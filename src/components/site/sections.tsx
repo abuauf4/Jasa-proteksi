@@ -52,33 +52,82 @@ export function HeroSection() {
 
   return (
     <>
-      {/* ═══ HERO — image card + calculator overlap (separate DOM, overflow visible) ═══ */}
-      <section id="beranda" className="relative w-full bg-white overflow-visible px-3 sm:px-4 pt-2">
-        {/* Image wrapper — overflow-hidden HANYA untuk border radius */}
-        <div className="relative w-full overflow-hidden shadow-md" style={{ borderRadius: "28px", aspectRatio: "4 / 3" }}>
-          <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" onSlideChange={setCurrentSlide} className="w-full h-full object-cover" />
+      {/* ═══ HERO — desktop: split layout, mobile: stacked image + calculator overlap ═══ */}
+      <section
+        id="beranda"
+        className="relative w-full bg-white overflow-visible px-3 sm:px-4 pt-2 lg:px-0 lg:pt-0"
+      >
+        {/* Desktop+tablet: max-width container with grid; mobile: no grid, stacked */}
+        <div className="lg:max-w-[1280px] lg:mx-auto lg:px-8 xl:px-12 lg:grid lg:grid-cols-[0.46fr_0.54fr] lg:items-center lg:min-h-[calc(100vh-72px)] lg:gap-8 xl:gap-12">
 
-          {/* Shield graphic */}
-          <div className="absolute top-5 right-4 sm:right-8 lg:right-12 pointer-events-none opacity-20 z-10" aria-hidden>
-            <svg width="90" height="105" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M60 0L120 20V70C120 100 95 125 60 140C25 125 0 100 0 70V20L60 0Z" fill="white" fillOpacity="0.8" />
-              <path d="M40 70L55 85L85 50" stroke="#0F766E" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
+          {/* ── LEFT COLUMN: visual + copy (desktop) / full-width image (mobile) ── */}
+          <div className="lg:py-8 xl:py-10">
+            {/* Image wrapper — mobile: full-width 4/3; desktop: contained height, rounded */}
+            <div
+              className="relative w-full overflow-hidden shadow-md aspect-[4/3] lg:aspect-auto lg:max-h-[380px] xl:max-h-[480px] 2xl:max-h-[560px]"
+              style={{ borderRadius: "28px" }}
+            >
+              <HeroCarousel images={heroImages} alt="Mobil terlindungi dengan asuransi" onSlideChange={setCurrentSlide} className="w-full h-full object-cover" />
 
-          {/* Text overlay */}
-          <div className={`absolute inset-0 flex flex-col justify-start pt-4 sm:pt-5 z-10 ${currentSlide === 2 ? "items-end text-right" : "items-start text-left"}`}>
-            <div className="px-4 sm:px-6 max-w-[75%]">
+              {/* Shield graphic — hidden on desktop (copy layer replaces it) */}
+              <div className="absolute top-5 right-4 sm:right-8 lg:hidden pointer-events-none opacity-20 z-10" aria-hidden>
+                <svg width="90" height="105" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M60 0L120 20V70C120 100 95 125 60 140C25 125 0 100 0 70V20L60 0Z" fill="white" fillOpacity="0.8" />
+                  <path d="M40 70L55 85L85 50" stroke="#0F766E" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+
+              {/* Text overlay — mobile only (hidden on desktop) */}
+              <div className={`absolute inset-0 flex flex-col justify-start pt-4 sm:pt-5 z-10 lg:hidden ${currentSlide === 2 ? "items-end text-right" : "items-start text-left"}`}>
+                <div className="px-4 sm:px-6 max-w-[75%]">
+                  <span
+                    className="inline-flex items-center gap-1.5 px-3 h-[24px] rounded-full bg-white/90 backdrop-blur-sm text-[#0F766E] font-semibold shadow-sm"
+                    style={{ fontSize: "11px", letterSpacing: "0.05em" }}
+                  >
+                    <ShieldCheck className="h-3 w-3" aria-hidden />
+                    Asuransi Mobil Online
+                  </span>
+                  <h2
+                    className="font-extrabold tracking-tight text-[16px] leading-[1.2] sm:text-[18px] mt-2 text-white"
+                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
+                  >
+                    {heroData?.tagline
+                      ? heroData.tagline.split("\\n").map((line, i, arr) => (
+                          <React.Fragment key={i}>
+                            {line}{i < arr.length - 1 && <br />}
+                          </React.Fragment>
+                        ))
+                      : <>Mobil Terlindungi,<br />Perjalanan Lebih Tenang.</>
+                    }
+                  </h2>
+                  <p
+                    className="text-[11px] sm:text-[12px] leading-snug mt-1 text-white"
+                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
+                  >
+                    {heroData?.subtext
+                      ? heroData.subtext.split("\\n").map((line, i, arr) => (
+                          <React.Fragment key={i}>
+                            {line}{i < arr.length - 1 && <br />}
+                          </React.Fragment>
+                        ))
+                      : <>Estimasi Premi<br />All Risk atau TLO<br />dari berbagai perusahaan</>
+                    }
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop copy layer — visible only on lg+, positioned below image card */}
+            <div className="hidden lg:flex lg:flex-col lg:gap-2 lg:mt-4 xl:mt-6">
               <span
-                className="inline-flex items-center gap-1.5 px-3 h-[24px] rounded-full bg-white/90 backdrop-blur-sm text-[#0F766E] font-semibold shadow-sm"
-                style={{ fontSize: "11px", letterSpacing: "0.05em" }}
+                className="inline-flex items-center gap-1.5 px-4 h-[30px] rounded-full bg-[#ECFDF5] text-[#0F766E] font-semibold shadow-sm self-start"
+                style={{ fontSize: "13px", letterSpacing: "0.05em" }}
               >
-                <ShieldCheck className="h-3 w-3" aria-hidden />
+                <ShieldCheck className="h-4 w-4" aria-hidden />
                 Asuransi Mobil Online
               </span>
               <h2
-                className="font-extrabold tracking-tight text-[16px] leading-[1.2] sm:text-[18px] lg:text-[22px] mt-2 text-white"
-                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
+                className="font-extrabold tracking-tight text-[#0F172A] lg:text-[36px] xl:text-[44px] 2xl:text-[50px] leading-[1.15]"
               >
                 {heroData?.tagline
                   ? heroData.tagline.split("\\n").map((line, i, arr) => (
@@ -89,34 +138,31 @@ export function HeroSection() {
                   : <>Mobil Terlindungi,<br />Perjalanan Lebih Tenang.</>
                 }
               </h2>
-              <p
-                className="text-[11px] sm:text-[12px] leading-snug mt-1 text-white"
-                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.6)" }}
-              >
+              <p className="text-[#475569] lg:text-[16px] xl:text-[18px] 2xl:text-[20px] leading-relaxed max-w-[480px]">
                 {heroData?.subtext
                   ? heroData.subtext.split("\\n").map((line, i, arr) => (
                       <React.Fragment key={i}>
                         {line}{i < arr.length - 1 && <br />}
                       </React.Fragment>
                     ))
-                  : <>Estimasi Premi<br />All Risk atau TLO<br />dari berbagai perusahaan</>
+                  : <>Estimasi Premi All Risk atau TLO dari berbagai perusahaan</>
                 }
               </p>
             </div>
           </div>
-        </div>
 
-        {/* Calculator — separate card, overlap ke depan gambar */}
-        <div id="kalkulator" className="relative z-20 scroll-mt-20 mx-auto lg:max-w-[500px]" style={{ marginTop: "-64px" }}>
-          <div className="px-2 sm:px-4">
-            <HeroCalculator />
+          {/* ── RIGHT COLUMN: calculator (desktop) / below image (mobile) ── */}
+          <div id="kalkulator" className="relative z-20 scroll-mt-20 mx-auto -mt-16 lg:mt-0 lg:max-w-[600px] lg:w-full lg:mx-0 lg:scroll-mt-24">
+            <div className="px-2 sm:px-4 lg:px-0">
+              <HeroCalculator />
+            </div>
           </div>
         </div>
       </section>
 
       {/* Bottom spacer — removed duplicate All Risk/TLO shortcut cards */}
       <section className="bg-white">
-        <Container className="!px-5 sm:!px-6 pt-4 pb-8 lg:pb-12" />
+        <Container className="!px-5 sm:!px-6 pt-4 lg:pt-8 pb-8 lg:pb-12" />
       </section>
     </>
   );

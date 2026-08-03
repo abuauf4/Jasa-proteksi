@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: "Artikel Asuransi Mobil — Jasa Proteksi",
     description: "Artikel, tips, dan panduan asuransi mobil dari Jasa Proteksi.",
     url: `${SITE_URL}/artikel`,
-    images: [{ url: "/og-image.webp", width: 1200, height: 630 }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
 };
 

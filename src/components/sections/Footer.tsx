@@ -38,7 +38,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#0F172A] text-[#94A3B8]">
       {/* Marquee Brand Banner */}
-      <div className="border-y border-[#1E293B] py-4 overflow-hidden">
+      <div className="border-y border-[#1E293B] py-4 overflow-hidden lg:hidden">
         <div className="animate-marquee whitespace-nowrap">
           {Array(8).fill(null).map((_, i) => (
             <span key={i} className="inline-flex items-center gap-8 mx-8">

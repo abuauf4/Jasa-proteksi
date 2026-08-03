@@ -13,6 +13,8 @@ const DEFAULT_SETTINGS = [
   { key: "googleAnalyticsId", value: "", label: "Google Analytics ID", type: "text", group: "integration" },
   { key: "metaPixelId", value: "", label: "Meta Pixel ID", type: "text", group: "integration" },
   { key: "gtmId", value: "", label: "Google Tag Manager ID", type: "text", group: "integration" },
+  { key: "adsenseId", value: "", label: "Google AdSense Publisher ID", type: "text", group: "integration" },
+  { key: "googleAdsId", value: "", label: "Google Ads Conversion ID", type: "text", group: "integration" },
   { key: "maintenanceMode", value: "false", label: "Mode Maintenance", type: "boolean", group: "maintenance" },
 ];
 

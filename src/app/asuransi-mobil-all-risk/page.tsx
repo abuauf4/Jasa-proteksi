@@ -26,14 +26,15 @@ export const metadata: Metadata = {
     siteName: "Jasa Proteksi",
     locale: "id_ID",
     type: "website",
-    images: [{ url: "/og-image.webp", width: 1200, height: 630 }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
 };
 
 async function getSettings() {
   let initialSettings: SiteSettings = {
     whatsapp: "", whatsapp2: "", phone: "", email: "", address: "",
-    googleAnalyticsId: "", metaPixelId: "", gtmId: "", maintenanceMode: false,
+    googleAnalyticsId: "", metaPixelId: "", gtmId: "", adsenseId: "",
+    googleAdsId: "", maintenanceMode: false,
   };
   let initialHero: HeroData | null = null;
   try {
@@ -47,7 +48,7 @@ async function getSettings() {
       whatsapp: map.whatsapp || "", whatsapp2: map.whatsapp2 || "",
       phone: map.phone || "", email: map.email || "", address: map.address || "",
       googleAnalyticsId: map.googleAnalyticsId || "", metaPixelId: map.metaPixelId || "",
-      gtmId: map.gtmId || "", maintenanceMode: map.maintenanceMode === "true",
+      gtmId: map.gtmId || "", adsenseId: map.adsenseId || "", maintenanceMode: map.maintenanceMode === "true",
     };
     if (heroRow) {
       initialHero = {

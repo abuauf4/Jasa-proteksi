@@ -245,7 +245,7 @@ export default function SeoPage() {
             </Label>
             <Input
               id="ogImage"
-              placeholder="https://jasaproteksi.com/og-image.webp"
+              placeholder="https://jasaproteksi.com/og-image.png"
               value={form.ogImage || ""}
               onChange={(e) => updateField("ogImage", e.target.value)}
             />

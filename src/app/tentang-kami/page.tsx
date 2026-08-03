@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { MobileStickyCTA } from "@/components/site/MobileStickyCTA";
 import { Container, Section, SectionHeader, Card } from "@/components/site/primitives";
 import { Button } from "@/components/site/Button";
-import { ShieldAlert, Mail, MessageCircle, Phone, MapPin, Calculator } from "lucide-react";
+import { Mail, MessageCircle, Phone, MapPin, Calculator } from "lucide-react";
 import { buildWhatsAppLink } from "@/lib/format";
 
 export const revalidate = 300;
@@ -31,7 +31,8 @@ export const metadata: Metadata = {
 async function getSettings() {
   let initialSettings: SiteSettings = {
     whatsapp: "", whatsapp2: "", phone: "", email: "", address: "",
-    googleAnalyticsId: "", metaPixelId: "", gtmId: "", maintenanceMode: false,
+    googleAnalyticsId: "", metaPixelId: "", gtmId: "", adsenseId: "",
+    googleAdsId: "", maintenanceMode: false,
   };
   let initialHero: HeroData | null = null;
   try {
@@ -45,7 +46,7 @@ async function getSettings() {
       whatsapp: map.whatsapp || "", whatsapp2: map.whatsapp2 || "",
       phone: map.phone || "", email: map.email || "", address: map.address || "",
       googleAnalyticsId: map.googleAnalyticsId || "", metaPixelId: map.metaPixelId || "",
-      gtmId: map.gtmId || "", maintenanceMode: map.maintenanceMode === "true",
+      gtmId: map.gtmId || "", adsenseId: map.adsenseId || "", maintenanceMode: map.maintenanceMode === "true",
     };
     if (heroRow) {
       initialHero = {
@@ -95,15 +96,7 @@ export default async function TentangKamiPage() {
                   dan ketentuan pertanggungan diterbitkan oleh perusahaan asuransi terkait.
                 </p>
 
-                <div className="rounded-xl bg-[#FFFBEB] border border-[#FDE68A] p-4 flex items-start gap-3">
-                  <ShieldAlert className="h-5 w-5 text-[#92400E] flex-shrink-0 mt-0.5" aria-hidden />
-                  <p className="text-sm text-[#92400E] leading-relaxed">
-                    <strong>Catatan:</strong> Informasi status badan usaha, nomor izin, dan
-                    mitra resmi akan ditambahkan setelah tersedia dan terverifikasi. Logo
-                    perusahaan asuransi hanya ditampilkan jika hubungan kerja sama telah
-                    dikonfirmasi.
-                  </p>
-                </div>
+
               </Card>
 
               {contactItems.length > 0 && (

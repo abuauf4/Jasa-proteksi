@@ -28,7 +28,13 @@ const ADDON_LABELS: Record<string, string> = {
    Premium Result — canggih dengan partner grid + coverage toggle + perluasan scroll
    ═══════════════════════════════════════════════════ */
 
-export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
+export function PremiumResult({ calc, onUbahData, onMulaiUlang }: {
+  calc: UseCalculatorReturn;
+  /** Optional: override "Ubah Data" to navigate back to calculator with data preserved */
+  onUbahData?: () => void;
+  /** Optional: override "Mulai simulasi baru" to reset and navigate back to calculator */
+  onMulaiUlang?: () => void;
+}) {
   const { state, prevStep, reset, markWhatsappClicked, updateProtection, toggleAddon } = calc;
   const { settings } = useSiteSettings();
 
@@ -177,7 +183,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
       {/* Partner Logo Grid — 4 cols × 2 rows, normalized logo sizes */}
       <div>
         <p className="text-sm font-bold text-[#0F172A] mb-2">Pilih Perusahaan Asuransi</p>
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-4 lg:grid-cols-4 gap-2">
           {sortedPartners.map(({ partner: pt, originalIdx }, rankIdx) => {
             const selected = state.selectedPartnerIndex === originalIdx;
             const logo = partnerLogoPath(pt.name);
@@ -261,7 +267,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
           <p className="text-sm font-bold text-[#0F172A]">Perluasan</p>
           <span className="text-xs text-[#64748B]">Opsional</span>
         </div>
-        <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1" style={{ scrollbarWidth: "thin" }}>
+        <div className="flex gap-2 overflow-x-auto lg:flex-wrap lg:overflow-visible pb-2 -mx-1 px-1 lg:mx-0 lg:px-0" style={{ scrollbarWidth: "thin" }}>
           {availableAddons.map((key) => {
             const meta = ADDON_META[key];
             if (!meta) return null;
@@ -306,17 +312,18 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
           <Button as="external" href={whatsappLink} variant="secondary" size="md" onClick={handleWhatsApp}>
             Konsultasi
           </Button>
-          <Button type="button" variant="secondary" size="md" onClick={prevStep}>
+          <Button type="button" variant="secondary" size="md" onClick={onUbahData ?? prevStep}>
             <Pencil className="h-4 w-4" aria-hidden />
             Ubah Data
           </Button>
         </div>
         <button
           type="button"
-          onClick={reset}
-          className="text-xs text-[#64748B] hover:text-[#0F172A] mt-1 self-center"
+          onClick={onMulaiUlang ?? reset}
+          className="inline-flex items-center justify-center gap-1.5 mt-2 px-4 py-2 rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] text-sm font-medium text-[#475569] hover:bg-[#E2E8F0] hover:text-[#0F172A] active:bg-[#CBD5E1] transition-colors self-center"
         >
-          Mulai simulasi baru
+          <RotateCcw className="h-3.5 w-3.5" aria-hidden />
+          Muat Ulang
         </button>
       </div>
 

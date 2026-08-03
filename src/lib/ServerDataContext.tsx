@@ -13,6 +13,8 @@ interface SiteSettings {
   googleAnalyticsId: string;
   metaPixelId: string;
   gtmId: string;
+  adsenseId: string;
+  googleAdsId: string;
   maintenanceMode: boolean;
 }
 
@@ -106,7 +108,8 @@ const EMPTY_SETTINGS: SiteSettings = {
   googleAnalyticsId: "",
   metaPixelId: "",
   gtmId: "",
-  gtmId: "",
+  adsenseId: "",
+  googleAdsId: "",
   maintenanceMode: false,
 };
 
@@ -120,7 +123,8 @@ const DEFAULT_SETTINGS: SiteSettings = {
   googleAnalyticsId: "",
   metaPixelId: "",
   gtmId: "",
-  gtmId: "",
+  adsenseId: "",
+  googleAdsId: "",
   maintenanceMode: false,
 };
 
@@ -145,6 +149,8 @@ async function fetchSettings(): Promise<SiteSettings> {
         googleAnalyticsId: map.googleAnalyticsId || "",
         metaPixelId: map.metaPixelId || "",
         gtmId: map.gtmId || "",
+        adsenseId: map.adsenseId || "",
+        googleAdsId: map.googleAdsId || "",
         maintenanceMode: map.maintenanceMode === "true",
       };
       return cachedSettings;

@@ -26,7 +26,7 @@ export default async function Page() {
   const faqs = [
     { q: "Mobil 15 tahun bisa diasuransikan?", a: "Untuk All Risk, mobil berusia 15 tahun sudah melebihi batas maksimal seluruh partner kami (tertinggi 10 tahun). Namun Anda masih bisa mengambil perlindungan TLO yang umumnya menerima kendaraan dengan usia lebih panjang. Cek via kalkulator dengan tahun kendaraan Anda." },
     { q: "Apakah perlu survey kendaraan?", a: "Untuk kendaraan berusia lanjut atau bernilai tinggi, partner asuransi dapat meminta survey kondisi kendaraan sebelum menerbitkan polis. Hal ini untuk memastikan kondisi aktual kendaraan sesuai dengan nilai pertanggungan." },
-    { q: "Berapa batas maksimal All Risk?", a: "Batas tertinggi All Risk di antara partner Jasa Proteksi adalah 10 tahun (Sinarmas, ACA, Mega, Zurich Syariah). Tugu, Sahabat, dan Oona menerima hingga 5 tahun, sedangkan MAG paling ketat di 3 tahun. Bila usia mobil melebihi batas, opsi yang tersedia adalah TLO." },
+    { q: "Berapa batas maksimal All Risk?", a: "Batas tertinggi All Risk di antara partner Jasa Proteksi adalah 10 tahun (Sinarmas, ACA, Mega, Zurich Syariah, Sahabat, Oona, MAG). Tugu menerima hingga 8 tahun. Bila usia mobil melebihi batas, opsi yang tersedia adalah TLO." },
   ];
 
   const related = [
@@ -73,10 +73,10 @@ export default async function Page() {
             <tr><td className="p-2.5 border-b border-[#E2E8F0]">ACA</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">10 tahun</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#475569]">Tidak tersedia</td></tr>
             <tr><td className="p-2.5 border-b border-[#E2E8F0]">Mega Insurance</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">10 tahun</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#475569]">Tersedia</td></tr>
             <tr><td className="p-2.5 border-b border-[#E2E8F0]">Zurich Syariah</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">10 tahun</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#475569]">Tersedia</td></tr>
-            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Tugu</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">5 tahun</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#475569]">Tersedia</td></tr>
-            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Sahabat</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">5 tahun</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#475569]">Tersedia</td></tr>
-            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Oona</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">5 tahun</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#475569]">Tersedia</td></tr>
-            <tr><td className="p-2.5">MAG (Multi Artha Guna)</td><td className="p-2.5 border-l text-[#0F766E]">3 tahun</td><td className="p-2.5 border-l text-[#475569]">Tidak tersedia</td></tr>
+            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Tugu</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">8 tahun</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#475569]">Tersedia</td></tr>
+            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Sahabat</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">10 tahun</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#475569]">Tersedia</td></tr>
+            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Oona</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">10 tahun</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#475569]">Tersedia</td></tr>
+            <tr><td className="p-2.5">MAG (Multi Artha Guna)</td><td className="p-2.5 border-l text-[#0F766E]">10 tahun</td><td className="p-2.5 border-l text-[#475569]">Tidak tersedia</td></tr>
           </tbody>
         </table>
       </div>

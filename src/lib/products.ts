@@ -39,7 +39,7 @@ export const products: InsuranceProduct[] = [
       "Tanggung jawab pihak ketiga",
       "Kerusakan akibat huru-hara",
       "Asuransi Mobil Listrik tersedia",
-      "Bengkel resmi partner (3-10 tahun)",
+      "Bengkel resmi partner (8-10 tahun)",
       "Klaim cashless & reimbursement",
     ],
     highlights: [

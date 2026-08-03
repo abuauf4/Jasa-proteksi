@@ -9,6 +9,7 @@ import {
   MapPin,
   BarChart3,
   Share2,
+  DollarSign,
   AlertTriangle,
   Loader2,
   Save,
@@ -45,6 +46,8 @@ export default function SettingsPage() {
   const [googleAnalyticsId, setGoogleAnalyticsId] = useState("");
   const [metaPixelId, setMetaPixelId] = useState("");
   const [gtmId, setGtmId] = useState("");
+  const [adsenseId, setAdsenseId] = useState("");
+  const [googleAdsId, setGoogleAdsId] = useState("");
 
   // Maintenance
   const [maintenanceMode, setMaintenanceMode] = useState(false);
@@ -65,6 +68,8 @@ export default function SettingsPage() {
         setGoogleAnalyticsId(map.googleAnalyticsId || "");
         setMetaPixelId(map.metaPixelId || "");
         setGtmId(map.gtmId || "");
+        setAdsenseId(map.adsenseId || "");
+        setGoogleAdsId(map.googleAdsId || "");
         setMaintenanceMode(map.maintenanceMode === "true");
       }
     } catch {
@@ -290,10 +295,40 @@ export default function SettingsPage() {
                 ID Google Tag Manager untuk mengelola semua tracking script (GA4, Meta Pixel, dll) dalam satu tempat. Jika diisi, GTM akan otomatis load GA4 & Meta Pixel.
               </p>
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="adsenseId" className="flex items-center gap-2 text-sm">
+                <DollarSign className="h-3 w-3" /> Google AdSense Publisher ID
+              </Label>
+              <Input
+                id="adsenseId"
+                placeholder="ca-pub-XXXXXXXXXXXXXXXX"
+                value={adsenseId}
+                onChange={(e) => setAdsenseId(e.target.value)}
+              />
+              <p className="text-xs text-slate-400">
+                Publisher ID Google AdSense untuk menampilkan iklan display di website.
+                Contoh: ca-pub-1234567890123456. Kosongkan jika tidak menggunakan AdSense.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="googleAdsId" className="flex items-center gap-2 text-sm">
+                <DollarSign className="h-3 w-3" /> Google Ads Conversion ID
+              </Label>
+              <Input
+                id="googleAdsId"
+                placeholder="AW-XXXXXXXXXX"
+                value={googleAdsId}
+                onChange={(e) => setGoogleAdsId(e.target.value)}
+              />
+              <p className="text-xs text-slate-400">
+                ID Google Ads Conversion untuk tracking konversi iklan Google Ads.
+                Contoh: AW-16916570758. Didapat dari Google Ads &gt; Tools &gt; Conversions.
+              </p>
+            </div>
             <div className="flex justify-end">
               <Button
                 onClick={() =>
-                  saveSection("Integrasi", { googleAnalyticsId, metaPixelId, gtmId })
+                  saveSection("Integrasi", { googleAnalyticsId, metaPixelId, gtmId, adsenseId, googleAdsId })
                 }
                 disabled={saving["Integrasi"]}
                 className="bg-[#14B8A6] hover:bg-[#0D9488] text-white"

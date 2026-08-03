@@ -735,6 +735,20 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       if (!saved) return;
       const parsed = JSON.parse(saved);
       if (!parsed.premium) return;
+
+      // If the saved step is "result", this is a stale state from a previous
+      // hasil-simulasi visit. The HeroCalculator on the homepage should NOT
+      // restore the result — it should start fresh. Only the /hasil-simulasi
+      // page should restore the result.
+      // Detect context: if we're on the homepage (path is / or /cek-premi),
+      // clear the stale result and start from vehicle step.
+      const isResultPage = window.location.pathname === "/hasil-simulasi";
+      if (parsed.step === "result" && !isResultPage) {
+        // Clear stale result so the calculator starts fresh
+        sessionStorage.removeItem("jp_calc_state");
+        return;
+      }
+
       setState((s) => ({
         ...s,
         step: "result",

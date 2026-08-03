@@ -76,7 +76,7 @@ export function SiteHeader() {
           ${scrolled ? "border-b border-[#E2E8F0] backdrop-blur-md" : "border-b border-transparent"}
         `}
       >
-        <Container className="flex items-center justify-between !px-4 h-[60px] sm:h-[72px]">
+        <Container className="flex items-center justify-between !px-4 sm:!px-6 lg:!px-0 h-[60px] sm:h-[72px]">
           {/* Brand logo — full logo image */}
           <Link
             href="/"

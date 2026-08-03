@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     locale: "id_ID",
     images: [
       {
-        url: "/og-image.webp",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Jasa Proteksi — Platform Simulasi Premi Asuransi Mobil",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     title: "Hitung Premi Asuransi Mobil Secara Online | Jasa Proteksi",
     description:
       "Platform simulasi premi asuransi mobil All Risk dan TLO online. Estimasi otomatis berdasarkan data kendaraan.",
-    images: ["/og-image.webp"],
+    images: ["/og-image.png"],
   },
   category: "insurance",
   manifest: "/manifest.webmanifest",
@@ -115,7 +115,7 @@ async function JsonLd() {
         name: "Jasa Proteksi",
         url: SITE_URL,
         logo: `${SITE_URL}/logo-jasa-proteksi.webp`,
-        image: `${SITE_URL}/og-image.webp`,
+        image: `${SITE_URL}/og-image.png`,
         description:
           "Platform simulasi premi dan pengajuan asuransi mobil All Risk atau TLO secara online.",
         ...(whatsapp ? { telephone: `+${whatsapp}` } : {}),
