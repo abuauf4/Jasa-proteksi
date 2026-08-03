@@ -48,6 +48,7 @@ export default function SettingsPage() {
   const [gtmId, setGtmId] = useState("");
   const [adsenseId, setAdsenseId] = useState("");
   const [googleAdsId, setGoogleAdsId] = useState("");
+  const [googleAdsLabel, setGoogleAdsLabel] = useState("");
 
   // Maintenance
   const [maintenanceMode, setMaintenanceMode] = useState(false);
@@ -70,6 +71,7 @@ export default function SettingsPage() {
         setGtmId(map.gtmId || "");
         setAdsenseId(map.adsenseId || "");
         setGoogleAdsId(map.googleAdsId || "");
+        setGoogleAdsLabel(map.googleAdsLabel || "");
         setMaintenanceMode(map.maintenanceMode === "true");
       }
     } catch {
@@ -325,10 +327,25 @@ export default function SettingsPage() {
                 Contoh: AW-16916570758. Didapat dari Google Ads &gt; Tools &gt; Conversions.
               </p>
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="googleAdsLabel" className="flex items-center gap-2 text-sm">
+                <DollarSign className="h-3 w-3" /> Google Ads Conversion Label
+              </Label>
+              <Input
+                id="googleAdsLabel"
+                placeholder="gibwCN7d_9ocEIbFuYI_"
+                value={googleAdsLabel}
+                onChange={(e) => setGoogleAdsLabel(e.target.value)}
+              />
+              <p className="text-xs text-slate-400">
+                Label konversi Google Ads. Didapat dari Google Ads &gt; Tools &gt; Conversions &gt; klik tindakan konversi.
+                Wajib diisi agar konversi terdeteksi oleh Google Ads.
+              </p>
+            </div>
             <div className="flex justify-end">
               <Button
                 onClick={() =>
-                  saveSection("Integrasi", { googleAnalyticsId, metaPixelId, gtmId, adsenseId, googleAdsId })
+                  saveSection("Integrasi", { googleAnalyticsId, metaPixelId, gtmId, adsenseId, googleAdsId, googleAdsLabel })
                 }
                 disabled={saving["Integrasi"]}
                 className="bg-[#14B8A6] hover:bg-[#0D9488] text-white"

@@ -5,7 +5,8 @@ export async function getArticleSettings() {
   let initialSettings: SiteSettings = {
     whatsapp: "", whatsapp2: "", phone: "", email: "", address: "",
     googleAnalyticsId: "", metaPixelId: "", gtmId: "", adsenseId: "",
-    googleAdsId: "", maintenanceMode: false,
+    googleAdsId: "",
+    googleAdsLabel: "", maintenanceMode: false,
   };
   let initialHero: HeroData | null = null;
   try {

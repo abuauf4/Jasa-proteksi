@@ -9,6 +9,7 @@ interface SiteSettings {
   gtmId?: string;
   adsenseId?: string;
   googleAdsId?: string;
+  googleAdsLabel?: string;
 }
 
 export default function AnalyticsScripts() {
@@ -27,6 +28,7 @@ export default function AnalyticsScripts() {
             gtmId: map.gtmId || "",
             adsenseId: map.adsenseId || "",
             googleAdsId: map.googleAdsId || "",
+            googleAdsLabel: map.googleAdsLabel || "",
           });
         }
       } catch {
@@ -38,7 +40,7 @@ export default function AnalyticsScripts() {
 
   if (!settings) return null;
 
-  const { googleAnalyticsId, metaPixelId, gtmId, adsenseId, googleAdsId } = settings;
+  const { googleAnalyticsId, metaPixelId, gtmId, adsenseId, googleAdsId, googleAdsLabel } = settings;
 
   return (
     <>
@@ -119,7 +121,7 @@ export default function AnalyticsScripts() {
         />
       )}
 
-      {/* Google Ads Conversion (AW-XXXXX) */}
+      {/* Google Ads Conversion (AW-XXXXX + Label) */}
       {googleAdsId && (
         <>
           <Script
@@ -131,7 +133,8 @@ export default function AnalyticsScripts() {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '${googleAdsId}');
+              gtag('config', '${googleAdsId}'${googleAdsLabel ? `, { 'conversion_label': '${googleAdsLabel}' }` : ''});
+              window.__googleAdsConversion = { id: '${googleAdsId}', label: '${googleAdsLabel || ''}' };
             `}
           </Script>
         </>

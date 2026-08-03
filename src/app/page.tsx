@@ -109,6 +109,7 @@ export default async function Page() {
     gtmId: "",
     adsenseId: "",
     googleAdsId: "",
+    googleAdsLabel: "",
     maintenanceMode: false,
   };
   let initialHero: {

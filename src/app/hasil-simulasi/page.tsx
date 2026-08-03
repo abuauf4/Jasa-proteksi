@@ -17,7 +17,8 @@ async function getSettings() {
   let initialSettings = {
     whatsapp: "", whatsapp2: "", phone: "", email: "", address: "",
     googleAnalyticsId: "", metaPixelId: "", gtmId: "", adsenseId: "",
-    googleAdsId: "", maintenanceMode: false,
+    googleAdsId: "",
+    googleAdsLabel: "", maintenanceMode: false,
   };
   let initialHero: any = null;
   try {

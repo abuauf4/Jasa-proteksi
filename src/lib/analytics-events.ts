@@ -51,6 +51,8 @@ declare global {
     dataLayer?: Record<string, unknown>[];
     gtag?: (...args: unknown[]) => void;
     fbq?: (...args: unknown[]) => void;
+    /** Google Ads conversion config set by AnalyticsScripts */
+    __googleAdsConversion?: { id: string; label: string };
   }
 }
 
@@ -73,6 +75,17 @@ export function trackEvent(name: AnalyticsEventName, params: AnalyticsParams = {
   // 2. GA4 gtag
   if (typeof window.gtag === "function") {
     window.gtag("event", name, merged);
+  }
+
+  // 2b. Google Ads Conversion — fire on whatsapp_click / apply_click
+  if (
+    (name === "whatsapp_click" || name === "apply_click") &&
+    typeof window.gtag === "function" &&
+    window.__googleAdsConversion?.id
+  ) {
+    const conv = window.__googleAdsConversion;
+    const sendTo = conv.label ? `${conv.id}/${conv.label}` : conv.id;
+    window.gtag("event", "conversion", { send_to: sendTo });
   }
 
   // 3. Meta Pixel fbq (trackCustom for non-standard events)

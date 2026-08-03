@@ -41,6 +41,7 @@ export default function ProductFlowClient({ product }: ProductFlowClientProps) {
     gtmId: "",
     adsenseId: "",
     googleAdsId: "",
+    googleAdsLabel: "",
     maintenanceMode: false,
   };
 
