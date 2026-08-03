@@ -33,7 +33,7 @@ export function HeroCalculator({
   hideHeader = false,
 }: HeroCalculatorProps) {
   const calc = useCalculator({ initialCoverageType });
-  const { state, calculatePremium, persistToSessionStorage, setError } = calc;
+  const { state, calculatePremium, setError } = calc;
   const router = useRouter();
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   // Track if user has attempted to proceed — used to show red borders on empty required fields
@@ -102,12 +102,28 @@ export function HeroCalculator({
     } else if (state.step === "region" || state.step === "protection" || state.step === "extension") {
       // Calculate premium with skipStepTransition: don't change step to "result"
       // so PremiumResult doesn't mount in HeroCalculator before navigation.
-      const success = await calculatePremium(false, { skipStepTransition: true });
-      if (success) {
-        // Explicitly save state to sessionStorage before navigation.
-        // This is synchronous and guaranteed to complete before router.replace.
-        // The useEffect-based persistence may run too late (after next render).
-        persistToSessionStorage();
+      const premiumData = await calculatePremium(false, { skipStepTransition: true });
+      if (premiumData) {
+        // Write premium result + full state to sessionStorage BEFORE navigation.
+        // Must use premiumData (returned from calculatePremium) instead of state.premium
+        // because React hasn't re-rendered yet — state.premium is still null (stale closure).
+        try {
+          sessionStorage.setItem("jp_calc_state", JSON.stringify({
+            step: "result",  // always "result" for the result page
+            vehicle: state.vehicle,
+            region: state.region,
+            protection: state.protection,
+            extension: state.extension,
+            personal: state.personal,
+            premium: premiumData,  // actual data, NOT stale null
+            selectedPartnerIndex: 0,
+            lead: null,
+            vehicleFound: state.vehicleFound,
+            showManualOtr: state.showManualOtr,
+            databaseVehicleValue: state.databaseVehicleValue,
+            manualOtrValidation: state.manualOtrValidation,
+          }));
+        } catch { /* silent */ }
         // Mark as navigating so button stays disabled during transition
         setIsNavigatingToResult(true);
         router.replace("/hasil-simulasi");

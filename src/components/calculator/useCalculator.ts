@@ -380,9 +380,9 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
   // In-flight guard: prevents concurrent premium requests
   const calculationInFlightRef = useRef(false);
 
-  const calculatePremium = useCallback(async (silent = false, options?: { skipStepTransition?: boolean }): Promise<boolean> => {
+  const calculatePremium = useCallback(async (silent = false, options?: { skipStepTransition?: boolean }): Promise<PremiumResponse | null> => {
     // In-flight guard: prevent concurrent requests
-    if (calculationInFlightRef.current) return false;
+    if (calculationInFlightRef.current) return null;
     calculationInFlightRef.current = true;
 
     // Cancel any in-flight request
@@ -430,13 +430,13 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
         const msg = (errData as { error?: string }).error || "Gagal menghitung premi.";
         setState((s) => ({ ...s, isLoadingPremium: false, isRecalculating: false, error: msg }));
         trackEvent("calculator_error", { error_message: msg });
-        return false;
+        return null;
       }
 
       const data: PremiumResponse = await res.json();
 
       // Don't update if this request was superseded
-      if (controller.signal.aborted) return false;
+      if (controller.signal.aborted) return null;
 
       // Preserve selected partner if still valid, else auto-select cheapest
       const prevPartnerIdx = state.selectedPartnerIndex;
@@ -470,10 +470,10 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
           estimated_premium: data.totalPremium,
         });
       }
-      return true;
+      return data;
     } catch (err) {
       // Ignore abort errors
-      if (err instanceof DOMException && err.name === "AbortError") return false;
+      if (err instanceof DOMException && err.name === "AbortError") return null;
       const msg = err instanceof Error ? err.message : "Terjadi kesalahan jaringan.";
       if (!silent) {
         setState((s) => ({ ...s, isLoadingPremium: false, isCalculatingInitial: false, error: msg }));
@@ -481,7 +481,7 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
         setState((s) => ({ ...s, isRecalculating: false }));
       }
       trackEvent("calculator_error", { error_message: msg });
-      return false;
+      return null;
     } finally {
       calculationInFlightRef.current = false;
     }
