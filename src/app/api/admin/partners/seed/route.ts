@@ -124,6 +124,20 @@ export async function POST(request: NextRequest) {
         description: "Oona Insurance - Asuransi digital yang modern",
         sortOrder: 5,
       },
+      {
+        name: "Etiqa",
+        slug: "etiqa",
+        status: "active",
+        benefits: JSON.stringify(["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi Free 5 Tahun"]),
+        facilities: JSON.stringify(["Free derek", "Layanan call 24 jam"]),
+        modifier: 1.0,
+        addonModifier: 1.0,
+        adminFee: 50000,
+        bengkelResmiFreeMaxYears: 5,
+        maxAgeAllRisk: 15,
+        description: "Etiqa Insurance - Bengkel resmi free 5 tahun, All Risk hingga 15 tahun",
+        sortOrder: 9,
+      },
     ];
 
     let created = 0;

@@ -87,6 +87,16 @@ const PARTNERS = [
     facilities: ["Free derek", "Layanan call 24 jam"],
     availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
   },
+  {
+    name: "Etiqa",
+    key: "partnerEtiqaModifier",
+    bengkelResmiFreeMaxYears: 5, // free for vehicles <= 5 years old
+    bengkelResmiRate: 0.001, // 0.1% for vehicles > 5 years old
+    maxAgeAllRisk: 15, // All Risk up to 15 years
+    benefits: ["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi Free 5 Tahun"],
+    facilities: ["Free derek", "Layanan call 24 jam"],
+    availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
+  },
 ];
 
 // Default add-ons available for all partners (used when loading from DB)
@@ -110,6 +120,8 @@ async function getActivePartnersFromDB() {
       addonModifier: p.addonModifier ?? 1.0,
       adminFee: p.adminFee ?? 50000,
       bengkelResmiMaxYears: p.bengkelResmiMaxYears ?? null,
+      bengkelResmiFreeMaxYears: p.bengkelResmiFreeMaxYears ?? null,
+      maxAgeAllRisk: p.maxAgeAllRisk ?? null,
       benefits: p.benefits ? JSON.parse(p.benefits) : [],
       facilities: p.facilities ? JSON.parse(p.facilities) : [],
       availableAddOns: DEFAULT_AVAILABLE_ADDONS,
@@ -387,12 +399,16 @@ function calculateStaticPremium(input: {
   const formatRupiah = (amt: number) =>
     new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amt);
 
-  // 11. Eligibility
+  // 11. Eligibility — use most permissive partner max age from static config
   let isEligible = true;
   let ineligibilityReason: string | undefined;
-  if (input.coverageType === "Comprehensive" && vehicleAge > 12) {
+  const staticMaxAllRisk = Math.max(
+    12,
+    ...PARTNERS.map(p => p.maxAgeAllRisk ?? 12)
+  );
+  if (input.coverageType === "Comprehensive" && vehicleAge > staticMaxAllRisk) {
     isEligible = false;
-    ineligibilityReason = `Kendaraan berusia ${vehicleAge} tahun. All Risk/Comprehensive maksimal 12 tahun.`;
+    ineligibilityReason = `Kendaraan berusia ${vehicleAge} tahun. All Risk/Comprehensive maksimal ${staticMaxAllRisk} tahun.`;
   } else if (input.coverageType === "TLO" && vehicleAge > 15) {
     isEligible = false;
     ineligibilityReason = `Kendaraan berusia ${vehicleAge} tahun. TLO maksimal 15 tahun.`;
@@ -408,20 +424,28 @@ function calculateStaticPremium(input: {
     partnerTuguModifier: 1.0,
     partnerSahabatModifier: 1.0,
     partnerOonaModifier: 1.0,
+    partnerEtiqaModifier: 1.0,
   };
 
   const partners = PARTNERS.map((partner) => {
     const modifier = defaultModifiers[partner.key] ?? 1.0;
     // Filter bengkelAuthorized if vehicle age exceeds partner's max
     const bengkelExcluded = partner.bengkelResmiMaxYears != null && vehicleAge > partner.bengkelResmiMaxYears;
+    // Check if bengkel resmi is free for this vehicle age
+    const bengkelFree = !bengkelExcluded && partner.bengkelResmiFreeMaxYears != null && vehicleAge <= partner.bengkelResmiFreeMaxYears;
 
     // Apply per-partner bengkelResmiRate override if defined.
+    // Bengkel resmi is free (rate=0) when bengkelFree is true.
     // Other addons use the global addon premium as-is.
     const filteredAddonPremiums = (bengkelExcluded
       ? addonPremiums.filter(a => a.key !== "bengkelAuthorized")
       : addonPremiums
     ).map((a) => {
-      if (a.key === "bengkelAuthorized" && partner.bengkelResmiRate != null && !bengkelExcluded) {
+      if (a.key === "bengkelAuthorized" && bengkelFree) {
+        // Free bengkel resmi — premium 0
+        return { ...a, premium: 0, rate: 0 };
+      }
+      if (a.key === "bengkelAuthorized" && partner.bengkelResmiRate != null && !bengkelExcluded && !bengkelFree) {
         // Recalculate bengkel premium using partner-specific rate
         const partnerPremium = Math.round(vehicleValue * partner.bengkelResmiRate);
         return { ...a, premium: partnerPremium, rate: partner.bengkelResmiRate };
@@ -440,7 +464,8 @@ function calculateStaticPremium(input: {
       addonModifier: 1.0,
       adminFee,
       bengkelAuthorizedExcluded: bengkelExcluded,
-      bengkelResmiRate: partner.bengkelResmiRate,
+      bengkelResmiFree: bengkelFree,
+      bengkelResmiRate: bengkelFree ? 0 : partner.bengkelResmiRate,
       estimatedPremium,
       benefits: partner.benefits,
       facilities: partner.facilities,
@@ -602,19 +627,52 @@ export async function POST(request: NextRequest) {
       }>;
 
       if (dbPartners && dbPartners.length > 0) {
+        // Override global eligibility with most permissive partner maxAgeAllRisk
+        const maxPartnerAllRiskAge = Math.max(
+          ...dbPartners.map(p => p.maxAgeAllRisk ?? 0)
+        );
+        if (maxPartnerAllRiskAge > 0 && normalizedCoverage === "Comprehensive" && (result.vehicleAge ?? 0) <= maxPartnerAllRiskAge) {
+          result.isEligible = true;
+          result.ineligibilityReason = undefined;
+        }
+
         // Use database-sourced partners (respects active/inactive status)
         partners = dbPartners.map((partner) => {
+          // Per-partner eligibility check for All Risk
+          const vehicleAge = result.vehicleAge ?? 0;
+          const partnerMaxAllRisk = partner.maxAgeAllRisk;
+          const partnerEligible = !partnerMaxAllRisk || vehicleAge <= partnerMaxAllRisk;
+          if (!partnerEligible && normalizedCoverage === "Comprehensive") {
+            return {
+              name: partner.name,
+              modifier: partner.modifier,
+              addonModifier: partner.addonModifier ?? 1.0,
+              adminFee: partner.adminFee ?? result.adminFee,
+              estimatedPremium: 0,
+              benefits: partner.benefits,
+              facilities: partner.facilities,
+              availableAddOns: partner.availableAddOns,
+              isEligible: false,
+              ineligibilityReason: `Kendaraan berusia ${vehicleAge} tahun. ${partner.name} All Risk maksimal ${partnerMaxAllRisk} tahun.`,
+              breakdown: { basePremium: 0, addOnPremium: 0, addons: [], totalPremiumBeforeDiscount: 0, discountPercent: 0, discountAmount: 0, adminFee: 0, policyFee: 0 },
+            };
+          }
+
           // Calculate addon total with per-partner rate overrides
           const overrideMap = new Map(partner.addonRateOverrides?.map(o => [o.addonKey, o]) ?? []);
           let addonTotal = 0;
 
           // Filter out bengkelAuthorized if vehicle age exceeds partner's max
-          const vehicleAge = result.vehicleAge ?? 0;
           const bengkelExcluded = partner.bengkelResmiMaxYears != null && vehicleAge > partner.bengkelResmiMaxYears;
+          // Check if bengkel resmi is free for this vehicle age
+          const bengkelFree = !bengkelExcluded && partner.bengkelResmiFreeMaxYears != null && vehicleAge <= partner.bengkelResmiFreeMaxYears;
 
           for (const addon of result.addons) {
             // Skip bengkelAuthorized if vehicle is too old for this partner
             if (addon.key === "bengkelAuthorized" && bengkelExcluded) continue;
+
+            // Free bengkel resmi — premium 0
+            if (addon.key === "bengkelAuthorized" && bengkelFree) continue;
 
             const override = overrideMap.get(addon.key);
             if (override && override.rate > 0) {
@@ -635,6 +693,10 @@ export async function POST(request: NextRequest) {
           const partnerAddons = result.addons
             .filter((addon) => !(addon.key === "bengkelAuthorized" && bengkelExcluded))
             .map((addon) => {
+            // Free bengkel resmi
+            if (addon.key === "bengkelAuthorized" && bengkelFree) {
+              return { ...addon, premium: 0, rate: 0 };
+            }
             const override = overrideMap.get(addon.key);
             if (override && override.rate > 0) {
               // Partner-specific rate override — update both premium AND rate field
@@ -647,7 +709,7 @@ export async function POST(request: NextRequest) {
             return { ...addon, premium: Math.round(addon.premium * (partner.addonModifier ?? 1.0)) };
           });
 
-          // Expose bengkelResmiRate at top-level for UI (when override exists)
+          // Expose bengkelResmiRate at top-level for UI
           const bengkelOverride = overrideMap.get("bengkelAuthorized");
 
           return {
@@ -656,7 +718,8 @@ export async function POST(request: NextRequest) {
             addonModifier: partner.addonModifier ?? 1.0,
             adminFee: partnerAdminFee,
             bengkelAuthorizedExcluded: bengkelExcluded,
-            bengkelResmiRate: bengkelOverride?.rate,
+            bengkelResmiFree: bengkelFree,
+            bengkelResmiRate: bengkelFree ? 0 : bengkelOverride?.rate,
             estimatedPremium,
             benefits: partner.benefits,
             facilities: partner.facilities,
@@ -701,6 +764,7 @@ export async function POST(request: NextRequest) {
           partnerTuguModifier: 1.0,
           partnerSahabatModifier: 1.0,
           partnerOonaModifier: 1.0,
+          partnerEtiqaModifier: 1.0,
         };
 
         partners = PARTNERS.map((partner) => {
@@ -708,10 +772,18 @@ export async function POST(request: NextRequest) {
           // Filter bengkelAuthorized if vehicle age exceeds partner's max
           const vehicleAge = result.vehicleAge ?? 0;
           const bengkelExcluded = partner.bengkelResmiMaxYears != null && vehicleAge > partner.bengkelResmiMaxYears;
-          const filteredAddons = bengkelExcluded
+          const bengkelFree = !bengkelExcluded && partner.bengkelResmiFreeMaxYears != null && vehicleAge <= partner.bengkelResmiFreeMaxYears;
+          // Apply bengkelFree: set bengkel premium to 0, apply bengkelResmiRate if defined
+          const processedAddons = bengkelExcluded
             ? result.addons.filter(a => a.key !== "bengkelAuthorized")
-            : result.addons;
-          const addonTotal = filteredAddons.reduce((sum, a) => sum + a.premium, 0);
+            : result.addons.map(a => {
+                if (a.key === "bengkelAuthorized" && bengkelFree) return { ...a, premium: 0, rate: 0 };
+                if (a.key === "bengkelAuthorized" && !bengkelFree && partner.bengkelResmiRate != null) {
+                  return { ...a, premium: Math.round(result.vehicleValue * partner.bengkelResmiRate), rate: partner.bengkelResmiRate };
+                }
+                return a;
+              });
+          const addonTotal = processedAddons.reduce((sum, a) => sum + a.premium, 0);
           const adjustedBasePremium = Math.round(result.basePremium * modifier);
           const adjustedTotalBeforeDiscount = adjustedBasePremium + addonTotal;
           const adjustedDiscountAmount = Math.round(adjustedTotalBeforeDiscount * (result.discountPercent / 100));
@@ -722,6 +794,8 @@ export async function POST(request: NextRequest) {
             addonModifier: 1.0,
             adminFee: result.adminFee,
             bengkelAuthorizedExcluded: bengkelExcluded,
+            bengkelResmiFree: bengkelFree,
+            bengkelResmiRate: bengkelFree ? 0 : partner.bengkelResmiRate,
             estimatedPremium,
             benefits: partner.benefits,
             facilities: partner.facilities,
@@ -729,7 +803,7 @@ export async function POST(request: NextRequest) {
             breakdown: {
               basePremium: adjustedBasePremium,
               addOnPremium: addonTotal,
-              addons: filteredAddons,
+              addons: processedAddons,
               totalPremiumBeforeDiscount: adjustedTotalBeforeDiscount,
               discountPercent: result.discountPercent,
               discountAmount: adjustedDiscountAmount,

@@ -30,6 +30,9 @@ export async function PATCH(
     if (body.modifier !== undefined) updateData.modifier = body.modifier;
     if (body.addonModifier !== undefined) updateData.addonModifier = body.addonModifier;
     if (body.adminFee !== undefined) updateData.adminFee = body.adminFee;
+    if (body.bengkelResmiMaxYears !== undefined) updateData.bengkelResmiMaxYears = body.bengkelResmiMaxYears;
+    if (body.bengkelResmiFreeMaxYears !== undefined) updateData.bengkelResmiFreeMaxYears = body.bengkelResmiFreeMaxYears;
+    if (body.maxAgeAllRisk !== undefined) updateData.maxAgeAllRisk = body.maxAgeAllRisk;
     if (body.description !== undefined) updateData.description = body.description;
     if (body.sortOrder !== undefined) updateData.sortOrder = body.sortOrder;
 
