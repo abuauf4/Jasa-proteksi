@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     if (error) return error;
 
     const body = await request.json();
-    const { name, slug, logoUrl, status, benefits, facilities, modifier, addonModifier, adminFee, bengkelResmiMaxYears, bengkelResmiFreeMaxYears, maxAgeAllRisk, description, sortOrder } = body;
+    const { name, slug, logoUrl, status, benefits, facilities, modifier, addonModifier, adminFee, bengkelResmiMaxYears, description, sortOrder } = body;
 
     if (!name || !slug) {
       return NextResponse.json(
@@ -72,8 +72,6 @@ export async function POST(request: NextRequest) {
         addonModifier: addonModifier ?? 1.0,
         adminFee: adminFee ?? 50000,
         bengkelResmiMaxYears: bengkelResmiMaxYears ?? null,
-        bengkelResmiFreeMaxYears: bengkelResmiFreeMaxYears ?? null,
-        maxAgeAllRisk: maxAgeAllRisk ?? null,
         description: description || null,
         sortOrder: sortOrder ?? 0,
       },

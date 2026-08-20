@@ -285,8 +285,6 @@ model InsurancePartner {
   addonModifier         Float    @default(1.0)      // addon rate multiplier (pengali premi addon)
   adminFee              Int      @default(50000)    // biaya admin per partner (IDR)
   bengkelResmiMaxYears      Int?     // max vehicle age (years) for bengkel authorized add-on eligibility
-  bengkelResmiFreeMaxYears Int?     // max vehicle age for FREE bengkel resmi (rate=0); after this, bengkelResmiRate or global rate applies
-  maxAgeAllRisk             Int?     // per-partner max vehicle age for All Risk/Comprehensive (overrides global)
   description           String?
   sortOrder             Int      @default(0)
   createdAt             DateTime @default(now())

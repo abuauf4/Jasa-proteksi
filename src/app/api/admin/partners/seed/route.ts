@@ -134,8 +134,6 @@ export async function POST(request: NextRequest) {
         modifier: 1.0,
         addonModifier: 1.0,
         adminFee: 50000,
-        bengkelResmiFreeMaxYears: 5,
-        maxAgeAllRisk: 15,
         description: "Etiqa Insurance - Bengkel resmi free 5 tahun, All Risk hingga 15 tahun",
         sortOrder: 9,
       },

@@ -113,24 +113,29 @@ async function getActivePartnersFromDB() {
       orderBy: { sortOrder: "asc" },
       include: { addonRateOverrides: { where: { isActive: true } } },
     });
-    return dbPartners.map((p) => ({
-      name: p.name,
-      key: `partner${p.slug.replace(/-/g, "").replace(/\s+/g, "")}Modifier`,
-      modifier: p.modifier,
-      addonModifier: p.addonModifier ?? 1.0,
-      adminFee: p.adminFee ?? 50000,
-      bengkelResmiMaxYears: p.bengkelResmiMaxYears ?? null,
-      bengkelResmiFreeMaxYears: p.bengkelResmiFreeMaxYears ?? null,
-      maxAgeAllRisk: p.maxAgeAllRisk ?? null,
-      benefits: p.benefits ? JSON.parse(p.benefits) : [],
-      facilities: p.facilities ? JSON.parse(p.facilities) : [],
-      availableAddOns: DEFAULT_AVAILABLE_ADDONS,
-      addonRateOverrides: (p.addonRateOverrides || []).map(o => ({
-        addonKey: o.addonKey,
-        rate: o.rate,
-        addonLabel: o.addonLabel,
-      })),
-    }));
+    return dbPartners.map((p) => {
+      // Partner-specific overrides (no DB columns needed)
+      const isEtiqa = p.slug === "etiqa";
+      return {
+        name: p.name,
+        slug: p.slug,
+        key: `partner${p.slug.replace(/-/g, "").replace(/\s+/g, "")}Modifier`,
+        modifier: p.modifier,
+        addonModifier: p.addonModifier ?? 1.0,
+        adminFee: p.adminFee ?? 50000,
+        bengkelResmiMaxYears: p.bengkelResmiMaxYears ?? null,
+        bengkelResmiFreeMaxYears: isEtiqa ? 5 : null,
+        maxAgeAllRisk: isEtiqa ? 15 : null,
+        benefits: p.benefits ? JSON.parse(p.benefits) : [],
+        facilities: p.facilities ? JSON.parse(p.facilities) : [],
+        availableAddOns: DEFAULT_AVAILABLE_ADDONS,
+        addonRateOverrides: (p.addonRateOverrides || []).map(o => ({
+          addonKey: o.addonKey,
+          rate: o.rate,
+          addonLabel: o.addonLabel,
+        })),
+      };
+    });
   } catch {
     return null;
   }
