@@ -127,6 +127,7 @@ export async function POST(request: NextRequest) {
       {
         name: "Etiqa",
         slug: "etiqa",
+        logoUrl: "/etiqa-logo.png",
         status: "active",
         benefits: JSON.stringify(["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi Free 5 Tahun"]),
         facilities: JSON.stringify(["Free derek", "Layanan call 24 jam"]),
