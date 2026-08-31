@@ -26,6 +26,7 @@ const PARTNER_LOGO_MAP: Record<string, string> = {
   "multi-artha-guna": "/partners/mag.webp",
   sahabat: "/partners/sahabat.webp",
   oona: "/partners/oona.webp",
+  etiqa: "/partners/etiqa.webp",
 };
 
 // Display dimensions for partner logos (half of source for retina)

@@ -216,6 +216,7 @@ export function partnerLogoSlug(partnerName: string): string | null {
     "Tugu": "tugu",
     "Sahabat": "sahabat",
     "Oona": "oona",
+    "Etiqa": "etiqa",
   };
   return map[partnerName] ?? null;
 }
@@ -242,6 +243,7 @@ export const partnerLogoScale: Record<string, number> = {
   tugu: 1.45,
   sahabat: 1.45,
   oona: 0.90,
+  etiqa: 1.0,
 };
 
 /** Get scale factor for a partner name (returns 1.0 if not configured). */
