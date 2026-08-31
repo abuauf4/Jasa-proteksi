@@ -1,0 +1,1814 @@
+{
+  "captured_at": "2026-08-31T07:53:28",
+  "api": "https://jasaproteksi.com/api/vehicles/premium",
+  "note": "Baseline SEBELUM row override Etiqa x bengkelAuthorized=0.001 ditambahkan",
+  "etiqa_pin_status": null,
+  "scenarios": [
+    {
+      "name": "S1: Mobil 4 thn - bengkel Etiqa harus FREE",
+      "payload": {
+        "brand": "TOYOTA",
+        "modelDescription": "AVANZA",
+        "vehicleYear": 2022,
+        "coverageType": "Comprehensive",
+        "plateCode": "B",
+        "addOns": [
+          "flood",
+          "bengkelAuthorized"
+        ],
+        "vehicleValueOverride": 200000000
+      },
+      "response": {
+        "dataAvailable": true,
+        "source": "manual_override",
+        "vehicleValue": 200000000,
+        "vehicleAge": 4,
+        "vehicleTypeCategory": "Non Bus dan Non Truk",
+        "wilayah": 2,
+        "wilayahName": "Wilayah 2 (Jabodetabek & Bandung)",
+        "plateCity": "Jakarta",
+        "isEligible": true,
+        "otrRange": {
+          "min": 170000000,
+          "max": 230000000,
+          "display": "Rp 170.000.000 – Rp 230.000.000"
+        },
+        "coverageType": "Comprehensive",
+        "baseRate": 0.0247,
+        "loadingRate": 0,
+        "effectiveRate": 0.0247,
+        "basePremium": 4940000,
+        "addOns": [
+          {
+            "key": "flood",
+            "label": "Banjir & Angin Kencang",
+            "rate": 0.001,
+            "premium": 200000,
+            "coverageAmount": 200000000
+          },
+          {
+            "key": "bengkelAuthorized",
+            "label": "Bengkel Resmi / Authorized",
+            "rate": 0.001,
+            "premium": 200000,
+            "coverageAmount": 200000000
+          }
+        ],
+        "addOnPremium": 400000,
+        "totalPremiumBeforeDiscount": 5340000,
+        "discountPercent": 25,
+        "discountAmount": 1335000,
+        "adminFee": 50000,
+        "policyFee": 0,
+        "totalPremium": 4055000,
+        "partners": [
+          {
+            "name": "Sinarmas",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 35000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.005,
+            "estimatedPremium": 4640000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 4940000,
+              "addOnPremium": 1200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.005,
+                  "premium": 1000000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 6140000,
+              "discountPercent": 25,
+              "discountAmount": 1535000,
+              "adminFee": 35000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Multi Artha Guna",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 3905000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 3 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 4940000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 5140000,
+              "discountPercent": 25,
+              "discountAmount": 1285000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "ACA",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 4055000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 4940000,
+              "addOnPremium": 400000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 5340000,
+              "discountPercent": 25,
+              "discountAmount": 1335000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Mega Insurance",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 4055000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 4940000,
+              "addOnPremium": 400000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 5340000,
+              "discountPercent": 25,
+              "discountAmount": 1335000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Oona",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 4055000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 5 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 4940000,
+              "addOnPremium": 400000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 5340000,
+              "discountPercent": 25,
+              "discountAmount": 1335000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Zurich Syariah",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.0015,
+            "estimatedPremium": 4130000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun",
+              "Syariah Compliant"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 4940000,
+              "addOnPremium": 500000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.0015,
+                  "premium": 300000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 5440000,
+              "discountPercent": 25,
+              "discountAmount": 1360000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Sahabat",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 4055000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 5 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 4940000,
+              "addOnPremium": 400000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 5340000,
+              "discountPercent": 25,
+              "discountAmount": 1335000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Etiqa",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": true,
+            "bengkelResmiRate": 0,
+            "estimatedPremium": 3905000,
+            "benefits": [],
+            "facilities": [],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 4940000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0,
+                  "premium": 0,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 5140000,
+              "discountPercent": 25,
+              "discountAmount": 1285000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "S2: Mobil 8 thn - bengkel Etiqa 0.1% (di sini pin-nya kelihatan)",
+      "payload": {
+        "brand": "TOYOTA",
+        "modelDescription": "AVANZA",
+        "vehicleYear": 2018,
+        "coverageType": "Comprehensive",
+        "plateCode": "B",
+        "addOns": [
+          "flood",
+          "bengkelAuthorized"
+        ],
+        "vehicleValueOverride": 200000000
+      },
+      "response": {
+        "dataAvailable": true,
+        "source": "manual_override",
+        "vehicleValue": 200000000,
+        "vehicleAge": 8,
+        "vehicleTypeCategory": "Non Bus dan Non Truk",
+        "wilayah": 2,
+        "wilayahName": "Wilayah 2 (Jabodetabek & Bandung)",
+        "plateCity": "Jakarta",
+        "isEligible": true,
+        "otrRange": {
+          "min": 170000000,
+          "max": 230000000,
+          "display": "Rp 170.000.000 – Rp 230.000.000"
+        },
+        "coverageType": "Comprehensive",
+        "baseRate": 0.0247,
+        "loadingRate": 0.0037050000000000004,
+        "effectiveRate": 0.028405,
+        "basePremium": 5681000,
+        "addOns": [
+          {
+            "key": "flood",
+            "label": "Banjir & Angin Kencang",
+            "rate": 0.001,
+            "premium": 200000,
+            "coverageAmount": 200000000
+          },
+          {
+            "key": "bengkelAuthorized",
+            "label": "Bengkel Resmi / Authorized",
+            "rate": 0.001,
+            "premium": 200000,
+            "coverageAmount": 200000000
+          }
+        ],
+        "addOnPremium": 400000,
+        "totalPremiumBeforeDiscount": 6081000,
+        "discountPercent": 25,
+        "discountAmount": 1520250,
+        "adminFee": 50000,
+        "policyFee": 0,
+        "totalPremium": 4610750,
+        "partners": [
+          {
+            "name": "Sinarmas",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 35000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.005,
+            "estimatedPremium": 5195750,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 5681000,
+              "addOnPremium": 1200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.005,
+                  "premium": 1000000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 6881000,
+              "discountPercent": 25,
+              "discountAmount": 1720250,
+              "adminFee": 35000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Multi Artha Guna",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 4460750,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 3 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 5681000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 5881000,
+              "discountPercent": 25,
+              "discountAmount": 1470250,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "ACA",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 4610750,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 5681000,
+              "addOnPremium": 400000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 6081000,
+              "discountPercent": 25,
+              "discountAmount": 1520250,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Mega Insurance",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 4610750,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 5681000,
+              "addOnPremium": 400000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 6081000,
+              "discountPercent": 25,
+              "discountAmount": 1520250,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Oona",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 4460750,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 5 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 5681000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 5881000,
+              "discountPercent": 25,
+              "discountAmount": 1470250,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Zurich Syariah",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.0015,
+            "estimatedPremium": 4685750,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun",
+              "Syariah Compliant"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 5681000,
+              "addOnPremium": 500000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.0015,
+                  "premium": 300000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 6181000,
+              "discountPercent": 25,
+              "discountAmount": 1545250,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Sahabat",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 4460750,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 5 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 5681000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 5881000,
+              "discountPercent": 25,
+              "discountAmount": 1470250,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Etiqa",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "estimatedPremium": 4610750,
+            "benefits": [],
+            "facilities": [],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 5681000,
+              "addOnPremium": 400000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 6081000,
+              "discountPercent": 25,
+              "discountAmount": 1520250,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "S3: Mobil 13 thn - All Risk 15 thn hanya Etiqa",
+      "payload": {
+        "brand": "TOYOTA",
+        "modelDescription": "AVANZA",
+        "vehicleYear": 2013,
+        "coverageType": "Comprehensive",
+        "plateCode": "B",
+        "addOns": [
+          "flood",
+          "bengkelAuthorized"
+        ],
+        "vehicleValueOverride": 200000000
+      },
+      "response": {
+        "dataAvailable": true,
+        "source": "manual_override",
+        "vehicleValue": 200000000,
+        "vehicleAge": 13,
+        "vehicleTypeCategory": "Non Bus dan Non Truk",
+        "wilayah": 2,
+        "wilayahName": "Wilayah 2 (Jabodetabek & Bandung)",
+        "plateCity": "Jakarta",
+        "isEligible": true,
+        "otrRange": {
+          "min": 170000000,
+          "max": 230000000,
+          "display": "Rp 170.000.000 – Rp 230.000.000"
+        },
+        "coverageType": "Comprehensive",
+        "baseRate": 0.0247,
+        "loadingRate": 0.00988,
+        "effectiveRate": 0.03458,
+        "basePremium": 6916000,
+        "addOns": [
+          {
+            "key": "flood",
+            "label": "Banjir & Angin Kencang",
+            "rate": 0.001,
+            "premium": 200000,
+            "coverageAmount": 200000000
+          },
+          {
+            "key": "bengkelAuthorized",
+            "label": "Bengkel Resmi / Authorized",
+            "rate": 0.001,
+            "premium": 200000,
+            "coverageAmount": 200000000
+          }
+        ],
+        "addOnPremium": 400000,
+        "totalPremiumBeforeDiscount": 7316000,
+        "discountPercent": 25,
+        "discountAmount": 1829000,
+        "adminFee": 50000,
+        "policyFee": 0,
+        "totalPremium": 5537000,
+        "partners": [
+          {
+            "name": "Sinarmas",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 35000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.005,
+            "estimatedPremium": 5372000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 6916000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 7116000,
+              "discountPercent": 25,
+              "discountAmount": 1779000,
+              "adminFee": 35000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Multi Artha Guna",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 5387000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 3 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 6916000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 7116000,
+              "discountPercent": 25,
+              "discountAmount": 1779000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "ACA",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 5387000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 6916000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 7116000,
+              "discountPercent": 25,
+              "discountAmount": 1779000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Mega Insurance",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 5387000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 6916000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 7116000,
+              "discountPercent": 25,
+              "discountAmount": 1779000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Oona",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 5387000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 5 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 6916000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 7116000,
+              "discountPercent": 25,
+              "discountAmount": 1779000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Zurich Syariah",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.0015,
+            "estimatedPremium": 5387000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun",
+              "Syariah Compliant"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 6916000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 7116000,
+              "discountPercent": 25,
+              "discountAmount": 1779000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Sahabat",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 5387000,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 5 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 6916000,
+              "addOnPremium": 200000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 7116000,
+              "discountPercent": 25,
+              "discountAmount": 1779000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Etiqa",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "estimatedPremium": 5537000,
+            "benefits": [],
+            "facilities": [],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 6916000,
+              "addOnPremium": 400000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                },
+                {
+                  "key": "bengkelAuthorized",
+                  "label": "Bengkel Resmi / Authorized",
+                  "rate": 0.001,
+                  "premium": 200000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 7316000,
+              "discountPercent": 25,
+              "discountAmount": 1829000,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "S4: Mobil 4 thn TLO - jalur coverage lain",
+      "payload": {
+        "brand": "TOYOTA",
+        "modelDescription": "AVANZA",
+        "vehicleYear": 2022,
+        "coverageType": "TLO",
+        "plateCode": "B",
+        "addOns": [
+          "flood",
+          "bengkelAuthorized"
+        ],
+        "vehicleValueOverride": 200000000
+      },
+      "response": {
+        "dataAvailable": true,
+        "source": "manual_override",
+        "vehicleValue": 200000000,
+        "vehicleAge": 4,
+        "vehicleTypeCategory": "Non Bus dan Non Truk",
+        "wilayah": 2,
+        "wilayahName": "Wilayah 2 (Jabodetabek & Bandung)",
+        "plateCity": "Jakarta",
+        "isEligible": true,
+        "otrRange": {
+          "min": 170000000,
+          "max": 230000000,
+          "display": "Rp 170.000.000 – Rp 230.000.000"
+        },
+        "coverageType": "TLO",
+        "baseRate": 0.0044,
+        "loadingRate": 0,
+        "effectiveRate": 0.0044,
+        "basePremium": 880000,
+        "addOns": [
+          {
+            "key": "flood",
+            "label": "Banjir & Angin Kencang",
+            "rate": 0.00075,
+            "premium": 150000,
+            "coverageAmount": 200000000
+          }
+        ],
+        "addOnPremium": 150000,
+        "totalPremiumBeforeDiscount": 1030000,
+        "discountPercent": 25,
+        "discountAmount": 257500,
+        "adminFee": 50000,
+        "policyFee": 0,
+        "totalPremium": 822500,
+        "partners": [
+          {
+            "name": "Sinarmas",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 35000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.005,
+            "estimatedPremium": 807500,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 880000,
+              "addOnPremium": 150000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.00075,
+                  "premium": 150000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 1030000,
+              "discountPercent": 25,
+              "discountAmount": 257500,
+              "adminFee": 35000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Multi Artha Guna",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": true,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 822500,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 3 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 880000,
+              "addOnPremium": 150000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.00075,
+                  "premium": 150000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 1030000,
+              "discountPercent": 25,
+              "discountAmount": 257500,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "ACA",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 822500,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 880000,
+              "addOnPremium": 150000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.00075,
+                  "premium": 150000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 1030000,
+              "discountPercent": 25,
+              "discountAmount": 257500,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Mega Insurance",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 822500,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 880000,
+              "addOnPremium": 150000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.00075,
+                  "premium": 150000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 1030000,
+              "discountPercent": 25,
+              "discountAmount": 257500,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Oona",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 822500,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 5 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 880000,
+              "addOnPremium": 150000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.00075,
+                  "premium": 150000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 1030000,
+              "discountPercent": 25,
+              "discountAmount": 257500,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Zurich Syariah",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.0015,
+            "estimatedPremium": 822500,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 10 Tahun",
+              "Syariah Compliant"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 880000,
+              "addOnPremium": 150000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.00075,
+                  "premium": 150000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 1030000,
+              "discountPercent": 25,
+              "discountAmount": 257500,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Sahabat",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": false,
+            "bengkelResmiRate": 0.001,
+            "estimatedPremium": 822500,
+            "benefits": [
+              "Bantuan Claim",
+              "Jaringan Bengkel Luas",
+              "Bengkel Resmi 5 Tahun"
+            ],
+            "facilities": [
+              "Free derek",
+              "Layanan call 24 jam"
+            ],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 880000,
+              "addOnPremium": 150000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.00075,
+                  "premium": 150000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 1030000,
+              "discountPercent": 25,
+              "discountAmount": 257500,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          },
+          {
+            "name": "Etiqa",
+            "modifier": 1,
+            "addonModifier": 1,
+            "adminFee": 50000,
+            "bengkelAuthorizedExcluded": false,
+            "bengkelResmiFree": true,
+            "bengkelResmiRate": 0,
+            "estimatedPremium": 822500,
+            "benefits": [],
+            "facilities": [],
+            "availableAddOns": [
+              "flood",
+              "earthquake",
+              "srcc",
+              "terrorism",
+              "bengkelAuthorized",
+              "tpl",
+              "paDriver",
+              "paPassenger"
+            ],
+            "breakdown": {
+              "basePremium": 880000,
+              "addOnPremium": 150000,
+              "addons": [
+                {
+                  "key": "flood",
+                  "label": "Banjir & Angin Kencang",
+                  "rate": 0.00075,
+                  "premium": 150000,
+                  "coverageAmount": 200000000
+                }
+              ],
+              "totalPremiumBeforeDiscount": 1030000,
+              "discountPercent": 25,
+              "discountAmount": 257500,
+              "adminFee": 50000,
+              "policyFee": 0
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
