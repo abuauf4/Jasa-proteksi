@@ -64,10 +64,10 @@ export function SiteFooter() {
             {/* Logo + brand */}
             <Link href="/" className="inline-flex items-center group" aria-label="Jasa Proteksi — Beranda">
               <Image
-                src="/brand/jasa-proteksi-logo.png"
+                src="/brand/jasa-proteksi-wordmark.webp"
                 alt="Jasa Proteksi"
-                width={160}
-                height={42}
+                width={896}
+                height={167}
                 className="h-9 sm:h-10 w-auto object-contain"
               />
             </Link>

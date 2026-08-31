@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Phone, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
@@ -81,11 +82,17 @@ export default function Navigation() {
           }}
         >
           <div className="flex h-[68px] items-center justify-between lg:h-[72px]">
-            {/* Logo — split color text */}
+            {/* Logo — wordmark on dark chip (white "proteksi" needs dark bg) */}
             <a href="#beranda" className="flex-shrink-0">
-              <span className="text-xl font-bold tracking-tight sm:text-2xl">
-                <span className="text-[#0B1F3A]">Jasa</span>
-                <span className="text-[#0F766E]">Proteksi</span>
+              <span className="inline-flex items-center rounded-xl bg-[#0B1F3A] px-3 py-2">
+                <Image
+                  src="/brand/jasa-proteksi-wordmark.webp"
+                  alt="Jasa Proteksi"
+                  width={896}
+                  height={167}
+                  className="h-5 sm:h-6 w-auto object-contain"
+                  priority
+                />
               </span>
             </a>
 
@@ -167,10 +174,17 @@ export default function Navigation() {
                   <a
                     href="#beranda"
                     onClick={() => setMobileOpen(false)}
-                    className="text-lg font-bold tracking-tight"
+                    className="inline-flex items-center"
                   >
-                    <span className="text-[#0B1F3A]">Jasa</span>
-                    <span className="text-[#0F766E]">Proteksi</span>
+                    <span className="inline-flex items-center rounded-xl bg-[#0B1F3A] px-3 py-2">
+                      <Image
+                        src="/brand/jasa-proteksi-wordmark.webp"
+                        alt="Jasa Proteksi"
+                        width={896}
+                        height={167}
+                        className="h-5 w-auto object-contain"
+                      />
+                    </span>
                   </a>
                   <button
                     onClick={() => setMobileOpen(false)}

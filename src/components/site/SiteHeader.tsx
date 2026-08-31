@@ -77,20 +77,22 @@ export function SiteHeader() {
         `}
       >
         <Container className="flex items-center justify-between !px-4 h-[60px] sm:h-[72px]">
-          {/* Brand logo — full logo image */}
+          {/* Brand logo — wordmark on dark chip (white "proteksi" needs dark bg) */}
           <Link
             href="/"
             className="flex items-center"
             aria-label="Jasa Proteksi — Beranda"
           >
-            <Image
-              src="/brand/jasa-proteksi-logo.png"
-              alt="Jasa Proteksi"
-              width={140}
-              height={36}
-              className="h-7 sm:h-9 w-auto object-contain"
-              priority
-            />
+            <span className="inline-flex items-center rounded-xl bg-[#0B1F3A] px-3 py-2">
+              <Image
+                src="/brand/jasa-proteksi-wordmark.webp"
+                alt="Jasa Proteksi"
+                width={896}
+                height={167}
+                className="h-5 sm:h-6 w-auto object-contain"
+                priority
+              />
+            </span>
           </Link>
 
           {/* Desktop nav */}

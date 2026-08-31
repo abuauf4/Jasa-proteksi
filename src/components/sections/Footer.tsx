@@ -60,19 +60,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 lg:gap-14">
           {/* Column 1 - Brand + Contact */}
           <div className="min-w-0">
-            <a href="#beranda" className="flex items-center gap-3 mb-7 min-w-0">
-              <div className="relative w-8 h-8 flex-shrink-0">
-                <Image
-                  src="/logo-jasa-proteksi.webp"
-                  alt="Jasa Proteksi Logo"
-                  width={32}
-                  height={32}
-                  loading="lazy"
-                  className="object-contain"
-                />
-              </div>
-              <span className="text-sm sm:text-xl font-bold  tracking-wider text-white truncate">JASA PROTEKSI</span>
-              <Diamond className="w-3 h-3 text-[#14B8A6]" />
+            <a href="#beranda" className="inline-flex items-center mb-7">
+              <Image
+                src="/brand/jasa-proteksi-wordmark.webp"
+                alt="Jasa Proteksi Logo"
+                width={896}
+                height={167}
+                loading="lazy"
+                className="h-8 sm:h-9 w-auto object-contain"
+              />
             </a>
             <p className="text-[#64748B] text-sm leading-[1.7] mb-7">
               {t("footer.brandDesc")} <span className="text-[#14B8A6]">{t("footer.tagline")}</span>
