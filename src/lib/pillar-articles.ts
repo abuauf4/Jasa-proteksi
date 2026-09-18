@@ -1,7 +1,7 @@
 /**
  * Pillar Articles Registry
  *
- * Static metadata for the 6 SEO pillar articles that exist as
+ * Static metadata for SEO article pages that exist as
  * dedicated route pages (not CMS/database records).
  * Used on the /artikel listing page and homepage article section
  * so these articles always appear even when the database is empty.
@@ -84,5 +84,49 @@ export const PILLAR_ARTICLES: PillarArticle[] = [
     category: "Panduan",
     publishedAt: "2025-03-01",
     coverImage: "/perluasan-asuransi-mobil.webp",
+  },
+  {
+    id: "pillar-cara-klaim-asuransi-mobil",
+    slug: "cara-klaim-asuransi-mobil",
+    title: "Cara Klaim Asuransi Mobil: Alur, Dokumen, dan Bantuan",
+    excerpt:
+      "Panduan umum proses klaim asuransi mobil, hal yang perlu disiapkan, perbedaan klaim sesuai perlindungan, serta batas peran Jasa Proteksi dan perusahaan asuransi.",
+    href: "/cara-klaim-asuransi-mobil",
+    category: "Klaim",
+    publishedAt: "2026-09-18",
+    coverImage: null,
+  },
+  {
+    id: "pillar-asuransi-mobil-banjir",
+    slug: "asuransi-mobil-banjir",
+    title: "Asuransi Mobil Banjir: Perluasan, Biaya, dan Cara Simulasi",
+    excerpt:
+      "Pelajari perlindungan banjir sebagai perluasan asuransi mobil, referensi rate yang digunakan di Jasa Proteksi, dan cara melihat dampaknya pada estimasi premi.",
+    href: "/asuransi-mobil-banjir",
+    category: "Perluasan",
+    publishedAt: "2026-09-18",
+    coverImage: null,
+  },
+  {
+    id: "pillar-perpanjangan-asuransi-mobil",
+    slug: "perpanjangan-asuransi-mobil",
+    title: "Perpanjangan Asuransi Mobil: Cek Ulang Premi dan Perlindungan",
+    excerpt:
+      "Panduan mengevaluasi kembali premi, All Risk atau TLO, perluasan, usia kendaraan, dan partner sebelum memperpanjang asuransi mobil.",
+    href: "/perpanjangan-asuransi-mobil",
+    category: "Panduan",
+    publishedAt: "2026-09-18",
+    coverImage: null,
+  },
+  {
+    id: "pillar-asuransi-mobil-baru",
+    slug: "asuransi-mobil-baru",
+    title: "Asuransi Mobil Baru: Pilih All Risk atau TLO dan Hitung Premi",
+    excerpt:
+      "Panduan memilih perlindungan untuk mobil baru, memahami All Risk dan TLO, faktor premi, perluasan, bengkel resmi, dan cara simulasi online.",
+    href: "/asuransi-mobil-baru",
+    category: "Panduan",
+    publishedAt: "2026-09-18",
+    coverImage: null,
   },
 ];
