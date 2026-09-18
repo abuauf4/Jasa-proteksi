@@ -20,92 +20,77 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1.0,
     },
     {
       url: `${SITE_URL}/cek-premi`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/asuransi-mobil`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/asuransi-mobil-all-risk`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${SITE_URL}/asuransi-mobil-tlo`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${SITE_URL}/artikel`,
-      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.7,
     },
     // SEO pillar articles
     {
       url: `${SITE_URL}/perbedaan-all-risk-dan-tlo`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/cara-menghitung-premi-asuransi-mobil`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/biaya-asuransi-mobil`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/faktor-premi-asuransi-mobil`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${SITE_URL}/asuransi-mobil-bekas`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${SITE_URL}/perluasan-asuransi-mobil`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${SITE_URL}/tentang-kami`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,
     },
     {
       url: `${SITE_URL}/kebijakan-privasi`,
-      lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
       url: `${SITE_URL}/syarat-ketentuan`,
-      lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.3,
     },

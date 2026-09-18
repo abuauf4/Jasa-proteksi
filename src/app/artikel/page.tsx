@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Artikel Asuransi Mobil — Jasa Proteksi",
+  title: "Artikel Asuransi Mobil",
   description:
     "Artikel, tips, dan panduan asuransi mobil dari Jasa Proteksi. Pelajari All Risk, TLO, perluasan, klaim, dan cara menghitung premi.",
   alternates: { canonical: `${SITE_URL}/artikel` },

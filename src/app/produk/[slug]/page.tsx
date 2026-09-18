@@ -63,11 +63,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await db.product.findUnique({ where: { slug } });
 
   if (!product || !product.isActive) {
-    return { title: "Produk Tidak Ditemukan - Jasa Proteksi" };
+    return { title: "Produk Tidak Ditemukan", robots: { index: false, follow: false } };
   }
 
   return {
-    title: `${product.name} - Cek Harga Premi | Jasa Proteksi`,
+    title: `${product.name} - Cek Harga Premi`,
     description: product.description.slice(0, 160),
     openGraph: {
       title: `${product.name} - Jasa Proteksi`,
