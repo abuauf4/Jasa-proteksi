@@ -18,7 +18,7 @@ interface ArticleShellProps {
   initialSettings: SiteSettings;
   initialHero: HeroData | null;
   title: string;
-  description: string;
+  description?: string;
   updatedAt: string;
   coverImage?: string | null;
   faqs: Array<{ q: string; a: string }>;
