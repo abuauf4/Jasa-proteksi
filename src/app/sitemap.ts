@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Sitemap: failed to fetch articles:", error);
   }
 
-  // Static pages — homepage + SEO pillar articles
+  // Static non-article pages
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
@@ -68,7 +68,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const pillarPages: MetadataRoute.Sitemap = PILLAR_ARTICLES.map((article) => ({
     url: `${SITE_URL}${article.href}`,
-    lastModified: article.publishedAt,
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }));
