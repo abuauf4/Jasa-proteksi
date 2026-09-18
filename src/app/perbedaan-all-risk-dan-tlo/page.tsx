@@ -33,6 +33,7 @@ export default async function Page() {
     { slug: "faktor-premi-asuransi-mobil", title: "7 Faktor yang Memengaruhi Premi Asuransi Mobil" },
     { slug: "biaya-asuransi-mobil", title: "Berapa Biaya Asuransi Mobil?" },
     { slug: "cara-menghitung-premi-asuransi-mobil", title: "Cara Menghitung Premi Asuransi Mobil" },
+    { slug: "asuransi-mobil-baru", title: "Asuransi Mobil Baru: Pilih All Risk atau TLO dan Hitung Premi" },
   ];
 
   return (
