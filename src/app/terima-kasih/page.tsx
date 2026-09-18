@@ -4,7 +4,7 @@ import { CheckCircle2, MessageCircle, ArrowRight } from "lucide-react";
 import { db } from "@/lib/db";
 
 export const metadata: Metadata = {
-  title: "Terima Kasih - Jasa Proteksi",
+  title: "Terima Kasih",
   description: "Terima kasih telah menghubungi Jasa Proteksi. Tim advisor kami akan segera menghubungi Anda.",
   robots: { index: false, follow: false }, // Don't index thank-you pages
 };
