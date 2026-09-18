@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { db } from "@/lib/db";
+import { PILLAR_ARTICLES } from "@/lib/pillar-articles";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
@@ -16,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Sitemap: failed to fetch articles:", error);
   }
 
-  // Static pages — homepage + SEO pillar articles
+  // Static non-article pages
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
@@ -48,37 +49,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.7,
     },
-    // SEO pillar articles
-    {
-      url: `${SITE_URL}/perbedaan-all-risk-dan-tlo`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/cara-menghitung-premi-asuransi-mobil`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/biaya-asuransi-mobil`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/faktor-premi-asuransi-mobil`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/asuransi-mobil-bekas`,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/perluasan-asuransi-mobil`,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
     {
       url: `${SITE_URL}/tentang-kami`,
       changeFrequency: "monthly",
@@ -96,6 +66,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  const pillarPages: MetadataRoute.Sitemap = PILLAR_ARTICLES.map((article) => ({
+    url: `${SITE_URL}${article.href}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   // Dynamic artikel pages
   const articlePages: MetadataRoute.Sitemap = publishedArticles.map(
     (article) => ({
@@ -106,5 +82,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  return [...staticPages, ...articlePages];
+  return [...staticPages, ...pillarPages, ...articlePages];
 }
