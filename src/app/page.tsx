@@ -8,7 +8,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 export const revalidate = 300;
 
 const FALLBACK_METADATA: Metadata = {
-  title: "Hitung Premi Asuransi Mobil Secara Online | Jasa Proteksi",
+  title: "Hitung Premi Asuransi Mobil Secara Online",
   description:
     "Platform simulasi premi asuransi mobil All Risk dan TLO online. Dapatkan estimasi otomatis berdasarkan data kendaraan dan wilayah penggunaan. Gratis, tanpa biaya.",
   keywords: [
@@ -54,8 +54,15 @@ export async function generateMetadata(): Promise<Metadata> {
       const fallbackDescription = FALLBACK_METADATA.description as string;
       const fallbackKeywords = FALLBACK_METADATA.keywords as string[];
 
+      const metaTitle = seo.metaTitle?.trim();
+      const resolvedTitle: Metadata["title"] = metaTitle
+        ? /jasa proteksi/i.test(metaTitle)
+          ? { absolute: metaTitle }
+          : metaTitle
+        : fallbackTitle;
+
       return {
-        title: seo.metaTitle || fallbackTitle,
+        title: resolvedTitle,
         description: seo.metaDescription || fallbackDescription,
         keywords: seo.keywords
           ? seo.keywords.split(",").map((k) => k.trim())
