@@ -16,12 +16,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     include: { category: true },
   });
 
-  if (!article) {
-    return { title: "Artikel Tidak Ditemukan - Jasa Proteksi" };
+  if (!article || article.status !== "published") {
+    return {
+      title: "Artikel Tidak Ditemukan",
+      robots: { index: false, follow: false },
+    };
   }
 
+  const metaTitle = article.metaTitle?.trim();
+  const resolvedTitle: Metadata["title"] = metaTitle
+    ? /jasa proteksi/i.test(metaTitle)
+      ? { absolute: metaTitle }
+      : metaTitle
+    : article.title;
+
   return {
-    title: article.metaTitle || `${article.title} - Jasa Proteksi`,
+    title: resolvedTitle,
     description: article.metaDescription || article.excerpt || undefined,
     alternates: { canonical: `${SITE_URL}/artikel/${slug}` },
     openGraph: {
@@ -83,10 +93,51 @@ export default async function ArtikelDetailPage({ params }: Props) {
     updatedAt: a.updatedAt.toISOString(),
   }));
 
+  const articleUrl = `${SITE_URL}/artikel/${slug}`;
+  const coverImage = article.coverImage
+    ? article.coverImage.startsWith("http")
+      ? article.coverImage
+      : `${SITE_URL}${article.coverImage.startsWith("/") ? "" : "/"}${article.coverImage}`
+    : `${SITE_URL}/og-image.webp`;
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.metaDescription || article.excerpt || undefined,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": articleUrl,
+    },
+    url: articleUrl,
+    image: [coverImage],
+    datePublished: article.publishedAt?.toISOString() || article.createdAt.toISOString(),
+    dateModified: article.updatedAt.toISOString(),
+    author: {
+      "@type": "Person",
+      name: article.author?.name || "Tim Jasa Proteksi",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Jasa Proteksi",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo-jasa-proteksi.webp`,
+      },
+    },
+    inLanguage: "id-ID",
+  };
+
   return (
-    <BlogDetailClient
-      article={serializedArticle}
-      relatedArticles={serializedRelated}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <BlogDetailClient
+        article={serializedArticle}
+        relatedArticles={serializedRelated}
+      />
+    </>
   );
 }
