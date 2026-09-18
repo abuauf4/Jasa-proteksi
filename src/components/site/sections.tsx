@@ -187,8 +187,8 @@ export function ShortcutMenu() {
 
 export function CoverageCards() {
   const cards = [
-    { title: "All Risk", desc1: "Kerusakan sebagian hingga total", desc2: "Cakupan perlindungan lebih luas", gradient: "from-[#ECFDF5] to-[#FFFFFF]", border: "border-[#A7F3D0]", iconColor: "#0F766E", iconBg: "#CCFBF1" },
-    { title: "TLO", desc1: "Kehilangan atau kerusakan total", desc2: "Premi relatif lebih terjangkau", gradient: "from-[#F1F5F9] to-[#FFFFFF]", border: "border-[#E2E8F0]", iconColor: "#475569", iconBg: "#F1F5F9" },
+    { title: "All Risk", desc1: "Kerusakan sebagian hingga total", desc2: "Cakupan perlindungan lebih luas", href: "/asuransi-mobil-all-risk", gradient: "from-[#ECFDF5] to-[#FFFFFF]", border: "border-[#A7F3D0]", iconColor: "#0F766E", iconBg: "#CCFBF1" },
+    { title: "TLO", desc1: "Kehilangan atau kerusakan total", desc2: "Premi relatif lebih terjangkau", href: "/asuransi-mobil-tlo", gradient: "from-[#F1F5F9] to-[#FFFFFF]", border: "border-[#E2E8F0]", iconColor: "#475569", iconBg: "#F1F5F9" },
   ];
 
   return (
@@ -206,6 +206,13 @@ export function CoverageCards() {
               <h3 className="font-bold text-[#0F172A] text-base">{c.title}</h3>
               <p className="text-xs text-[#64748B] mt-1 leading-snug">{c.desc1}</p>
               <p className="text-xs text-[#64748B] leading-snug">{c.desc2}</p>
+              <Link
+                href={c.href}
+                className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-[#0F766E] hover:underline"
+              >
+                Pelajari {c.title}
+                <ArrowRight className="h-3 w-3" aria-hidden />
+              </Link>
             </div>
           ))}
         </div>

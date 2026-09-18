@@ -6,7 +6,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { MobileStickyCTA } from "@/components/site/MobileStickyCTA";
 import { Container, Section, SectionHeader, Card } from "@/components/site/primitives";
 import { Button } from "@/components/site/Button";
-import { Mail, MessageCircle, Phone, MapPin, Calculator } from "lucide-react";
+import { Mail, MessageCircle, Phone, MapPin, Calculator, BookOpen, Database, ShieldCheck } from "lucide-react";
 import { buildWhatsAppLink } from "@/lib/format";
 
 export const revalidate = 300;
@@ -95,6 +95,49 @@ export default async function TentangKamiPage() {
                   dan ketentuan pertanggungan diterbitkan oleh perusahaan asuransi terkait.
                 </p>
               </Card>
+
+              <section id="editorial" className="mt-10 scroll-mt-24">
+                <SectionHeader
+                  eyebrow="Editorial"
+                  title="Cara Kami Menyajikan Informasi"
+                  description="Kami berusaha membuat informasi simulasi dan panduan tetap jelas, transparan, dan sesuai dengan data yang digunakan pada platform."
+                />
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
+                  <Card className="flex flex-col gap-2">
+                    <span className="w-9 h-9 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-center text-[#0F766E]">
+                      <Database className="h-4 w-4" aria-hidden />
+                    </span>
+                    <h2 className="text-sm font-semibold text-[#0F172A]">Berbasis Data Platform</h2>
+                    <p className="text-xs text-[#64748B] leading-relaxed">
+                      Panduan menjelaskan produk, faktor premi, dan fitur yang tersedia berdasarkan
+                      informasi serta data yang digunakan pada platform Jasa Proteksi.
+                    </p>
+                  </Card>
+
+                  <Card className="flex flex-col gap-2">
+                    <span className="w-9 h-9 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-center text-[#0F766E]">
+                      <BookOpen className="h-4 w-4" aria-hidden />
+                    </span>
+                    <h2 className="text-sm font-semibold text-[#0F172A]">Tanggal Pembaruan Jelas</h2>
+                    <p className="text-xs text-[#64748B] leading-relaxed">
+                      Artikel panduan menampilkan waktu pembaruan agar pembaca dapat melihat
+                      kapan materi terakhir diperbarui pada website.
+                    </p>
+                  </Card>
+
+                  <Card className="flex flex-col gap-2">
+                    <span className="w-9 h-9 rounded-lg bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-center text-[#0F766E]">
+                      <ShieldCheck className="h-4 w-4" aria-hidden />
+                    </span>
+                    <h2 className="text-sm font-semibold text-[#0F172A]">Batas Layanan Transparan</h2>
+                    <p className="text-xs text-[#64748B] leading-relaxed">
+                      Simulasi merupakan estimasi awal. Premi, manfaat, syarat, dan ketentuan akhir
+                      mengikuti quotation serta polis perusahaan asuransi terkait.
+                    </p>
+                  </Card>
+                </div>
+              </section>
 
               {contactItems.length > 0 && (
                 <div className="mt-8">
