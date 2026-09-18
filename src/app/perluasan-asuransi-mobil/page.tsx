@@ -33,6 +33,7 @@ export default async function Page() {
     { slug: "perbedaan-all-risk-dan-tlo", title: "Asuransi Mobil All Risk vs TLO: Perbedaan, Kelebihan, dan Cara Memilih" },
     { slug: "faktor-premi-asuransi-mobil", title: "7 Faktor yang Memengaruhi Premi Asuransi Mobil" },
     { slug: "cara-menghitung-premi-asuransi-mobil", title: "Cara Menghitung Premi Asuransi Mobil dan Contoh Simulasinya" },
+    { slug: "asuransi-mobil-banjir", title: "Asuransi Mobil Banjir: Perluasan, Biaya, dan Cara Simulasi" },
   ];
 
   return (
