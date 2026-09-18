@@ -14,7 +14,7 @@ export const revalidate = 300;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
 export const metadata: Metadata = {
-  title: "Asuransi Mobil TLO — Simulasi Premi Online | Jasa Proteksi",
+  title: "Asuransi Mobil TLO — Simulasi Premi Online",
   description:
     "Asuransi mobil TLO (Total Loss Only) memberikan perlindungan atas kehilangan atau kerusakan yang memenuhi kriteria total loss. Hitung estimasi premi secara online.",
   alternates: { canonical: `${SITE_URL}/asuransi-mobil-tlo` },
