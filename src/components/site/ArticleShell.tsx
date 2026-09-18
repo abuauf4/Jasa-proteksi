@@ -10,6 +10,7 @@ import { HeroCalculator } from "@/components/calculator/HeroCalculator";
 import { Button } from "@/components/site/Button";
 import { Container } from "@/components/site/primitives";
 import { ServerDataProvider, type SiteSettings, type HeroData } from "@/lib/ServerDataContext";
+import { PILLAR_ARTICLES } from "@/lib/pillar-articles";
 
 interface ArticleShellProps {
   initialSettings: SiteSettings;
@@ -99,16 +100,22 @@ export function ArticleShell({
               <section className="mt-8">
                 <h2 className="text-lg font-bold text-[#0F172A] mb-3">Artikel Terkait</h2>
                 <div className="flex flex-col gap-2">
-                  {relatedArticles.map((art) => (
+                  {relatedArticles.map((art) => {
+                    const href =
+                      PILLAR_ARTICLES.find((pillar) => pillar.slug === art.slug)?.href ||
+                      `/artikel/${art.slug}`;
+
+                    return (
                     <Link
                       key={art.slug}
-                      href={`/artikel/${art.slug}`}
+                      href={href}
                       className="group flex items-center gap-2 p-3 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#0F766E] hover:shadow-md transition-all"
                     >
                       <span className="flex-1 font-semibold text-[#0F172A] text-sm group-hover:text-[#0F766E]">{art.title}</span>
                       <ArrowRight className="h-4 w-4 text-[#64748B] group-hover:text-[#0F766E]" aria-hidden />
                     </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               </section>
             )}
