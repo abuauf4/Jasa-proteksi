@@ -10,6 +10,7 @@ import { Container, Section, SectionHeader, Card, Badge } from "@/components/sit
 import { Button } from "@/components/site/Button";
 import { ShieldCheck, Calculator, Sparkles, Wallet, Calendar, Globe, ListChecks, Sliders } from "lucide-react";
 import Link from "next/link";
+import { PILLAR_ARTICLES } from "@/lib/pillar-articles";
 
 export const revalidate = 300;
 
@@ -152,6 +153,40 @@ export default async function AsuransiMobilPage() {
           </Section>
 
           <PremiumFactors />
+
+          <Section tone="soft" id="panduan-asuransi-mobil">
+            <Container>
+              <SectionHeader
+                eyebrow="Panduan Utama"
+                title="Pelajari Asuransi Mobil Lebih Dalam"
+                description="Mulai dari perbedaan All Risk dan TLO, cara menghitung premi, biaya, hingga perluasan perlindungan."
+              />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+                {PILLAR_ARTICLES.map((article) => (
+                  <Link
+                    key={article.slug}
+                    href={article.href}
+                    className="group rounded-2xl border border-[#E2E8F0] bg-white p-4 hover:border-[#0F766E] hover:shadow-md transition-all"
+                  >
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#0F766E]">
+                      {article.category}
+                    </span>
+                    <h2 className="mt-2 text-sm font-semibold text-[#0F172A] leading-snug group-hover:text-[#0F766E]">
+                      {article.title}
+                    </h2>
+                    <p className="mt-2 text-xs text-[#64748B] leading-relaxed line-clamp-3">
+                      {article.excerpt}
+                    </p>
+                    <span className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-[#0F766E]">
+                      Baca panduan
+                      <span aria-hidden>→</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </Container>
+          </Section>
 
           <Section tone="white">
             <Container className="max-w-3xl">
