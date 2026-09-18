@@ -33,6 +33,7 @@ export default async function Page() {
     { slug: "cara-menghitung-premi-asuransi-mobil", title: "Cara Menghitung Premi Asuransi Mobil dan Contoh Simulasinya" },
     { slug: "faktor-premi-asuransi-mobil", title: "7 Faktor yang Memengaruhi Premi Asuransi Mobil" },
     { slug: "perbedaan-all-risk-dan-tlo", title: "Asuransi Mobil All Risk vs TLO: Perbedaan, Kelebihan, dan Cara Memilih" },
+    { slug: "perpanjangan-asuransi-mobil", title: "Perpanjangan Asuransi Mobil: Cek Ulang Premi dan Perlindungan" },
   ];
 
   return (
