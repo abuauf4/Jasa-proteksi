@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import AnalyticsScripts from "@/components/AnalyticsScripts";
 import MaintenanceGuard from "@/components/shared/MaintenanceGuard";
 import { LanguageProvider } from "@/lib/i18n/LanguageContext";
-import { db } from "@/lib/db";
+import { getCachedSiteSettings } from "@/lib/site-data-cache";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
@@ -86,14 +86,10 @@ async function JsonLd() {
   let email = "";
   let address = "";
   try {
-    const settings = await db.siteSetting.findMany();
-    const map: Record<string, string> = {};
-    for (const s of settings) {
-      map[s.key] = s.value;
-    }
-    whatsapp = map.whatsapp || "";
-    email = map.email || "";
-    address = map.address || "";
+    const settings = await getCachedSiteSettings();
+    whatsapp = settings.whatsapp;
+    email = settings.email;
+    address = settings.address;
   } catch {
     // Use empty defaults on DB error
   }
