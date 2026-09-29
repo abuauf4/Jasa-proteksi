@@ -378,7 +378,11 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
 
       {/* Lead Form Dialog */}
       <Dialog open={showLeadDialog} onOpenChange={(open) => { if (!isSubmittingLead) setShowLeadDialog(open); }}>
-        <DialogContent showCloseButton={!isSubmittingLead} className="sm:max-w-md">
+        <DialogContent
+          showCloseButton={!isSubmittingLead}
+          className="sm:max-w-md"
+          onOpenAutoFocus={(event) => event.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle className="text-left">Lanjutkan Pengajuan</DialogTitle>
             <DialogDescription className="text-left">
@@ -401,7 +405,6 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
                   onChange={(e) => setLeadForm((f) => ({ ...f, customerName: e.target.value }))}
                   disabled={isSubmittingLead}
                   className="w-full rounded-lg border border-[#E2E8F0] bg-white py-2.5 pl-9 pr-3 text-sm text-[#0F172A] placeholder:text-[#94A3B8] focus:border-[#0F766E] focus:outline-none focus:ring-1 focus:ring-[#0F766E] disabled:opacity-50"
-                  autoFocus
                 />
               </div>
             </div>
