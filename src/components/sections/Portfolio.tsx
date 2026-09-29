@@ -13,8 +13,8 @@ import TextReveal from "@/components/shared/TextReveal";
 import { products as staticProducts, InsuranceProduct } from "@/lib/products";
 import { prefetchVehicleData } from "@/lib/vehiclePrefetch";
 
-// LeadFlowModal no longer imported — product "Cek Harga" CTA now navigates
-// to /produk/[slug] dedicated page instead of opening a modal overlay.
+// LeadFlowModal no longer imported — the car insurance product uses the
+// canonical /asuransi-mobil landing page instead of the legacy /produk URL.
 
 const iconMap: Record<string, React.ElementType> = {
   "asuransi-mobil": Car,
@@ -93,12 +93,10 @@ export default function Portfolio() {
     }
   }, [prefetched]);
 
-  // Listen for "open-lead-flow" custom event from Hero CTA — now redirects to
-  // /produk/asuransi-mobil page (kept for backward compat with Hero CTA event)
+  // Backward-compatible event: send quote intent to the dedicated calculator.
   useEffect(() => {
     const handleOpenLeadFlow = () => {
-      const defaultSlug = products.find((p) => p.slug === "asuransi-mobil")?.slug || "asuransi-mobil";
-      window.location.href = `/produk/${defaultSlug}`;
+      window.location.href = "/cek-premi";
     };
     window.addEventListener("open-lead-flow", handleOpenLeadFlow);
     return () => window.removeEventListener("open-lead-flow", handleOpenLeadFlow);
@@ -242,7 +240,7 @@ export default function Portfolio() {
                           <CTAButton
                             variant="sm"
                             color="orange"
-                            href={`/produk/${product.slug}`}
+                            href={product.slug === "asuransi-mobil" ? "/asuransi-mobil" : `/produk/${product.slug}`}
                             icon={<Search className="w-3 h-3" />}
                             trailingIcon={<ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform duration-300" />}
                           >
