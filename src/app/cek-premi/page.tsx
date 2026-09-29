@@ -16,14 +16,14 @@ export const revalidate = 300;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
 export const metadata: Metadata = {
-  title: "Cek Premi Asuransi Mobil — Simulasi Online",
+  title: "Cek Premi Mobil Online | Kalkulator Asuransi Mobil",
   description:
-    "Cek estimasi premi asuransi mobil All Risk atau TLO secara online. Gratis, tanpa biaya, hasil otomatis berdasarkan data kendaraan dan wilayah penggunaan.",
+    "Cek premi mobil dan estimasi harga asuransi mobil All Risk atau TLO berdasarkan merek, tahun, nilai kendaraan, dan wilayah. Gratis, hasil otomatis.",
   alternates: { canonical: `${SITE_URL}/cek-premi` },
   openGraph: {
-    title: "Cek Premi Asuransi Mobil — Simulasi Online | Jasa Proteksi",
+    title: "Cek Premi Mobil Online | Kalkulator Asuransi Mobil",
     description:
-      "Cek estimasi premi asuransi mobil All Risk atau TLO secara online. Gratis, hasil otomatis.",
+      "Cek premi asuransi mobil dan estimasi harga All Risk atau TLO secara online berdasarkan data kendaraan.",
     url: `${SITE_URL}/cek-premi`,
     siteName: "Jasa Proteksi",
     locale: "id_ID",
@@ -81,10 +81,10 @@ export default async function CekPremiPage({
                   <Sparkles className="h-3.5 w-3.5" aria-hidden />
                   Simulasi Premi
                 </Badge>
-                <h1 className="ds-h1 mt-3 mb-3">Cek Premi Asuransi Mobil</h1>
+                <h1 className="ds-h1 mt-3 mb-3">Cek Premi Mobil Online</h1>
                 <p className="ds-body-lg max-w-xl mx-auto">
-                  Lengkapi data kendaraan untuk melihat estimasi premi All Risk atau TLO
-                  secara otomatis.
+                  Cek premi asuransi mobil dan estimasi harga perlindungan All Risk atau TLO
+                  berdasarkan data kendaraan dan wilayah penggunaan Anda.
                 </p>
               </div>
               <HeroCalculator hideHeader initialCoverageType={initialCoverage} />
@@ -96,8 +96,8 @@ export default async function CekPremiPage({
             <Container className="max-w-3xl">
               <SectionHeader
                 eyebrow="Informasi"
-                title="Tentang Simulasi Premi Asuransi Mobil"
-                description="Halaman ini membantu Anda menghitung estimasi premi secara cepat dan tanpa biaya."
+                title="Cek Premi Asuransi Mobil Berdasarkan Data Kendaraan"
+                description="Halaman ini membantu Anda menghitung estimasi premi dan memahami kisaran harga asuransi mobil secara cepat dan tanpa biaya."
               />
               <div className="mt-8 grid gap-4">
                 <Card className="flex flex-col gap-2">
@@ -123,6 +123,19 @@ export default async function CekPremiPage({
                     faktor dihitung berdasarkan tarif resmi.
                   </p>
                 </Card>
+              </div>
+              <div className="mt-6 text-sm text-[#475569] leading-relaxed">
+                <p>
+                  Nilai premi dipengaruhi oleh harga kendaraan, tahun, wilayah, jenis perlindungan,
+                  serta perluasan yang dipilih. Untuk penjelasan lebih lengkap, baca{" "}
+                  <a href="/biaya-asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
+                    panduan harga asuransi mobil
+                  </a>{" "}
+                  atau{" "}
+                  <a href="/asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
+                    panduan asuransi mobil
+                  </a>.
+                </p>
               </div>
             </Container>
           </Section>
