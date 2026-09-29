@@ -9,7 +9,7 @@ const protections = [
   {
     key: "mobil",
     icon: Car,
-    href: "/produk/asuransi-mobil",
+    href: "/asuransi-mobil",
     available: true,
   },
   {
