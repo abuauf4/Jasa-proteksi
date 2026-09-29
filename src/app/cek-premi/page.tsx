@@ -16,12 +16,12 @@ export const revalidate = 300;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
 export const metadata: Metadata = {
-  title: "Cek Premi Mobil Online | Kalkulator Asuransi Mobil",
+  title: "Cek Premi Mobil Online | Kalkulator Asuransi",
   description:
     "Cek premi mobil dan estimasi harga asuransi mobil All Risk atau TLO berdasarkan merek, tahun, nilai kendaraan, dan wilayah. Gratis, hasil otomatis.",
   alternates: { canonical: `${SITE_URL}/cek-premi` },
   openGraph: {
-    title: "Cek Premi Mobil Online | Kalkulator Asuransi Mobil",
+    title: "Cek Premi Mobil Online | Kalkulator Asuransi",
     description:
       "Cek premi asuransi mobil dan estimasi harga All Risk atau TLO secara online berdasarkan data kendaraan.",
     url: `${SITE_URL}/cek-premi`,
@@ -98,18 +98,114 @@ export default async function CekPremiPage({
                   </p>
                 </Card>
               </div>
-              <div className="mt-6 text-sm text-[#475569] leading-relaxed">
-                <p>
-                  Nilai premi dipengaruhi oleh harga kendaraan, tahun, wilayah, jenis perlindungan,
-                  serta perluasan yang dipilih. Untuk penjelasan lebih lengkap, baca{" "}
-                  <a href="/biaya-asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
-                    panduan harga asuransi mobil
-                  </a>{" "}
-                  atau{" "}
-                  <a href="/asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
-                    panduan asuransi mobil
-                  </a>.
-                </p>
+              <div className="mt-8 space-y-8 text-sm text-[#475569] leading-relaxed">
+                <section aria-labelledby="apa-itu-cek-premi">
+                  <h2 id="apa-itu-cek-premi" className="text-xl font-bold text-[#0F172A] mb-3">
+                    Apa Itu Cek Premi Mobil?
+                  </h2>
+                  <p>
+                    Cek premi mobil adalah simulasi awal untuk memperkirakan biaya perlindungan
+                    kendaraan sebelum Anda meminta quotation resmi dari perusahaan asuransi.
+                    Kalkulator di halaman ini membantu menyusun estimasi berdasarkan informasi
+                    kendaraan yang Anda masukkan, seperti merek, tipe, tahun, nilai kendaraan,
+                    wilayah penggunaan, jenis perlindungan, serta perluasan jaminan yang dipilih.
+                    Hasilnya dapat digunakan sebagai gambaran awal untuk membandingkan kebutuhan
+                    perlindungan sebelum melanjutkan proses pengajuan.
+                  </p>
+                </section>
+
+                <section aria-labelledby="faktor-premi">
+                  <h2 id="faktor-premi" className="text-xl font-bold text-[#0F172A] mb-3">
+                    Faktor yang Memengaruhi Premi Asuransi Mobil
+                  </h2>
+                  <p>
+                    Besarnya premi tidak hanya ditentukan oleh harga kendaraan. Tahun kendaraan,
+                    kategori kendaraan, wilayah penggunaan, pilihan All Risk atau TLO, dan
+                    perluasan jaminan juga dapat memengaruhi hasil simulasi. Karena itu, dua mobil
+                    dengan harga yang mirip belum tentu menghasilkan estimasi premi yang sama.
+                    Untuk penjelasan lebih lengkap tentang komponen biaya, lihat{" "}
+                    <a
+                      href="/biaya-asuransi-mobil"
+                      className="font-semibold text-[#0F766E] hover:underline"
+                    >
+                      panduan biaya asuransi mobil
+                    </a>.
+                  </p>
+                </section>
+
+                <section aria-labelledby="all-risk-tlo">
+                  <h2 id="all-risk-tlo" className="text-xl font-bold text-[#0F172A] mb-3">
+                    Pilih All Risk atau TLO?
+                  </h2>
+                  <p>
+                    All Risk memberikan cakupan yang lebih luas untuk berbagai risiko kerusakan
+                    sesuai ketentuan polis, sedangkan TLO berfokus pada kerugian besar sesuai
+                    batas yang ditetapkan dalam polis. Pilihan yang sesuai bergantung pada kondisi
+                    kendaraan, usia kendaraan, pola penggunaan, dan kebutuhan perlindungan Anda.
+                    Jika masih membandingkan keduanya, baca{" "}
+                    <a
+                      href="/perbedaan-all-risk-dan-tlo"
+                      className="font-semibold text-[#0F766E] hover:underline"
+                    >
+                      perbedaan All Risk dan TLO
+                    </a>{" "}
+                    sebelum menjalankan simulasi.
+                  </p>
+                </section>
+
+                <section aria-labelledby="cara-hasil-simulasi">
+                  <h2 id="cara-hasil-simulasi" className="text-xl font-bold text-[#0F172A] mb-3">
+                    Cara Membaca Hasil Simulasi Premi
+                  </h2>
+                  <p>
+                    Setelah data kendaraan lengkap, kalkulator menampilkan estimasi premi sesuai
+                    pilihan perlindungan dan perluasan yang dipilih. Angka tersebut adalah simulasi
+                    awal, bukan harga polis final. Quotation akhir tetap dapat menyesuaikan hasil
+                    verifikasi kendaraan, ketentuan underwriting, manfaat, pengecualian, dan
+                    kebijakan perusahaan asuransi yang dipilih. Anda juga bisa membuka{" "}
+                    <a
+                      href="/asuransi-mobil"
+                      className="font-semibold text-[#0F766E] hover:underline"
+                    >
+                      panduan asuransi mobil
+                    </a>{" "}
+                    untuk memahami alur perlindungan secara keseluruhan.
+                  </p>
+                </section>
+
+                <section aria-labelledby="faq-cek-premi">
+                  <h2 id="faq-cek-premi" className="text-xl font-bold text-[#0F172A] mb-3">
+                    Pertanyaan Umum tentang Cek Premi Mobil
+                  </h2>
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-semibold text-[#0F172A]">
+                        Apakah cek premi mobil di sini berbayar?
+                      </h3>
+                      <p>
+                        Tidak. Simulasi dapat digunakan untuk melihat estimasi awal tanpa biaya.
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-[#0F172A]">
+                        Apakah hasil kalkulator sama dengan harga polis final?
+                      </h3>
+                      <p>
+                        Belum tentu. Hasil kalkulator adalah estimasi awal. Premi final mengikuti
+                        quotation dan ketentuan perusahaan asuransi setelah proses verifikasi.
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-[#0F172A]">
+                        Data apa yang dibutuhkan untuk cek premi asuransi mobil?
+                      </h3>
+                      <p>
+                        Umumnya Anda perlu menyiapkan merek, tipe, tahun kendaraan, nilai kendaraan,
+                        wilayah penggunaan, dan jenis perlindungan yang ingin disimulasikan.
+                      </p>
+                    </div>
+                  </div>
+                </section>
               </div>
             </Container>
           </Section>
