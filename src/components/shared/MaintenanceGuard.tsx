@@ -1,16 +1,7 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-
-const emptySubscribe = () => () => {};
-function useHasMounted() {
-  return useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
-  );
-}
 
 /**
  * MaintenanceGuard — wraps public pages to check if maintenance mode is on.
@@ -24,8 +15,6 @@ export default function MaintenanceGuard({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const mounted = useHasMounted();
-  const [checked, setChecked] = useState(false);
 
   // Skip check for admin and maintenance pages
   const isSkipped =
@@ -50,16 +39,13 @@ export default function MaintenanceGuard({
       } catch {
         // If check fails, show the page normally
       }
-      setChecked(true);
     };
 
     checkMaintenance();
   }, [pathname, router, isSkipped]);
 
-  // Don't render until check is complete (for non-admin pages)
-  if (!mounted) return null;
-  if (isSkipped) return <>{children}</>;
-  if (!checked) return null;
-
+  // Always render public content during SSR so crawlers receive the real page
+  // (headings, copy, and internal links) in the initial HTML. The maintenance
+  // check still runs client-side and redirects when maintenance mode is active.
   return <>{children}</>;
 }
