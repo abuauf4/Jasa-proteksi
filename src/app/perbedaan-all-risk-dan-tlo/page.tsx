@@ -7,12 +7,12 @@ export const revalidate = 3600;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
 export const metadata: Metadata = {
-  title: "Asuransi Mobil All Risk vs TLO: Perbedaan, Kelebihan, dan Cara Memilih",
+  title: "All Risk vs TLO: Perbedaan Asuransi Mobil",
   description:
-    "Pahami perbedaan asuransi mobil All Risk dan TLO, cakupan manfaat, perbedaan premi, dan kapan sebaiknya memilih masing-masing. Simulasi premi otomatis.",
+    "Pahami perbedaan asuransi mobil All Risk dan TLO, arti TLO, cakupan perlindungan, perbedaan premi, dan cara membandingkan estimasinya.",
   alternates: { canonical: `${SITE_URL}/perbedaan-all-risk-dan-tlo` },
   openGraph: {
-    title: "Asuransi Mobil All Risk vs TLO: Perbedaan, Kelebihan, dan Cara Memilih",
+    title: "All Risk vs TLO: Perbedaan Asuransi Mobil",
     description: "Pahami perbedaan All Risk dan TLO, cakupan, premi, dan cara memilih.",
     url: `${SITE_URL}/perbedaan-all-risk-dan-tlo`,
     type: "article",
@@ -24,6 +24,8 @@ export default async function Page() {
   const { initialSettings, initialHero } = await getArticleSettings();
 
   const faqs = [
+    { q: "Apa itu asuransi TLO?", a: "TLO adalah singkatan dari Total Loss Only. Perlindungan ini ditujukan untuk kerugian total sesuai ketentuan polis, misalnya kendaraan hilang karena pencurian atau mengalami kerusakan yang memenuhi batas total loss." },
+    { q: "All Risk artinya apa?", a: "All Risk atau Comprehensive adalah perlindungan kendaraan dengan cakupan lebih luas, termasuk kerusakan sebagian hingga kerusakan berat sesuai manfaat, pengecualian, dan ketentuan polis." },
     { q: "All Risk lebih mahal dari TLO?", a: "Umumnya ya, karena cakupan All Risk lebih luas. Namun selisih premi bergantung pada nilai kendaraan, wilayah, dan perluasan yang dipilih. Gunakan kalkulator untuk membandingkan langsung." },
     { q: "Bisa pindah dari TLO ke All Risk?", a: "Bisa, saat perpanjangan polis. Pembatalan di tengah masa pertanggungan dapat dikenakan biaya sesuai ketentuan partner asuransi." },
     { q: "Mobil bekas bisa pakai All Risk?", a: "Tergantung batas usia kendaraan yang ditetapkan perusahaan asuransi. Beberapa partner menerima All Risk hingga usia 10 tahun. Cek via kalkulator dengan tahun kendaraan Anda." },
@@ -46,26 +48,33 @@ export default async function Page() {
       relatedArticles={related}
     >
       <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight mb-3">
-        Asuransi Mobil All Risk vs TLO: Perbedaan, Kelebihan, dan Cara Memilih
+        Perbedaan Asuransi Mobil All Risk dan TLO
       </h1>
 
       <p className="text-sm text-[#475569] leading-relaxed mb-6">
-        All Risk (Comprehensive) memberikan perlindungan terhadap kerusakan sebagian hingga kerusakan berat.
-        TLO (Total Loss Only) memberikan perlindungan atas kehilangan atau kerusakan yang memenuhi kriteria total loss.
-        Pilihan tergantung pada usia kendaraan, budget, dan tingkat risiko yang ingin Anda tanggung sendiri.
+        Perbedaan utama asuransi mobil All Risk dan TLO ada pada luas perlindungannya. All Risk atau
+        Comprehensive dapat menanggung kerusakan sebagian hingga kerusakan berat sesuai ketentuan polis,
+        sedangkan TLO atau Total Loss Only berfokus pada kehilangan atau kerusakan yang memenuhi kriteria
+        kerugian total. Karena cakupannya berbeda, premi keduanya juga berbeda. Di halaman ini Anda bisa
+        memahami arti All Risk dan TLO, membandingkan cakupannya, lalu membuka
+        <a href="/cek-premi" className="font-semibold text-[#0F766E] hover:underline"> kalkulator cek premi mobil</a>
+        untuk melihat estimasi sesuai data kendaraan Anda.
       </p>
 
-      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Apa itu All Risk?</h2>
+      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Apa Itu Asuransi Mobil All Risk?</h2>
       <p className="text-sm text-[#475569] leading-relaxed mb-4">
         All Risk atau Comprehensive adalah jenis perlindungan yang menanggung kerusakan sebagian hingga kerusakan berat pada kendaraan Anda. Jika mobil lecet, penyok, atau mengalami kerusakan parah akibat kecelakaan, asuransi All Risk dapat mengganti biaya perbaikan sesuai manfaat dan ketentuan polis.
       </p>
 
-      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Apa itu TLO?</h2>
+      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Apa Itu Asuransi TLO?</h2>
       <p className="text-sm text-[#475569] leading-relaxed mb-4">
-        TLO atau Total Loss Only memberikan ganti rugi ketika kendaraan mengalami kerugian total — yaitu hilang dicuri atau rusak dengan biaya perbaikan yang melebihi persentase tertentu dari nilai kendaraan (biasanya 75%). Untuk kerusakan ringan atau sebagian, TLO tidak memberikan penggantian.
+        TLO adalah singkatan dari Total Loss Only. Asuransi TLO memberikan perlindungan ketika kendaraan
+        mengalami kerugian yang memenuhi kriteria total loss sesuai ketentuan polis, termasuk kehilangan
+        karena pencurian atau kerusakan berat yang mencapai batas yang ditetapkan perusahaan asuransi.
+        Kerusakan ringan atau sebagian yang tidak memenuhi kriteria tersebut umumnya tidak termasuk cakupan TLO.
       </p>
 
-      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-3">Perbandingan Cakupan</h2>
+      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-3">Perbedaan All Risk dan TLO dalam Cakupan</h2>
       <div className="overflow-x-auto mb-4">
         <table className="w-full text-sm border border-[#E2E8F0] rounded-xl overflow-hidden">
           <thead>
@@ -127,10 +136,13 @@ export default async function Page() {
         Catatan: Batas usia dapat berubah. Verifikasi terbaru via kalkulator dengan tahun kendaraan Anda.
       </p>
 
-      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Perbedaan Premi</h2>
+      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Perbedaan Premi All Risk dan TLO</h2>
       <p className="text-sm text-[#475569] leading-relaxed mb-4">
-        Premi All Risk umumnya lebih tinggi karena cakupan yang lebih luas. TLO lebih terjangkau karena hanya menanggung kerugian total. Selisih premi bisa bervariasi tergantung nilai kendaraan, wilayah, dan partner.
-        Gunakan kalkulator di bawah untuk membandingkan estimasi premi All Risk dan TLO untuk kendaraan Anda secara langsung.
+        Premi All Risk umumnya lebih tinggi karena cakupannya lebih luas, sedangkan TLO biasanya lebih
+        terjangkau karena berfokus pada risiko kerugian total. Besarnya selisih dipengaruhi nilai kendaraan,
+        wilayah penggunaan, usia kendaraan, perluasan jaminan, dan perusahaan asuransi. Untuk gambaran biaya,
+        lihat <a href="/biaya-asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">harga asuransi mobil dan estimasi premi</a>.
+        Anda juga bisa membandingkan All Risk dan TLO langsung melalui kalkulator di bawah.
       </p>
 
       <div className="rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] p-4 mb-4">
