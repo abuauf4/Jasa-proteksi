@@ -7,13 +7,13 @@ export const revalidate = 3600;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
 export const metadata: Metadata = {
-  title: "Berapa Biaya Asuransi Mobil? Simulasi Berdasarkan Harga Kendaraan",
+  title: "Harga Asuransi Mobil & Estimasi Premi",
   description:
-    "Estimasi biaya asuransi mobil berdasarkan rentang harga kendaraan: Rp100 jt, Rp200 jt, Rp300 jt, Rp500 jt, dan di atas Rp500 jt. Lihat rentang All Risk dan TLO dari 8 partner.",
+    "Cek kisaran harga asuransi mobil All Risk dan TLO berdasarkan nilai kendaraan. Lihat contoh estimasi premi per tahun dan hitung sesuai data mobil Anda.",
   alternates: { canonical: `${SITE_URL}/biaya-asuransi-mobil` },
   openGraph: {
-    title: "Berapa Biaya Asuransi Mobil? Simulasi Berdasarkan Harga Kendaraan",
-    description: "Tabel estimasi biaya asuransi mobil berdasarkan harga kendaraan, dengan rentang All Risk dan TLO.",
+    title: "Harga Asuransi Mobil & Estimasi Premi",
+    description: "Lihat kisaran harga asuransi mobil All Risk dan TLO berdasarkan nilai kendaraan dan hitung estimasi premi mobil Anda.",
     url: `${SITE_URL}/biaya-asuransi-mobil`,
     type: "article",
     images: [{ url: "/biaya-asuransi-mobil.webp", width: 1200, height: 630 }],
@@ -25,6 +25,7 @@ export default async function Page() {
 
   const faqs = [
     { q: "Kenapa premi mobil saya lebih mahal dari teman?", a: "Banyak penyebabnya: harga kendaraan, tahun, wilayah plat, jenis perlindungan, perluasan, dan partner yang dipilih bisa berbeda. Mobil senada di Jakarta umumnya lebih mahal dibanding di kota Wilayah 1 karena tingkat risiko dan traffic density yang lebih tinggi." },
+    { q: "Berapa harga asuransi mobil per tahun?", a: "Tidak ada satu harga yang berlaku untuk semua mobil. Premi per tahun bergantung pada nilai kendaraan, wilayah penggunaan, jenis perlindungan, usia kendaraan, serta perluasan jaminan yang dipilih." },
     { q: "Apakah premi bisa berubah?", a: "Ya. Premi dapat berubah saat perpanjangan polis mengikuti penyesuaian rate dari perusahaan asuransi, usia kendaraan yang bertambah, serta perubahan nilai pertanggungan. Selalu cek ulang setiap periode perpanjangan." },
     { q: "Apakah ada biaya tersembunyi?", a: "Tidak. Estimasi yang ditampilkan kalkulator sudah mencakup base rate, loading, dan perluasan yang Anda pilih. Biaya administrasi polis (jika ada) akan tertera transparan di quotation resmi sebelum Anda membayar." },
   ];
@@ -46,14 +47,15 @@ export default async function Page() {
       relatedArticles={related}
     >
       <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight mb-3">
-        Berapa Biaya Asuransi Mobil? Simulasi Berdasarkan Harga Kendaraan
+        Harga Asuransi Mobil: Estimasi Premi All Risk & TLO
       </h1>
 
       <p className="text-sm text-[#475569] leading-relaxed mb-6">
-        Pertanyaan paling umum soal asuransi mobil adalah <em className="text-[#0F172A]">“berapa sih sebenarnya biaya asuransi mobil saya?”</em>.
-        Jawabannya: tidak ada satu harga mutlak. Biaya asuransi mobil bergantung pada kombinasi harga kendaraan,
-        wilayah penggunaan, jenis perlindungan (All Risk/TLO), perluasan yang dipilih, usia kendaraan, dan partner
-        asuransi. Di bawah ini Anda bisa melihat rentang estimasi umum per kelompok harga kendaraan.
+        Harga asuransi mobil tidak memiliki satu angka yang berlaku untuk semua kendaraan. Besarnya premi
+        dipengaruhi oleh nilai kendaraan, wilayah penggunaan, jenis perlindungan All Risk atau TLO, usia kendaraan,
+        serta perluasan jaminan yang dipilih. Di bawah ini Anda bisa melihat contoh kisaran biaya per tahun berdasarkan
+        nilai kendaraan, lalu menggunakan <a href="/cek-premi" className="font-semibold text-[#0F766E] hover:underline">kalkulator cek premi mobil</a>
+        untuk mendapatkan estimasi yang lebih sesuai dengan data kendaraan Anda.
       </p>
 
       <div className="rounded-xl bg-[#FEF3C7] border border-[#FDE68A] p-4 mb-6">
@@ -64,7 +66,7 @@ export default async function Page() {
         </p>
       </div>
 
-      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-3">Estimasi Biaya Berdasarkan Harga Kendaraan</h2>
+      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-3">Estimasi Harga Asuransi Mobil per Tahun</h2>
       <div className="overflow-x-auto mb-4">
         <table className="w-full text-sm border border-[#E2E8F0] rounded-xl overflow-hidden">
           <thead>
@@ -131,9 +133,11 @@ export default async function Page() {
       <div className="rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] p-4 mb-4">
         <p className="text-sm font-semibold text-[#115E59] mb-1">Coba Sekarang</p>
         <p className="text-xs text-[#475569]">
-          Biaya pasti asuransi mobil Anda bergantung pada data spesifik kendaraan. Gunakan kalkulator di bawah
-          halaman ini — masukkan merek, model, tahun, dan plat wilayah, lalu lihat estimasi dari 8 perusahaan
-          asuransi dalam hitungan detik.
+          Biaya asuransi mobil Anda bergantung pada data spesifik kendaraan. Gunakan
+          <a href="/cek-premi" className="font-semibold text-[#0F766E] hover:underline"> cek premi mobil online</a>
+          untuk memasukkan merek, model, tahun, dan wilayah penggunaan. Anda juga bisa membaca
+          <a href="/asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline"> panduan asuransi mobil</a>
+          sebelum memilih jenis perlindungan.
         </p>
       </div>
     </ArticleShell>
