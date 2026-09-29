@@ -28,7 +28,7 @@ export default function Hero() {
 
   const whatsappLink = ctaWhatsApp
     ? `https://wa.me/${ctaWhatsApp}`
-    : "/produk/asuransi-mobil";
+    : "/cek-premi";
 
   const benefits = [
     { icon: ShieldCheck, text: t("hero.benefitAllRisk") },
@@ -95,7 +95,7 @@ export default function Hero() {
               <div className="flex flex-col gap-3 sm:flex-row sm:gap-3">
                 {/* Primary — teal */}
                 <a
-                  href="/produk/asuransi-mobil"
+                  href="/cek-premi"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#0F766E] px-6 py-3.5 text-[16px] font-semibold text-white transition-colors hover:bg-[#0D6B63] sm:w-auto"
                 >
                   <Search className="h-4 w-4" />
