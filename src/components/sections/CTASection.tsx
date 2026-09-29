@@ -61,7 +61,7 @@ export default function CTASection() {
             <CTAButton
               variant="lg"
               color="white"
-              href="/produk/asuransi-mobil"
+              href="/cek-premi"
               icon={<Search className="w-4 h-4" />}
             >
               {t("cta.cekHarga")}
@@ -69,7 +69,7 @@ export default function CTASection() {
             <CTAButton
               variant="lg"
               color="orange"
-              href={ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "/produk/asuransi-mobil"}
+              href={ctaWhatsApp ? `https://wa.me/${ctaWhatsApp}` : "/cek-premi"}
               target={ctaWhatsApp ? "_blank" : undefined}
               rel={ctaWhatsApp ? "noopener noreferrer" : undefined}
               onClick={() => trackEvent("whatsapp_click", { method: "cta_section" })}
