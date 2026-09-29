@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import AnalyticsScripts from "@/components/AnalyticsScripts";
 import MaintenanceGuard from "@/components/shared/MaintenanceGuard";
 import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 import { db } from "@/lib/db";
-
-const plusJakarta = Plus_Jakarta_Sans({
-  variable: "--font-plus-jakarta",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-});
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
@@ -191,7 +183,7 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body
-        className={`${plusJakarta.variable} antialiased bg-white text-[#475569] font-[family-name:var(--font-plus-jakarta)] overflow-x-hidden`}
+        className="antialiased bg-white text-[#475569] font-sans overflow-x-hidden"
       >
         <LanguageProvider>
           <MaintenanceGuard>{children}</MaintenanceGuard>
