@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { calculatePremium, type QuotationInput } from "@/lib/premium-engine";
 import { db } from "@/lib/db";
+import { getCached } from "@/lib/ttl-cache";
 import vehiclePriceData from "@/lib/vehicleData.json";
 
 // Force dynamic rendering — partner data must always be fresh from DB
@@ -108,11 +109,16 @@ const DEFAULT_AVAILABLE_ADDONS = [
 // Fetch active partners from the database (with addon rate overrides)
 async function getActivePartnersFromDB() {
   try {
-    const dbPartners = await db.insurancePartner.findMany({
-      where: { status: "active" },
-      orderBy: { sortOrder: "asc" },
-      include: { addonRateOverrides: { where: { isActive: true } } },
-    });
+    const dbPartners = await getCached(
+      "premium-partners",
+      "active-with-overrides",
+      30_000,
+      () => db.insurancePartner.findMany({
+        where: { status: "active" },
+        orderBy: { sortOrder: "asc" },
+        include: { addonRateOverrides: { where: { isActive: true } } },
+      }),
+    );
     return dbPartners.map((p) => {
       // Partner-specific overrides (no DB columns needed)
       const isEtiqa = p.slug === "etiqa";
