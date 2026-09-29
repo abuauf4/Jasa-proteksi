@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/produk/asuransi-mobil",
+        destination: "/asuransi-mobil",
+        permanent: true,
+      },
+      {
         source: "/blog",
         destination: "/artikel",
         permanent: true,
