@@ -63,8 +63,6 @@ export function BottomSheetPicker({
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
-    // Focus search after slide-up starts
-    const t = setTimeout(() => searchRef.current?.focus(), 100);
 
     // ── Keyboard-aware resize using visualViewport API ──
     const vv = window.visualViewport;
@@ -81,7 +79,6 @@ export function BottomSheetPicker({
       return () => {
         document.body.style.overflow = original;
         window.removeEventListener("keydown", onKey);
-        clearTimeout(t);
         vv.removeEventListener("resize", onResize);
         vv.removeEventListener("scroll", onResize);
         setVvHeight(null);
@@ -104,7 +101,6 @@ export function BottomSheetPicker({
     return () => {
       document.body.style.overflow = original;
       window.removeEventListener("keydown", onKey);
-      clearTimeout(t);
       if (vv) {
         vv.removeEventListener("resize", onResize);
         vv.removeEventListener("scroll", onResize);
@@ -112,6 +108,20 @@ export function BottomSheetPicker({
       setSheetMaxHeight(null);
     };
   }, [open, onClose, presentation]);
+
+  // When a picker opens, never summon the soft keyboard automatically.
+  // If another field was focused before opening the picker, blur it first.
+  // The search box will only focus when the user taps it.
+  React.useEffect(() => {
+    if (!open) return;
+    const active = document.activeElement;
+    if (
+      active instanceof HTMLElement &&
+      active.matches("input, textarea, [contenteditable='true']")
+    ) {
+      active.blur();
+    }
+  }, [open]);
 
   // Reset search when sheet opens
   React.useEffect(() => {
