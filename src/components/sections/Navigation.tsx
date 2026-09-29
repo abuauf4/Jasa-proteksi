@@ -127,7 +127,7 @@ export default function Navigation() {
                 </a>
               )}
               <a
-                href="/produk/asuransi-mobil"
+                href="/cek-premi"
                 className="inline-flex items-center gap-2 rounded-full bg-[#0F766E] px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-[#0D6B63]"
               >
                 {t("nav.cekHarga")}
@@ -231,7 +231,7 @@ export default function Navigation() {
                     </a>
                   )}
                   <a
-                    href="/produk/asuransi-mobil"
+                    href="/cek-premi"
                     onClick={() => setMobileOpen(false)}
                     className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0F766E] py-3.5 text-[14px] font-semibold text-white transition-colors hover:bg-[#0D6B63]"
                   >
