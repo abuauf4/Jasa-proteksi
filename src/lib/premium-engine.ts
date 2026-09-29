@@ -24,6 +24,7 @@
  */
 
 import { db } from "./db";
+import { getCached } from "./ttl-cache";
 import vehiclePriceData from "./vehicleData.json";
 import vehicleCodeMap from "./vehicleCodeMap.json";
 
@@ -110,6 +111,7 @@ export interface QuotationResult {
 
 const CURRENT_YEAR = new Date().getFullYear();
 const OTR_RANGE_PERCENT = 0.15; // ±15%
+const RATE_CACHE_TTL_MS = 30_000;
 
 // ─── Helper Functions ───
 
@@ -380,9 +382,15 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
   let vehicleValue = input.vehicleValue || 0;
 
   // Start region query immediately (async)
-  const regionPromise = db.regionMapping.findFirst({
-    where: { plateCode: plateCode.toUpperCase().trim(), isActive: true },
-  });
+  const normalizedPlateCode = plateCode.toUpperCase().trim();
+  const regionPromise = getCached(
+    "premium-region",
+    normalizedPlateCode,
+    RATE_CACHE_TTL_MS,
+    () => db.regionMapping.findFirst({
+      where: { plateCode: normalizedPlateCode, isActive: true },
+    }),
+  );
 
   // Vehicle lookup is synchronous — can run while DB query is in flight
   if (!vehicleValue) {
@@ -422,46 +430,66 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
   // is independent. Batch them into a single Promise.all().
 
   // 3a. Batch RateSettings — single findMany instead of N individual findUnique
-  const settingsPromise = db.rateSettings.findMany({
-    where: { key: { in: [...REQUIRED_SETTING_KEYS] } },
-  });
+  const settingsPromise = getCached(
+    "premium-settings",
+    "required",
+    RATE_CACHE_TTL_MS,
+    () => db.rateSettings.findMany({
+      where: { key: { in: [...REQUIRED_SETTING_KEYS] } },
+    }),
+  );
 
   // 3b. MotorRate lookup
-  const motorRatePromise = db.motorRate.findFirst({
-    where: {
-      coverageType,
-      category,
-      vehicleType: vehicleTypeCategory,
-      isActive: true,
-    },
-  });
+  const motorRatePromise = getCached(
+    "premium-motor-rate",
+    `${coverageType}:${category}:${vehicleTypeCategory}`,
+    RATE_CACHE_TTL_MS,
+    () => db.motorRate.findFirst({
+      where: {
+        coverageType,
+        category,
+        vehicleType: vehicleTypeCategory,
+        isActive: true,
+      },
+    }),
+  );
 
   // 3c. LoadingRate lookup
-  const loadingRatePromise = db.loadingRate.findFirst({
-    where: {
-      minAge: { lte: vehicleAge },
-      maxAge: { gte: vehicleAge },
-      isActive: true,
-      coverageType: "Comprehensive",
-    },
-  });
+  const loadingRatePromise = getCached(
+    "premium-loading-rate",
+    String(vehicleAge),
+    RATE_CACHE_TTL_MS,
+    () => db.loadingRate.findFirst({
+      where: {
+        minAge: { lte: vehicleAge },
+        maxAge: { gte: vehicleAge },
+        isActive: true,
+        coverageType: "Comprehensive",
+      },
+    }),
+  );
 
   // 3d. AddonRate batch lookup (only if there are standard addons)
   const standardAddonKeys = addOns.filter(
     (k) => !["tpl", "paDriver", "paPassenger"].includes(k)
   );
   const addonRatePromise = standardAddonKeys.length > 0
-    ? db.addonRate.findMany({
-        where: {
-          addonKey: { in: standardAddonKeys },
-          isActive: true,
-          OR: [
-            { coverageType: coverageType },
-            { coverageType: "All" },
-          ],
-        },
-        orderBy: { wilayah: "desc" }, // prefer region-specific (higher wilayah number)
-      })
+    ? getCached(
+        "premium-addon-rates",
+        `${coverageType}:${[...standardAddonKeys].sort().join(",")}`,
+        RATE_CACHE_TTL_MS,
+        () => db.addonRate.findMany({
+          where: {
+            addonKey: { in: standardAddonKeys },
+            isActive: true,
+            OR: [
+              { coverageType: coverageType },
+              { coverageType: "All" },
+            ],
+          },
+          orderBy: { wilayah: "desc" }, // prefer region-specific (higher wilayah number)
+        }),
+      )
     : Promise.resolve([]);
 
   // 3e. TplRate lookup (only if TPL is in addons)
@@ -469,13 +497,18 @@ export async function calculatePremium(input: QuotationInput): Promise<Quotation
   const isBusOrTruck = vehicleTypeCategory === "Bus" || vehicleTypeCategory === "Truk dan Pick Up";
   const tplVehicleCategory = isBusOrTruck ? "Bus / Truck" : "Passenger & Motorcycle";
   const tplPromise = hasTpl
-    ? db.tplRate.findMany({
-        where: {
-          vehicleCategory: tplVehicleCategory,
-          isActive: true,
-        },
-        orderBy: { coverageMin: "asc" },
-      })
+    ? getCached(
+        "premium-tpl-rates",
+        tplVehicleCategory,
+        RATE_CACHE_TTL_MS,
+        () => db.tplRate.findMany({
+          where: {
+            vehicleCategory: tplVehicleCategory,
+            isActive: true,
+          },
+          orderBy: { coverageMin: "asc" },
+        }),
+      )
     : Promise.resolve([]);
 
   // Execute all queries in parallel
