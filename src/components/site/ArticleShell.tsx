@@ -67,6 +67,10 @@ export function ArticleShell({
           "@type": "Organization",
           name: "Tim Editorial Jasa Proteksi",
           url: `${SITE_URL}/tentang-kami#editorial`,
+          logo: {
+            "@type": "ImageObject",
+            url: `${SITE_URL}/logo-jasa-proteksi.webp`,
+          },
         },
         publisher: {
           "@type": "Organization",
