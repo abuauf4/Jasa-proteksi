@@ -85,42 +85,127 @@ const PHOTO_GUIDES: Record<PhotoKey, { title: string; description: string; badge
 
 function PhotoGuideIllustration({ photoKey }: { photoKey: PhotoKey }) {
   const isSide = photoKey === "left" || photoKey === "right";
+  const isRear = photoKey === "back";
   const guide = PHOTO_GUIDES[photoKey];
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-[#DDE5E8] bg-[#F8FAFC] p-4">
-      <div className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[10px] font-bold tracking-wider text-[#0F766E] shadow-sm">
+      <div className="absolute left-3 top-3 z-10 rounded-full bg-white px-2.5 py-1 text-[10px] font-bold tracking-wider text-[#0F766E] shadow-sm">
         {guide.badge}
       </div>
+
       <svg
-        viewBox="0 0 420 240"
+        viewBox="0 0 520 300"
         className="h-auto w-full"
         role="img"
         aria-label={guide.title}
       >
-        <rect x="18" y="18" width="384" height="204" rx="22" fill="#FFFFFF" stroke="#94A3B8" strokeDasharray="8 8" />
-        <path d="M38 62V42H58M362 42h20v20M38 178v20h20M382 178v20h-20" fill="none" stroke="#0F766E" strokeWidth="5" strokeLinecap="round" />
+        <rect x="20" y="20" width="480" height="260" rx="26" fill="#FFFFFF" stroke="#CBD5E1" strokeWidth="2" strokeDasharray="10 10" />
+
+        <path d="M52 78V50h28M440 50h28v28M52 222v28h28M468 222v28h-28"
+          fill="none" stroke="#0F766E" strokeWidth="7" strokeLinecap="round" />
+
         {isSide ? (
           <>
-            <path d="M95 142h225l-22-58H158l-42 25-21 33Z" fill="#DDF5F0" stroke="#0F766E" strokeWidth="5" strokeLinejoin="round" />
-            <path d="M172 88h110l14 38H137l35-38Z" fill="#EAF8F5" stroke="#0F766E" strokeWidth="4" />
-            <circle cx="145" cy="151" r="24" fill="#334155" />
-            <circle cx="280" cy="151" r="24" fill="#334155" />
-            <circle cx="145" cy="151" r="10" fill="#CBD5E1" />
-            <circle cx="280" cy="151" r="10" fill="#CBD5E1" />
+            <path
+              d="M102 193
+                 C112 173 130 158 160 148
+                 L205 101
+                 C215 90 229 84 246 84
+                 L327 84
+                 C345 84 361 92 371 106
+                 L402 148
+                 C425 153 442 164 453 180
+                 L463 198
+                 L449 217
+                 L107 217
+                 L91 199
+                 Z"
+              fill="#EAF8F5"
+              stroke="#0F766E"
+              strokeWidth="6"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M216 103h106c13 0 23 5 30 14l22 30H184l32-44Z"
+              fill="#DCEFF3"
+              stroke="#0F766E"
+              strokeWidth="4"
+              strokeLinejoin="round"
+            />
+            <path d="M278 104v43" stroke="#0F766E" strokeWidth="4" />
+            <path d="M379 148l-16 20" stroke="#0F766E" strokeWidth="4" />
+            <path d="M172 151h215" stroke="#0F766E" strokeWidth="4" />
+            <path d="M198 154v46M325 154v46" stroke="#94A3B8" strokeWidth="3" />
+            <path d="M219 174h28M338 174h28" stroke="#64748B" strokeWidth="3" strokeLinecap="round" />
+            <rect x="111" y="179" width="32" height="12" rx="6" fill="#F59E0B" />
+            <rect x="411" y="179" width="28" height="12" rx="6" fill="#F59E0B" />
+            <circle cx="171" cy="213" r="34" fill="#334155" />
+            <circle cx="388" cy="213" r="34" fill="#334155" />
+            <circle cx="171" cy="213" r="16" fill="#CBD5E1" />
+            <circle cx="388" cy="213" r="16" fill="#CBD5E1" />
+            <circle cx="171" cy="213" r="6" fill="#64748B" />
+            <circle cx="388" cy="213" r="6" fill="#64748B" />
+            <path d="M91 199h42M421 199h42" stroke="#0F766E" strokeWidth="5" strokeLinecap="round" />
           </>
         ) : (
           <>
-            <path d="M128 155l16-74h132l16 74-16 24H144l-16-24Z" fill="#DDF5F0" stroke="#0F766E" strokeWidth="5" strokeLinejoin="round" />
-            <path d="M158 90h104l12 43H146l12-43Z" fill="#EAF8F5" stroke="#0F766E" strokeWidth="4" />
-            <circle cx="158" cy="158" r="13" fill="#334155" />
-            <circle cx="262" cy="158" r="13" fill="#334155" />
-            <rect x="151" y="139" width="38" height="11" rx="5.5" fill="#FBBF24" />
-            <rect x="231" y="139" width="38" height="11" rx="5.5" fill="#FBBF24" />
+            <path
+              d="M157 212
+                 L139 193
+                 L151 127
+                 C154 110 164 99 182 92
+                 L211 80
+                 H309
+                 L338 92
+                 C356 99 366 110 369 127
+                 L381 193
+                 L363 212
+                 Z"
+              fill="#EAF8F5"
+              stroke="#0F766E"
+              strokeWidth="6"
+              strokeLinejoin="round"
+            />
+
+            <path
+              d="M195 96h130
+                 c10 0 18 7 20 17
+                 l12 48H163l12-48
+                 c2-10 10-17 20-17Z"
+              fill="#DCEFF3"
+              stroke="#0F766E"
+              strokeWidth="4"
+            />
+
+            {!isRear ? (
+              <>
+                <path d="M176 164h168l17 19H159l17-19Z" fill="#DDF5F0" stroke="#0F766E" strokeWidth="4" />
+                <path d="M183 174h48" stroke="#F59E0B" strokeWidth="12" strokeLinecap="round" />
+                <path d="M289 174h48" stroke="#F59E0B" strokeWidth="12" strokeLinecap="round" />
+                <rect x="223" y="185" width="74" height="18" rx="6" fill="#F8FAFC" stroke="#94A3B8" strokeWidth="2" />
+                <path d="M252 98v62" stroke="#94A3B8" strokeWidth="3" />
+                <path d="M166 126l-18-8M354 126l18-8" stroke="#0F766E" strokeWidth="5" strokeLinecap="round" />
+              </>
+            ) : (
+              <>
+                <path d="M177 163h166l14 22H163l14-22Z" fill="#DDF5F0" stroke="#0F766E" strokeWidth="4" />
+                <path d="M180 174h52" stroke="#DC2626" strokeWidth="13" strokeLinecap="round" />
+                <path d="M288 174h52" stroke="#DC2626" strokeWidth="13" strokeLinecap="round" />
+                <rect x="220" y="187" width="80" height="18" rx="6" fill="#F8FAFC" stroke="#94A3B8" strokeWidth="2" />
+                <path d="M195 96h130" stroke="#94A3B8" strokeWidth="3" />
+                <path d="M205 116h110" stroke="#94A3B8" strokeWidth="3" />
+                <path d="M165 127l-17-7M355 127l17-7" stroke="#0F766E" strokeWidth="5" strokeLinecap="round" />
+              </>
+            )}
+
+            <path d="M168 211h-18c-12 0-20-9-20-20v-15" stroke="#334155" strokeWidth="11" strokeLinecap="round" />
+            <path d="M352 211h18c12 0 20-9 20-20v-15" stroke="#334155" strokeWidth="11" strokeLinecap="round" />
           </>
         )}
-        <text x="210" y="208" textAnchor="middle" fontSize="14" fontWeight="700" fill="#475569">
-          Mobil utuh di dalam frame
+
+        <text x="260" y="258" textAnchor="middle" fontSize="16" fontWeight="700" fill="#475569">
+          Seluruh mobil harus masuk frame
         </text>
       </svg>
     </div>
