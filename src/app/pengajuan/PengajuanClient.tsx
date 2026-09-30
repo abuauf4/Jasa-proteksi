@@ -138,15 +138,20 @@ export default function PengajuanClient() {
     data.append("file", file);
     data.append("slot", key);
 
-    const response = await fetch("/api/applications/upload", {
-      method: "POST",
-      body: data,
-    });
-    const body = await response.json();
-    if (!response.ok) {
-      throw new Error(body.error || `Gagal upload ${PHOTO_LABELS[key]}.`);
+    try {
+      const response = await fetch("/api/applications/upload", {
+        method: "POST",
+        body: data,
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(body.error || `Gagal upload ${PHOTO_LABELS[key]}.`);
+      }
+      return body.url as string;
+    } catch (err) {
+      if (err instanceof Error && err.message !== "Failed to fetch") throw err;
+      throw new Error(`Upload ${PHOTO_LABELS[key]} gagal. Cek koneksi lalu coba lagi.`);
     }
-    return body.url as string;
   };
 
   const handleSubmit = async () => {
@@ -177,15 +182,12 @@ export default function PengajuanClient() {
     try {
       const photoUrls: Partial<Record<PhotoKey, string>> = {};
       if (uploadNow) {
-        const uploaded = await Promise.all(
-          (Object.keys(PHOTO_LABELS) as PhotoKey[]).map(async (key) => {
-            const file = photos[key];
-            if (!file) return [key, ""] as const;
-            const url = await uploadPhoto(key, file);
-            return [key, url] as const;
-          }),
-        );
-        for (const [key, url] of uploaded) photoUrls[key] = url;
+        // Upload sequentially. Sending four large camera photos at once is fragile on mobile networks.
+        for (const key of Object.keys(PHOTO_LABELS) as PhotoKey[]) {
+          const file = photos[key];
+          if (!file) continue;
+          photoUrls[key] = await uploadPhoto(key, file);
+        }
       }
 
       let productId: string | null = null;
@@ -317,7 +319,7 @@ export default function PengajuanClient() {
       <SiteHeader />
       <main className="flex-1">
         <Section tone="soft" className="!pt-5 !pb-12">
-          <Container className="max-w-2xl">
+          <Container className="max-w-2xl min-w-0 overflow-x-hidden">
             <button
               type="button"
               onClick={() => router.back()}
@@ -355,7 +357,7 @@ export default function PengajuanClient() {
             </div>
 
             <div className="space-y-4">
-              <section className="rounded-2xl border border-[#E2E8F0] bg-white p-4 sm:p-5">
+              <section className="min-w-0 overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-4 sm:p-5">
                 <div className="mb-4 flex items-center gap-2">
                   <UserRound className="h-5 w-5 text-[#0F766E]" />
                   <h1 className="text-lg font-bold text-[#0F172A]">Data Pemegang Polis</h1>
@@ -384,7 +386,7 @@ export default function PengajuanClient() {
                 </div>
               </section>
 
-              <section className="rounded-2xl border border-[#E2E8F0] bg-white p-4 sm:p-5">
+              <section className="min-w-0 overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-4 sm:p-5">
                 <div className="mb-4 flex items-center gap-2">
                   <Car className="h-5 w-5 text-[#0F766E]" />
                   <h2 className="text-lg font-bold text-[#0F172A]">Data Kendaraan</h2>
@@ -404,7 +406,7 @@ export default function PengajuanClient() {
                 </div>
               </section>
 
-              <section className="rounded-2xl border border-[#E2E8F0] bg-white p-4 sm:p-5">
+              <section className="min-w-0 overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-4 sm:p-5">
                 <div className="mb-4 flex items-center gap-2">
                   <Camera className="h-5 w-5 text-[#0F766E]" />
                   <div>
@@ -431,18 +433,18 @@ export default function PengajuanClient() {
                 </div>
 
                 {uploadNow && (
-                  <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="grid min-w-0 gap-3 md:grid-cols-2">
                     {(Object.keys(PHOTO_LABELS) as PhotoKey[]).map((key) => (
-                      <label key={key} className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
+                      <label key={key} className="min-w-0 overflow-hidden rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
                         <span className="mb-2 block text-sm font-semibold text-[#334155]">
                           {PHOTO_LABELS[key]} <span className="text-[#DC2626]">*</span>
                         </span>
-                        <div className="flex min-h-12 items-center gap-2 rounded-lg border border-dashed border-[#94A3B8] bg-white px-3">
-                          <Camera className="h-4 w-4 text-[#64748B]" />
-                          <span className="min-w-0 flex-1 truncate text-xs text-[#64748B]">
+                        <div className="grid min-h-12 min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 rounded-lg border border-dashed border-[#94A3B8] bg-white px-3">
+                          <Camera className="h-4 w-4 shrink-0 text-[#64748B]" />
+                          <span className="block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-xs text-[#64748B]">
                             {photos[key]?.name || "Pilih foto"}
                           </span>
-                          <span className="text-xs font-semibold text-[#0F766E]">Pilih</span>
+                          <span className="shrink-0 text-xs font-semibold text-[#0F766E]">Pilih</span>
                         </div>
                         <input
                           className="sr-only"
