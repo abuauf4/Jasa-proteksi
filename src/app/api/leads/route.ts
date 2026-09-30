@@ -111,16 +111,19 @@ export async function POST(request: NextRequest) {
       leadData.minimumOfferPriceSnapshot = 0;
     }
 
-    // Ensure product exists in DB (create stub if not)
-    if (!product && productId) {
+    // Ensure the required Product relation always exists.
+    // Public application flows can still submit if /api/products lookup was unavailable.
+    if (!product) {
+      const fallbackProductId = productId || "no-product";
+      leadData.productId = fallbackProductId;
       try {
         await db.product.upsert({
-          where: { id: productId },
+          where: { id: fallbackProductId },
           update: {},
           create: {
-            id: productId,
+            id: fallbackProductId,
             name: leadData.productNameSnapshot as string,
-            slug: `stub-${productId}`,
+            slug: productId ? `stub-${productId}` : "asuransi-kendaraan-umum",
             category: "asuransi-kendaraan",
             description: "Asuransi Kendaraan",
             benefits: "[]",
@@ -130,7 +133,7 @@ export async function POST(request: NextRequest) {
           },
         });
       } catch {
-        // Product might already exist or creation fails — continue
+        // Product might already exist — the create below will surface a real relation error if not.
       }
     }
 
