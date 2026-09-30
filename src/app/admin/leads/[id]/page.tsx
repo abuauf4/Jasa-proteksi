@@ -80,6 +80,38 @@ const resultConfig: Record<string, { label: string; color: string }> = {
   deal: { label: "Deal", color: "bg-emerald-100 text-emerald-700" },
 };
 
+const APPLICATION_PHOTO_LABELS = [
+  "Bagian Depan",
+  "Bagian Belakang",
+  "Sisi Kiri",
+  "Sisi Kanan",
+] as const;
+
+function parseApplicationPhotos(notes: string | null) {
+  if (!notes) return [];
+  return notes
+    .split("\n")
+    .map((line) => line.trim())
+    .map((line) => {
+      const label = APPLICATION_PHOTO_LABELS.find((item) => line.startsWith(`${item}:`));
+      if (!label) return null;
+      const url = line.slice(label.length + 1).trim();
+      if (!url || url === "-") return null;
+      if (!url.startsWith("/uploads/") && !/^https?:\/\//i.test(url)) return null;
+      return { label, url };
+    })
+    .filter((item): item is { label: string; url: string } => item !== null);
+}
+
+function stripPhotoLines(notes: string | null) {
+  if (!notes) return "";
+  return notes
+    .split("\n")
+    .filter((line) => !APPLICATION_PHOTO_LABELS.some((label) => line.trim().startsWith(`${label}:`)))
+    .join("\n")
+    .trim();
+}
+
 export default function LeadDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -216,6 +248,8 @@ export default function LeadDetailPage() {
   if (!lead) return null;
 
   const statusInfo = statusConfig[lead.status] || { label: lead.status, color: "bg-slate-100 text-slate-700" };
+  const applicationPhotos = parseApplicationPhotos(lead.notes);
+  const applicationNotes = stripPhotoLines(lead.notes);
 
   return (
     <div className="space-y-6">
@@ -397,10 +431,40 @@ export default function LeadDetailPage() {
                   </div>
                 </div>
               )}
-              {lead.notes && (
+              {applicationNotes && (
                 <div className="mt-4">
                   <p className="text-xs text-slate-400 mb-1">Catatan</p>
-                  <p className="text-sm text-slate-600 whitespace-pre-wrap">{lead.notes}</p>
+                  <p className="text-sm text-slate-600 whitespace-pre-wrap">{applicationNotes}</p>
+                </div>
+              )}
+
+              {applicationPhotos.length > 0 && (
+                <div className="mt-5">
+                  <p className="text-xs text-slate-400 mb-2">Foto Kendaraan</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {applicationPhotos.map((photo) => (
+                      <a
+                        key={photo.label}
+                        href={photo.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group overflow-hidden rounded-xl border border-slate-200 bg-slate-50"
+                      >
+                        <div className="aspect-[4/3] overflow-hidden bg-slate-100">
+                          <img
+                            src={photo.url}
+                            alt={photo.label}
+                            loading="lazy"
+                            className="h-full w-full object-cover transition-transform group-hover:scale-[1.02]"
+                          />
+                        </div>
+                        <div className="flex items-center justify-between gap-2 px-3 py-2">
+                          <span className="text-xs font-medium text-slate-700">{photo.label}</span>
+                          <span className="text-[11px] font-medium text-sky-600">Buka</span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
                 </div>
               )}
             </CardContent>
