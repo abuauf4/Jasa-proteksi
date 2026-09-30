@@ -438,11 +438,25 @@ export function useCalculator(options: UseCalculatorOptions = {}) {
       // Don't update if this request was superseded
       if (controller.signal.aborted) return null;
 
-      // Preserve selected partner if still valid, else auto-select cheapest
+      // Preserve selected partner only if still eligible.
+      // Otherwise choose the cheapest eligible partner, never a Rp 0 sentinel.
       const prevPartnerIdx = state.selectedPartnerIndex;
-      const newPartnerIdx = prevPartnerIdx !== null && data.partners[prevPartnerIdx]
+      const eligiblePartners = data.partners
+        .map((partner, index) => ({ partner, index }))
+        .filter(({ partner }) => partner.isEligible !== false && partner.estimatedPremium > 0)
+        .sort((a, b) => a.partner.estimatedPremium - b.partner.estimatedPremium);
+
+      const prevStillEligible =
+        prevPartnerIdx !== null &&
+        data.partners[prevPartnerIdx] &&
+        data.partners[prevPartnerIdx].isEligible !== false &&
+        data.partners[prevPartnerIdx].estimatedPremium > 0;
+
+      const newPartnerIdx = prevStillEligible
         ? prevPartnerIdx
-        : data.partners.length > 0 ? 0 : null;
+        : eligiblePartners.length > 0
+          ? eligiblePartners[0].index
+          : null;
 
       setState((s) => ({
         ...s,
