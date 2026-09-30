@@ -7,6 +7,7 @@ import {
   Camera,
   Car,
   CheckCircle2,
+  CircleAlert,
   FileText,
   Loader2,
   ShieldCheck,
@@ -16,7 +17,15 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { Button } from "@/components/site/Button";
 import { Container, Section } from "@/components/site/primitives";
-import { formatIDR } from "@/lib/format";
+import { buildWhatsAppLink, formatIDR } from "@/lib/format";
+import { useSiteSettings } from "@/lib/ServerDataContext";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type PhotoKey = "front" | "back" | "left" | "right";
 
@@ -51,6 +60,73 @@ const PHOTO_LABELS: Record<PhotoKey, string> = {
   right: "Sisi Kanan",
 };
 
+const PHOTO_GUIDES: Record<PhotoKey, { title: string; description: string; badge: string }> = {
+  front: {
+    title: "Contoh Foto Bagian Depan",
+    description: "Ambil lurus dari depan. Pastikan seluruh badan mobil, lampu, bumper, dan kaca depan masuk frame.",
+    badge: "DEPAN",
+  },
+  back: {
+    title: "Contoh Foto Bagian Belakang",
+    description: "Ambil lurus dari belakang. Pastikan bumper, lampu belakang, kaca, dan seluruh badan mobil terlihat.",
+    badge: "BELAKANG",
+  },
+  left: {
+    title: "Contoh Foto Sisi Kiri",
+    description: "Ambil dari samping kiri dengan jarak cukup agar mobil terlihat utuh dari bumper depan sampai belakang.",
+    badge: "KIRI",
+  },
+  right: {
+    title: "Contoh Foto Sisi Kanan",
+    description: "Ambil dari samping kanan dengan jarak cukup agar mobil terlihat utuh dan tidak terpotong.",
+    badge: "KANAN",
+  },
+};
+
+function PhotoGuideIllustration({ photoKey }: { photoKey: PhotoKey }) {
+  const isSide = photoKey === "left" || photoKey === "right";
+  const guide = PHOTO_GUIDES[photoKey];
+
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-[#DDE5E8] bg-[#F8FAFC] p-4">
+      <div className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[10px] font-bold tracking-wider text-[#0F766E] shadow-sm">
+        {guide.badge}
+      </div>
+      <svg
+        viewBox="0 0 420 240"
+        className="h-auto w-full"
+        role="img"
+        aria-label={guide.title}
+      >
+        <rect x="18" y="18" width="384" height="204" rx="22" fill="#FFFFFF" stroke="#94A3B8" strokeDasharray="8 8" />
+        <path d="M38 62V42H58M362 42h20v20M38 178v20h20M382 178v20h-20" fill="none" stroke="#0F766E" strokeWidth="5" strokeLinecap="round" />
+        {isSide ? (
+          <>
+            <path d="M95 142h225l-22-58H158l-42 25-21 33Z" fill="#DDF5F0" stroke="#0F766E" strokeWidth="5" strokeLinejoin="round" />
+            <path d="M172 88h110l14 38H137l35-38Z" fill="#EAF8F5" stroke="#0F766E" strokeWidth="4" />
+            <circle cx="145" cy="151" r="24" fill="#334155" />
+            <circle cx="280" cy="151" r="24" fill="#334155" />
+            <circle cx="145" cy="151" r="10" fill="#CBD5E1" />
+            <circle cx="280" cy="151" r="10" fill="#CBD5E1" />
+          </>
+        ) : (
+          <>
+            <path d="M128 155l16-74h132l16 74-16 24H144l-16-24Z" fill="#DDF5F0" stroke="#0F766E" strokeWidth="5" strokeLinejoin="round" />
+            <path d="M158 90h104l12 43H146l12-43Z" fill="#EAF8F5" stroke="#0F766E" strokeWidth="4" />
+            <circle cx="158" cy="158" r="13" fill="#334155" />
+            <circle cx="262" cy="158" r="13" fill="#334155" />
+            <rect x="151" y="139" width="38" height="11" rx="5.5" fill="#FBBF24" />
+            <rect x="231" y="139" width="38" height="11" rx="5.5" fill="#FBBF24" />
+          </>
+        )}
+        <text x="210" y="208" textAnchor="middle" fontSize="14" fontWeight="700" fill="#475569">
+          Mobil utuh di dalam frame
+        </text>
+      </svg>
+    </div>
+  );
+}
+
 function Field({
   label,
   required,
@@ -75,6 +151,7 @@ const inputClass =
 
 export default function PengajuanClient() {
   const router = useRouter();
+  const { settings } = useSiteSettings();
   const [quote, setQuote] = React.useState<QuoteState | null>(null);
   const [loadingQuote, setLoadingQuote] = React.useState(true);
   const [uploadNow, setUploadNow] = React.useState(true);
@@ -98,6 +175,8 @@ export default function PengajuanClient() {
   const [error, setError] = React.useState<string | null>(null);
   const [submitting, setSubmitting] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
+  const [whatsappLink, setWhatsappLink] = React.useState("");
+  const [guidePhoto, setGuidePhoto] = React.useState<PhotoKey | null>(null);
 
   React.useEffect(() => {
     try {
@@ -219,9 +298,11 @@ export default function PengajuanClient() {
         `Nama STNK berbeda: ${form.stnkName.trim() || "-"}`,
         `Upload foto: ${uploadNow ? "Sekarang" : "Nanti"}`,
         ...(uploadNow
-          ? (Object.keys(PHOTO_LABELS) as PhotoKey[]).map(
-              (key) => `${PHOTO_LABELS[key]}: ${photoUrls[key] || "-"}`,
-            )
+          ? (Object.keys(PHOTO_LABELS) as PhotoKey[]).map((key) => {
+              const path = photoUrls[key];
+              const url = path ? new URL(path, window.location.origin).toString() : "-";
+              return `${PHOTO_LABELS[key]}: ${url}`;
+            })
           : []),
       ].join("\n");
 
@@ -254,16 +335,44 @@ export default function PengajuanClient() {
         throw new Error(body.error || "Gagal mengirim pengajuan.");
       }
 
+      const leadId = body?.lead?.id || "";
       try {
         sessionStorage.setItem(
           "jp_application_submitted",
-          JSON.stringify({ leadId: body?.lead?.id || null, submittedAt: Date.now() }),
+          JSON.stringify({ leadId: leadId || null, submittedAt: Date.now() }),
         );
       } catch {
         // no-op
       }
+
+      const vehicleName = [vehicle.brand, vehicle.model].filter(Boolean).join(" ");
+      const coverageLabel = coverageType === "TLO" ? "TLO" : "All Risk";
+      const whatsappMessage = [
+        "Halo Jasa Proteksi, saya sudah mengirim pengajuan asuransi mobil melalui website.",
+        "",
+        `Nama: ${form.customerName.trim()}`,
+        `Kendaraan: ${vehicleName || "-"}`,
+        `Tahun: ${vehicle.year || "-"}`,
+        `Wilayah: ${quote.region?.plate || "-"}`,
+        `Perlindungan: ${coverageLabel}`,
+        `Perusahaan: ${selectedPartner?.name || "-"}`,
+        `Estimasi premi: ${formatIDR(estimatedPremium)}`,
+        ...(leadId ? [`ID Pengajuan: ${leadId}`] : []),
+        "",
+        "Data lengkap dan foto kendaraan sudah tersimpan di sistem. Mohon dibantu proses berikutnya.",
+      ].join("\n");
+
+      const waLink = settings.whatsapp
+        ? buildWhatsAppLink(settings.whatsapp, whatsappMessage)
+        : "";
+      setWhatsappLink(waLink);
       setSuccess(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Data is already safely stored in admin before WhatsApp opens.
+      if (waLink) {
+        window.location.href = waLink;
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Terjadi kesalahan. Silakan coba lagi.");
     } finally {
@@ -300,8 +409,13 @@ export default function PengajuanClient() {
                 <p className="mt-2 text-sm leading-relaxed text-[#64748B]">
                   Data pengajuan sudah masuk ke sistem Jasa Proteksi. Tim kami akan menghubungi nomor WhatsApp yang Anda daftarkan untuk proses berikutnya.
                 </p>
-                <div className="mt-5">
-                  <Button as="link" href="/" variant="primary" size="lg" className="w-full">
+                <div className="mt-5 flex flex-col gap-2">
+                  {whatsappLink ? (
+                    <Button as="external" href={whatsappLink} variant="primary" size="lg" className="w-full">
+                      Buka WhatsApp Lagi
+                    </Button>
+                  ) : null}
+                  <Button as="link" href="/" variant="secondary" size="lg" className="w-full">
                     Kembali ke Beranda
                   </Button>
                 </div>
@@ -435,28 +549,40 @@ export default function PengajuanClient() {
                 {uploadNow && (
                   <div className="grid min-w-0 gap-3 md:grid-cols-2">
                     {(Object.keys(PHOTO_LABELS) as PhotoKey[]).map((key) => (
-                      <label key={key} className="min-w-0 overflow-hidden rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-                        <span className="mb-2 block text-sm font-semibold text-[#334155]">
-                          {PHOTO_LABELS[key]} <span className="text-[#DC2626]">*</span>
-                        </span>
-                        <div className="grid min-h-12 min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 rounded-lg border border-dashed border-[#94A3B8] bg-white px-3">
-                          <Camera className="h-4 w-4 shrink-0 text-[#64748B]" />
-                          <span className="block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-xs text-[#64748B]">
-                            {photos[key]?.name || "Pilih foto"}
+                      <div key={key} className="min-w-0 overflow-hidden rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
+                        <div className="mb-2 flex items-center justify-between gap-2">
+                          <span className="text-sm font-semibold text-[#334155]">
+                            {PHOTO_LABELS[key]} <span className="text-[#DC2626]">*</span>
                           </span>
-                          <span className="shrink-0 text-xs font-semibold text-[#0F766E]">Pilih</span>
+                          <button
+                            type="button"
+                            onClick={() => setGuidePhoto(key)}
+                            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#A7F3D0] bg-[#ECFDF5] text-[#0F766E]"
+                            aria-label={`Lihat contoh foto ${PHOTO_LABELS[key]}`}
+                          >
+                            <CircleAlert className="h-4 w-4" />
+                          </button>
                         </div>
-                        <input
-                          className="sr-only"
-                          type="file"
-                          accept="image/jpeg,image/png,image/webp"
-                          capture="environment"
-                          onChange={(event) => {
-                            const file = event.target.files?.[0] || null;
-                            setPhotos((current) => ({ ...current, [key]: file }));
-                          }}
-                        />
-                      </label>
+                        <label className="block cursor-pointer">
+                          <div className="grid min-h-12 min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 rounded-lg border border-dashed border-[#94A3B8] bg-white px-3">
+                            <Camera className="h-4 w-4 shrink-0 text-[#64748B]" />
+                            <span className="block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-xs text-[#64748B]">
+                              {photos[key]?.name || "Pilih foto"}
+                            </span>
+                            <span className="shrink-0 text-xs font-semibold text-[#0F766E]">Pilih</span>
+                          </div>
+                          <input
+                            className="sr-only"
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            capture="environment"
+                            onChange={(event) => {
+                              const file = event.target.files?.[0] || null;
+                              setPhotos((current) => ({ ...current, [key]: file }));
+                            }}
+                          />
+                        </label>
+                      </div>
                     ))}
                   </div>
                 )}
@@ -488,6 +614,23 @@ export default function PengajuanClient() {
         </Section>
       </main>
       <SiteFooter />
+
+      <Dialog open={guidePhoto !== null} onOpenChange={(open) => { if (!open) setGuidePhoto(null); }}>
+        <DialogContent className="max-w-md">
+          {guidePhoto ? (
+            <>
+              <DialogHeader>
+                <DialogTitle>{PHOTO_GUIDES[guidePhoto].title}</DialogTitle>
+                <DialogDescription>{PHOTO_GUIDES[guidePhoto].description}</DialogDescription>
+              </DialogHeader>
+              <PhotoGuideIllustration photoKey={guidePhoto} />
+              <div className="rounded-xl bg-[#ECFDF5] p-3 text-xs leading-relaxed text-[#115E59]">
+                Tips: foto di tempat terang, kamera sejajar kendaraan, seluruh mobil masuk frame, dan hindari foto blur atau terlalu dekat.
+              </div>
+            </>
+          ) : null}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
