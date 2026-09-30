@@ -637,6 +637,12 @@ export async function POST(request: NextRequest) {
         availableAddOns: string[];
       }>;
 
+      // Preserve the engine-level eligibility before any partner-specific override.
+      // Standard partners follow the global age rule; only partners with an explicit
+      // maxAgeAllRisk may extend that limit.
+      const baseEligibility = result.isEligible;
+      const baseIneligibilityReason = result.ineligibilityReason;
+
       if (dbPartners && dbPartners.length > 0) {
         // Override global eligibility with most permissive partner maxAgeAllRisk
         const maxPartnerAllRiskAge = Math.max(
@@ -649,11 +655,21 @@ export async function POST(request: NextRequest) {
 
         // Use database-sourced partners (respects active/inactive status)
         partners = dbPartners.map((partner) => {
-          // Per-partner eligibility check for All Risk
+          // Per-partner eligibility check.
+          // A null partner max age does NOT mean unlimited: it inherits the global engine rule.
           const vehicleAge = result.vehicleAge ?? 0;
           const partnerMaxAllRisk = partner.maxAgeAllRisk;
-          const partnerEligible = !partnerMaxAllRisk || vehicleAge <= partnerMaxAllRisk;
-          if (!partnerEligible && normalizedCoverage === "Comprehensive") {
+          const partnerEligible =
+            normalizedCoverage === "Comprehensive"
+              ? (partnerMaxAllRisk != null ? vehicleAge <= partnerMaxAllRisk : baseEligibility)
+              : baseEligibility;
+
+          if (!partnerEligible) {
+            const reason =
+              normalizedCoverage === "Comprehensive" && partnerMaxAllRisk != null
+                ? `Kendaraan berusia ${vehicleAge} tahun. ${partner.name} All Risk maksimal ${partnerMaxAllRisk} tahun.`
+                : baseIneligibilityReason || "Kendaraan tidak memenuhi batas usia pertanggungan.";
+
             return {
               name: partner.name,
               modifier: partner.modifier,
@@ -664,7 +680,7 @@ export async function POST(request: NextRequest) {
               facilities: partner.facilities,
               availableAddOns: partner.availableAddOns,
               isEligible: false,
-              ineligibilityReason: `Kendaraan berusia ${vehicleAge} tahun. ${partner.name} All Risk maksimal ${partnerMaxAllRisk} tahun.`,
+              ineligibilityReason: reason,
               breakdown: { basePremium: 0, addOnPremium: 0, addons: [], totalPremiumBeforeDiscount: 0, discountPercent: 0, discountAmount: 0, adminFee: 0, policyFee: 0 },
             };
           }
@@ -735,6 +751,7 @@ export async function POST(request: NextRequest) {
             benefits: partner.benefits,
             facilities: partner.facilities,
             availableAddOns: partner.availableAddOns,
+            isEligible: true,
             breakdown: {
               basePremium: adjustedBasePremium,
               addOnPremium: addonTotal,
@@ -780,8 +797,33 @@ export async function POST(request: NextRequest) {
 
         partners = PARTNERS.map((partner) => {
           const modifier = modifierMap.get(partner.key) ?? defaultModifiers[partner.key] ?? 1.0;
-          // Filter bengkelAuthorized if vehicle age exceeds partner's max
           const vehicleAge = result.vehicleAge ?? 0;
+          const partnerMaxAllRisk = partner.maxAgeAllRisk ?? null;
+          const partnerEligible =
+            normalizedCoverage === "Comprehensive"
+              ? (partnerMaxAllRisk != null ? vehicleAge <= partnerMaxAllRisk : baseEligibility)
+              : baseEligibility;
+
+          if (!partnerEligible) {
+            return {
+              name: partner.name,
+              modifier,
+              addonModifier: 1.0,
+              adminFee: result.adminFee,
+              estimatedPremium: 0,
+              benefits: partner.benefits,
+              facilities: partner.facilities,
+              availableAddOns: partner.availableAddOns,
+              isEligible: false,
+              ineligibilityReason:
+                normalizedCoverage === "Comprehensive" && partnerMaxAllRisk != null
+                  ? `Kendaraan berusia ${vehicleAge} tahun. ${partner.name} All Risk maksimal ${partnerMaxAllRisk} tahun.`
+                  : baseIneligibilityReason || "Kendaraan tidak memenuhi batas usia pertanggungan.",
+              breakdown: { basePremium: 0, addOnPremium: 0, addons: [], totalPremiumBeforeDiscount: 0, discountPercent: 0, discountAmount: 0, adminFee: 0, policyFee: 0 },
+            };
+          }
+
+          // Filter bengkelAuthorized if vehicle age exceeds partner's max
           const bengkelExcluded = partner.bengkelResmiMaxYears != null && vehicleAge > partner.bengkelResmiMaxYears;
           const bengkelFree = !bengkelExcluded && partner.bengkelResmiFreeMaxYears != null && vehicleAge <= partner.bengkelResmiFreeMaxYears;
           // Apply bengkelFree: set bengkel premium to 0, apply bengkelResmiRate if defined
@@ -811,6 +853,7 @@ export async function POST(request: NextRequest) {
             benefits: partner.benefits,
             facilities: partner.facilities,
             availableAddOns: partner.availableAddOns,
+            isEligible: true,
             breakdown: {
               basePremium: adjustedBasePremium,
               addOnPremium: addonTotal,
