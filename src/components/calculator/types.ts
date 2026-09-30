@@ -52,6 +52,8 @@ export interface PremiumPartner {
   bengkelAuthorizedExcluded?: boolean;
   bengkelResmiRate?: number;
   estimatedPremium: number;
+  isEligible?: boolean;
+  ineligibilityReason?: string;
   benefits: string[];
   facilities: string[];
   availableAddOns: string[];
