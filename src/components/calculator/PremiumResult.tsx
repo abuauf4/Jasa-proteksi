@@ -43,11 +43,19 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
   const router = useRouter();
 
   const p = state.premium;
-  const partner: PremiumPartner | null =
+  const selectedPartner =
     state.selectedPartnerIndex !== null && p?.partners[state.selectedPartnerIndex]
       ? p.partners[state.selectedPartnerIndex]
       : null;
-  const displayPremium = partner?.estimatedPremium ?? p?.totalPremium ?? 0;
+  const partner: PremiumPartner | null =
+    selectedPartner &&
+    selectedPartner.isEligible !== false &&
+    selectedPartner.estimatedPremium > 0
+      ? selectedPartner
+      : null;
+  const hasEligiblePartners =
+    p?.partners.some((item) => item.isEligible !== false && item.estimatedPremium > 0) ?? false;
+  const displayPremium = partner?.estimatedPremium ?? (hasEligiblePartners ? p?.totalPremium ?? 0 : 0);
 
   // Count-up animation for premium reveal.
   // On initial result mount (from navigation), show final value directly — no animation.
@@ -64,6 +72,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
     const partners = p.partners;
     return [...partners]
       .map((partner, originalIdx) => ({ partner, originalIdx }))
+      .filter(({ partner }) => partner.isEligible !== false && partner.estimatedPremium > 0)
       .sort((a, b) => a.partner.estimatedPremium - b.partner.estimatedPremium);
   }, [p?.partners]);
 
@@ -211,8 +220,13 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
           )}
         </div>
         <p className={`ds-premium-hero transition-opacity duration-200 ${state.isRecalculating ? "opacity-60" : "opacity-100"}`}>
-          {formatIDR(animatedPremium)}
+          {hasEligiblePartners ? formatIDR(animatedPremium) : "Tidak tersedia"}
         </p>
+        {!hasEligiblePartners && (
+          <p className="mt-2 text-xs font-medium leading-relaxed text-[#B45309]">
+            {p.ineligibilityReason || "Tidak ada perusahaan asuransi yang tersedia untuk kombinasi kendaraan dan perlindungan ini."}
+          </p>
+        )}
         {partner && (
           <div className="flex items-center justify-center gap-2 mt-2">
             {partnerLogoPath(partner.name) && (
@@ -235,6 +249,7 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
       {/* Partner Logo Grid — 4 cols × 2 rows, normalized logo sizes */}
       <div>
         <p className="text-sm font-bold text-[#0F172A] mb-2">Pilih Perusahaan Asuransi</p>
+        {sortedPartners.length > 0 ? (
         <div className="grid grid-cols-4 gap-2">
           {sortedPartners.map(({ partner: pt, originalIdx }, rankIdx) => {
             const selected = state.selectedPartnerIndex === originalIdx;
@@ -285,7 +300,14 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
             );
           })}
         </div>
-        <p className="text-xs text-[#64748B] mt-1.5 text-center">Klik logo untuk ganti partner — premi di atas otomatis update</p>
+        ) : (
+          <div className="rounded-xl border border-[#FDE68A] bg-[#FFFBEB] p-3 text-sm text-[#92400E]">
+            Tidak ada partner yang memenuhi batas usia kendaraan untuk perlindungan ini.
+          </div>
+        )}
+        {sortedPartners.length > 0 && (
+          <p className="text-xs text-[#64748B] mt-1.5 text-center">Klik logo untuk ganti partner — premi di atas otomatis update</p>
+        )}
       </div>
 
       {/* Jenis Perlindungan — bagi 2 di 1 baris (TLO, All Risk) */}
@@ -352,11 +374,11 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
       </div>
 
       {/* Rincian — di paling bawah setelah perluasan */}
-      <RincianSection calc={calc} partner={partner} displayPremium={displayPremium} />
+      {hasEligiblePartners && <RincianSection calc={calc} partner={partner} displayPremium={displayPremium} />}
 
       {/* CTAs */}
       <div className="flex flex-col gap-2 pt-2 border-t border-[#E2E8F0]">
-        <Button type="button" variant="primary" size="lg" onClick={handleApplyClick} className="w-full">
+        <Button type="button" variant="primary" size="lg" onClick={handleApplyClick} className="w-full" disabled={!hasEligiblePartners || !partner}>
           <Send className="h-4 w-4" aria-hidden />
           Lanjutkan Pengajuan
         </Button>
