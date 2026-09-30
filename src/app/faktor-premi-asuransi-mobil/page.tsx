@@ -7,13 +7,13 @@ export const revalidate = 3600;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
 export const metadata: Metadata = {
-  title: "7 Faktor yang Memengaruhi Premi Asuransi Mobil",
+  title: "Premi Asuransi Mobil: 7 Faktor Penentu",
   description:
-    "Kenali 7 faktor utama yang menentukan premi asuransi mobil: harga OTR, tahun kendaraan, wilayah, jenis perlindungan, perluasan, partner asuransi, dan kategori kendaraan.",
+    "Pahami faktor yang memengaruhi premi asuransi mobil, mulai dari nilai kendaraan, usia, wilayah, All Risk atau TLO, hingga perluasan perlindungan.",
   alternates: { canonical: `${SITE_URL}/faktor-premi-asuransi-mobil` },
   openGraph: {
-    title: "7 Faktor yang Memengaruhi Premi Asuransi Mobil",
-    description: "Faktor utama yang menentukan premi asuransi mobil beserta ringkasan tabel.",
+    title: "Premi Asuransi Mobil: 7 Faktor Penentu",
+    description: "Pahami faktor utama yang memengaruhi premi asuransi mobil dan cara mengecek estimasinya sesuai data kendaraan.",
     url: `${SITE_URL}/faktor-premi-asuransi-mobil`,
     type: "article",
     images: [{ url: "/faktor-premi.webp", width: 1200, height: 630 }],
@@ -54,14 +54,28 @@ export default async function Page() {
       relatedArticles={related}
     >
       <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight mb-3">
-        7 Faktor yang Memengaruhi Premi Asuransi Mobil
+        Premi Asuransi Mobil: 7 Faktor yang Memengaruhi Biaya
       </h1>
 
       <p className="text-sm text-[#475569] leading-relaxed mb-6">
-        Premi asuransi mobil bukan ditentukan oleh satu faktor saja. Engine kalkulator Jasa Proteksi mempertimbangkan
-        tujuh variabel utama yang dijelaskan di bawah ini. Memahami ketujuh faktor ini akan membantu Anda memilih
-        kombinasi proteksi yang paling sesuai dengan kebutuhan dan budget.
+        Premi asuransi mobil adalah biaya yang dibayarkan untuk mendapatkan perlindungan kendaraan sesuai manfaat
+        dan ketentuan polis. Besarnya premi tidak ditentukan oleh satu faktor saja. Nilai kendaraan, usia kendaraan,
+        wilayah penggunaan, pilihan All Risk atau TLO, perluasan perlindungan, perusahaan asuransi, dan kategori
+        kendaraan dapat memengaruhi hasil akhirnya. Memahami faktor-faktor ini membantu Anda membaca estimasi dengan
+        lebih tepat sebelum melanjutkan ke quotation resmi.
       </p>
+
+      <section className="mb-6 rounded-xl border border-[#E2E8F0] bg-white p-4">
+        <h2 className="text-lg font-bold text-[#0F172A] mb-2">Apa Itu Premi Asuransi Mobil?</h2>
+        <p className="text-sm text-[#475569] leading-relaxed">
+          Premi asuransi mobil adalah biaya perlindungan kendaraan yang dihitung berdasarkan profil risiko dan
+          pilihan pertanggungan. Karena data setiap kendaraan berbeda, premi mobil tidak bisa ditentukan hanya
+          dari merek atau harga kendaraan saja. Untuk melihat gambaran biaya berdasarkan nilai kendaraan, buka{" "}
+          <a href="/biaya-asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
+            estimasi harga asuransi mobil
+          </a>.
+        </p>
+      </section>
 
       <section className="mb-5">
         <h2 className="text-base font-bold text-[#0F172A] mb-1">1. Harga OTR Kendaraan</h2>
@@ -159,8 +173,15 @@ export default async function Page() {
       <div className="rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] p-4 mb-4">
         <p className="text-sm font-semibold text-[#115E59] mb-1">Sudah Siap Menghitung?</p>
         <p className="text-xs text-[#475569]">
-          Masukkan data kendaraan Anda di kalkulator di bawah untuk melihat bagaimana ketujuh faktor di atas
-          bekerja sama menghasilkan estimasi premi dari 8 perusahaan asuransi.
+          Masukkan data kendaraan Anda melalui{" "}
+          <a href="/cek-premi" className="font-semibold text-[#0F766E] hover:underline">
+            cek premi asuransi mobil
+          </a>{" "}
+          untuk melihat estimasi berdasarkan data kendaraan dan pilihan perlindungan. Jika ingin memahami proses
+          perhitungannya lebih dulu, baca{" "}
+          <a href="/cara-menghitung-premi-asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
+            cara menghitung premi asuransi mobil
+          </a>.
         </p>
       </div>
     </ArticleShell>
