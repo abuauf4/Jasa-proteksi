@@ -18,6 +18,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { Button } from "@/components/site/Button";
 import { Container, Section } from "@/components/site/primitives";
 import { buildWhatsAppLink, formatIDR } from "@/lib/format";
+import { PHOTO_GUIDE_IMAGES } from "./photoGuideImages";
 import { useSiteSettings } from "@/lib/ServerDataContext";
 import {
   Dialog,
