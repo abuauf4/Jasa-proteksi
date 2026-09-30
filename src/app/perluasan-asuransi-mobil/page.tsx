@@ -7,13 +7,13 @@ export const revalidate = 3600;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
 export const metadata: Metadata = {
-  title: "Perluasan Asuransi Mobil: Banjir, Gempa, Kerusuhan, dan Tanggung Jawab Pihak Ketiga",
+  title: "Perluasan Asuransi Mobil: Banjir, Gempa & TPL",
   description:
-    "Daftar lengkap perluasan asuransi mobil beserta rate: Banjir 0,1%, Gempa 0,15%, SRCC 0,05%, Terorisme 0,05%, Bengkel Resmi per partner, TPL, PA Driver, dan PA Penumpang.",
+    "Pahami perluasan asuransi mobil untuk banjir, gempa, kerusuhan, TPL, kecelakaan diri, dan bengkel resmi serta dampaknya pada estimasi premi.",
   alternates: { canonical: `${SITE_URL}/perluasan-asuransi-mobil` },
   openGraph: {
-    title: "Perluasan Asuransi Mobil: Banjir, Gempa, Kerusuhan, dan TPL",
-    description: "Daftar perluasan, rate, dan deskripsi manfaat untuk All Risk maupun TLO.",
+    title: "Perluasan Asuransi Mobil: Banjir, Gempa & TPL",
+    description: "Panduan perluasan asuransi mobil, manfaat tambahan, pilihan perlindungan, dan dampaknya terhadap estimasi premi.",
     url: `${SITE_URL}/perluasan-asuransi-mobil`,
     type: "article",
     images: [{ url: "/perluasan-asuransi-mobil.webp", width: 1200, height: 630 }],
@@ -24,9 +24,9 @@ export default async function Page() {
   const { initialSettings, initialHero } = await getArticleSettings();
 
   const faqs = [
-    { q: "Apakah banjir wajib?", a: "Tidak wajib, namun sangat dianjurkan bagi Anda yang tinggal di daerah rawan banjir seperti Jakarta dan sekitarnya. Tanpa perluasan Banjir, kerusakan akibat air tidak akan diganti oleh polis dasar All Risk maupun TLO." },
+    { q: "Apakah perluasan banjir wajib?", a: "Tidak selalu. Kebutuhannya bergantung pada risiko penggunaan kendaraan dan ketentuan produk yang dipilih. Periksa apakah risiko banjir sudah termasuk atau perlu ditambahkan sebagai perluasan pada polis Anda." },
     { q: "Berapa biaya TPL?", a: "TPL (Tanggung Jawab Pihak Ketiga) umumnya ditawarkan dalam beberapa paket nominal fixed, misalnya Rp25 juta, Rp50 juta, hingga Rp100 juta pertanggungan. Biaya preminya mengikuti paket yang dipilih, bukan persentase dari harga kendaraan." },
-    { q: "Bisa klaim banjir tanpa perluasan?", a: "Tidak bisa. Klaim kerusakan akibat banjir memerlukan perluasan Banjir aktif di polis. Polis dasar All Risk tidak termasuk kerusakan akibat banjir, sehingga Anda akan menanggung sendiri biaya perbaikan jika tidak menambahkan perluasan ini." },
+    { q: "Apakah kerusakan banjir otomatis ditanggung?", a: "Tidak selalu. Perlindungan banjir bergantung pada cakupan polis dan perluasan yang aktif. Pastikan risiko banjir tercantum dalam manfaat polis sebelum mengandalkannya untuk klaim." },
   ];
 
   const related = [
@@ -46,17 +46,17 @@ export default async function Page() {
       relatedArticles={related}
     >
       <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight mb-3">
-        Perluasan Asuransi Mobil: Banjir, Gempa, Kerusuhan, dan Tanggung Jawab Pihak Ketiga
+        Perluasan Asuransi Mobil: Banjir, Gempa, Kerusuhan & TPL
       </h1>
 
       <p className="text-sm text-[#475569] leading-relaxed mb-6">
-        Polis dasar All Risk atau TLO menanggung kerusakan akibat kecelakaan dan kehilangan. Namun, beberapa peristiwa
-        tertentu seperti banjir, gempa bumi, kerusuhan, atau tanggung jawab kepada pihak ketiga tidak termasuk dalam
-        cakupan dasar. Untuk itu tersedia <strong className="text-[#0F172A]">perluasan jaminan</strong> yang bisa
-        ditambahkan sesuai kebutuhan. Berikut daftar perluasan yang tersedia di engine Jasa Proteksi.
+        Perluasan asuransi mobil adalah manfaat tambahan yang dapat dipilih untuk memperluas perlindungan di luar
+        cakupan dasar polis. Risiko seperti banjir, gempa bumi, kerusuhan, tanggung jawab hukum terhadap pihak ketiga,
+        atau kecelakaan diri dapat memerlukan perluasan tersendiri tergantung produk dan ketentuan perusahaan asuransi.
+        Karena cakupan tiap polis dapat berbeda, manfaat akhir tetap perlu dicek pada wording polis dan quotation resmi.
       </p>
 
-      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-3">Daftar Perluasan dan Rate</h2>
+      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-3">Jenis Perluasan Asuransi Mobil</h2>
       <div className="overflow-x-auto mb-4">
         <table className="w-full text-sm border border-[#E2E8F0] rounded-xl overflow-hidden">
           <thead>
@@ -139,11 +139,11 @@ export default async function Page() {
         </table>
       </div>
 
-      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Tidak Semua Perluasan Wajib</h2>
+      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Cara Memilih Perluasan yang Dibutuhkan</h2>
       <p className="text-sm text-[#475569] leading-relaxed mb-4">
-        Pilih perluasan sesuai kebutuhan dan profil risiko Anda. Misalnya, pemilik mobil di Jakarta sangat disarankan
-        menambah Banjir, sedangkan TPL penting bagi Anda yang sering berkendara di area padat. Tidak ada perluasan
-        yang diwajibkan — semua opsional.
+        Pilih perluasan berdasarkan risiko yang relevan dengan penggunaan kendaraan, lokasi parkir dan perjalanan,
+        nilai kendaraan, serta kemampuan Anda menanggung risiko sendiri. Tidak semua perluasan harus dipilih sekaligus.
+        Bandingkan manfaat, pengecualian, tambahan premi, dan syarat polis sebelum menentukan kombinasi perlindungan.
       </p>
 
       <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Batasan Bengkel Resmi</h2>
@@ -156,8 +156,18 @@ export default async function Page() {
       <div className="rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] p-4 mb-4">
         <p className="text-sm font-semibold text-[#115E59] mb-1">Lihat Dampak Premi Langsung</p>
         <p className="text-xs text-[#475569]">
-          Tambah atau hapus perluasan di kalkulator di bawah untuk melihat perubahan estimasi premi dari 8 perusahaan
-          asuransi secara real-time.
+          Tambah atau hapus perluasan pada{" "}
+          <a href="/cek-premi" className="font-semibold text-[#0F766E] hover:underline">
+            kalkulator premi asuransi mobil
+          </a>{" "}
+          untuk melihat bagaimana pilihan perlindungan memengaruhi estimasi. Baca juga{" "}
+          <a href="/faktor-premi-asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
+            faktor premi asuransi mobil
+          </a>{" "}
+          dan{" "}
+          <a href="/asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
+            panduan asuransi mobil
+          </a>.
         </p>
       </div>
     </ArticleShell>
