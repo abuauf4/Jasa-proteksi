@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import {
   CheckCircle2, AlertCircle, Loader2, RotateCcw, Pencil,
   ShieldCheck, Car, MapPin, Send, ChevronDown, ChevronUp, ChevronRight,
@@ -39,6 +40,7 @@ const ADDON_LABELS: Record<string, string> = {
 export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
   const { state, prevStep, reset, markWhatsappClicked, updateProtection, toggleAddon } = calc;
   const { settings } = useSiteSettings();
+  const router = useRouter();
 
   const p = state.premium;
   const partner: PremiumPartner | null =
@@ -113,9 +115,9 @@ export function PremiumResult({ calc }: { calc: UseCalculatorReturn }) {
 
   const handleApplyClick = () => {
     trackEvent("apply_click", { coverage_type: state.protection.coverageType, estimated_premium: displayPremium });
-    // Show the lead form dialog instead of going directly to WhatsApp
-    setShowLeadDialog(true);
-    setLeadFormError(null);
+    // Persist the exact quote/partner selection before moving to the full application form.
+    calc.persistToSessionStorage();
+    router.push("/pengajuan");
   };
 
   const handleLeadSubmit = async () => {
