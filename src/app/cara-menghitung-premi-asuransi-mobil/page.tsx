@@ -7,13 +7,13 @@ export const revalidate = 3600;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
 export const metadata: Metadata = {
-  title: "Cara Menghitung Premi Asuransi Mobil dan Contoh Simulasinya",
+  title: "Cara Menghitung Premi Asuransi Mobil",
   description:
-    "Pelajari cara menghitung premi asuransi mobil: faktor harga kendaraan, kategori, wilayah, usia, perluasan, hingga modifier per partner. Disertai contoh simulasi TOYOTA 86 di Jakarta.",
+    "Pelajari cara menghitung premi asuransi mobil berdasarkan nilai kendaraan, wilayah, usia, jenis perlindungan, dan perluasan. Lengkap dengan contoh simulasi.",
   alternates: { canonical: `${SITE_URL}/cara-menghitung-premi-asuransi-mobil` },
   openGraph: {
-    title: "Cara Menghitung Premi Asuransi Mobil dan Contoh Simulasinya",
-    description: "Faktor, rumus engine, kategori harga, rate wilayah, dan contoh simulasi premi mobil.",
+    title: "Cara Menghitung Premi Asuransi Mobil",
+    description: "Panduan perhitungan premi asuransi mobil berdasarkan nilai kendaraan, wilayah, usia, perlindungan, dan perluasan.",
     url: `${SITE_URL}/cara-menghitung-premi-asuransi-mobil`,
     type: "article",
     images: [{ url: "/cara-menghitung-premi-asuransi-mobil.webp", width: 1200, height: 630 }],
@@ -24,7 +24,7 @@ export default async function Page() {
   const { initialSettings, initialHero } = await getArticleSettings();
 
   const faqs = [
-    { q: "Apakah perhitungan engine akurat?", a: "Engine menghitung berdasarkan tabel rate resmi yang sama digunakan oleh partner asuransi kami. Hasilnya adalah estimasi yang sangat dekat dengan quotation final, namun tetap perlu dikonfirmasi via quotation resmi karena bisa terdapat kebijakan underwriting atau promo tertentu." },
+    { q: "Bagaimana cara menghitung premi asuransi mobil?", a: "Perhitungan premi mempertimbangkan nilai kendaraan, wilayah penggunaan, usia kendaraan, jenis perlindungan, serta perluasan yang dipilih. Hasil kalkulator merupakan estimasi awal dan premi final mengikuti quotation serta ketentuan perusahaan asuransi." },
     { q: "Kenapa premi berbeda per partner?", a: "Setiap perusahaan asuransi menetapkan base rate dan modifier sendiri. Selain itu, beban loading untuk usia kendaraan serta rate perluasan seperti Bengkel Resmi juga berbeda antar partner. Itulah sebabnya kalkulator kami menampilkan 8 partner sekaligus untuk Anda bandingkan." },
     { q: "Apakah perluasan wajib?", a: "Tidak. Perluasan bersifat opsional. Anda bisa memilih hanya perlindungan dasar (All Risk atau TLO) atau menambah perluasan seperti Banjir, Gempa, SRCC, Terorisme, Bengkel Resmi, TPL, dan PA sesuai kebutuhan dan budget." },
   ];
@@ -46,19 +46,19 @@ export default async function Page() {
       relatedArticles={related}
     >
       <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight mb-3">
-        Cara Menghitung Premi Asuransi Mobil dan Contoh Simulasinya
+        Cara Menghitung Premi Asuransi Mobil
       </h1>
 
       <p className="text-sm text-[#475569] leading-relaxed mb-6">
-        Premi asuransi mobil bukan angka tunggal yang diambil sembarang. Engine kalkulator Jasa Proteksi menghitungnya
-        dari kombinasi harga kendaraan, kategori kendaraan, wilayah penggunaan, jenis perlindungan, usia kendaraan,
-        perluasan yang dipilih, serta modifier per partner asuransi. Artikel ini menjelaskan cara kerja engine
-        secara transparan disertai contoh simulasi nyata.
+        Perhitungan premi asuransi mobil dipengaruhi oleh beberapa data kendaraan dan pilihan perlindungan.
+        Nilai kendaraan, wilayah penggunaan, usia kendaraan, jenis perlindungan All Risk atau TLO, serta perluasan
+        jaminan dapat memengaruhi estimasi akhir. Panduan ini menjelaskan alur perhitungannya secara sederhana
+        dan memberikan contoh simulasi agar lebih mudah dipahami.
       </p>
 
-      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Faktor yang Digunakan Engine</h2>
+      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Data yang Dibutuhkan untuk Menghitung Premi Mobil</h2>
       <p className="text-sm text-[#475569] leading-relaxed mb-3">
-        Saat Anda memasukkan data mobil di kalkulator, engine mengambil lima input utama berikut:
+        Sebelum menghitung premi, siapkan beberapa data utama berikut:
       </p>
       <ul className="flex flex-col gap-2 mb-4">
         <li className="flex items-start gap-2 text-sm text-[#475569]"><span className="text-[#0F766E] mt-0.5">✓</span> <span><strong className="text-[#0F172A]">Harga kendaraan</strong> — menentukan kategori harga (cat1–cat5) yang memilih baris rate dasar.</span></li>
@@ -68,7 +68,7 @@ export default async function Page() {
         <li className="flex items-start gap-2 text-sm text-[#475569]"><span className="text-[#0F766E] mt-0.5">✓</span> <span><strong className="text-[#0F172A]">Perluasan jaminan</strong> — Banjir, Gempa, SRCC, Terorisme, Bengkel Resmi, TPL, PA Driver & Penumpang.</span></li>
       </ul>
 
-      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Cara Engine Menghitung</h2>
+      <h2 className="text-lg font-bold text-[#0F172A] mt-6 mb-2">Langkah Perhitungan Premi Asuransi Mobil</h2>
       <p className="text-sm text-[#475569] leading-relaxed mb-3">
         Secara ringkas, langkah perhitungan engine adalah:
       </p>
@@ -149,10 +149,20 @@ export default async function Page() {
       </p>
 
       <div className="rounded-xl bg-[#ECFDF5] border border-[#A7F3D0] p-4 mb-4">
-        <p className="text-sm font-semibold text-[#115E59] mb-1">Catatan</p>
+        <p className="text-sm font-semibold text-[#115E59] mb-1">Cek Estimasi Sesuai Mobil Anda</p>
         <p className="text-xs text-[#475569]">
-          Seluruh angka di kalkulator adalah estimasi berdasarkan tabel rate internal. Hasil akhir tetap mengikuti
-          quotation resmi dari partner asuransi yang diterbitkan bersamaan dengan polis.
+          Untuk menghitung berdasarkan data kendaraan Anda sendiri, buka{" "}
+          <a href="/cek-premi" className="font-semibold text-[#0F766E] hover:underline">
+            kalkulator premi asuransi mobil
+          </a>.
+          Jika ingin memahami faktor yang memengaruhi hasil, baca{" "}
+          <a href="/faktor-premi-asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
+            faktor premi asuransi mobil
+          </a>{" "}
+          dan{" "}
+          <a href="/biaya-asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
+            estimasi harga asuransi mobil
+          </a>.
         </p>
       </div>
     </ArticleShell>
