@@ -1,6 +1,5 @@
 import { Metadata } from "next";
-import { db } from "@/lib/db";
-import { ServerDataProvider, type SiteSettings, type HeroData } from "@/lib/ServerDataContext";
+import { ServerDataProvider } from "@/lib/ServerDataContext";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { MobileStickyCTA } from "@/components/site/MobileStickyCTA";
@@ -11,20 +10,21 @@ import { Button } from "@/components/site/Button";
 import { ShieldCheck, Calculator, Sparkles, Wallet, Calendar, Globe, ListChecks, Sliders } from "lucide-react";
 import Link from "next/link";
 import { PILLAR_ARTICLES } from "@/lib/pillar-articles";
+import { getCachedSiteSettings } from "@/lib/site-data-cache";
 
 export const revalidate = 300;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
 export const metadata: Metadata = {
-  title: "Asuransi Mobil — Simulasi Premi All Risk & TLO",
+  title: "Asuransi Mobil Online: All Risk & TLO",
   description:
-    "Asuransi mobil online dengan simulasi premi All Risk dan TLO. Pahami pilihan perlindungan, hitung estimasi premi, dan lanjutkan pengajuan secara online.",
+    "Pahami asuransi mobil All Risk dan TLO, cara memilih perlindungan, faktor biaya, dan proses pengajuan. Cek estimasi premi sesuai data kendaraan Anda.",
   alternates: { canonical: `${SITE_URL}/asuransi-mobil` },
   openGraph: {
-    title: "Asuransi Mobil — Simulasi Premi All Risk & TLO | Jasa Proteksi",
+    title: "Asuransi Mobil Online: All Risk & TLO | Jasa Proteksi",
     description:
-      "Asuransi mobil online dengan simulasi premi All Risk dan TLO. Hitung estimasi premi otomatis.",
+      "Panduan asuransi mobil All Risk dan TLO, pilihan perlindungan, biaya, serta simulasi premi sesuai data kendaraan.",
     url: `${SITE_URL}/asuransi-mobil`,
     siteName: "Jasa Proteksi",
     locale: "id_ID",
@@ -33,43 +33,11 @@ export const metadata: Metadata = {
   },
 };
 
-async function getSettings() {
-  let initialSettings: SiteSettings = {
-    whatsapp: "", whatsapp2: "", phone: "", email: "", address: "",
-    googleAnalyticsId: "", metaPixelId: "", gtmId: "", maintenanceMode: false,
-  };
-  let initialHero: HeroData | null = null;
-  try {
-    const [settingsRows, heroRow] = await Promise.all([
-      db.siteSetting.findMany(),
-      db.heroContent.findFirst(),
-    ]);
-    const map: Record<string, string> = {};
-    for (const s of settingsRows) map[s.key] = s.value;
-    initialSettings = {
-      whatsapp: map.whatsapp || "", whatsapp2: map.whatsapp2 || "",
-      phone: map.phone || "", email: map.email || "", address: map.address || "",
-      googleAnalyticsId: map.googleAnalyticsId || "", metaPixelId: map.metaPixelId || "",
-      gtmId: map.gtmId || "", maintenanceMode: map.maintenanceMode === "true",
-    };
-    if (heroRow) {
-      initialHero = {
-        tagline: heroRow.tagline, subtext: heroRow.subtext,
-        ctaText: heroRow.ctaText, ctaLink: heroRow.ctaLink,
-        backgroundImage: heroRow.backgroundImage,
-      };
-    }
-  } catch {
-    /* defaults */
-  }
-  return { initialSettings, initialHero };
-}
-
 export default async function AsuransiMobilPage() {
-  const { initialSettings, initialHero } = await getSettings();
+  const initialSettings = await getCachedSiteSettings();
 
   return (
-    <ServerDataProvider initialSettings={initialSettings} initialHero={initialHero}>
+    <ServerDataProvider initialSettings={initialSettings} initialHero={null}>
       <div className="flex min-h-screen flex-col bg-white">
         <SiteHeader />
         <main className="flex-1">
@@ -82,10 +50,17 @@ export default async function AsuransiMobilPage() {
                     <Sparkles className="h-3.5 w-3.5" aria-hidden />
                     Asuransi Mobil
                   </Badge>
-                  <h1 className="ds-h1">Asuransi Mobil Online</h1>
+                  <h1 className="ds-h1">Asuransi Mobil Online: All Risk & TLO</h1>
                   <p className="ds-body-lg">
-                    Simulasikan premi asuransi mobil All Risk atau TLO berdasarkan data
-                    kendaraan dan wilayah penggunaan Anda. Hasil otomatis, tanpa biaya.
+                    Pelajari pilihan asuransi mobil All Risk dan TLO, pahami perbedaan cakupan
+                    serta faktor biayanya, lalu pilih perlindungan yang sesuai dengan kendaraan Anda.
+                  </p>
+                  <p className="text-sm text-[#475569] leading-relaxed">
+                    Jika Anda ingin langsung melihat estimasi biaya, buka{" "}
+                    <Link href="/cek-premi" className="font-semibold text-[#0F766E] hover:underline">
+                      cek premi asuransi mobil
+                    </Link>{" "}
+                    untuk simulasi berdasarkan data kendaraan dan wilayah penggunaan.
                   </p>
                   <ul className="flex flex-col gap-2.5">
                     {[
@@ -153,6 +128,76 @@ export default async function AsuransiMobilPage() {
           </Section>
 
           <PremiumFactors />
+
+          <Section tone="white" id="tentang-asuransi-mobil">
+            <Container className="max-w-4xl">
+              <SectionHeader
+                eyebrow="Panduan Dasar"
+                title="Apa Itu Asuransi Mobil?"
+                description="Asuransi mobil membantu mengalihkan sebagian risiko finansial akibat kerusakan atau kehilangan kendaraan sesuai manfaat dan ketentuan polis."
+              />
+              <div className="mt-8 grid gap-6 md:grid-cols-2">
+                <Card className="space-y-3">
+                  <h2 className="text-lg font-bold text-[#0F172A]">All Risk untuk Cakupan Lebih Luas</h2>
+                  <p className="text-sm text-[#475569] leading-relaxed">
+                    All Risk atau Comprehensive umumnya mencakup kerusakan sebagian hingga kerusakan berat
+                    sesuai ketentuan polis. Pilihan ini sering dipertimbangkan untuk kendaraan yang masih baru,
+                    rutin digunakan, atau ketika pemilik ingin perlindungan yang lebih menyeluruh.
+                  </p>
+                  <Link href="/perbedaan-all-risk-dan-tlo" className="text-sm font-semibold text-[#0F766E] hover:underline">
+                    Bandingkan All Risk dan TLO
+                  </Link>
+                </Card>
+                <Card className="space-y-3">
+                  <h2 className="text-lg font-bold text-[#0F172A]">TLO untuk Risiko Kerugian Total</h2>
+                  <p className="text-sm text-[#475569] leading-relaxed">
+                    TLO atau Total Loss Only berfokus pada kehilangan atau kerusakan yang memenuhi kriteria
+                    kerugian total sesuai polis. Premi biasanya lebih rendah dibanding All Risk karena cakupannya
+                    lebih terbatas.
+                  </p>
+                  <Link href="/asuransi-mobil-tlo" className="text-sm font-semibold text-[#0F766E] hover:underline">
+                    Pelajari asuransi mobil TLO
+                  </Link>
+                </Card>
+              </div>
+
+              <div className="mt-8 space-y-6 text-sm text-[#475569] leading-relaxed">
+                <section>
+                  <h2 className="text-lg font-bold text-[#0F172A] mb-2">Berapa Biaya Asuransi Mobil?</h2>
+                  <p>
+                    Premi dipengaruhi oleh nilai kendaraan, tahun kendaraan, wilayah penggunaan, jenis
+                    perlindungan, dan perluasan jaminan. Karena setiap kendaraan memiliki profil yang berbeda,
+                    tidak ada satu harga yang berlaku untuk semua mobil. Lihat{" "}
+                    <Link href="/biaya-asuransi-mobil" className="font-semibold text-[#0F766E] hover:underline">
+                      estimasi harga asuransi mobil
+                    </Link>{" "}
+                    atau gunakan kalkulator untuk menghitung berdasarkan data kendaraan Anda.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-lg font-bold text-[#0F172A] mb-2">Cara Memilih Perlindungan</h2>
+                  <p>
+                    Pertimbangkan usia dan nilai kendaraan, frekuensi penggunaan, kondisi lingkungan,
+                    kemampuan menanggung biaya perbaikan sendiri, serta kebutuhan perluasan perlindungan.
+                    Setelah menentukan kebutuhan, bandingkan cakupan dan estimasi premi sebelum melanjutkan
+                    ke quotation resmi.
+                  </p>
+                </section>
+
+                <div className="rounded-xl border border-[#A7F3D0] bg-[#ECFDF5] p-4">
+                  <p className="font-semibold text-[#115E59] mb-1">Ingin langsung hitung?</p>
+                  <p>
+                    Gunakan{" "}
+                    <Link href="/cek-premi" className="font-semibold text-[#0F766E] hover:underline">
+                      kalkulator asuransi mobil
+                    </Link>{" "}
+                    untuk melihat estimasi premi All Risk atau TLO sesuai kendaraan Anda.
+                  </p>
+                </div>
+              </div>
+            </Container>
+          </Section>
 
           <Section tone="soft" id="panduan-asuransi-mobil">
             <Container>
