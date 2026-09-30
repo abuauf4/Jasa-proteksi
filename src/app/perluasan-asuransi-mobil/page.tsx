@@ -7,12 +7,12 @@ export const revalidate = 3600;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://jasaproteksi.com";
 
 export const metadata: Metadata = {
-  title: "Perluasan Asuransi Mobil: Banjir, Gempa & TPL",
+  title: "Perluasan Asuransi Mobil: Banjir, Gempa, TPL",
   description:
     "Pahami perluasan asuransi mobil untuk banjir, gempa, kerusuhan, TPL, kecelakaan diri, dan bengkel resmi serta dampaknya pada estimasi premi.",
   alternates: { canonical: `${SITE_URL}/perluasan-asuransi-mobil` },
   openGraph: {
-    title: "Perluasan Asuransi Mobil: Banjir, Gempa & TPL",
+    title: "Perluasan Asuransi Mobil: Banjir, Gempa, TPL",
     description: "Panduan perluasan asuransi mobil, manfaat tambahan, pilihan perlindungan, dan dampaknya terhadap estimasi premi.",
     url: `${SITE_URL}/perluasan-asuransi-mobil`,
     type: "article",
