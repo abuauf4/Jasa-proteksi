@@ -26,13 +26,11 @@ export default async function ArtikelPage({
   searchParams: Promise<{ page?: string }>;
 }) {
   const params = await searchParams;
-  const page = parseInt(params.page || "1");
+  const requestedPage = Math.max(1, parseInt(params.page || "1") || 1);
   const limit = 12;
-  const skip = (page - 1) * limit;
 
-  const where = { status: "published" };
-
-  // Fetch CMS articles; wrap in try/catch so DB failure doesn't blank the page
+  // Fetch only listing fields from CMS. We merge + paginate after combining
+  // CMS records with static SEO articles so cards never repeat across pages.
   let dbArticles: Array<{
     id: string;
     title: string;
@@ -42,24 +40,33 @@ export default async function ArtikelPage({
     status: string;
     publishedAt: string | null;
     createdAt: string;
+    updatedAt: string;
     category: { id: string; name: string; slug: string } | null;
     categoryId: string | null;
     href?: string;
   }> = [];
-  let dbTotal = 0;
 
   try {
-    const [articles, total] = await Promise.all([
-      db.article.findMany({
-        where,
-        include: { category: true },
-        orderBy: { publishedAt: "desc" },
-        skip,
-        take: limit,
-      }),
-      db.article.count({ where }),
-    ]);
-    dbTotal = total;
+    const articles = await db.article.findMany({
+      where: { status: "published" },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        excerpt: true,
+        coverImage: true,
+        status: true,
+        publishedAt: true,
+        createdAt: true,
+        updatedAt: true,
+        categoryId: true,
+        category: {
+          select: { id: true, name: true, slug: true },
+        },
+      },
+      orderBy: { publishedAt: "desc" },
+    });
+
     dbArticles = articles.map((article) => ({
       ...article,
       publishedAt: article.publishedAt?.toISOString() || null,
@@ -67,10 +74,9 @@ export default async function ArtikelPage({
       updatedAt: article.updatedAt.toISOString(),
     }));
   } catch {
-    // Database unavailable — pillar articles still render
+    // Database unavailable — static SEO articles still render.
   }
 
-  // Map pillar articles to the same shape as CMS articles
   const pillarMapped = PILLAR_ARTICLES.map((p) => ({
     id: p.id,
     title: p.title,
@@ -80,31 +86,32 @@ export default async function ArtikelPage({
     status: "published",
     publishedAt: p.publishedAt,
     createdAt: p.publishedAt,
+    updatedAt: p.publishedAt,
     category: { id: "pillar", name: p.category, slug: p.category.toLowerCase() },
     categoryId: "pillar",
     href: p.href,
   }));
 
-  // Merge: pillar articles first, then CMS articles
-  // Deduplicate by slug (CMS article with same slug takes precedence)
-  const cmsSlugs = new Set(dbArticles.map((a) => a.slug));
-  const uniquePillar = pillarMapped.filter((p) => !cmsSlugs.has(p.slug));
-  const allArticles = [...uniquePillar, ...dbArticles];
+  // Preserve the previous behavior: a CMS article with the same slug wins.
+  const cmsSlugs = new Set(dbArticles.map((article) => article.slug));
+  const uniquePillar = pillarMapped.filter((article) => !cmsSlugs.has(article.slug));
 
-  // Sort by publishedAt descending
-  allArticles.sort((a, b) => {
+  const allArticles = [...uniquePillar, ...dbArticles].sort((a, b) => {
     const dateA = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
     const dateB = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
     return dateB - dateA;
   });
 
-  const total = uniquePillar.length + dbTotal;
-  const totalPages = Math.ceil(total / limit);
+  const total = allArticles.length;
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+  const currentPage = Math.min(requestedPage, totalPages);
+  const offset = (currentPage - 1) * limit;
+  const paginatedArticles = allArticles.slice(offset, offset + limit);
 
   return (
     <BlogPageClient
-      articles={allArticles}
-      currentPage={page}
+      articles={paginatedArticles}
+      currentPage={currentPage}
       totalPages={totalPages}
       total={total}
     />
