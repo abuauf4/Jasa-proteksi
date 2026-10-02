@@ -28,7 +28,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-type PhotoKey = "front" | "back" | "left" | "right";
+type PhotoKey = "front" | "back" | "left" | "right" | "dashboard";
 
 type QuoteState = {
   vehicle?: {
@@ -59,6 +59,7 @@ const PHOTO_LABELS: Record<PhotoKey, string> = {
   back: "Bagian Belakang",
   left: "Sisi Kiri",
   right: "Sisi Kanan",
+  dashboard: "Dashboard Mobil",
 };
 
 const PHOTO_GUIDES: Record<PhotoKey, { title: string; description: string; badge: string }> = {
@@ -81,6 +82,11 @@ const PHOTO_GUIDES: Record<PhotoKey, { title: string; description: string; badge
     title: "Contoh Foto Sisi Kanan",
     description: "Ambil dari samping kanan dengan jarak cukup agar mobil terlihat utuh dan tidak terpotong.",
     badge: "KANAN",
+  },
+  dashboard: {
+    title: "Contoh Foto Dashboard Mobil",
+    description: "Ambil dari dalam kabin. Pastikan dashboard, setir, panel indikator, dan head unit terlihat jelas.",
+    badge: "DASHBOARD",
   },
 };
 
@@ -132,11 +138,10 @@ export default function PengajuanClient() {
     back: null,
     left: null,
     right: null,
+    dashboard: null,
   });
   const [form, setForm] = React.useState({
     customerName: "",
-    birthDate: "",
-    phoneNumber: "",
     whatsappNumber: "",
     email: "",
     address: "",
@@ -209,7 +214,6 @@ export default function PengajuanClient() {
     if (!quote) return;
 
     if (!form.customerName.trim()) return setError("Nama pemegang polis wajib diisi.");
-    if (!form.birthDate) return setError("Tanggal lahir wajib diisi.");
     if (!form.whatsappNumber.trim()) return setError("Nomor WhatsApp wajib diisi.");
     const cleanWhatsapp = form.whatsappNumber.replace(/[\s\-+]/g, "");
     if (!/^\d{10,15}$/.test(cleanWhatsapp)) {
@@ -261,8 +265,6 @@ export default function PengajuanClient() {
 
       const notes = [
         "PENGAJUAN ASURANSI MOBIL",
-        `Tanggal lahir: ${form.birthDate}`,
-        `Telepon: ${form.phoneNumber.trim() || "-"}`,
         `Email: ${form.email.trim()}`,
         `Alamat: ${form.address.trim()}`,
         `No. mesin: ${form.engineNumber.trim()}`,
@@ -452,12 +454,6 @@ export default function PengajuanClient() {
                   <Field label="Nama Lengkap" required>
                     <input className={inputClass} value={form.customerName} onChange={(e) => setValue("customerName", e.target.value)} placeholder="Nama sesuai identitas" />
                   </Field>
-                  <Field label="Tanggal Lahir" required>
-                    <input className={inputClass} type="date" value={form.birthDate} onChange={(e) => setValue("birthDate", e.target.value)} />
-                  </Field>
-                  <Field label="Nomor Telepon">
-                    <input className={inputClass} inputMode="tel" value={form.phoneNumber} onChange={(e) => setValue("phoneNumber", e.target.value)} placeholder="Opsional" />
-                  </Field>
                   <Field label="Nomor WhatsApp" required>
                     <input className={inputClass} inputMode="tel" value={form.whatsappNumber} onChange={(e) => setValue("whatsappNumber", e.target.value)} placeholder="08xxxxxxxxxx" />
                   </Field>
@@ -497,7 +493,7 @@ export default function PengajuanClient() {
                   <Camera className="h-5 w-5 text-[#0F766E]" />
                   <div>
                     <h2 className="text-lg font-bold text-[#0F172A]">Foto Kendaraan</h2>
-                    <p className="text-xs text-[#64748B]">Maksimal 8 MB per foto. JPG, PNG, atau WebP.</p>
+                    <p className="text-xs text-[#64748B]">Upload foto kendaraan dan dashboard. Maksimal 8 MB per foto. JPG, PNG, atau WebP.</p>
                   </div>
                 </div>
 
