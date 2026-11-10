@@ -128,7 +128,7 @@ export default async function Page() {
             </tr>
           </thead>
           <tbody>
-            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Sinarmas</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">0,5%</td></tr>
+            <tr><td className="p-2.5 border-b border-[#E2E8F0]">Sinarmas</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">0,1%</td></tr>
             <tr><td className="p-2.5 border-b border-[#E2E8F0]">Mega Insurance</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">0,1%</td></tr>
             <tr><td className="p-2.5 border-b border-[#E2E8F0]">Oona</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">0,1%</td></tr>
             <tr><td className="p-2.5 border-b border-[#E2E8F0]">Sahabat</td><td className="p-2.5 border-b border-[#E2E8F0] border-l text-[#0F766E]">0,1%</td></tr>

@@ -53,7 +53,7 @@ Addon rates (perluasan):
 - Gempa Bumi: 0.15%
 - Kerusuhan/SRCC: 0.05%
 - Terorisme: 0.05%
-- Bengkel Resmi: Sinarmas 0.5%, Mega/Oona/Sahabat 0.1%, Zurich/Tugu 0.15%
+- Bengkel Resmi: Sinarmas 0.1%, Mega/Oona/Sahabat 0.1%, Zurich/Tugu 0.15%
   (ACA & MAG: tidak tersedia)
 - TPL: fixed amount
 - PA Driver / PA Passenger: fixed amount / per seat

@@ -1,13 +1,13 @@
 /**
  * Seed per-partner bengkelAuthorized (Bengkel Resmi) rate overrides.
  *
- * Confirmed by owner on 2026-08-01:
+ * Partner rates originally confirmed 2026-08-01; Sinarmas adjusted 2026-11-10:
  *   - Mega Insurance:    0.1%   (max 10 thn)
  *   - Multi Artha Guna:  default 0.1% (max 3 thn)
  *   - Sahabat:           0.1%   (max 5 thn)
  *   - Zurich Syariah:    0.15%  (max 10 thn)
  *   - ACA:               default 0.1% (max 10 thn)
- *   - Sinarmas:          0.5%   (max 10 thn)
+ *   - Sinarmas:          0.1%   (max 10 thn)
  *   - Tugu:              0.15%  (max 5 thn)
  *   - Oona:              0.1%   (max 5 thn)
  *
@@ -21,7 +21,7 @@ const db = new PrismaClient();
 
 // slug must match InsurancePartner.slug in DB
 const PARTNER_RATES: Array<{ slug: string; name: string; rate: number }> = [
-  { slug: "sinarmas",         name: "Sinarmas",          rate: 0.005  },
+  { slug: "sinarmas",         name: "Sinarmas",          rate: 0.001  },
   { slug: "mega-insurance",   name: "Mega Insurance",    rate: 0.001  },
   { slug: "zurich-syariah",   name: "Zurich Syariah",   rate: 0.0015 },
   { slug: "tugu",             name: "Tugu",              rate: 0.0015 },

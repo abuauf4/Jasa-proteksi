@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 // Used only when the database is unreachable.
 // When DB is available, active InsurancePartner records are queried instead.
 //
-// Per-partner bengkel resmi rules (confirmed by owner, 2026-08-01):
+// Per-partner bengkel resmi rules (confirmed 2026-08-01; Sinarmas revised 2026-11-10):
 //   - bengkelResmiMaxYears: max vehicle age eligible for bengkel resmi coverage
 //   - bengkelResmiRate: per-partner rate override for bengkelAuthorized addon
 //     (when undefined, falls back to global addon rate 0.001 = 0.1%)
@@ -20,7 +20,7 @@ const PARTNERS = [
     name: "Sinarmas",
     key: "partnerSinarmasModifier",
     bengkelResmiMaxYears: 10,
-    bengkelResmiRate: 0.005, // 0.5%
+    bengkelResmiRate: 0.001, // 0.1%
     benefits: ["Bantuan Claim", "Jaringan Bengkel Luas", "Bengkel Resmi 10 Tahun"],
     facilities: ["Free derek", "Layanan call 24 jam"],
     availableAddOns: ["flood", "earthquake", "srcc", "terrorism", "bengkelAuthorized", "tpl", "paDriver", "paPassenger"],
